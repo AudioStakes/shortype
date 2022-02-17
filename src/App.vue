@@ -1,42 +1,162 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import CurrentKeyCombination from './components/CurrentKeyCombination.vue'
-import Question from './components/Question.vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+
+import QuestionShow from './components/QuestionShow.vue'
+import ResultShow from './components/ResultShow.vue'
+import KeyCombinationInput from './components/KeyCombinationInput.vue'
+
 import chromeShortcutsJson from './assets/chrome.json'
+import specialCodeToKeyArray from './constants/specialCodeToKeyArray'
 
-const currentKeys = ref([] as Array<String>)
-const currentQuestion = chromeShortcutsJson[0]
+import Shortcut from '../lib/shortcut'
+import Question from '../lib/question'
+import NavigatorExtend from '../lib/navigatorExtend'
+import KeyboardLayoutMap from '../lib/keyboardLayoutMap'
+import KeyCombination from '../lib/keyCombination'
 
-const currentKeyboardEvent = ref(new KeyboardEvent(''))
+const isListeningKeyboardEvent = ref(true)
+const isAnsweredAllQuestions = ref(false)
+
+const shortcuts = chromeShortcutsJson
+const shortcut = computed<Shortcut>(() => shortcuts[shortcutIndex.value])
+const shortcutIndex = ref(0)
+
+const extractQuestion = (shortcut: Shortcut): Question => {
+  return {
+    app: shortcut.app,
+    category: shortcut.category,
+    action: shortcut.action
+  }
+}
+const question = computed<Question>(() => extractQuestion(shortcut.value))
+
+let keyboardMap: KeyboardLayoutMap
+(async () => {
+  const keyboard = (navigator as NavigatorExtend).keyboard
+  keyboardMap = await keyboard.getLayoutMap()
+})()
+const specialCodeToKeyMap = new Map<string, string>(specialCodeToKeyArray)
+const convertToKey = (code: string) => specialCodeToKeyMap.get(code) || keyboardMap.get(code)
+
+const keyboardEvent = ref<KeyboardEvent>(new KeyboardEvent(''))
+
+const extractKeyCombination = (eventOrShortcut: KeyboardEvent | Shortcut) => {
+  return {
+    altKey: eventOrShortcut.altKey,
+    ctrlKey: eventOrShortcut.ctrlKey,
+    metaKey: eventOrShortcut.metaKey,
+    shiftKey: eventOrShortcut.shiftKey,
+    key: eventOrShortcut instanceof KeyboardEvent ? convertToKey(eventOrShortcut.code) : eventOrShortcut.key as string
+  }
+}
+
+const defaultKeyCombinationValue = {
+  altKey: false,
+  ctrlKey: false,
+  metaKey: false,
+  shiftKey: false,
+  key: ''
+}
+const pressedKeyCombination = ref<KeyCombination>(defaultKeyCombinationValue)
+
+const isOnlyEnterKey = (keyCombination: KeyCombination) => !keyCombination.altKey && !keyCombination.ctrlKey && !keyCombination.metaKey && !keyCombination.shiftKey && keyCombination.key === 'Enter'
 
 const onKeyDown = (e: KeyboardEvent) => {
-  if (e.repeat) return
+  if (e.repeat || !isListeningKeyboardEvent.value) return
 
-  console.log('onKeyDown', e.type, e)
   e.preventDefault()
   e.stopPropagation()
 
-  currentKeyboardEvent.value = e
+  const _pressedKeyCombination = extractKeyCombination(e)
+
+  if (isOnlyEnterKey(_pressedKeyCombination)) {
+    nextQuestionIndex()
+    return
+  }
+
+  pressedKeyCombination.value = _pressedKeyCombination
 }
 
 const onKeyUp = (e: KeyboardEvent) => {
-  console.log('onKeyUp', e.type, e)
+  if (!isListeningKeyboardEvent.value) return
+
   e.preventDefault()
   e.stopPropagation()
 
-  currentKeyboardEvent.value = e
+  const releasedKey = convertToKey(e.code)
+
+  if (releasedKey === 'Meta') pressedKeyCombination.value.metaKey = false
+  if (releasedKey === 'Alt') pressedKeyCombination.value.altKey = false
+  if (releasedKey === 'Shift') pressedKeyCombination.value.shiftKey = false
+  if (releasedKey === 'Control') pressedKeyCombination.value.ctrlKey = false
+  if (releasedKey === pressedKeyCombination.value.key) pressedKeyCombination.value.key = ''
+}
+
+const nextQuestionIndex = () => {
+  const shortcut = shortcuts.slice(shortcutIndex.value + 1).find(shortcut => shortcut.isAvailable)
+
+  if (!shortcut) {
+    isAnsweredAllQuestions.value = true
+  } else {
+    shortcutIndex.value = shortcuts.indexOf(shortcut)
+    startNewQuestion()
+  }
+}
+
+const resultShow = ref()
+const startNewQuestion = () => {
+  if (!shortcut.value.isAvailable) nextQuestionIndex()
+  pressedKeyCombination.value = defaultKeyCombinationValue
+  resultShow.value.resetState()
+}
+
+const restart = () => {
+  shortcutIndex.value = 0
+  isAnsweredAllQuestions.value = false
+  startNewQuestion()
+}
+
+const waitUntilKeyCombinationIsReset = () => {
+  isListeningKeyboardEvent.value = false
+  setTimeout(() => {
+    isListeningKeyboardEvent.value = true
+    pressedKeyCombination.value = defaultKeyCombinationValue
+  }, 1000)
 }
 
 onMounted(() => {
-  document.addEventListener('keydown', onKeyDown)
-  document.addEventListener('keyup', onKeyUp)
-  document.onkeydown = () => false // https://stackoverflow.com/questions/37073277/how-to-disable-keyboard-shortcuts-completely-from-javascript
+  window.addEventListener('keydown', onKeyDown)
+  window.addEventListener('keyup', onKeyUp)
+  window.onkeydown = () => false // https://stackoverflow.com/shortcuts/37073277/how-to-disable-keyboard-shortcuts-completely-from-javascript
+  startNewQuestion()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', onKeyDown)
+  window.removeEventListener('keyup', onKeyUp)
+  window.onkeydown = null
 })
 </script>
 
 <template>
-  <Question :question="currentQuestion" />
-  <CurrentKeyCombination :currentKeyboardEvent="currentKeyboardEvent" />
+  <Header />
+  <main>
+    <button v-if="isAnsweredAllQuestions" @click="restart">もう1回</button>
+    <div v-else>
+      <QuestionShow :question="question" />
+      <br />
+      <ResultShow
+        :pressedKeyCombination="pressedKeyCombination"
+        :correctKeyCombination="extractKeyCombination(shortcut)"
+        @press-wrong-key-combination="waitUntilKeyCombinationIsReset"
+        ref="resultShow"
+      />
+      <br />
+      <KeyCombinationInput :keyCombination="pressedKeyCombination" />
+      <br />
+      <span style="font-size: 14px;" @click="nextQuestionIndex">Enter でスキップ</span>
+    </div>
+  </main>
 </template>
 
 <style>
@@ -46,6 +166,5 @@ onMounted(() => {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
