@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import CurrentKeyCombination from './components/CurrentKeyCombination.vue'
+import Question from './components/Question.vue'
+import chromeShortcutsJson from './assets/chrome.json'
+
+const currentKeys = ref([] as Array<String>)
+const currentQuestion = chromeShortcutsJson[0]
 
 const currentKeyboardEvent = ref(new KeyboardEvent(''))
 
@@ -30,6 +35,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <Question :question="currentQuestion" />
   <CurrentKeyCombination :currentKeyboardEvent="currentKeyboardEvent" />
 </template>
 
