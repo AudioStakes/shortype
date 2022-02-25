@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 
+import Header from './components/Header.vue'
 import QuestionShow from './components/QuestionShow.vue'
 import ResultShow from './components/ResultShow.vue'
 import KeyCombinationInput from './components/KeyCombinationInput.vue'
