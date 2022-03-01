@@ -116,6 +116,14 @@ const restart = () => {
   startNewQuestion()
 }
 
+const waitNextQuestion = () => {
+  isListeningKeyboardEvent.value = false
+  setTimeout(() => {
+    isListeningKeyboardEvent.value = true
+    nextQuestionIndex()
+  }, 1000)
+}
+
 const waitUntilKeyCombinationIsReset = () => {
   isListeningKeyboardEvent.value = false
   setTimeout(() => {
@@ -148,6 +156,7 @@ onUnmounted(() => {
       <ResultShow
         :pressedKeyCombination="pressedKeyCombination"
         :correctKeyCombination="extractKeyCombination(shortcut)"
+        @press-correct-key-combination="waitNextQuestion"
         @press-wrong-key-combination="waitUntilKeyCombinationIsReset"
         ref="resultShow"
       />

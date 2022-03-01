@@ -14,7 +14,7 @@ const isOnlyModifierKey = (keyCombination: KeyCombination) => modifiers.includes
 const isEqual = (a: KeyCombination, b: KeyCombination) => (Object.keys(a) as (keyof KeyCombination)[]).every(key => a[key] === b[key])
 
 const emit = defineEmits<{
-  (e: 'press-wrong-key-combination'): void
+  (e: 'press-correct-key-combination' | 'press-wrong-key-combination'): void
 }>()
 
 const checkKeyCombination = () => {
@@ -22,6 +22,7 @@ const checkKeyCombination = () => {
 
   if (isEqual(props.pressedKeyCombination, props.correctKeyCombination)) {
     isCorrectKeyCombinationPressed.value = true
+    emit('press-correct-key-combination')
   } else if (!isWrongKeyCombinationPressed.value && !isOnlyModifierKey(props.pressedKeyCombination)) {
     isWrongKeyCombinationPressed.value = true
     emit('press-wrong-key-combination')
