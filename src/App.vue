@@ -126,10 +126,13 @@ const waitNextQuestion = () => {
   }, 1000)
 }
 
+const isShakingInput = ref(false)
 const waitUntilKeyCombinationIsReset = () => {
   isListeningKeyboardEvent.value = false
+  isShakingInput.value = true
   setTimeout(() => {
     isListeningKeyboardEvent.value = true
+    isShakingInput.value = false
     pressedKeyCombination.value = defaultKeyCombinationValue
   }, 1000)
 }
@@ -149,34 +152,35 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Header />
-  <main>
-    <button v-if="isAnsweredAllQuestions" @click="restart">もう1回</button>
-    <div v-else>
-      <QuestionShow :question="question" />
-      <br />
-      <ResultShow
-        :pressedKeyCombination="pressedKeyCombination"
-        :correctKeyCombination="extractKeyCombination(shortcut)"
-        @press-correct-key-combination="waitNextQuestion"
-        @press-wrong-key-combination="waitUntilKeyCombinationIsReset"
-        ref="resultShow"
-      />
-      <br />
-      <KeyCombinationInput :keyCombination="pressedKeyCombination" />
-      <br />
-      <span style="font-size: 14px;" @click="nextQuestionIndex">Enter でスキップ</span>
-    </div>
-  </main>
+  <div class="font-mono antialiased text-slate-700 h-screen flex flex-col text-center">
+    <Header />
+    <main class="flex-auto flex flex-col justify-center">
+      <template v-if="isAnsweredAllQuestions">
+        <button
+          class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-fit mx-auto"
+          @click="restart"
+        >もう1回</button>
+      </template>
+      <template v-else>
+        <QuestionShow :question="question" />
+        <ResultShow
+          :pressedKeyCombination="pressedKeyCombination"
+          :correctKeyCombination="extractKeyCombination(shortcut)"
+          @press-correct-key-combination="waitNextQuestion"
+          @press-wrong-key-combination="waitUntilKeyCombinationIsReset"
+          ref="resultShow"
+        />
+        <KeyCombinationInput
+          :keyCombination="pressedKeyCombination"
+          :isShakingInput="isShakingInput"
+        />
+        <span
+          class="flex-initial h-16 flex flex-col justify-center"
+          @click="nextQuestionIndex"
+        >Enter でスキップ</span>
+        <div class="flex-initial h-72"></div>
+      </template>
+    </main>
     <Footer />
+  </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-</style>

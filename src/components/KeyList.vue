@@ -18,5 +18,7 @@ const extractKeys = (keyCombination: KeyCombination) => {
 </script>
 
 <template>
-  <Key v-for="(key, index) in extractKeys(keyCombination)" :keyName="key" :index="index"></Key>
+  <div class="flex justify-center align-center">
+    <Key v-for="(key, index) in extractKeys(keyCombination)" :keyName="key" :index="index"></Key>
+  </div>
 </template>

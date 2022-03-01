@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, toRefs, watch } from 'vue'
+import { CheckCircleIcon, CheckIcon } from '@heroicons/vue/solid'
 import KeyCombination from '../../lib/keyCombination'
 import KeyList from '../components/KeyList.vue'
 
@@ -39,11 +40,17 @@ watch(pressedKeyCombination, checkKeyCombination)
 </script>
 
 <template>
-  <div style="height: 30px">
-    <span v-if="isCorrectKeyCombinationPressed">正解!</span>
-    <span v-else-if="isWrongKeyCombinationPressed">
-      正解は
-      <KeyList :keyCombination="correctKeyCombination"></KeyList>です
-    </span>
+  <div class="flex-initial h-28 flex flex-col justify-center content-center relative">
+    <template v-if="isCorrectKeyCombinationPressed">
+      <CheckCircleIcon
+        v-if="!isWrongKeyCombinationPressed"
+        class="h-16 w-16 text-green-500 self-center"
+      />
+      <CheckIcon
+        v-else="isWrongKeyCombinationPressed"
+        class="h-16 w-16 text-green-500 absolute -bottom-8 left-1/2 -translate-x-1/2"
+      />
+    </template>
+    <KeyList v-if="isWrongKeyCombinationPressed" :keyCombination="correctKeyCombination"></KeyList>
   </div>
 </template>

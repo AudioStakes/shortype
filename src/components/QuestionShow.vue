@@ -5,10 +5,8 @@ defineProps<{ question: Question }>()
 </script>
 
 <template>
-  <div>
-    <span>{{ question.app }}</span>
-    <br>
-    <span>{{ question.category }}</span>
-    <h2>{{ question.action }}</h2>
+  <div class="flex-initial h-32 flex flex-col">
+    <span>{{ question.app }} | {{ question.category }}</span>
+    <h2 class="w-4/5 break-words text-3xl md:text-4xl font-bold m-auto">{{ question.action }}</h2>
   </div>
 </template>
