@@ -41,5 +41,9 @@ watch(pressedKeyCombination, checkKeyCombination)
 <template>
   <div style="height: 30px">
     <span v-if="isCorrectKeyCombinationPressed">正解!</span>
+    <span v-else-if="isWrongKeyCombinationPressed">
+      正解は
+      <KeyList :keyCombination="correctKeyCombination"></KeyList>です
+    </span>
   </div>
 </template>
