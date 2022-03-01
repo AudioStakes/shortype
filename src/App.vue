@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 
 import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
 import QuestionShow from './components/QuestionShow.vue'
 import ResultShow from './components/ResultShow.vue'
 import KeyCombinationInput from './components/KeyCombinationInput.vue'
@@ -167,6 +168,7 @@ onUnmounted(() => {
       <span style="font-size: 14px;" @click="nextQuestionIndex">Enter でスキップ</span>
     </div>
   </main>
+    <Footer />
 </template>
 
 <style>
