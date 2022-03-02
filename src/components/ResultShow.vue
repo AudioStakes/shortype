@@ -15,7 +15,7 @@ const isOnlyModifierKey = (keyCombination: KeyCombination) => modifiers.includes
 const isEqual = (a: KeyCombination, b: KeyCombination) => (Object.keys(a) as (keyof KeyCombination)[]).every(key => a[key] === b[key])
 
 const emit = defineEmits<{
-  (e: 'press-correct-key-combination' | 'press-wrong-key-combination'): void
+  (e: string): void // 引数の型指定を 'press-correct-key-combination' | 'press-wrong-key-combination' にすると $ vue-tsc --noEmit が通らなくなるため
 }>()
 
 const checkKeyCombination = () => {
