@@ -11,11 +11,7 @@ import KeyCombinationInput from './components/KeyCombinationInput.vue'
 import chromeShortcutsJson from './assets/chrome.json'
 import specialCodeToKeyArray from './constants/specialCodeToKeyArray'
 
-import Shortcut from '../lib/shortcut'
-import Question from '../lib/question'
-import NavigatorExtend from '../lib/navigatorExtend'
-import KeyboardLayoutMap from '../lib/keyboardLayoutMap'
-import KeyCombination from '../lib/keyCombination'
+import {Shortcut , Question , NavigatorExtend , KeyboardLayoutMap , KeyCombination } from './types/interfaces'
 
 const isListeningKeyboardEvent = ref(true)
 const isAnsweredAllQuestions = ref(false)

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Question from '../../lib/question'
+import { Question } from '../../lib/interfaces'
 
 defineProps<{ question: Question }>()
 </script>

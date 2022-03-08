@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import KeyCombination from '../../lib/keyCombination'
+import { KeyCombination } from '../../lib/interfaces'
 import Key from './Key.vue'
 
 defineProps<{ keyCombination: KeyCombination }>()

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, toRefs, watch } from 'vue'
 import { CheckCircleIcon, CheckIcon } from '@heroicons/vue/solid'
-import KeyCombination from '../../lib/keyCombination'
+import { KeyCombination } from '../../lib/interfaces'
 import KeyList from '../components/KeyList.vue'
 
 const props = defineProps<{ pressedKeyCombination: KeyCombination, correctKeyCombination: KeyCombination }>()

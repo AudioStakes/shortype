@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import KeyCombination from '../../lib/keyCombination'
+import { KeyCombination } from '../../lib/interfaces'
 import KeyList from './KeyList.vue'
 
 defineProps<{ keyCombination: KeyCombination, isShakingInput: boolean }>()
