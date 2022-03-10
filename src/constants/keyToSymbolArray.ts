@@ -1,4 +1,4 @@
-const keyNameToSymbolArray = [
+const keyToSymbolArray = [
   ['Alt', '⌥'], // macOS
   ['ArrowDown', '↓'],
   ['ArrowLeft', '←'],
@@ -19,4 +19,4 @@ const keyNameToSymbolArray = [
   ['Shift', '⇧'],
 ] as const; // https://stackoverflow.com/questions/67631458/no-overload-matches-this-call-while-constructing-map-from-array
 
-export default keyNameToSymbolArray;
+export default keyToSymbolArray;

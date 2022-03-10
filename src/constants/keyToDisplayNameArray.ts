@@ -1,4 +1,4 @@
-const keyNameToDisplayArray = [
+const keyToDisplayNameArray = [
   ['Alt', 'option'], // macOS
   ['ArrowDown', 'down'],
   ['ArrowLeft', 'left'],
@@ -19,4 +19,4 @@ const keyNameToDisplayArray = [
   ['Shift', 'shift'],
 ] as const; // https://stackoverflow.com/questions/67631458/no-overload-matches-this-call-while-constructing-map-from-array
 
-export default keyNameToDisplayArray;
+export default keyToDisplayNameArray;
