@@ -8,7 +8,9 @@ const { state, correctKeys } = injectStrict(GameKey)
 </script>
 
 <template>
-  <div class="flex-initial h-28 flex flex-col justify-center content-center relative">
+  <div
+    class="flex-initial h-28 flex flex-col justify-center content-center relative"
+  >
     <template v-if="state.isCorrectKeyPressed">
       <template v-if="!state.isWrongKeyPressed">
         <div

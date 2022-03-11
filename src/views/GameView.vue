@@ -52,7 +52,9 @@ useKeyboardEventListener('keyup', handleKeyUp)
     <QuestionShow />
     <ResultShow />
     <PressedKeyCombination />
-    <span class="flex-initial h-16 flex flex-col justify-center">Enter でスキップ</span>
+    <span class="flex-initial h-16 flex flex-col justify-center"
+      >Enter でスキップ</span
+    >
     <div class="flex-initial h-72" />
   </div>
   <div v-else>

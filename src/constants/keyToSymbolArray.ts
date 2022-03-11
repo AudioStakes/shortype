@@ -17,6 +17,6 @@ const keyToSymbolArray = [
   ['NumpadMultiply', '*'],
   ['NumpadSubtract', '-'],
   ['Shift', '⇧'],
-] as const; // https://stackoverflow.com/questions/67631458/no-overload-matches-this-call-while-constructing-map-from-array
+] as const // https://stackoverflow.com/questions/67631458/no-overload-matches-this-call-while-constructing-map-from-array
 
-export default keyToSymbolArray;
+export default keyToSymbolArray

@@ -10,7 +10,7 @@ import Footer from './components/Footer.vue'
 import chromeShortcutsJson from './assets/chrome.json'
 
 const isUnsupportedBrowser = navigator.userAgent.indexOf('Chrome') === -1
-const isUnsupportedOs = navigator.userAgent.indexOf("Mac") === -1
+const isUnsupportedOs = navigator.userAgent.indexOf('Mac') === -1
 const isUnsupported = ref(isUnsupportedBrowser || isUnsupportedOs)
 const proceed = () => {
   isUnsupported.value = false
@@ -20,7 +20,9 @@ const shortcuts = chromeShortcutsJson.filter((shortcut) => shortcut.isAvailable)
 </script>
 
 <template>
-  <div class="font-mono antialiased text-slate-700 h-screen flex flex-col text-center">
+  <div
+    class="font-mono antialiased text-slate-700 h-screen flex flex-col text-center"
+  >
     <Header />
     <main class="flex-auto flex flex-col justify-center">
       <Unsupported

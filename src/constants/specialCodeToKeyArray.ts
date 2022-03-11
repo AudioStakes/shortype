@@ -57,6 +57,6 @@ const specialCodeToKeyArray = [
   ['ShiftRight', 'Shift'],
   ['Space', 'Space'], // 正しくは ['Space', ' '] だが、空白では表示されているか判別つかないため Space とした
   ['Tab', 'Tab'],
-] as const; // https://stackoverflow.com/questions/67631458/no-overload-matches-this-call-while-constructing-map-from-array
+] as const // https://stackoverflow.com/questions/67631458/no-overload-matches-this-call-while-constructing-map-from-array
 
-export default specialCodeToKeyArray;
+export default specialCodeToKeyArray

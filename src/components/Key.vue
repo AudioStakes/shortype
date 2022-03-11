@@ -10,13 +10,21 @@ defineProps<{ keyName: string }>()
   >
     <ruby
       class="grid my-auto"
-      :class="(Keyboard.symbol(keyName) ?? keyName.toUpperCase()).length > 3 ? 'px-2 text-base break-all' : 'text-3xl'"
+      :class="
+        (Keyboard.symbol(keyName) ?? keyName.toUpperCase()).length > 3
+          ? 'px-2 text-base break-all'
+          : 'text-3xl'
+      "
     >
       <template v-if="Keyboard.toDisplayName(keyName)">
-        <rt class="text-base leading-4">{{ Keyboard.toDisplayName(keyName) }}</rt>
+        <rt class="text-base leading-4">{{
+          Keyboard.toDisplayName(keyName)
+        }}</rt>
         {{ Keyboard.symbol(keyName) }}
       </template>
-      <template v-else>{{ keyName.charAt(0).toUpperCase() + keyName.slice(1) }}</template>
+      <template v-else>{{
+        keyName.charAt(0).toUpperCase() + keyName.slice(1)
+      }}</template>
     </ruby>
   </kbd>
 </template>

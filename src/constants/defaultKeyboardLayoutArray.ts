@@ -51,7 +51,7 @@ const defaultKeyboardLayoutArray = [
   ['KeyM', 'm'],
   ['Comma', ','],
   ['Period', '.'],
-  ['Slash', '/']
+  ['Slash', '/'],
 ] as const
 
-export default defaultKeyboardLayoutArray;
+export default defaultKeyboardLayoutArray
