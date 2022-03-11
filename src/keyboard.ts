@@ -1,9 +1,9 @@
-import specialCodeToKeyArray from './constants/specialCodeToKeyArray'
-import defaultKeyboardLayoutArray from './constants/defaultKeyboardLayoutArray'
-import keyToSymbolArray from './constants/keyToSymbolArray'
-import keyToDisplayNameArray from './constants/keyToDisplayNameArray'
+import specialCodeToKeyArray from '@/constants/specialCodeToKeyArray'
+import defaultKeyboardLayoutArray from '@/constants/defaultKeyboardLayoutArray'
+import keyToSymbolArray from '@/constants/keyToSymbolArray'
+import keyToDisplayNameArray from '@/constants/keyToDisplayNameArray'
 
-import { NavigatorKeyboard } from './types/interfaces'
+import { NavigatorKeyboard } from '@/types/interfaces'
 
 const specialCodeToKeyMap = new Map<string, string>(specialCodeToKeyArray)
 const defaultCodeToKeyMap = new Map<string, string>(defaultKeyboardLayoutArray)

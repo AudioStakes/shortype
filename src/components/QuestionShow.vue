@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import GameKey from '../stores/gameKey'
-import { injectStrict } from '../utils'
+import GameKey from '@/stores/gameKey'
+import { injectStrict } from '@/utils'
 
 const { shortcut } = injectStrict(GameKey)
 </script>

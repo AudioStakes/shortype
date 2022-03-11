@@ -6,8 +6,8 @@ import {
 } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
 
-import GameView from '../src/views/GameView.vue'
-import Keyboard from '../src/keyboard'
+import GameView from '@/views/GameView.vue'
+import Keyboard from '@/keyboard'
 
 const shortcuts = [
   {

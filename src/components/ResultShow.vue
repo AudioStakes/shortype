@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import GameKey from '../stores/gameKey'
+import GameKey from '@/stores/gameKey'
 import { CheckCircleIcon, CheckIcon } from '@heroicons/vue/solid'
-import KeyList from '../components/KeyList.vue'
-import { injectStrict } from '../utils'
+import KeyList from './KeyList.vue'
+import { injectStrict } from '@/utils'
 
 const { state, correctKeys } = injectStrict(GameKey)
 </script>

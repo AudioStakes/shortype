@@ -5,18 +5,18 @@ import {
   NavigatorExtend,
   NavigatorKeyboard,
   Shortcut,
-} from '../types/interfaces'
+} from '@/types/interfaces'
 
-import gameStore from '../stores/game'
-import GameKey from '../stores/gameKey'
+import gameStore from '@/stores/game'
+import GameKey from '@/stores/gameKey'
 
-import QuestionShow from '../components/QuestionShow.vue'
-import ResultShow from '../components/ResultShow.vue'
-import PressedKeyCombination from '../components/PressedKeyCombination.vue'
+import QuestionShow from '@/components/QuestionShow.vue'
+import ResultShow from '@/components/ResultShow.vue'
+import PressedKeyCombination from '@/components/PressedKeyCombination.vue'
 
-import useKeyboardEventListener from '../composables/useKeyboardEventListener'
+import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
 
-import Keyboard from '../keyboard'
+import Keyboard from '@/keyboard'
 
 const props = defineProps<{ shortcuts: Shortcut[] }>()
 

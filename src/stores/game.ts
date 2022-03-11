@@ -1,7 +1,7 @@
 import { reactive, readonly, computed } from 'vue'
 
-import { Shortcut, KeyCombinable } from '../types/interfaces'
-import KeyCombination from '../models/keyCombination'
+import { Shortcut, KeyCombinable } from '@/types/interfaces'
+import KeyCombination from '@/models/keyCombination'
 
 const TimeIntervalToRestartTyping = import.meta.env.MODE === 'test' ? 0 : 1000
 
