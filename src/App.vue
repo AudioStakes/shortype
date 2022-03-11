@@ -25,11 +25,14 @@ const shortcuts = chromeShortcutsJson.filter((shortcut) => shortcut.isAvailable)
     <main class="flex-auto flex flex-col justify-center">
       <Unsupported
         v-if="isUnsupported"
-        :isUnsupportedBrowser="isUnsupportedBrowser"
-        :isUnsupportedOs="isUnsupportedOs"
+        :is-unsupported-browser="isUnsupportedBrowser"
+        :is-unsupported-os="isUnsupportedOs"
         @proceed="proceed"
       />
-      <GameView v-else :shortcuts="shortcuts" />
+      <GameView
+        v-else
+        :shortcuts="shortcuts"
+      />
     </main>
     <Footer />
   </div>

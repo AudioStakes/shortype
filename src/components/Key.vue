@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import Keyboard from '../keyboard'
-defineProps<{ keyName: string, index: number }>()
+defineProps<{ keyName: string }>()
 </script>
 
 <template>
-  <span v-if="index > 0" class="mx-7 my-auto">+</span>
   <kbd
     class="grid h-20 w-20 bg-white rounded-lg border-[1px] border-gray-300 shadow-3d"
     :data-testid="keyName"

@@ -11,7 +11,10 @@ const { state, correctKeys } = injectStrict(GameKey)
   <div class="flex-initial h-28 flex flex-col justify-center content-center relative">
     <template v-if="state.isCorrectKeyPressed">
       <template v-if="!state.isWrongKeyPressed">
-        <div class="h-16 w-16 text-green-500 self-center" data-testid="check-circle-icon">
+        <div
+          class="h-16 w-16 text-green-500 self-center"
+          data-testid="check-circle-icon"
+        >
           <CheckCircleIcon />
         </div>
       </template>
@@ -28,6 +31,6 @@ const { state, correctKeys } = injectStrict(GameKey)
       v-if="state.isWrongKeyPressed"
       :keys="correctKeys"
       data-testid="correct-key-combination"
-    ></KeyList>
+    />
   </div>
 </template>

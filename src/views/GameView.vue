@@ -48,17 +48,19 @@ useKeyboardEventListener('keyup', handleKeyUp)
 </script>
 
 <template>
-  <template v-if="!isEnded">
+  <div v-if="!isEnded">
     <QuestionShow />
     <ResultShow />
     <PressedKeyCombination />
     <span class="flex-initial h-16 flex flex-col justify-center">Enter でスキップ</span>
-    <div class="flex-initial h-72"></div>
-  </template>
-  <template v-else>
+    <div class="flex-initial h-72" />
+  </div>
+  <div v-else>
     <button
       class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-fit mx-auto"
       @click="restart()"
-    >もう1回</button>
-  </template>
+    >
+      もう1回
+    </button>
+  </div>
 </template>

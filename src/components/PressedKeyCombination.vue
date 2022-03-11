@@ -15,7 +15,7 @@ const { state } = injectStrict(GameKey)
       v-if="state.pressedKeyCombination.hasPressedSomeKey()"
       :keys="state.pressedKeyCombination.keys()"
       :class="state.isShakingKeyCombinationView ? 'animate-[shake_600ms]' : ''"
-    ></KeyList>
+    />
     <span v-else>ショートカットキーを入力してください...</span>
   </div>
 </template>
