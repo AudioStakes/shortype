@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, computed } from 'vue'
 
 import QuestionShow from '../components/QuestionShow.vue'
 import ResultShow from '../components/ResultShow.vue'
 import KeyCombinationInput from '../components/KeyCombinationInput.vue'
+
+import useKeyboardEventListener from '../composables/useKeyboardEventListener';
 
 import chromeShortcutsJson from '../assets/chrome.json'
 import specialCodeToKeyArray from '../constants/specialCodeToKeyArray'
@@ -58,10 +60,7 @@ const pressedKeyCombination = ref<KeyCombination>(defaultKeyCombinationValue)
 const isOnlyEnterKey = (keyCombination: KeyCombination) => !keyCombination.altKey && !keyCombination.ctrlKey && !keyCombination.metaKey && !keyCombination.shiftKey && keyCombination.key === 'Enter'
 
 const onKeyDown = (e: KeyboardEvent) => {
-  if (e.repeat || !isListeningKeyboardEvent.value) return
-
-  e.preventDefault()
-  e.stopPropagation()
+  if (!isListeningKeyboardEvent.value) return
 
   const _pressedKeyCombination = extractKeyCombination(e)
 
@@ -75,9 +74,6 @@ const onKeyDown = (e: KeyboardEvent) => {
 
 const onKeyUp = (e: KeyboardEvent) => {
   if (!isListeningKeyboardEvent.value) return
-
-  e.preventDefault()
-  e.stopPropagation()
 
   const releasedKey = convertToKey(e.code)
 
@@ -131,18 +127,8 @@ const waitUntilKeyCombinationIsReset = () => {
   }, 1000)
 }
 
-onMounted(() => {
-  window.addEventListener('keydown', onKeyDown)
-  window.addEventListener('keyup', onKeyUp)
-  window.onkeydown = () => false // https://stackoverflow.com/shortcuts/37073277/how-to-disable-keyboard-shortcuts-completely-from-javascript
-  startNewQuestion()
-})
-
-onUnmounted(() => {
-  window.removeEventListener('keydown', onKeyDown)
-  window.removeEventListener('keyup', onKeyUp)
-  window.onkeydown = null
-})
+useKeyboardEventListener('keydown', onKeyDown)
+useKeyboardEventListener('keyup', onKeyUp)
 </script>
 
 <template>
