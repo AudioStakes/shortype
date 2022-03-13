@@ -17,7 +17,7 @@ export default class KeyCombination {
     if (keyCombinable.shiftKey) keys.push('Shift')
     if (keyCombinable.ctrlKey) keys.push('Control')
     if (
-      !['Alt', 'Shift', 'Meta', 'Control', undefined].includes(
+      !['Alt', 'Shift', 'Meta', 'Control', undefined, null].includes(
         keyCombinable.key
       )
     )
@@ -75,6 +75,7 @@ export default class KeyCombination {
   isModifierKey() {
     return (
       this.keyCombinable.key !== undefined &&
+      this.keyCombinable.key !== null &&
       ['Alt', 'Shift', 'Meta', 'Control'].includes(this.keyCombinable.key)
     )
   }

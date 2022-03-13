@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import chromeShortcutsJson from '@/assets/chrome.json'
 import Footer from '@/components/Footer.vue'
 import Header from '@/components/Header.vue'
+import chromeShortcutsJson from '@/constants/shortcuts/chrome.json'
 import GameView from '@/views/GameView.vue'
 import Unsupported from '@/views/Unsupported.vue'
 
