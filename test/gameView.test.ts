@@ -3,6 +3,7 @@ import {
   waitForElementToBeRemoved,
   waitFor,
   within,
+  screen,
 } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
 
@@ -112,4 +113,27 @@ test('skip a question when an Enter key is pressed', async () => {
   await userEvent.keyboard('{Enter}')
 
   getByText('ウィンドウを最小化する')
+})
+
+test('remove a question when an D key is pressed', async () => {
+  const { getByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+
+  await userEvent.keyboard('{R}')
+
+  await waitFor(() => getByText('ショートカットキーを入力してください...'))
+
+  getByText('ウィンドウを最小化する')
+
+  await userEvent.keyboard('{Enter}')
+  await userEvent.click(screen.getByText('もう1回'))
+
+  getByText('ウィンドウを最小化する').focus()
+
+  await userEvent.keyboard('{Enter}')
+
+  getByText('もう1回')
 })
