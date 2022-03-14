@@ -1,0 +1,16 @@
+<script setup lang="ts">
+import Key from './Key.vue'
+
+defineProps<{ keys: string[] }>()
+</script>
+
+<template>
+  <div class="flex justify-center align-center">
+    <!-- eslint-disable -->
+    <template v-for="(keyName, index) in keys">
+      <span v-if="index > 0" class="mx-7 my-auto">+</span>
+      <Key :key-name="keyName" />
+    </template>
+    <!-- eslint-enable -->
+  </div>
+</template>

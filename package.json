@@ -1,0 +1,40 @@
+{
+  "name": "my-shortcut-keys",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "lint": "yarn lint:eslint && yarn lint:prettier && yarn lint:markup",
+    "lint:eslint": "eslint --ext .ts,vue --ignore-path .gitignore .",
+    "lint:prettier": "prettier --check .",
+    "lint:markup": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@heroicons/vue": "^1.0.5",
+    "vue": "^3.2.25"
+  },
+  "devDependencies": {
+    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/vue": "^6.4.2",
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
+    "@vitejs/plugin-vue": "^2.2.0",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "autoprefixer": "^10.4.2",
+    "eslint": "^8.10.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.5.0",
+    "happy-dom": "^2.45.0",
+    "postcss": "^8.4.7",
+    "prettier": "^2.5.1",
+    "tailwindcss": "^3.0.23",
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0",
+    "vitest": "^0.5.9",
+    "vue-eslint-parser": "^8.3.0",
+    "vue-tsc": "^0.29.8"
+  }
+}
