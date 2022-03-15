@@ -30,14 +30,14 @@ const gameStore = (shortcuts: Shortcut[]) => {
   const isEnded = computed(() => shortcut.value === undefined)
 
   const keyDown = (keyCombinable: KeyCombinable) => {
-    if (!state.isListeningKeyboardEvent) return
+    if (isEnded.value || !state.isListeningKeyboardEvent) return
 
     state.pressedKeyCombination.keyDown(keyCombinable)
     judge()
   }
 
   const keyUp = (key: string) => {
-    if (!state.isListeningKeyboardEvent) return
+    if (isEnded.value || !state.isListeningKeyboardEvent) return
 
     state.pressedKeyCombination.keyUp(key)
   }
