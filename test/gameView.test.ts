@@ -49,6 +49,10 @@ beforeAll(() => {
   vi.spyOn(Keyboard.prototype, 'key').mockImplementation(({ key }) => key) // テストでは key の値を指定しており、修飾キーの状態やキーボードレイアウトによる key の値の変化が生じないため
 })
 
+beforeEach(() => {
+  localStorage.clear()
+})
+
 test('show a question', () => {
   const { getByText } = render(GameView, { props: { shortcuts: shortcuts } })
 
@@ -132,10 +136,28 @@ test('remove a question when an D key is pressed', async () => {
 
   await userEvent.keyboard('{Enter}')
   await userEvent.click(screen.getByText('もう1回'))
+  document.body.focus()
 
-  getByText('ウィンドウを最小化する').focus()
+  getByText('ウィンドウを最小化する')
 
   await userEvent.keyboard('{Enter}')
 
   getByText('もう1回')
+})
+
+test('removed shortcut keys are stored in localStorage', async () => {
+  const { getByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+
+  await userEvent.keyboard('{R}')
+  await waitFor(() => getByText('ショートカットキーを入力してください...'))
+
+  getByText('ウィンドウを最小化する')
+
+  window.location.reload()
+
+  getByText('ウィンドウを最小化する')
 })
