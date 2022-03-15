@@ -13,6 +13,7 @@ import GameKey from '@/stores/gameKey'
 import QuestionShow from '@/components/QuestionShow.vue'
 import ResultShow from '@/components/ResultShow.vue'
 import PressedKeyCombination from '@/components/PressedKeyCombination.vue'
+import ShortcutsShow from '@/components/ShortcutsShow.vue'
 
 import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
 
@@ -52,10 +53,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
     <QuestionShow />
     <ResultShow />
     <PressedKeyCombination />
-    <span class="flex-initial h-16 flex flex-col justify-center"
-      >Enter でスキップ</span
-    >
-    <div class="flex-initial h-72" />
+    <ShortcutsShow />
   </div>
   <div v-else>
     <button
