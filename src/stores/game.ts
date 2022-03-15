@@ -2,6 +2,7 @@ import { reactive, readonly, computed } from 'vue'
 
 import { Shortcut, KeyCombinable } from '@/types/interfaces'
 import KeyCombination from '@/models/keyCombination'
+import { getItemFromLocalStorage, setItemToLocalStorage } from '@/utils'
 
 const TimeIntervalToRestartTyping = import.meta.env.MODE === 'test' ? 0 : 1000
 
@@ -14,8 +15,8 @@ const gameStore = (shortcuts: Shortcut[]) => {
     isRemoveKeyPressed: false,
     isShakingKeyCombinationView: false,
     pressedKeyCombination: new KeyCombination(),
-    questionIdSet: new Set(shortcuts.map((shortcut) => shortcut.id)),
-    removedIdSet: new Set(),
+    questionIdSet: new Set<string>(shortcuts.map((shortcut) => shortcut.id)),
+    removedIdSet: new Set<string>(getItemFromLocalStorage('removedIds')),
   })
 
   const shortcut = computed(() => {
@@ -72,6 +73,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
     state.isRemoveKeyPressed = true
     setTimeout(() => {
       state.removedIdSet.add(shortcut.value.id)
+      setItemToLocalStorage('removedIds', [...state.removedIdSet])
       resetTypingState()
       state.isListeningKeyboardEvent = true
     }, TimeIntervalToRestartTyping)
@@ -103,6 +105,23 @@ const gameStore = (shortcuts: Shortcut[]) => {
     state.isCorrectKeyPressed = false
     state.isWrongKeyPressed = false
     state.pressedKeyCombination.reset()
+  }
+
+  const restoreRemovedKeys = (
+    _e: Event | null,
+    confirmationMessage?: string
+  ) => {
+    if (
+      confirm(
+        confirmationMessage ??
+          'すべてのショートカットキーが出題されるようになります。\nよろしいですか？'
+      )
+    ) {
+      localStorage.removeItem('removedIds')
+      state.removedIdSet = new Set<string>(
+        getItemFromLocalStorage('removedIds')
+      )
+    }
   }
 
   return {
