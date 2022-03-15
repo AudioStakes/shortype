@@ -161,3 +161,21 @@ test('removed shortcut keys are stored in localStorage', async () => {
 
   getByText('ウィンドウを最小化する')
 })
+
+test('restore removed shortcut keys when the restore button is clicked', async () => {
+  const { getByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+
+  await userEvent.keyboard('{R}')
+  await waitFor(() => getByText('ショートカットキーを入力してください...'))
+
+  getByText('ウィンドウを最小化する')
+
+  window.confirm = vi.fn(() => true)
+  await userEvent.click(screen.getByText('出題しないリストを空にする'))
+
+  getByText('最後のタブに移動する')
+})
