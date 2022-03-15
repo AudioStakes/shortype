@@ -8,17 +8,25 @@ const TimeIntervalToRestartTyping = import.meta.env.MODE === 'test' ? 0 : 1000
 const gameStore = (shortcuts: Shortcut[]) => {
   const state = reactive({
     shortcuts: shortcuts,
-    shortcutIndex: 0,
     isListeningKeyboardEvent: true,
     isCorrectKeyPressed: false,
     isWrongKeyPressed: false,
+    isRemoveKeyPressed: false,
     isShakingKeyCombinationView: false,
     pressedKeyCombination: new KeyCombination(),
+    questionIdSet: new Set(shortcuts.map((shortcut) => shortcut.id)),
+    removedIdSet: new Set(),
   })
 
-  const shortcut = computed(() => state.shortcuts[state.shortcutIndex])
+  const shortcut = computed(() => {
+    return state.shortcuts.filter(
+      (shortcut) =>
+        state.questionIdSet.has(shortcut.id) &&
+        !state.removedIdSet.has(shortcut.id)
+    )[0]
+  })
   const correctKeys = computed(() => KeyCombination.extractKeys(shortcut.value))
-  const isEnded = computed(() => state.shortcutIndex >= state.shortcuts.length)
+  const isEnded = computed(() => shortcut.value === undefined)
 
   const keyDown = (keyCombinable: KeyCombinable) => {
     if (!state.isListeningKeyboardEvent) return
@@ -38,8 +46,10 @@ const gameStore = (shortcuts: Shortcut[]) => {
     if (state.pressedKeyCombination.isModifierKey()) return
 
     if (state.pressedKeyCombination.isOnlyEnterKey()) {
-      state.shortcutIndex++
+      state.questionIdSet.delete(shortcut.value.id)
       resetTypingState()
+    } else if (state.pressedKeyCombination.isRemoveKey()) {
+      respondToRemoveKey()
     } else if (state.pressedKeyCombination.is(shortcut.value)) {
       respondToCorrectKey()
     } else if (!state.isWrongKeyPressed) {
@@ -48,7 +58,8 @@ const gameStore = (shortcuts: Shortcut[]) => {
   }
 
   const restart = () => {
-    state.shortcutIndex = 0
+    state.questionIdSet.clear()
+    shortcuts.forEach((shortcut) => state.questionIdSet.add(shortcut.id))
     state.isListeningKeyboardEvent = true
     state.isCorrectKeyPressed = false
     state.isWrongKeyPressed = false
@@ -56,11 +67,21 @@ const gameStore = (shortcuts: Shortcut[]) => {
     state.pressedKeyCombination.reset()
   }
 
+  const respondToRemoveKey = () => {
+    state.isListeningKeyboardEvent = false
+    state.isRemoveKeyPressed = true
+    setTimeout(() => {
+      state.removedIdSet.add(shortcut.value.id)
+      resetTypingState()
+      state.isListeningKeyboardEvent = true
+    }, TimeIntervalToRestartTyping)
+  }
+
   const respondToCorrectKey = () => {
     state.isListeningKeyboardEvent = false
     state.isCorrectKeyPressed = true
     setTimeout(() => {
-      state.shortcutIndex++
+      state.questionIdSet.delete(shortcut.value.id)
       resetTypingState()
       state.isListeningKeyboardEvent = true
     }, TimeIntervalToRestartTyping)
@@ -78,6 +99,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
   }
 
   const resetTypingState = () => {
+    state.isRemoveKeyPressed = false
     state.isCorrectKeyPressed = false
     state.isWrongKeyPressed = false
     state.pressedKeyCombination.reset()

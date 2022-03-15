@@ -61,6 +61,17 @@ export default class KeyCombination {
     return this.is(onlyEnterKey)
   }
 
+  isRemoveKey() {
+    const keyCombinationOfRemove = {
+      altKey: false,
+      ctrlKey: false,
+      metaKey: false,
+      shiftKey: false,
+      key: 'r',
+    }
+    return this.is(keyCombinationOfRemove)
+  }
+
   isModifierKey() {
     return (
       this.keyCombinable.key !== undefined &&
