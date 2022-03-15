@@ -12,6 +12,7 @@ import Keyboard from '@/keyboard'
 
 const shortcuts = [
   {
+    id: 1,
     app: 'Google Chrome',
     os: 'macOS',
     category: 'タブとウィンドウのショートカット',
@@ -27,6 +28,7 @@ const shortcuts = [
     isAvailable: true,
   },
   {
+    id: 2,
     app: 'Google Chrome',
     os: 'macOS',
     category: 'タブとウィンドウのショートカット',
