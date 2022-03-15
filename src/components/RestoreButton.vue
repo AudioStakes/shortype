@@ -1,0 +1,18 @@
+<script setup lang="ts">
+import GameKey from '@/stores/gameKey'
+import { RefreshIcon } from '@heroicons/vue/outline'
+import { injectStrict } from '@/utils'
+
+const { removedShortcutExists, restoreRemovedShortcuts } = injectStrict(GameKey)
+</script>
+
+<template>
+  <button
+    v-if="removedShortcutExists"
+    class="flex text-xs bg-gray-200 hover:bg-gray-300 py-0.2 px-1.5 w-fit rounded absolute left-1/2 -translate-x-1/2 translate-y-10"
+    @click="restoreRemovedShortcuts"
+  >
+    <RefreshIcon class="my-auto h-6 px-1 py-1" />
+    <span class="my-auto">出題しないリストを空にする</span>
+  </button>
+</template>

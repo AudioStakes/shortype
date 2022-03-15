@@ -27,6 +27,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
     )[0]
   })
   const correctKeys = computed(() => KeyCombination.extractKeys(shortcut.value))
+  const removedShortcutExists = computed(() => state.removedIdSet.size > 0)
   const isEnded = computed(() => shortcut.value === undefined)
 
   const keyDown = (keyCombinable: KeyCombinable) => {
@@ -61,6 +62,12 @@ const gameStore = (shortcuts: Shortcut[]) => {
   const restart = () => {
     state.questionIdSet.clear()
     shortcuts.forEach((shortcut) => state.questionIdSet.add(shortcut.id))
+    if (isEnded.value) {
+      restoreRemovedShortcuts(
+        null,
+        '出題できるショートカットキーがありません。\n出題しないリストを空にしますか？'
+      )
+    }
     state.isListeningKeyboardEvent = true
     state.isCorrectKeyPressed = false
     state.isWrongKeyPressed = false
@@ -107,7 +114,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
     state.pressedKeyCombination.reset()
   }
 
-  const restoreRemovedKeys = (
+  const restoreRemovedShortcuts = (
     _e: Event | null,
     confirmationMessage?: string
   ) => {
@@ -129,12 +136,14 @@ const gameStore = (shortcuts: Shortcut[]) => {
 
     shortcut,
     correctKeys,
+    removedShortcutExists,
     isEnded,
 
     keyDown,
     keyUp,
     judge,
     restart,
+    restoreRemovedShortcuts,
   }
 }
 

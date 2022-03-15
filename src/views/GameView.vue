@@ -14,6 +14,7 @@ import QuestionShow from '@/components/QuestionShow.vue'
 import ResultShow from '@/components/ResultShow.vue'
 import PressedKeyCombination from '@/components/PressedKeyCombination.vue'
 import ShortcutsShow from '@/components/ShortcutsShow.vue'
+import RestoreButton from '@/components/RestoreButton.vue'
 
 import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
 
@@ -54,6 +55,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
     <ResultShow />
     <PressedKeyCombination />
     <ShortcutsShow />
+    <RestoreButton />
   </div>
   <div v-else>
     <button
