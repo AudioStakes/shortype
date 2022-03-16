@@ -9,10 +9,11 @@ import userEvent from '@testing-library/user-event'
 
 import GameView from '@/views/GameView.vue'
 import Keyboard from '@/keyboard'
+import { loadAnsweredHistory } from '@/utils'
 
 const shortcuts = [
   {
-    id: 1,
+    id: '1',
     app: 'Google Chrome',
     os: 'macOS',
     category: 'タブとウィンドウのショートカット',
@@ -28,7 +29,7 @@ const shortcuts = [
     isAvailable: true,
   },
   {
-    id: 2,
+    id: '2',
     app: 'Google Chrome',
     os: 'macOS',
     category: 'タブとウィンドウのショートカット',
@@ -45,12 +46,19 @@ const shortcuts = [
   },
 ]
 
+let mockStorage: { [key: string]: string } = {}
+
 beforeAll(() => {
   vi.spyOn(Keyboard.prototype, 'key').mockImplementation(({ key }) => key) // テストでは key の値を指定しており、修飾キーの状態やキーボードレイアウトによる key の値の変化が生じないため
+
+  global.localStorage.setItem = vi.fn((key, value) => {
+    mockStorage[key] = value
+  })
+  global.localStorage.getItem = vi.fn((key) => mockStorage[key])
 })
 
 beforeEach(() => {
-  localStorage.clear()
+  mockStorage = {}
 })
 
 test('show a question', () => {
@@ -176,6 +184,31 @@ test('restore removed shortcut keys when the restore button is clicked', async (
 
   window.confirm = vi.fn(() => true)
   await userEvent.click(screen.getByText('出題しないリストを空にする'))
+  document.body.focus()
 
   getByText('最後のタブに移動する')
+})
+
+test('save a record of correct answer when the correct key is pressed', () => {
+  const { getByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+
+  userEvent.keyboard('{Meta>}{9}')
+
+  expect(loadAnsweredHistory().get(shortcuts[0].id)).toStrictEqual([true])
+})
+
+test('save a record of incorrect answer when the incorrect key is pressed', () => {
+  const { getByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+
+  userEvent.keyboard('{Meta>}{A}')
+
+  expect(loadAnsweredHistory().get(shortcuts[0].id)).toStrictEqual([false])
 })
