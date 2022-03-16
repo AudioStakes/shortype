@@ -3,6 +3,7 @@ import {
   waitForElementToBeRemoved,
   waitFor,
   within,
+  screen,
 } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
 
@@ -11,6 +12,7 @@ import Keyboard from '@/keyboard'
 
 const shortcuts = [
   {
+    id: 1,
     app: 'Google Chrome',
     os: 'macOS',
     category: 'タブとウィンドウのショートカット',
@@ -26,6 +28,7 @@ const shortcuts = [
     isAvailable: true,
   },
   {
+    id: 2,
     app: 'Google Chrome',
     os: 'macOS',
     category: 'タブとウィンドウのショートカット',
@@ -44,6 +47,10 @@ const shortcuts = [
 
 beforeAll(() => {
   vi.spyOn(Keyboard.prototype, 'key').mockImplementation(({ key }) => key) // テストでは key の値を指定しており、修飾キーの状態やキーボードレイアウトによる key の値の変化が生じないため
+})
+
+beforeEach(() => {
+  localStorage.clear()
 })
 
 test('show a question', () => {
@@ -112,4 +119,63 @@ test('skip a question when an Enter key is pressed', async () => {
   await userEvent.keyboard('{Enter}')
 
   getByText('ウィンドウを最小化する')
+})
+
+test('remove a question when an D key is pressed', async () => {
+  const { getByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+
+  await userEvent.keyboard('{R}')
+
+  await waitFor(() => getByText('ショートカットキーを入力してください...'))
+
+  getByText('ウィンドウを最小化する')
+
+  await userEvent.keyboard('{Enter}')
+  await userEvent.click(screen.getByText('もう1回'))
+  document.body.focus()
+
+  getByText('ウィンドウを最小化する')
+
+  await userEvent.keyboard('{Enter}')
+
+  getByText('もう1回')
+})
+
+test('removed shortcut keys are stored in localStorage', async () => {
+  const { getByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+
+  await userEvent.keyboard('{R}')
+  await waitFor(() => getByText('ショートカットキーを入力してください...'))
+
+  getByText('ウィンドウを最小化する')
+
+  window.location.reload()
+
+  getByText('ウィンドウを最小化する')
+})
+
+test('restore removed shortcut keys when the restore button is clicked', async () => {
+  const { getByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+
+  await userEvent.keyboard('{R}')
+  await waitFor(() => getByText('ショートカットキーを入力してください...'))
+
+  getByText('ウィンドウを最小化する')
+
+  window.confirm = vi.fn(() => true)
+  await userEvent.click(screen.getByText('出題しないリストを空にする'))
+
+  getByText('最後のタブに移動する')
 })

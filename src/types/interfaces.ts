@@ -20,6 +20,7 @@ export interface Shortcut {
   app: string
   category: string
   ctrlKey: boolean
+  id: string
   isAvailable: boolean
   key: string
   metaKey: boolean

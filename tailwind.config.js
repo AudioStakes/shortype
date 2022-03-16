@@ -8,6 +8,7 @@ module.exports = {
     },
     animation: {
       shake: 'shake',
+      fadeOut: 'fadeOut',
     },
     keyframes: {
       shake: {
@@ -15,6 +16,12 @@ module.exports = {
         '20%, 80%': { transform: 'translateX(2px)' },
         '30%, 50%, 70%': { transform: 'translateX(-4px)' },
         '40%, 60%': { transform: 'translateX(4px)' },
+      },
+      fadeOut: {
+        '100%': {
+          opacity: '0',
+          transform: 'translateX(2%)',
+        },
       },
     },
   },

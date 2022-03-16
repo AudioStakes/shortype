@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import GameKey from '@/stores/gameKey'
 import { CheckCircleIcon, CheckIcon } from '@heroicons/vue/solid'
+import { XCircleIcon } from '@heroicons/vue/outline'
 import KeyList from './KeyList.vue'
 import { injectStrict } from '@/utils'
 
@@ -26,6 +27,24 @@ const { state, correctKeys } = injectStrict(GameKey)
           data-testid="check-icon"
         >
           <CheckIcon />
+        </div>
+      </template>
+    </template>
+    <template v-if="state.isRemoveKeyPressed">
+      <template v-if="!state.isWrongKeyPressed">
+        <div
+          class="h-16 w-16 text-gray-500 self-center"
+          data-testid="check-circle-icon"
+        >
+          <XCircleIcon />
+        </div>
+      </template>
+      <template v-else>
+        <div
+          class="h-16 w-16 text-gray-500 bg-white absolute height-1/2 left-1/2 -translate-x-1/2"
+          data-testid="check-icon"
+        >
+          <XCircleIcon />
         </div>
       </template>
     </template>

@@ -2,33 +2,43 @@ import { reactive, readonly, computed } from 'vue'
 
 import { Shortcut, KeyCombinable } from '@/types/interfaces'
 import KeyCombination from '@/models/keyCombination'
+import { getItemFromLocalStorage, setItemToLocalStorage } from '@/utils'
 
 const TimeIntervalToRestartTyping = import.meta.env.MODE === 'test' ? 0 : 1000
 
 const gameStore = (shortcuts: Shortcut[]) => {
   const state = reactive({
     shortcuts: shortcuts,
-    shortcutIndex: 0,
     isListeningKeyboardEvent: true,
     isCorrectKeyPressed: false,
     isWrongKeyPressed: false,
+    isRemoveKeyPressed: false,
     isShakingKeyCombinationView: false,
     pressedKeyCombination: new KeyCombination(),
+    questionIdSet: new Set<string>(shortcuts.map((shortcut) => shortcut.id)),
+    removedIdSet: new Set<string>(getItemFromLocalStorage('removedIds')),
   })
 
-  const shortcut = computed(() => state.shortcuts[state.shortcutIndex])
+  const shortcut = computed(() => {
+    return state.shortcuts.filter(
+      (shortcut) =>
+        state.questionIdSet.has(shortcut.id) &&
+        !state.removedIdSet.has(shortcut.id)
+    )[0]
+  })
   const correctKeys = computed(() => KeyCombination.extractKeys(shortcut.value))
-  const isEnded = computed(() => state.shortcutIndex >= state.shortcuts.length)
+  const removedShortcutExists = computed(() => state.removedIdSet.size > 0)
+  const isEnded = computed(() => shortcut.value === undefined)
 
   const keyDown = (keyCombinable: KeyCombinable) => {
-    if (!state.isListeningKeyboardEvent) return
+    if (isEnded.value || !state.isListeningKeyboardEvent) return
 
     state.pressedKeyCombination.keyDown(keyCombinable)
     judge()
   }
 
   const keyUp = (key: string) => {
-    if (!state.isListeningKeyboardEvent) return
+    if (isEnded.value || !state.isListeningKeyboardEvent) return
 
     state.pressedKeyCombination.keyUp(key)
   }
@@ -38,8 +48,10 @@ const gameStore = (shortcuts: Shortcut[]) => {
     if (state.pressedKeyCombination.isModifierKey()) return
 
     if (state.pressedKeyCombination.isOnlyEnterKey()) {
-      state.shortcutIndex++
+      state.questionIdSet.delete(shortcut.value.id)
       resetTypingState()
+    } else if (state.pressedKeyCombination.isRemoveKey()) {
+      respondToRemoveKey()
     } else if (state.pressedKeyCombination.is(shortcut.value)) {
       respondToCorrectKey()
     } else if (!state.isWrongKeyPressed) {
@@ -48,7 +60,14 @@ const gameStore = (shortcuts: Shortcut[]) => {
   }
 
   const restart = () => {
-    state.shortcutIndex = 0
+    state.questionIdSet.clear()
+    shortcuts.forEach((shortcut) => state.questionIdSet.add(shortcut.id))
+    if (isEnded.value) {
+      restoreRemovedShortcuts(
+        null,
+        '出題できるショートカットキーがありません。\n出題しないリストを空にしますか？'
+      )
+    }
     state.isListeningKeyboardEvent = true
     state.isCorrectKeyPressed = false
     state.isWrongKeyPressed = false
@@ -56,11 +75,22 @@ const gameStore = (shortcuts: Shortcut[]) => {
     state.pressedKeyCombination.reset()
   }
 
+  const respondToRemoveKey = () => {
+    state.isListeningKeyboardEvent = false
+    state.isRemoveKeyPressed = true
+    setTimeout(() => {
+      state.removedIdSet.add(shortcut.value.id)
+      setItemToLocalStorage('removedIds', [...state.removedIdSet])
+      resetTypingState()
+      state.isListeningKeyboardEvent = true
+    }, TimeIntervalToRestartTyping)
+  }
+
   const respondToCorrectKey = () => {
     state.isListeningKeyboardEvent = false
     state.isCorrectKeyPressed = true
     setTimeout(() => {
-      state.shortcutIndex++
+      state.questionIdSet.delete(shortcut.value.id)
       resetTypingState()
       state.isListeningKeyboardEvent = true
     }, TimeIntervalToRestartTyping)
@@ -78,9 +108,27 @@ const gameStore = (shortcuts: Shortcut[]) => {
   }
 
   const resetTypingState = () => {
+    state.isRemoveKeyPressed = false
     state.isCorrectKeyPressed = false
     state.isWrongKeyPressed = false
     state.pressedKeyCombination.reset()
+  }
+
+  const restoreRemovedShortcuts = (
+    _e: Event | null,
+    confirmationMessage?: string
+  ) => {
+    if (
+      confirm(
+        confirmationMessage ??
+          'すべてのショートカットキーが出題されるようになります。\nよろしいですか？'
+      )
+    ) {
+      localStorage.removeItem('removedIds')
+      state.removedIdSet = new Set<string>(
+        getItemFromLocalStorage('removedIds')
+      )
+    }
   }
 
   return {
@@ -88,12 +136,14 @@ const gameStore = (shortcuts: Shortcut[]) => {
 
     shortcut,
     correctKeys,
+    removedShortcutExists,
     isEnded,
 
     keyDown,
     keyUp,
     judge,
     restart,
+    restoreRemovedShortcuts,
   }
 }
 
