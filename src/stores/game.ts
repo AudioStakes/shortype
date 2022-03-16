@@ -2,7 +2,12 @@ import { reactive, readonly, computed } from 'vue'
 
 import { Shortcut, KeyCombinable } from '@/types/interfaces'
 import KeyCombination from '@/models/keyCombination'
-import { getItemFromLocalStorage, setItemToLocalStorage } from '@/utils'
+import {
+  getItemFromLocalStorage,
+  setItemToLocalStorage,
+  loadAnsweredHistory,
+  saveAnsweringHistory,
+} from '@/utils'
 
 const TimeIntervalToRestartTyping = import.meta.env.MODE === 'test' ? 0 : 1000
 
@@ -15,8 +20,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
     isRemoveKeyPressed: false,
     isShakingKeyCombinationView: false,
     pressedKeyCombination: new KeyCombination(),
-    questionIdSet: new Set<string>(shortcuts.map((shortcut) => shortcut.id)),
-    removedIdSet: new Set<string>(getItemFromLocalStorage('removedIds')),
+    answeredHistoryMap: loadAnsweredHistory(),
   })
 
   const shortcut = computed(() => {
@@ -89,6 +93,8 @@ const gameStore = (shortcuts: Shortcut[]) => {
   const respondToCorrectKey = () => {
     state.isListeningKeyboardEvent = false
     state.isCorrectKeyPressed = true
+    if (!state.isWrongKeyPressed) saveResult(state.shortcut.id, true)
+
     setTimeout(() => {
       state.questionIdSet.delete(shortcut.value.id)
       resetTypingState()
@@ -100,11 +106,22 @@ const gameStore = (shortcuts: Shortcut[]) => {
     state.isListeningKeyboardEvent = false
     state.isWrongKeyPressed = true
     state.isShakingKeyCombinationView = true
+    saveResult(shortcut.value.id, false)
     setTimeout(() => {
       state.isListeningKeyboardEvent = true
       state.isShakingKeyCombinationView = false
       state.pressedKeyCombination.reset()
     }, TimeIntervalToRestartTyping)
+  }
+
+  const saveResult = (id: string, result: boolean) => {
+    if (state.answeredHistoryMap.has(id)) {
+      state.answeredHistoryMap.get(id)?.push(result)
+    } else {
+      state.answeredHistoryMap.set(id, [result])
+    }
+
+    saveAnsweringHistory(state.answeredHistoryMap)
   }
 
   const resetTypingState = () => {
@@ -125,9 +142,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
       )
     ) {
       localStorage.removeItem('removedIds')
-      state.removedIdSet = new Set<string>(
-        getItemFromLocalStorage('removedIds')
-      )
+      state.removedIdSet = new Set<string>()
     }
   }
 
