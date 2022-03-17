@@ -129,7 +129,7 @@ test('skip a question when an Enter key is pressed', async () => {
   getByText('ウィンドウを最小化する')
 })
 
-test('remove a question when an D key is pressed', async () => {
+test('remove a question when an R key is pressed', async () => {
   const { getByText } = render(GameView, {
     props: { shortcuts: shortcuts },
   })
@@ -143,14 +143,12 @@ test('remove a question when an D key is pressed', async () => {
   getByText('ウィンドウを最小化する')
 
   await userEvent.keyboard('{Enter}')
-  await userEvent.click(screen.getByText('もう1回'))
-  document.body.focus()
 
   getByText('ウィンドウを最小化する')
 
   await userEvent.keyboard('{Enter}')
 
-  getByText('もう1回')
+  getByText('ウィンドウを最小化する')
 })
 
 test('removed shortcut keys are stored in localStorage', async () => {
@@ -211,4 +209,29 @@ test('save a record of incorrect answer when the incorrect key is pressed', () =
   userEvent.keyboard('{Meta>}{A}')
 
   expect(loadAnsweredHistory().get(shortcuts[0].id)).toStrictEqual([false])
+})
+
+test('increase the frequency of the shortcut keys answered incorrectly', async () => {
+  const { getByText, getByTestId, queryByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+  await userEvent.keyboard('{Meta>}{9}') // 正解
+  await waitForElementToBeRemoved(getByTestId('check-circle-icon'))
+
+  getByText('ウィンドウを最小化する')
+  await userEvent.keyboard('{Meta>}{9}') // 不正解
+  await waitFor(() => getByText('ショートカットキーを入力してください...'))
+
+  let frequencyOfShortcutAnsweredIncorrectly = 0
+  for (let i = 0; i < 100; i++) {
+    await userEvent.keyboard('{Enter}')
+
+    if (queryByText('ウィンドウを最小化する')) {
+      frequencyOfShortcutAnsweredIncorrectly++
+    }
+  }
+
+  expect(frequencyOfShortcutAnsweredIncorrectly).toBeGreaterThan(70) // 頻度の差を示しつつ、ほぼ必ず成功する値とした
 })
