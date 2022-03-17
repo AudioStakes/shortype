@@ -24,7 +24,7 @@ const props = defineProps<{ shortcuts: Shortcut[] }>()
 
 const game = gameStore(props.shortcuts)
 provide(GameKey, game)
-const { keyDown, keyUp, isEnded, restart } = game
+const { keyDown, keyUp, isAllRemoved, restart } = game
 
 const keyboard = new Keyboard()
 if ('keyboard' in navigator)
@@ -50,7 +50,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
 </script>
 
 <template>
-  <div v-if="!isEnded">
+  <div v-if="!isAllRemoved">
     <QuestionShow />
     <ResultShow />
     <PressedKeyCombination />
@@ -62,7 +62,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
       class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-fit mx-auto"
       @click="restart()"
     >
-      もう1回
+      出題しないリストを空にする
     </button>
   </div>
 </template>

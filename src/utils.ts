@@ -1,4 +1,5 @@
 import { InjectionKey, inject } from 'vue'
+import { Shortcut } from '@/types/interfaces'
 
 // https://logaretm.com/blog/type-safe-provide-inject/
 export function injectStrict<T>(key: InjectionKey<T>, fallback?: T) {
@@ -44,4 +45,49 @@ export function loadAnsweredHistory(): Map<string, boolean[]> {
 export function saveAnsweringHistory(answeredHistory: Map<string, boolean[]>) {
   const parsed = JSON.stringify(Object.fromEntries(answeredHistory))
   localStorage.setItem(KEY_OF_RESULT_HISTORY, parsed)
+}
+
+/**
+ * Examples of arg and returnValue:
+ * [true, true] -> 0.02,
+ * [true] -> 0.51,
+ * [true, false] -> 3.51,
+ * [false] -> 5,
+ * [false, false] -> 9
+ */
+export function weight(results: boolean[]) {
+  const laterResults = results.slice(-2) // Last 2 results
+
+  const initialWeight = 1
+  const weight = laterResults.reduce(
+    (previousWeight, result) => previousWeight + (result ? -0.49 : 4),
+    initialWeight
+  )
+
+  return weight
+}
+
+export function weightedSampleIndex(weights: number[]) {
+  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0)
+  const randomWeight = Math.random() * totalWeight
+  let cumulativeWeight = 0
+
+  const sampledIndex = weights.findIndex((weight) => {
+    cumulativeWeight += weight
+    return cumulativeWeight >= randomWeight
+  })
+
+  return sampledIndex
+}
+
+export function noAnsweredAvailableIds(
+  shortcuts: Shortcut[],
+  removedIds: string[],
+  answeredHistoryMap: Map<string, boolean[]>
+) {
+  const answeredIds = Array.from(answeredHistoryMap.keys())
+
+  return shortcuts
+    .map((shortcut) => shortcut.id)
+    .filter((id) => !answeredIds.includes(id) && !removedIds.includes(id))
 }
