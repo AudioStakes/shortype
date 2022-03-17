@@ -8,7 +8,7 @@ import {
   saveAnsweringHistory,
   setItemToLocalStorage,
   weight,
-  weightedSampleIndex,
+  weightedSampleKey,
 } from '@/utils'
 
 const TimeIntervalToRestartTyping = import.meta.env.MODE === 'test' ? 0 : 1000
@@ -45,40 +45,60 @@ const gameStore = (shortcuts: Shortcut[]) => {
     return availableIds.value.filter((id) => !answeredIds.value.includes(id))
   })
 
-  const availableIdToHistoryMap = computed(() => {
-    const availableIdToHistoryMap = new Map()
+  const idToWeightMap = computed(() => {
+    const idToWeightMap = new Map()
 
     for (const [id, results] of state.answeredHistoryMap.entries()) {
-      if (availableIds.value.includes(id)) {
-        availableIdToHistoryMap.set(id, results)
+      if (shortcutsIds.includes(id)) {
+        idToWeightMap.set(id, weight(results))
       }
     }
 
-    return availableIdToHistoryMap
+    return idToWeightMap
   })
 
-  const weightsOfAvailableIds = computed(() => {
-    const results = Array.from(availableIdToHistoryMap.value.values())
-    return results.map((results) => weight(results))
+  const availableIdToWeightMap = computed(() => {
+    const availableIdToWeightMap = new Map()
+
+    for (const [id, weight] of idToWeightMap.value.entries()) {
+      if (availableIds.value.includes(id)) {
+        availableIdToWeightMap.set(id, weight)
+      }
+    }
+
+    return availableIdToWeightMap
   })
 
-  const currentRate = computed(() => {
-    const allLength = shortcuts.length
-    const removedLength = allLength - availableIds.value.length
-    const noAnsweredLength = noAnsweredAvailableIds.value.length
-    const skilledLength = weightsOfAvailableIds.value.filter(
-      (weight) => weight <= 0.6
-    ).length
-
-    const removedRate = Math.floor((removedLength / allLength) * 100)
-    const noAnsweredRate = Math.floor((noAnsweredLength / allLength) * 100)
-    const skilledRate = Math.floor((skilledLength / allLength) * 100)
+  const countsOfEachStatus = computed(() => {
+    const masteredIds = [...idToWeightMap.value]
+      .filter(([, weight]) => weight <= 0.6)
+      .map(([id]) => id)
+    const unmasteredIds = [...idToWeightMap.value]
+      .filter(([, weight]) => weight > 0.6)
+      .map(([id]) => id)
+    const noAnsweredIds = shortcutsIds.filter(
+      (id) => !answeredIds.value.includes(id)
+    )
 
     return {
-      removedRate: removedRate,
-      noAnsweredRate: noAnsweredRate,
-      skilledRate: skilledRate,
-      unskilledRate: 100 - removedRate - noAnsweredRate - skilledRate,
+      mastered: {
+        included: masteredIds.filter((id) => availableIds.value.includes(id))
+          .length,
+        removed: masteredIds.filter((id) => !availableIds.value.includes(id))
+          .length,
+      },
+      unmastered: {
+        included: unmasteredIds.filter((id) => availableIds.value.includes(id))
+          .length,
+        removed: unmasteredIds.filter((id) => !availableIds.value.includes(id))
+          .length,
+      },
+      noAnswered: {
+        included: noAnsweredIds.filter((id) => availableIds.value.includes(id))
+          .length,
+        removed: noAnsweredIds.filter((id) => !availableIds.value.includes(id))
+          .length,
+      },
     }
   })
 
@@ -125,14 +145,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
         noAnsweredAvailableIds.value.find((id) => id > state.shortcut.id) ??
         noAnsweredAvailableIds.value[0]
     } else {
-      const answeredAvailableIds = Array.from(
-        availableIdToHistoryMap.value.keys()
-      )
-      const weightedSampledIndex = weightedSampleIndex(
-        weightsOfAvailableIds.value
-      )
-
-      nextId = answeredAvailableIds[weightedSampledIndex]
+      nextId = weightedSampleKey(availableIdToWeightMap.value)
     }
 
     return shortcuts.find((shortcut) => shortcut.id === nextId) as Shortcut
@@ -235,6 +248,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
     judge,
     restart,
     restoreRemovedShortcuts,
+    countsOfEachStatus,
   }
 }
 

@@ -48,6 +48,26 @@ export function saveAnsweringHistory(answeredHistory: Map<string, boolean[]>) {
   localStorage.setItem(KEY_OF_RESULT_HISTORY, parsed)
 }
 
+export function weightedSampleKey(keyWeightMap: Map<string, number>) {
+  const keys = Array.from(keyWeightMap.keys())
+  const weights = Array.from(keyWeightMap.values())
+
+  return keys[weightedSampleIndex(weights)]
+}
+
+const weightedSampleIndex = (weights: number[]) => {
+  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0)
+  const randomWeight = Math.random() * totalWeight
+  let cumulativeWeight = 0
+
+  const sampledIndex = weights.findIndex((weight) => {
+    cumulativeWeight += weight
+    return cumulativeWeight >= randomWeight
+  })
+
+  return sampledIndex
+}
+
 /**
  * Examples of arg and returnValue:
  * [true, true] -> 0.02,
@@ -66,19 +86,6 @@ export function weight(results: boolean[]) {
   )
 
   return weight
-}
-
-export function weightedSampleIndex(weights: number[]) {
-  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0)
-  const randomWeight = Math.random() * totalWeight
-  let cumulativeWeight = 0
-
-  const sampledIndex = weights.findIndex((weight) => {
-    cumulativeWeight += weight
-    return cumulativeWeight >= randomWeight
-  })
-
-  return sampledIndex
 }
 
 export function noAnsweredAvailableIds(

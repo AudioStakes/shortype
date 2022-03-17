@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { provide } from 'vue'
 
+import PieChart from '@/components/PieChart.vue'
 import PressedKeyCombination from '@/components/PressedKeyCombination.vue'
 import QuestionShow from '@/components/QuestionShow.vue'
 import RestoreButton from '@/components/RestoreButton.vue'
@@ -47,6 +48,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
 
 <template>
   <div v-if="!isAllRemoved">
+    <PieChart />
     <QuestionShow />
     <ResultShow />
     <PressedKeyCombination />
