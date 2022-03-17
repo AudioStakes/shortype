@@ -235,3 +235,19 @@ test('increase the frequency of the shortcut keys answered incorrectly', async (
 
   expect(frequencyOfShortcutAnsweredIncorrectly).toBeGreaterThan(70) // 頻度の差を示しつつ、ほぼ必ず成功する値とした
 })
+
+test('show an unanswered shortcut key as the highest priority', async () => {
+  const { getByText, getByTestId } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+  await userEvent.keyboard('{Meta>}{9}')
+  await waitForElementToBeRemoved(getByTestId('check-circle-icon'))
+
+  getByText('ウィンドウを最小化する')
+
+  await userEvent.keyboard('{Enter}')
+
+  getByText('ウィンドウを最小化する')
+})
