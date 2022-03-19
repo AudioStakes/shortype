@@ -267,3 +267,16 @@ test('show an unanswered shortcut key as the highest priority', async () => {
 
   getByText('ウィンドウを最小化する')
 })
+
+test('show the current mastered ratio', async () => {
+  const { getByText, container } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  expect(container.querySelector('svg')?.textContent).toEqual('0 % 身についた')
+
+  getByText('最後のタブに移動する')
+  await userEvent.keyboard('{Meta>}{9}')
+
+  expect(container.querySelector('svg')?.textContent).toEqual('50 % 身についた')
+})
