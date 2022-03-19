@@ -68,16 +68,32 @@ test('show a question', () => {
   getByText('最後のタブに移動する')
 })
 
-test('show a pressed key combination', async () => {
-  const { getByTestId } = render(GameView, { props: { shortcuts: shortcuts } })
+test.each([
+  { keyCombination: '{A}', keys: ['a'] },
+  { keyCombination: '{Meta>}{A}', keys: ['Meta', 'a'] },
+  { keyCombination: '{Shift>}{A}', keys: ['Shift', 'a'] },
+  { keyCombination: '{Control>}{A}', keys: ['Control', 'a'] },
+  { keyCombination: '{Alt>}{A}', keys: ['Alt', 'a'] },
+  {
+    keyCombination: '{Meta>}{Shift>}{Control>}{Alt>}{A}',
+    keys: ['Meta', 'Shift', 'Control', 'Alt', 'a'],
+  },
+])(
+  'show keys of $keys when press $keyCombination',
+  async ({ keyCombination, keys }) => {
+    const { getByTestId } = render(GameView, {
+      props: { shortcuts: shortcuts },
+    })
 
-  await userEvent.keyboard('{Meta>}{A}')
+    await userEvent.keyboard(keyCombination)
 
-  const pressedKeyCombination = getByTestId('pressed-key-combination')
+    const pressedKeyCombination = getByTestId('pressed-key-combination')
 
-  within(pressedKeyCombination).getByTestId('Meta')
-  within(pressedKeyCombination).getByTestId('a')
-})
+    keys.forEach((key) => {
+      within(pressedKeyCombination).getByTestId(key)
+    })
+  }
+)
 
 test('proceed to a next question when the correct key is pressed', async () => {
   const { getByText, getByTestId } = render(GameView, {
