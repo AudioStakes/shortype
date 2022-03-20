@@ -1,24 +1,20 @@
 <script setup lang="ts">
 import { provide } from 'vue'
 
+import PressedKeyCombination from '@/components/PressedKeyCombination.vue'
+import QuestionShow from '@/components/QuestionShow.vue'
+import RestoreButton from '@/components/RestoreButton.vue'
+import ResultShow from '@/components/ResultShow.vue'
+import ShortcutsShow from '@/components/ShortcutsShow.vue'
+import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
+import Keyboard from '@/keyboard'
+import gameStore from '@/stores/game'
+import GameKey from '@/stores/gameKey'
 import {
   NavigatorExtend,
   NavigatorKeyboard,
   Shortcut,
 } from '@/types/interfaces'
-
-import gameStore from '@/stores/game'
-import GameKey from '@/stores/gameKey'
-
-import QuestionShow from '@/components/QuestionShow.vue'
-import ResultShow from '@/components/ResultShow.vue'
-import PressedKeyCombination from '@/components/PressedKeyCombination.vue'
-import ShortcutsShow from '@/components/ShortcutsShow.vue'
-import RestoreButton from '@/components/RestoreButton.vue'
-
-import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
-
-import Keyboard from '@/keyboard'
 
 const props = defineProps<{ shortcuts: Shortcut[] }>()
 

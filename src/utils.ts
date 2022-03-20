@@ -1,4 +1,5 @@
-import { InjectionKey, inject } from 'vue'
+import { inject, InjectionKey } from 'vue'
+
 import { Shortcut } from '@/types/interfaces'
 
 // https://logaretm.com/blog/type-safe-provide-inject/

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Key from './Key.vue'
+import Key from '@/components/Key.vue'
 
 defineProps<{ keys: string[] }>()
 </script>

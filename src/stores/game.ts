@@ -1,12 +1,12 @@
-import { reactive, readonly, computed } from 'vue'
+import { computed, reactive, readonly } from 'vue'
 
-import { Shortcut, KeyCombinable } from '@/types/interfaces'
 import KeyCombination from '@/models/keyCombination'
+import { KeyCombinable, Shortcut } from '@/types/interfaces'
 import {
   getItemFromLocalStorage,
-  setItemToLocalStorage,
   loadAnsweredHistory,
   saveAnsweringHistory,
+  setItemToLocalStorage,
   weight,
   weightedSampleIndex,
 } from '@/utils'

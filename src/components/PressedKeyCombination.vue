@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import KeyList from '@/components/KeyList.vue'
 import GameKey from '@/stores/gameKey'
-import KeyList from './KeyList.vue'
 import { injectStrict } from '@/utils'
 
 const { state } = injectStrict(GameKey)

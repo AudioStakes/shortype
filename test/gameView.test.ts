@@ -1,15 +1,15 @@
+import userEvent from '@testing-library/user-event'
 import {
   render,
-  waitForElementToBeRemoved,
-  waitFor,
-  within,
   screen,
+  waitFor,
+  waitForElementToBeRemoved,
+  within,
 } from '@testing-library/vue'
-import userEvent from '@testing-library/user-event'
 
-import GameView from '@/views/GameView.vue'
 import Keyboard from '@/keyboard'
 import { loadAnsweredHistory } from '@/utils'
+import GameView from '@/views/GameView.vue'
 
 const shortcuts = [
   {
