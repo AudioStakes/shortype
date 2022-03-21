@@ -72,6 +72,17 @@ export default class KeyCombination {
     return this.is(keyCombinationOfRemove)
   }
 
+  isSelectToolsKey() {
+    const keyCombinationOfSelectTools = {
+      altKey: false,
+      ctrlKey: false,
+      metaKey: false,
+      shiftKey: false,
+      key: 't',
+    }
+    return this.is(keyCombinationOfSelectTools)
+  }
+
   isModifierKey() {
     return (
       this.keyCombinable.key !== undefined &&

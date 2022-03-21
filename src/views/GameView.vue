@@ -7,6 +7,7 @@ import QuestionShow from '@/components/QuestionShow.vue'
 import RestoreButton from '@/components/RestoreButton.vue'
 import ResultShow from '@/components/ResultShow.vue'
 import ShortcutsShow from '@/components/ShortcutsShow.vue'
+import ToolList from '@/components/ToolList.vue'
 import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
 import Keyboard from '@/keyboard'
 import gameStore from '@/stores/game'
@@ -54,6 +55,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
     <PressedKeyCombination />
     <ShortcutsShow />
     <RestoreButton />
+    <ToolList />
   </div>
   <div v-else>
     <button

@@ -3,8 +3,10 @@ import { computed, reactive, readonly } from 'vue'
 import KeyCombination from '@/models/keyCombination'
 import { KeyCombinable, Shortcut } from '@/types/interfaces'
 import {
+  loadAllTools,
   loadAnsweredHistory,
   loadRemovedIds,
+  loadShortcutsByTool,
   saveAnsweredHistory,
   saveRemovedIds,
   weight,
@@ -16,6 +18,7 @@ const removedIds = [...loadRemovedIds()]
 
 const gameStore = (shortcuts: Shortcut[]) => {
   const state = reactive({
+    shortcuts: shortcuts,
     shortcut:
       shortcuts.find((shortcut) => !removedIds.includes(shortcut.id)) ??
       shortcuts[0],
@@ -23,18 +26,21 @@ const gameStore = (shortcuts: Shortcut[]) => {
     isCorrectKeyPressed: false,
     isWrongKeyPressed: false,
     isRemoveKeyPressed: false,
+    isSelectToolsKeyPressed: false,
     isShakingKeyCombinationView: false,
     pressedKeyCombination: new KeyCombination(),
     removedIdSet: new Set<string>(removedIds),
     answeredHistoryMap: loadAnsweredHistory(),
   })
 
-  const shortcutsIds = shortcuts.map((shortcut) => shortcut.id)
+  const shortcutsIds = computed(() =>
+    state.shortcuts.map((shortcut) => shortcut.id)
+  )
 
   const availableIds = computed(() => {
     const removedIds = [...state.removedIdSet]
 
-    return shortcutsIds.filter((id) => !removedIds.includes(id))
+    return shortcutsIds.value.filter((id) => !removedIds.includes(id))
   })
 
   const answeredIds = computed(() => {
@@ -49,7 +55,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
     const idToWeightMap = new Map()
 
     for (const [id, results] of state.answeredHistoryMap.entries()) {
-      if (shortcutsIds.includes(id)) {
+      if (shortcutsIds.value.includes(id)) {
         idToWeightMap.set(id, weight(results))
       }
     }
@@ -76,7 +82,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
     const unmasteredIds = [...idToWeightMap.value]
       .filter(([, weight]) => weight > 0.6)
       .map(([id]) => id)
-    const noAnsweredIds = shortcutsIds.filter(
+    const noAnsweredIds = shortcutsIds.value.filter(
       (id) => !answeredIds.value.includes(id)
     )
 
@@ -105,7 +111,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
   const correctKeys = computed(() => KeyCombination.extractKeys(state.shortcut))
   const removedShortcutExists = computed(() => state.removedIdSet.size > 0)
   const isAllRemoved = computed(
-    () => state.removedIdSet.size >= shortcuts.length
+    () => state.removedIdSet.size >= state.shortcuts.length
   )
 
   const keyDown = (keyCombinable: KeyCombinable) => {
@@ -130,6 +136,8 @@ const gameStore = (shortcuts: Shortcut[]) => {
       resetTypingState()
     } else if (state.pressedKeyCombination.isRemoveKey()) {
       respondToRemoveKey()
+    } else if (state.pressedKeyCombination.isSelectToolsKey()) {
+      respondToSelectToolsKey()
     } else if (state.pressedKeyCombination.is(state.shortcut)) {
       respondToCorrectKey()
     } else if (!state.isWrongKeyPressed) {
@@ -148,7 +156,9 @@ const gameStore = (shortcuts: Shortcut[]) => {
       nextId = weightedSampleKey(availableIdToWeightMap.value)
     }
 
-    return shortcuts.find((shortcut) => shortcut.id === nextId) as Shortcut
+    return state.shortcuts.find(
+      (shortcut) => shortcut.id === nextId
+    ) as Shortcut
   }
 
   const restart = () => {
@@ -163,6 +173,12 @@ const gameStore = (shortcuts: Shortcut[]) => {
     state.isWrongKeyPressed = false
     state.isShakingKeyCombinationView = false
     state.pressedKeyCombination.reset()
+  }
+
+  const respondToSelectToolsKey = () => {
+    resetTypingState()
+    state.isListeningKeyboardEvent = false
+    state.isSelectToolsKeyPressed = true
   }
 
   const respondToRemoveKey = () => {
@@ -217,6 +233,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
     state.isRemoveKeyPressed = false
     state.isCorrectKeyPressed = false
     state.isWrongKeyPressed = false
+    state.isSelectToolsKeyPressed = false
     state.pressedKeyCombination.reset()
   }
 
@@ -236,6 +253,47 @@ const gameStore = (shortcuts: Shortcut[]) => {
     }
   }
 
+  const updateTool = (tool: string) => {
+    state.shortcuts = loadShortcutsByTool(tool)
+
+    state.shortcut =
+      state.shortcuts.find((shortcut) => !removedIds.includes(shortcut.id)) ??
+      state.shortcuts[0]
+    hideToolsView()
+  }
+
+  const hideToolsView = () => {
+    resetTypingState()
+    state.isListeningKeyboardEvent = true
+  }
+
+  const masteredRateOfEachTool = (): {
+    name: string
+    masteredRate: number
+  }[] => {
+    const allTools = loadAllTools()
+    const masteredIds = [...state.answeredHistoryMap]
+      .map(([id, results]) => [id, weight(results)])
+      .filter(([, weight]) => weight <= 0.6)
+      .map(([id]) => id)
+    const removedIds = [...state.removedIdSet]
+
+    return Object.values(allTools).map(({ name, shortcuts }) => {
+      const countOfShortcut = shortcuts.filter(
+        (shortcut) => !removedIds.includes(shortcut.id)
+      ).length
+      const countOfMastered = shortcuts.filter(
+        (shortcut) =>
+          masteredIds.includes(shortcut.id) && !removedIds.includes(shortcut.id)
+      ).length
+
+      return {
+        name,
+        masteredRate: Math.floor((countOfMastered / countOfShortcut) * 100),
+      }
+    })
+  }
+
   return {
     state: readonly(state),
 
@@ -248,6 +306,9 @@ const gameStore = (shortcuts: Shortcut[]) => {
     judge,
     restart,
     restoreRemovedShortcuts,
+    updateTool,
+    masteredRateOfEachTool,
+    hideToolsView,
     countsOfEachStatus,
   }
 }
