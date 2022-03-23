@@ -3,16 +3,16 @@ import { computed, reactive, readonly } from 'vue'
 import KeyCombination from '@/models/keyCombination'
 import { KeyCombinable, Shortcut } from '@/types/interfaces'
 import {
-  getItemFromLocalStorage,
   loadAnsweredHistory,
-  saveAnsweringHistory,
-  setItemToLocalStorage,
+  loadRemovedIds,
+  saveAnsweredHistory,
+  saveRemovedIds,
   weight,
   weightedSampleKey,
 } from '@/utils'
 
 const TimeIntervalToRestartTyping = import.meta.env.MODE === 'test' ? 0 : 1000
-const removedIds = [...getItemFromLocalStorage('removedIds')]
+const removedIds = [...loadRemovedIds()]
 
 const gameStore = (shortcuts: Shortcut[]) => {
   const state = reactive({
@@ -169,7 +169,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
     state.isListeningKeyboardEvent = false
     state.isRemoveKeyPressed = true
     state.removedIdSet.add(state.shortcut.id)
-    setItemToLocalStorage('removedIds', [...state.removedIdSet])
+    saveRemovedIds([...state.removedIdSet])
 
     setTimeout(() => {
       state.shortcut = nextShortcut()
@@ -210,7 +210,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
       state.answeredHistoryMap.set(id, [result])
     }
 
-    saveAnsweringHistory(state.answeredHistoryMap)
+    saveAnsweredHistory(state.answeredHistoryMap)
   }
 
   const resetTypingState = () => {

@@ -10,42 +10,89 @@ export function injectStrict<T>(key: InjectionKey<T>, fallback?: T) {
   }
   return resolved
 }
+const LATEST_SCHEMA_VERSION = 0
+const KEY_OF_SCHEMA_VERSION = 'schemaVersion'
+const KEY_OF_REMOVED_IDS = 'removedIds'
+const KEY_OF_ANSWERED_HISTORY = 'answeredHistory'
 
-export function getItemFromLocalStorage(key: string): string[] {
-  if (!localStorage.getItem(key)) return []
+export function loadRemovedIds(
+  key: string = KEY_OF_REMOVED_IDS,
+  defaultValue: string[] = []
+): string[] {
+  if (!isLatestSchemaVersion()) {
+    localStorage.removeItem(key)
+    return defaultValue
+  }
+
+  return loadFromLocalStorage(key, defaultValue)
+}
+
+export function saveRemovedIds(
+  value: string[],
+  key: string = KEY_OF_REMOVED_IDS
+) {
+  saveToLocalStorage(key, value)
+  saveSchemaVersion()
+}
+
+export function loadAnsweredHistory(
+  key: string = KEY_OF_ANSWERED_HISTORY,
+  defaultValue: { [key: string]: boolean[] } = {}
+): Map<string, boolean[]> {
+  if (!isLatestSchemaVersion()) {
+    localStorage.removeItem(key)
+    return new Map(Object.entries(defaultValue))
+  }
+
+  const parsedJson = loadFromLocalStorage(key, defaultValue)
+  return new Map(Object.entries(parsedJson))
+}
+
+export function saveAnsweredHistory(
+  answeredHistory: Map<string, boolean[]>,
+  key: string = KEY_OF_ANSWERED_HISTORY
+) {
+  saveToLocalStorage(key, Object.fromEntries(answeredHistory))
+  saveSchemaVersion()
+}
+
+const loadSchemaVersion = (
+  key: string = KEY_OF_SCHEMA_VERSION,
+  defaultValue = -1
+) => loadFromLocalStorage(key, defaultValue)
+
+const isLatestSchemaVersion = () =>
+  loadSchemaVersion() === LATEST_SCHEMA_VERSION
+
+const saveSchemaVersion = (
+  key: string = KEY_OF_SCHEMA_VERSION,
+  value: number = LATEST_SCHEMA_VERSION
+) => {
+  saveToLocalStorage(key, value)
+}
+
+const loadFromLocalStorage = (
+  key: string,
+  defaultValue: number | string[] | { [key: string]: boolean[] }
+) => {
+  if (!localStorage.getItem(key)) return defaultValue
 
   try {
     const json = localStorage.getItem(key) as string
-    return JSON.parse(json)
+    const parsedJson = JSON.parse(json)
+    return parsedJson
   } catch (e) {
     localStorage.removeItem(key)
-    return []
+    return defaultValue
   }
 }
 
-export function setItemToLocalStorage(key: string, value: string[]) {
+const saveToLocalStorage = (
+  key: string,
+  value: number | string[] | { [k: string]: boolean[] }
+) => {
   const parsed = JSON.stringify(value)
   localStorage.setItem(key, parsed)
-}
-
-const KEY_OF_RESULT_HISTORY = 'answeredHistory_Version_0_0_0'
-
-export function loadAnsweredHistory(): Map<string, boolean[]> {
-  if (!localStorage.getItem(KEY_OF_RESULT_HISTORY)) return new Map()
-
-  try {
-    const json = localStorage.getItem(KEY_OF_RESULT_HISTORY) as string
-    const parsedJson = JSON.parse(json)
-    return new Map(Object.entries(parsedJson))
-  } catch (e) {
-    localStorage.removeItem(KEY_OF_RESULT_HISTORY)
-    return new Map()
-  }
-}
-
-export function saveAnsweringHistory(answeredHistory: Map<string, boolean[]>) {
-  const parsed = JSON.stringify(Object.fromEntries(answeredHistory))
-  localStorage.setItem(KEY_OF_RESULT_HISTORY, parsed)
 }
 
 export function weightedSampleKey(keyWeightMap: Map<string, number>) {
