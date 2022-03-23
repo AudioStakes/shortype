@@ -1,44 +1,122 @@
-import { reactive, readonly, computed } from 'vue'
+import { computed, reactive, readonly } from 'vue'
 
-import { Shortcut, KeyCombinable } from '@/types/interfaces'
 import KeyCombination from '@/models/keyCombination'
-import { getItemFromLocalStorage, setItemToLocalStorage } from '@/utils'
+import { KeyCombinable, Shortcut } from '@/types/interfaces'
+import {
+  loadAnsweredHistory,
+  loadRemovedIds,
+  saveAnsweredHistory,
+  saveRemovedIds,
+  weight,
+  weightedSampleKey,
+} from '@/utils'
 
 const TimeIntervalToRestartTyping = import.meta.env.MODE === 'test' ? 0 : 1000
+const removedIds = [...loadRemovedIds()]
 
 const gameStore = (shortcuts: Shortcut[]) => {
   const state = reactive({
-    shortcuts: shortcuts,
+    shortcut:
+      shortcuts.find((shortcut) => !removedIds.includes(shortcut.id)) ??
+      shortcuts[0],
     isListeningKeyboardEvent: true,
     isCorrectKeyPressed: false,
     isWrongKeyPressed: false,
     isRemoveKeyPressed: false,
     isShakingKeyCombinationView: false,
     pressedKeyCombination: new KeyCombination(),
-    questionIdSet: new Set<string>(shortcuts.map((shortcut) => shortcut.id)),
-    removedIdSet: new Set<string>(getItemFromLocalStorage('removedIds')),
+    removedIdSet: new Set<string>(removedIds),
+    answeredHistoryMap: loadAnsweredHistory(),
   })
 
-  const shortcut = computed(() => {
-    return state.shortcuts.filter(
-      (shortcut) =>
-        state.questionIdSet.has(shortcut.id) &&
-        !state.removedIdSet.has(shortcut.id)
-    )[0]
+  const shortcutsIds = shortcuts.map((shortcut) => shortcut.id)
+
+  const availableIds = computed(() => {
+    const removedIds = [...state.removedIdSet]
+
+    return shortcutsIds.filter((id) => !removedIds.includes(id))
   })
-  const correctKeys = computed(() => KeyCombination.extractKeys(shortcut.value))
+
+  const answeredIds = computed(() => {
+    return Array.from(state.answeredHistoryMap.keys())
+  })
+
+  const noAnsweredAvailableIds = computed(() => {
+    return availableIds.value.filter((id) => !answeredIds.value.includes(id))
+  })
+
+  const idToWeightMap = computed(() => {
+    const idToWeightMap = new Map()
+
+    for (const [id, results] of state.answeredHistoryMap.entries()) {
+      if (shortcutsIds.includes(id)) {
+        idToWeightMap.set(id, weight(results))
+      }
+    }
+
+    return idToWeightMap
+  })
+
+  const availableIdToWeightMap = computed(() => {
+    const availableIdToWeightMap = new Map()
+
+    for (const [id, weight] of idToWeightMap.value.entries()) {
+      if (availableIds.value.includes(id)) {
+        availableIdToWeightMap.set(id, weight)
+      }
+    }
+
+    return availableIdToWeightMap
+  })
+
+  const countsOfEachStatus = computed(() => {
+    const masteredIds = [...idToWeightMap.value]
+      .filter(([, weight]) => weight <= 0.6)
+      .map(([id]) => id)
+    const unmasteredIds = [...idToWeightMap.value]
+      .filter(([, weight]) => weight > 0.6)
+      .map(([id]) => id)
+    const noAnsweredIds = shortcutsIds.filter(
+      (id) => !answeredIds.value.includes(id)
+    )
+
+    return {
+      mastered: {
+        included: masteredIds.filter((id) => availableIds.value.includes(id))
+          .length,
+        removed: masteredIds.filter((id) => !availableIds.value.includes(id))
+          .length,
+      },
+      unmastered: {
+        included: unmasteredIds.filter((id) => availableIds.value.includes(id))
+          .length,
+        removed: unmasteredIds.filter((id) => !availableIds.value.includes(id))
+          .length,
+      },
+      noAnswered: {
+        included: noAnsweredIds.filter((id) => availableIds.value.includes(id))
+          .length,
+        removed: noAnsweredIds.filter((id) => !availableIds.value.includes(id))
+          .length,
+      },
+    }
+  })
+
+  const correctKeys = computed(() => KeyCombination.extractKeys(state.shortcut))
   const removedShortcutExists = computed(() => state.removedIdSet.size > 0)
-  const isEnded = computed(() => shortcut.value === undefined)
+  const isAllRemoved = computed(
+    () => state.removedIdSet.size >= shortcuts.length
+  )
 
   const keyDown = (keyCombinable: KeyCombinable) => {
-    if (isEnded.value || !state.isListeningKeyboardEvent) return
+    if (isAllRemoved.value || !state.isListeningKeyboardEvent) return
 
     state.pressedKeyCombination.keyDown(keyCombinable)
     judge()
   }
 
   const keyUp = (key: string) => {
-    if (isEnded.value || !state.isListeningKeyboardEvent) return
+    if (isAllRemoved.value || !state.isListeningKeyboardEvent) return
 
     state.pressedKeyCombination.keyUp(key)
   }
@@ -48,21 +126,33 @@ const gameStore = (shortcuts: Shortcut[]) => {
     if (state.pressedKeyCombination.isModifierKey()) return
 
     if (state.pressedKeyCombination.isOnlyEnterKey()) {
-      state.questionIdSet.delete(shortcut.value.id)
+      state.shortcut = nextShortcut()
       resetTypingState()
     } else if (state.pressedKeyCombination.isRemoveKey()) {
       respondToRemoveKey()
-    } else if (state.pressedKeyCombination.is(shortcut.value)) {
+    } else if (state.pressedKeyCombination.is(state.shortcut)) {
       respondToCorrectKey()
     } else if (!state.isWrongKeyPressed) {
       respondToWrongKey()
     }
   }
 
+  const nextShortcut = () => {
+    let nextId: string
+
+    if (noAnsweredAvailableIds.value.length > 0) {
+      nextId =
+        noAnsweredAvailableIds.value.find((id) => id > state.shortcut.id) ??
+        noAnsweredAvailableIds.value[0]
+    } else {
+      nextId = weightedSampleKey(availableIdToWeightMap.value)
+    }
+
+    return shortcuts.find((shortcut) => shortcut.id === nextId) as Shortcut
+  }
+
   const restart = () => {
-    state.questionIdSet.clear()
-    shortcuts.forEach((shortcut) => state.questionIdSet.add(shortcut.id))
-    if (isEnded.value) {
+    if (isAllRemoved.value) {
       restoreRemovedShortcuts(
         null,
         '出題できるショートカットキーがありません。\n出題しないリストを空にしますか？'
@@ -78,9 +168,11 @@ const gameStore = (shortcuts: Shortcut[]) => {
   const respondToRemoveKey = () => {
     state.isListeningKeyboardEvent = false
     state.isRemoveKeyPressed = true
+    state.removedIdSet.add(state.shortcut.id)
+    saveRemovedIds([...state.removedIdSet])
+
     setTimeout(() => {
-      state.removedIdSet.add(shortcut.value.id)
-      setItemToLocalStorage('removedIds', [...state.removedIdSet])
+      state.shortcut = nextShortcut()
       resetTypingState()
       state.isListeningKeyboardEvent = true
     }, TimeIntervalToRestartTyping)
@@ -89,8 +181,10 @@ const gameStore = (shortcuts: Shortcut[]) => {
   const respondToCorrectKey = () => {
     state.isListeningKeyboardEvent = false
     state.isCorrectKeyPressed = true
+    if (!state.isWrongKeyPressed) saveResult(state.shortcut.id, true)
+
     setTimeout(() => {
-      state.questionIdSet.delete(shortcut.value.id)
+      state.shortcut = nextShortcut()
       resetTypingState()
       state.isListeningKeyboardEvent = true
     }, TimeIntervalToRestartTyping)
@@ -100,11 +194,23 @@ const gameStore = (shortcuts: Shortcut[]) => {
     state.isListeningKeyboardEvent = false
     state.isWrongKeyPressed = true
     state.isShakingKeyCombinationView = true
+    saveResult(state.shortcut.id, false)
+
     setTimeout(() => {
       state.isListeningKeyboardEvent = true
       state.isShakingKeyCombinationView = false
       state.pressedKeyCombination.reset()
     }, TimeIntervalToRestartTyping)
+  }
+
+  const saveResult = (id: string, result: boolean) => {
+    if (state.answeredHistoryMap.has(id)) {
+      state.answeredHistoryMap.get(id)?.push(result)
+    } else {
+      state.answeredHistoryMap.set(id, [result])
+    }
+
+    saveAnsweredHistory(state.answeredHistoryMap)
   }
 
   const resetTypingState = () => {
@@ -125,25 +231,24 @@ const gameStore = (shortcuts: Shortcut[]) => {
       )
     ) {
       localStorage.removeItem('removedIds')
-      state.removedIdSet = new Set<string>(
-        getItemFromLocalStorage('removedIds')
-      )
+      state.removedIdSet = new Set<string>()
+      state.shortcut = nextShortcut()
     }
   }
 
   return {
     state: readonly(state),
 
-    shortcut,
     correctKeys,
     removedShortcutExists,
-    isEnded,
+    isAllRemoved,
 
     keyDown,
     keyUp,
     judge,
     restart,
     restoreRemovedShortcuts,
+    countsOfEachStatus,
   }
 }
 

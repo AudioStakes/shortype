@@ -1,5 +1,6 @@
-import { render, screen } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
+import { render, screen } from '@testing-library/vue'
+
 import App from '@/App.vue'
 
 test('show an unsupported message when a client is unsupported', async () => {

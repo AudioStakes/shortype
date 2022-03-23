@@ -1,30 +1,27 @@
 <script setup lang="ts">
 import { provide } from 'vue'
 
+import PieChart from '@/components/PieChart.vue'
+import PressedKeyCombination from '@/components/PressedKeyCombination.vue'
+import QuestionShow from '@/components/QuestionShow.vue'
+import RestoreButton from '@/components/RestoreButton.vue'
+import ResultShow from '@/components/ResultShow.vue'
+import ShortcutsShow from '@/components/ShortcutsShow.vue'
+import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
+import Keyboard from '@/keyboard'
+import gameStore from '@/stores/game'
+import GameKey from '@/stores/gameKey'
 import {
   NavigatorExtend,
   NavigatorKeyboard,
   Shortcut,
 } from '@/types/interfaces'
 
-import gameStore from '@/stores/game'
-import GameKey from '@/stores/gameKey'
-
-import QuestionShow from '@/components/QuestionShow.vue'
-import ResultShow from '@/components/ResultShow.vue'
-import PressedKeyCombination from '@/components/PressedKeyCombination.vue'
-import ShortcutsShow from '@/components/ShortcutsShow.vue'
-import RestoreButton from '@/components/RestoreButton.vue'
-
-import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
-
-import Keyboard from '@/keyboard'
-
 const props = defineProps<{ shortcuts: Shortcut[] }>()
 
 const game = gameStore(props.shortcuts)
 provide(GameKey, game)
-const { keyDown, keyUp, isEnded, restart } = game
+const { keyDown, keyUp, isAllRemoved, restart } = game
 
 const keyboard = new Keyboard()
 if ('keyboard' in navigator)
@@ -50,7 +47,8 @@ useKeyboardEventListener('keyup', handleKeyUp)
 </script>
 
 <template>
-  <div v-if="!isEnded">
+  <div v-if="!isAllRemoved">
+    <PieChart />
     <QuestionShow />
     <ResultShow />
     <PressedKeyCombination />
@@ -62,7 +60,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
       class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-fit mx-auto"
       @click="restart()"
     >
-      もう1回
+      出題しないリストを空にする
     </button>
   </div>
 </template>

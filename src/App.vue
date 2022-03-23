@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+import chromeShortcutsJson from '@/assets/chrome.json'
+import Footer from '@/components/Footer.vue'
+import Header from '@/components/Header.vue'
 import GameView from '@/views/GameView.vue'
 import Unsupported from '@/views/Unsupported.vue'
-
-import Header from '@/components/Header.vue'
-import Footer from '@/components/Footer.vue'
-
-import chromeShortcutsJson from '@/assets/chrome.json'
 
 const isUnsupportedBrowser = navigator.userAgent.indexOf('Chrome') === -1
 const isUnsupportedOs = navigator.userAgent.indexOf('Mac') === -1

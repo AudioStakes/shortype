@@ -1,18 +1,19 @@
+import userEvent from '@testing-library/user-event'
 import {
   render,
-  waitForElementToBeRemoved,
-  waitFor,
-  within,
   screen,
+  waitFor,
+  waitForElementToBeRemoved,
+  within,
 } from '@testing-library/vue'
-import userEvent from '@testing-library/user-event'
 
-import GameView from '@/views/GameView.vue'
 import Keyboard from '@/keyboard'
+import { loadAnsweredHistory } from '@/utils'
+import GameView from '@/views/GameView.vue'
 
 const shortcuts = [
   {
-    id: 1,
+    id: '1',
     app: 'Google Chrome',
     os: 'macOS',
     category: 'タブとウィンドウのショートカット',
@@ -28,7 +29,7 @@ const shortcuts = [
     isAvailable: true,
   },
   {
-    id: 2,
+    id: '2',
     app: 'Google Chrome',
     os: 'macOS',
     category: 'タブとウィンドウのショートカット',
@@ -45,12 +46,19 @@ const shortcuts = [
   },
 ]
 
+let mockStorage: { [key: string]: string } = {}
+
 beforeAll(() => {
   vi.spyOn(Keyboard.prototype, 'key').mockImplementation(({ key }) => key) // テストでは key の値を指定しており、修飾キーの状態やキーボードレイアウトによる key の値の変化が生じないため
+
+  global.localStorage.setItem = vi.fn((key, value) => {
+    mockStorage[key] = value
+  })
+  global.localStorage.getItem = vi.fn((key) => mockStorage[key])
 })
 
 beforeEach(() => {
-  localStorage.clear()
+  mockStorage = {}
 })
 
 test('show a question', () => {
@@ -60,16 +68,32 @@ test('show a question', () => {
   getByText('最後のタブに移動する')
 })
 
-test('show a pressed key combination', async () => {
-  const { getByTestId } = render(GameView, { props: { shortcuts: shortcuts } })
+test.each([
+  { keyCombination: '{A}', keys: ['a'] },
+  { keyCombination: '{Meta>}{A}', keys: ['Meta', 'a'] },
+  { keyCombination: '{Shift>}{A}', keys: ['Shift', 'a'] },
+  { keyCombination: '{Control>}{A}', keys: ['Control', 'a'] },
+  { keyCombination: '{Alt>}{A}', keys: ['Alt', 'a'] },
+  {
+    keyCombination: '{Meta>}{Shift>}{Control>}{Alt>}{A}',
+    keys: ['Meta', 'Shift', 'Control', 'Alt', 'a'],
+  },
+])(
+  'show keys of $keys when press $keyCombination',
+  async ({ keyCombination, keys }) => {
+    const { getByTestId } = render(GameView, {
+      props: { shortcuts: shortcuts },
+    })
 
-  await userEvent.keyboard('{Meta>}{A}')
+    await userEvent.keyboard(keyCombination)
 
-  const pressedKeyCombination = getByTestId('pressed-key-combination')
+    const pressedKeyCombination = getByTestId('pressed-key-combination')
 
-  within(pressedKeyCombination).getByTestId('Meta')
-  within(pressedKeyCombination).getByTestId('a')
-})
+    keys.forEach((key) => {
+      within(pressedKeyCombination).getByTestId(key)
+    })
+  }
+)
 
 test('proceed to a next question when the correct key is pressed', async () => {
   const { getByText, getByTestId } = render(GameView, {
@@ -121,7 +145,7 @@ test('skip a question when an Enter key is pressed', async () => {
   getByText('ウィンドウを最小化する')
 })
 
-test('remove a question when an D key is pressed', async () => {
+test('remove a question when an R key is pressed', async () => {
   const { getByText } = render(GameView, {
     props: { shortcuts: shortcuts },
   })
@@ -135,14 +159,12 @@ test('remove a question when an D key is pressed', async () => {
   getByText('ウィンドウを最小化する')
 
   await userEvent.keyboard('{Enter}')
-  await userEvent.click(screen.getByText('もう1回'))
-  document.body.focus()
 
   getByText('ウィンドウを最小化する')
 
   await userEvent.keyboard('{Enter}')
 
-  getByText('もう1回')
+  getByText('ウィンドウを最小化する')
 })
 
 test('removed shortcut keys are stored in localStorage', async () => {
@@ -176,6 +198,85 @@ test('restore removed shortcut keys when the restore button is clicked', async (
 
   window.confirm = vi.fn(() => true)
   await userEvent.click(screen.getByText('出題しないリストを空にする'))
+  document.body.focus()
 
   getByText('最後のタブに移動する')
+})
+
+test('save a record of correct answer when the correct key is pressed', () => {
+  const { getByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+
+  userEvent.keyboard('{Meta>}{9}')
+
+  expect(loadAnsweredHistory().get(shortcuts[0].id)).toStrictEqual([true])
+})
+
+test('save a record of incorrect answer when the incorrect key is pressed', () => {
+  const { getByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+
+  userEvent.keyboard('{Meta>}{A}')
+
+  expect(loadAnsweredHistory().get(shortcuts[0].id)).toStrictEqual([false])
+})
+
+test('increase the frequency of the shortcut keys answered incorrectly', async () => {
+  const { getByText, getByTestId, queryByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+  await userEvent.keyboard('{Meta>}{9}') // 正解
+  await waitForElementToBeRemoved(getByTestId('check-circle-icon'))
+
+  getByText('ウィンドウを最小化する')
+  await userEvent.keyboard('{Meta>}{9}') // 不正解
+  await waitFor(() => getByText('ショートカットキーを入力してください...'))
+
+  let frequencyOfShortcutAnsweredIncorrectly = 0
+  for (let i = 0; i < 100; i++) {
+    await userEvent.keyboard('{Enter}')
+
+    if (queryByText('ウィンドウを最小化する')) {
+      frequencyOfShortcutAnsweredIncorrectly++
+    }
+  }
+
+  expect(frequencyOfShortcutAnsweredIncorrectly).toBeGreaterThan(70) // 頻度の差を示しつつ、ほぼ必ず成功する値とした
+})
+
+test('show an unanswered shortcut key as the highest priority', async () => {
+  const { getByText, getByTestId } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText('最後のタブに移動する')
+  await userEvent.keyboard('{Meta>}{9}')
+  await waitForElementToBeRemoved(getByTestId('check-circle-icon'))
+
+  getByText('ウィンドウを最小化する')
+
+  await userEvent.keyboard('{Enter}')
+
+  getByText('ウィンドウを最小化する')
+})
+
+test('show the current mastered ratio', async () => {
+  const { getByText, container } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  expect(container.querySelector('svg')?.textContent).toEqual('0 % 身についた')
+
+  getByText('最後のタブに移動する')
+  await userEvent.keyboard('{Meta>}{9}')
+
+  expect(container.querySelector('svg')?.textContent).toEqual('50 % 身についた')
 })

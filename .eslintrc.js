@@ -16,7 +16,7 @@ module.exports = {
     sourceType: 'module',
     extraFileExtensions: ['.vue'],
   },
-  plugins: ['vue', '@typescript-eslint'],
+  plugins: ['vue', '@typescript-eslint', 'simple-import-sort'],
   rules: {
     'vue/multi-word-component-names': [
       'error',
@@ -24,5 +24,7 @@ module.exports = {
         ignores: ['Header', 'Footer'],
       },
     ],
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
   },
 }
