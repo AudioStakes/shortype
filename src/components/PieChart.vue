@@ -151,6 +151,48 @@ const statuses = computed(() => {
 
 <template>
   <div class="flex-initial h-48 flex justify-center">
+    <div
+      v-if="isShowCircleDescription"
+      class="text-left bg-white absolute z-10 left-1/2 translate-x-[5rem] top-[10%] border-2 border-gray-500 rounded-lg p-2"
+    >
+      <table class="border-separate" style="border-spacing: 0 0.25rem">
+        <thead class="text-xs">
+          <tr>
+            <th colspan="2" class="border-b p-1">ステータス</th>
+            <th class="border-b px-2 py-0.5 text-right">個数</th>
+            <th class="border-b px-2 py-0.5 text-center">比率</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- eslint-disable -->
+          <template v-for="(subStatus, status) in countsOfEachStatus">
+            <tr
+              class="text-base"
+              :class="styleOfEachStatus[status].included.bgColor"
+            >
+              <td class="px-1">
+                {{ styleOfEachStatus[status].name }}
+              </td>
+
+              <td class="px-1 py-0.5"></td>
+              <td class="px-2 py-0.5 text-right">
+                {{ countsOfEachStatus[status].included }}
+              </td>
+              <td class="px-2 py-0.5 text-right">
+                {{ rateOf(countsOfEachStatus[status].included)
+                }}<span class="p-0.5 text-xs">%</span>
+              </td>
+            </tr>
+          </template>
+          <!-- eslint-enable -->
+        </tbody>
+      </table>
+
+      <span class="mx-2 text-sm"
+        >※ 出題しないリスト: {{ totalCountOfRemoved }}個</span
+      >
+    </div>
+
     <svg
       class="origin-center -rotate-90 fill-transparent stroke-[3]"
       data-testid="pie-chart"
