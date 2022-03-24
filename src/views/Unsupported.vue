@@ -23,8 +23,8 @@ const proceed = () => {
 </script>
 
 <template>
-  <div class="w-screen h-screen absolute">
-    <div class="w-screen h-screen bg-black opacity-30 top-0" @click="proceed" />
+  <div class="w-screen h-screen absolute top-0">
+    <div class="w-screen h-screen bg-black opacity-30" @click="proceed" />
     <div
       class="z-10 w-3/4 max-w-[50rem] flex flex-col items-center gap-2 p-4 bg-white border-4 border-gray-500 rounded-lg top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 absolute"
     >
