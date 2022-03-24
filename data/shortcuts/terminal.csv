@@ -1,0 +1,97 @@
+id,app,os,category,action,shortcut
+78,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,新規ウインドウ,Command＋N もしくは Control＋Command＋N
+79,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,新規タブ,Command＋T もしくは Control＋Command＋T
+80,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,タブバーを表示する/非表示にする,Shift＋Command＋T
+81,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,すべてのタブを表示する/タブの概要を終了する,Shift＋Command＋バックスラッシュ（\）
+82,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,新規コマンド,Shift＋Command＋N
+83,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,新規リモート接続,Shift＋Command＋K
+84,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,インスペクタを表示する/非表示にする,Command＋I
+85,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,タイトルを編集する,Shift＋Command＋I
+86,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,背景色を編集する,Option＋Command＋I
+87,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,フォントを大きくする,Command＋プラス記号（+）
+88,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,フォントを小さくする,Command＋マイナス記号（-）
+89,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,新規ウインドウ,Command＋グレイヴアクセント記号（`）
+90,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,前のウインドウ,Command＋Shift＋ティルダ記号（~）
+91,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,次のタブ,Control＋Tab
+92,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,前のタブ,Control＋Shift＋Tab
+93,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,ウインドウを2つに分割する,Command＋D
+94,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,分割パネルを閉じる,Shift＋Command＋D
+95,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,タブを閉じる,Command＋W
+96,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,ウインドウを閉じる,Shift＋Command＋W
+97,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,ほかのタブを閉じる,Option＋Command＋W
+98,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,すべてを閉じる,Option＋Shift＋Command＋W
+99,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,上端までスクロールする,Command＋Home
+100,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,下端までスクロールする,Command＋End
+101,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,ページアップ,Command＋Page Up
+102,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,ページダウン,Command＋Page Down
+103,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,1行上へ,Option＋Command＋Page Up
+104,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,1行下へ,Option＋Command＋Page Down
+105,Terminal,macOS,コマンドラインを編集する,挿入ポイントの位置を変更する,Optionキーを押したままポインタを新しい挿入ポイントに移動する
+106,Terminal,macOS,コマンドラインを編集する,挿入ポイントを行の先頭に移動する,Control＋A
+107,Terminal,macOS,コマンドラインを編集する,挿入ポイントを行の末尾に移動する,Control＋E
+108,Terminal,macOS,コマンドラインを編集する,挿入ポイントを1文字先に移動する,→キー
+109,Terminal,macOS,コマンドラインを編集する,挿入ポイントを1文字前に移動する,←キー
+110,Terminal,macOS,コマンドラインを編集する,挿入ポイントを1単語先に移動する,Option＋右矢印
+111,Terminal,macOS,コマンドラインを編集する,挿入ポイントを1単語前に移動する,Option＋左矢印
+112,Terminal,macOS,コマンドラインを編集する,行を削除する,Control＋U
+113,Terminal,macOS,コマンドラインを編集する,行の末尾まで削除する,Control＋K
+114,Terminal,macOS,コマンドラインを編集する,次の単語の末尾まで削除する,Option＋D（「メタキーとしてOptionキーを使用」を選択している場合に使用できます）
+115,Terminal,macOS,コマンドラインを編集する,前の単語の先頭まで削除する,Control＋W
+116,Terminal,macOS,コマンドラインを編集する,1文字削除する,削除
+117,Terminal,macOS,コマンドラインを編集する,次の1文字を削除する,Forward Delete（またはFn＋Delete）
+118,Terminal,macOS,コマンドラインを編集する,2つの文字を転置する,Control＋T
+119,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,ファイルの完全なパスを選択する,Shift＋Commandキーを押したまま、パスをダブルクリックする
+120,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,テキストの1行全体を選択する,行をトリプルクリックする
+121,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,単語を選択する,単語をダブルクリックする
+122,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,URLを選択する,Shift＋Commandキーを押したまま、URLをダブルクリックする
+123,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,矩形ブロックを選択する,Optionキーを押したまま、テキストをドラッグして選択する
+124,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,カット,Command＋X
+125,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,コピー,Command＋C
+126,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,背景色以外をコピーする,Control＋Shift＋Command＋C
+127,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,標準テキストをコピーする,Option＋Shift＋Command＋C
+128,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,ペースト,Command＋V
+129,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,選択部分をペーストする,Shift＋Command＋V
+130,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,テキストをエスケープしてペーストする,Control＋Command＋V
+131,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,選択部分をエスケープしてペーストする,Control＋Shift＋Command＋V
+132,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,検索する,Command＋F
+133,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,次を検索,Command＋G
+134,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,前を検索,Command＋Shift＋G
+135,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,選択したテキストを使って検索する,Command＋E
+136,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,選択したテキストへジャンプする,Command＋J
+137,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,すべてを選択する,Command＋A
+138,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,文字ビューアを開く,Control＋Command＋スペースバー
+139,Terminal,macOS,マークとブックマークを操作する,マークする,Command＋U
+140,Terminal,macOS,マークとブックマークを操作する,ブックマークとしてマークする,Option＋Command＋U
+141,Terminal,macOS,マークとブックマークを操作する,マークを解除する,Shift＋Command＋U
+142,Terminal,macOS,マークとブックマークを操作する,行をマークして改行を送信する,Command＋Return
+143,Terminal,macOS,マークとブックマークを操作する,マークせずに改行を送信する,Shift＋Command＋Return
+144,Terminal,macOS,マークとブックマークを操作する,ブックマークを挿入する,Shift＋Command＋M
+145,Terminal,macOS,マークとブックマークを操作する,ブックマークに名前を付けて挿入する,Option＋Shift＋Command＋M
+146,Terminal,macOS,マークとブックマークを操作する,前のマークへジャンプする,Command＋上矢印
+147,Terminal,macOS,マークとブックマークを操作する,次のマークへジャンプする,Command＋下矢印
+148,Terminal,macOS,マークとブックマークを操作する,前のブックマークへジャンプする,Option＋Command＋上矢印
+149,Terminal,macOS,マークとブックマークを操作する,次のブックマークへジャンプする,Option＋Command＋下矢印
+150,Terminal,macOS,マークとブックマークを操作する,前のマークまで消去する,Command＋L
+151,Terminal,macOS,マークとブックマークを操作する,前のブックマークまで消去する,Option＋Command＋L
+152,Terminal,macOS,マークとブックマークを操作する,開始位置まで消去する,Command＋K
+153,Terminal,macOS,マークとブックマークを操作する,マーク間を選択する,Shift＋Command＋A
+154,Terminal,macOS,その他のショートカット,フルスクリーンを開始する/終了する,Control＋Command＋F
+155,Terminal,macOS,その他のショートカット,カラーを表示する/非表示にする,Shift＋Command＋C
+156,Terminal,macOS,その他のショートカット,「ターミナル」環境設定を開く,"Command＋カンマ（,）"
+157,Terminal,macOS,その他のショートカット,ブレーク,Command＋ ピリオド（.）は、コマンドラインでControl＋Cキーを押すことと同等です
+158,Terminal,macOS,その他のショートカット,プリント,Command＋P
+159,Terminal,macOS,その他のショートカット,端末エミュレータ状態をソフトリセットする,Option＋Command＋R
+160,Terminal,macOS,その他のショートカット,端末エミュレータ状態をハードリセットする,Control＋Option＋Command＋R
+161,Terminal,macOS,その他のショートカット,URLを開く,Commandキーを押したまま、URLをダブルクリックする
+162,Terminal,macOS,その他のショートカット,ファイルに完全なパスを追加する,Finderから「ターミナル」ウインドウ内にファイルをドラッグする
+163,Terminal,macOS,その他のショートカット,テキストを書き出す,Command＋S
+164,Terminal,macOS,その他のショートカット,選択したテキストを書き出す,Shift＋Command＋S
+165,Terminal,macOS,その他のショートカット,検索コマンド履歴を逆順にする,Control＋R
+166,Terminal,macOS,その他のショートカット,「マウスレポーティングを許可」オプションを切り替える,Command＋R
+167,Terminal,macOS,その他のショートカット,「メタキーとしてOptionキーを使用」オプションを切り替える,Command＋Option＋O
+168,Terminal,macOS,その他のショートカット,代替スクリーンを表示する,Shift＋Command＋ ↓
+169,Terminal,macOS,その他のショートカット,代替スクリーンを非表示にする,Shift＋Command＋ ↑
+170,Terminal,macOS,その他のショートカット,選択部分のmanページを開く,Control＋Shift＋Command＋疑問符（?）
+171,Terminal,macOS,その他のショートカット,選択部分をmanページインデックスで検索する,Control＋Option＋Command＋スラッシュ（/）
+172,Terminal,macOS,その他のショートカット,ディレクトリ名またはファイル名を補完する,コマンドラインで、1つ以上の文字を入力してから、Tabキーを押す
+173,Terminal,macOS,その他のショートカット,ディレクトリまたはファイル名補完のリストを表示する,コマンドラインで、1つ以上の文字を入力してから、Tabキーを2回押す

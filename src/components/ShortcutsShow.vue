@@ -3,7 +3,7 @@
     <li class="flex my-2">
       <div class="w-20 my-auto">
         <kbd
-          class="h-6 bg-white rounded-lg border-[1px] border-gray-300 shadow-3d px-2 py-1"
+          class="h-6 bg-white rounded border-[1px] border-gray-300 shadow-3d px-2 py-1"
           >Enter
         </kbd>
       </div>
@@ -12,7 +12,7 @@
     <li class="flex my-2">
       <div class="w-20 my-auto">
         <kbd
-          class="h-6 bg-white rounded-lg border-[1px] border-gray-300 shadow-3d px-2 py-1"
+          class="h-6 bg-white rounded border-[1px] border-gray-300 shadow-3d px-2 py-1"
           >R
         </kbd>
       </div>

@@ -7,6 +7,7 @@ import QuestionShow from '@/components/QuestionShow.vue'
 import RestoreButton from '@/components/RestoreButton.vue'
 import ResultShow from '@/components/ResultShow.vue'
 import ShortcutsShow from '@/components/ShortcutsShow.vue'
+import ToolList from '@/components/ToolList.vue'
 import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
 import Keyboard from '@/keyboard'
 import gameStore from '@/stores/game'
@@ -17,7 +18,8 @@ import {
   Shortcut,
 } from '@/types/interfaces'
 
-const props = defineProps<{ shortcuts: Shortcut[] }>()
+const props = defineProps<{ shortcuts: Shortcut[]; isShowToolModal: boolean }>()
+const emit = defineEmits(['hide-tool-modal'])
 
 const game = gameStore(props.shortcuts)
 provide(GameKey, game)
@@ -54,6 +56,10 @@ useKeyboardEventListener('keyup', handleKeyUp)
     <PressedKeyCombination />
     <ShortcutsShow />
     <RestoreButton />
+    <ToolList
+      :is-show="isShowToolModal"
+      @hide-tool-modal="emit('hide-tool-modal')"
+    />
   </div>
   <div v-else>
     <button

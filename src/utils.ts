@@ -146,3 +146,39 @@ export function noAnsweredAvailableIds(
     .map((shortcut) => shortcut.id)
     .filter((id) => !answeredIds.includes(id) && !removedIds.includes(id))
 }
+
+import chrome from '@/constants/shortcuts/chrome.json'
+import terminal from '@/constants/shortcuts/terminal.json'
+
+export function loadShortcutsByTool(tool: string) {
+  let json
+
+  switch (tool) {
+    case 'Google Chrome':
+      json = chrome
+      break
+
+    case 'Terminal':
+      json = terminal
+      break
+
+    default:
+      json = chrome
+      break
+  }
+
+  return json.filter((shortcut) => shortcut.isAvailable)
+}
+
+export function loadAllTools() {
+  return [
+    {
+      name: 'Google Chrome',
+      shortcuts: chrome.filter((shortcut) => shortcut.isAvailable),
+    },
+    {
+      name: 'Terminal',
+      shortcuts: terminal.filter((shortcut) => shortcut.isAvailable),
+    },
+  ]
+}

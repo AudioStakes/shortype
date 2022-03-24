@@ -36,3 +36,26 @@ test("doesn't show an unsupported message when a client is unsupported", async (
     'サポートされている ブラウザ をご使用ください'
   )
 })
+
+test('show the modal to select a tool when the tool button on the header is pressed', async () => {
+  const { getByText } = render(App)
+
+  await userEvent.click(screen.getByText('ツールを選ぶ'))
+
+  getByText('ツールを選択してください')
+})
+
+test('switch a tool when the tool on the modal is clicked', async () => {
+  const { getByText, queryByText } = render(App)
+
+  getByText(/Google Chrome/)
+
+  await userEvent.click(screen.getByText('ツールを選ぶ'))
+
+  getByText('ツールを選択してください')
+
+  await userEvent.click(screen.getByText('Terminal'))
+
+  expect(queryByText(/Google Chrome/)).toBeNull()
+  getByText(/Terminal/)
+})

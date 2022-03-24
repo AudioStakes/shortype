@@ -280,3 +280,30 @@ test('show the current mastered ratio', async () => {
 
   expect(container.querySelector('svg')?.textContent).toEqual('50 % 身についた')
 })
+
+test('show the modal to select a tool when the tool key is pressed', async () => {
+  const { getByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  await userEvent.keyboard('{T}')
+
+  getByText('ツールを選択してください')
+})
+
+test('switch a tool when the tool on the modal is clicked', async () => {
+  const { getByText, queryByText } = render(GameView, {
+    props: { shortcuts: shortcuts },
+  })
+
+  getByText(/Google Chrome/)
+
+  await userEvent.keyboard('{T}')
+
+  getByText('ツールを選択してください')
+
+  await userEvent.click(screen.getByText('Terminal'))
+
+  expect(queryByText(/Google Chrome/)).toBeNull()
+  getByText(/Terminal/)
+})

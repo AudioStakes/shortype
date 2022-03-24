@@ -11,20 +11,22 @@ export interface KeyCombinable {
   ctrlKey: boolean
   metaKey: boolean
   shiftKey: boolean
-  key: string | undefined
+  key: string | undefined | null
 }
 
 export interface Shortcut {
-  action: string
-  altKey: boolean
-  app: string
-  category: string
-  ctrlKey: boolean
   id: string
-  isAvailable: boolean
-  key: string
-  metaKey: boolean
+
+  app: string
   os: string
-  shiftKey: boolean
+  category: string
+  action: string
   shortcut: string
+
+  altKey: boolean
+  ctrlKey: boolean
+  isAvailable: boolean
+  key: string | undefined | null
+  metaKey: boolean
+  shiftKey: boolean
 }
