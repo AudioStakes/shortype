@@ -15,13 +15,14 @@ const proceed = () => {
 }
 
 const shortcuts = chromeShortcutsJson.filter((shortcut) => shortcut.isAvailable)
+const isShowToolModal = ref(false)
 </script>
 
 <template>
   <div
     class="font-mono antialiased text-slate-700 h-screen flex flex-col text-center"
   >
-    <Header />
+    <Header @show-tool-modal="isShowToolModal = true" />
     <main class="flex-auto flex flex-col justify-center">
       <Unsupported
         v-if="isUnsupported"
@@ -29,7 +30,12 @@ const shortcuts = chromeShortcutsJson.filter((shortcut) => shortcut.isAvailable)
         :is-unsupported-os="isUnsupportedOs"
         @proceed="proceed"
       />
-      <GameView v-else :shortcuts="shortcuts" />
+      <GameView
+        v-else
+        :shortcuts="shortcuts"
+        :is-show-tool-modal="isShowToolModal"
+        @hide-tool-modal="isShowToolModal = false"
+      />
     </main>
     <Footer />
   </div>
