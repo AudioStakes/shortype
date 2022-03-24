@@ -18,7 +18,12 @@ import {
   Shortcut,
 } from '@/types/interfaces'
 
-const props = defineProps<{ shortcuts: Shortcut[]; isShowToolModal: boolean }>()
+const props = withDefaults(
+  defineProps<{ shortcuts: Shortcut[]; isShowToolModal?: boolean }>(),
+  {
+    isShowToolModal: false,
+  }
+)
 const emit = defineEmits(['hide-tool-modal'])
 
 const game = gameStore(props.shortcuts)
