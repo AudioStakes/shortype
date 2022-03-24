@@ -155,30 +155,30 @@ export function loadShortcutsByTool(tool: string) {
 
   switch (tool) {
     case 'Google Chrome':
-      json = chrome
+      json = chrome as Shortcut[]
       break
 
     case 'Terminal':
-      json = terminal
+      json = terminal as Shortcut[]
       break
 
     default:
-      json = chrome
+      json = chrome as Shortcut[]
       break
   }
 
-  return json.filter((shortcut) => shortcut.isAvailable)
+  return json
 }
 
 export function loadAllTools() {
   return [
     {
       name: 'Google Chrome',
-      shortcuts: chrome.filter((shortcut) => shortcut.isAvailable),
+      shortcuts: chrome as Shortcut[],
     },
     {
       name: 'Terminal',
-      shortcuts: terminal.filter((shortcut) => shortcut.isAvailable),
+      shortcuts: terminal as Shortcut[],
     },
   ]
 }

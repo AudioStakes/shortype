@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { provide } from 'vue'
 
+import CorrectAnswer from '@/components/CorrectAnswer.vue'
 import PieChart from '@/components/PieChart.vue'
 import PressedKeyCombination from '@/components/PressedKeyCombination.vue'
 import QuestionShow from '@/components/QuestionShow.vue'
 import RestoreButton from '@/components/RestoreButton.vue'
-import ResultShow from '@/components/ResultShow.vue'
 import ShortcutsShow from '@/components/ShortcutsShow.vue'
 import ToolList from '@/components/ToolList.vue'
 import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
@@ -57,7 +57,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
   <div v-if="!isAllRemoved">
     <PieChart />
     <QuestionShow />
-    <ResultShow />
+    <CorrectAnswer />
     <PressedKeyCombination />
     <ShortcutsShow />
     <RestoreButton />

@@ -27,6 +27,9 @@ const gameStore = (shortcuts: Shortcut[]) => {
     isWrongKeyPressed: false,
     isRemoveKeyPressed: false,
     isSelectToolsKeyPressed: false,
+    isShowCorrectKeyPressed: false,
+    isMarkedSelfAsCorrect: false,
+    isMarkedSelfAsWrong: false,
     isShakingKeyCombinationView: false,
     pressedKeyCombination: new KeyCombination(),
     removedIdSet: new Set<string>(removedIds),
@@ -110,8 +113,8 @@ const gameStore = (shortcuts: Shortcut[]) => {
 
   const correctKeys = computed(() => KeyCombination.extractKeys(state.shortcut))
   const removedShortcutExists = computed(() => state.removedIdSet.size > 0)
-  const isAllRemoved = computed(
-    () => state.removedIdSet.size >= state.shortcuts.length
+  const isAllRemoved = computed(() =>
+    state.shortcuts.every((shortcut) => state.removedIdSet.has(shortcut.id))
   )
 
   const keyDown = (keyCombinable: KeyCombinable) => {
@@ -134,14 +137,38 @@ const gameStore = (shortcuts: Shortcut[]) => {
     if (state.pressedKeyCombination.isOnlyEnterKey()) {
       state.shortcut = nextShortcut()
       resetTypingState()
+      return
     } else if (state.pressedKeyCombination.isRemoveKey()) {
       respondToRemoveKey()
+      return
     } else if (state.pressedKeyCombination.isSelectToolsKey()) {
       respondToSelectToolsKey()
-    } else if (state.pressedKeyCombination.is(state.shortcut)) {
-      respondToCorrectKey()
-    } else if (!state.isWrongKeyPressed) {
-      respondToWrongKey()
+      return
+    }
+
+    if (state.shortcut.isAvailable) {
+      if (state.pressedKeyCombination.is(state.shortcut)) {
+        respondToCorrectKey()
+      } else if (!state.isWrongKeyPressed) {
+        respondToWrongKey()
+      }
+    } else {
+      if (
+        !state.isShowCorrectKeyPressed &&
+        state.pressedKeyCombination.isShowCorrectKey()
+      ) {
+        respondToShowCorrectKey()
+      } else if (
+        state.isShowCorrectKeyPressed &&
+        state.pressedKeyCombination.isMarkedSelfAsCorrectKey()
+      ) {
+        respondToMarkSelfAsCorrectKey()
+      } else if (
+        state.isShowCorrectKeyPressed &&
+        state.pressedKeyCombination.isMarkedSelfAsWrongKey()
+      ) {
+        respondToMarkSelfAsWrongKey()
+      }
     }
   }
 
@@ -179,6 +206,11 @@ const gameStore = (shortcuts: Shortcut[]) => {
     resetTypingState()
     state.isListeningKeyboardEvent = false
     state.isSelectToolsKeyPressed = true
+  }
+
+  const respondToShowCorrectKey = () => {
+    resetTypingState()
+    state.isShowCorrectKeyPressed = true
   }
 
   const respondToRemoveKey = () => {
@@ -219,6 +251,30 @@ const gameStore = (shortcuts: Shortcut[]) => {
     }, TimeIntervalToRestartTyping)
   }
 
+  const respondToMarkSelfAsCorrectKey = () => {
+    state.isListeningKeyboardEvent = false
+    state.isMarkedSelfAsCorrect = true
+    saveResult(state.shortcut.id, true)
+
+    setTimeout(() => {
+      state.shortcut = nextShortcut()
+      resetTypingState()
+      state.isListeningKeyboardEvent = true
+    }, TimeIntervalToRestartTyping)
+  }
+
+  const respondToMarkSelfAsWrongKey = () => {
+    state.isListeningKeyboardEvent = false
+    state.isMarkedSelfAsWrong = true
+    saveResult(state.shortcut.id, false)
+
+    setTimeout(() => {
+      state.shortcut = nextShortcut()
+      resetTypingState()
+      state.isListeningKeyboardEvent = true
+    }, TimeIntervalToRestartTyping)
+  }
+
   const saveResult = (id: string, result: boolean) => {
     if (state.answeredHistoryMap.has(id)) {
       state.answeredHistoryMap.get(id)?.push(result)
@@ -234,6 +290,9 @@ const gameStore = (shortcuts: Shortcut[]) => {
     state.isCorrectKeyPressed = false
     state.isWrongKeyPressed = false
     state.isSelectToolsKeyPressed = false
+    state.isShowCorrectKeyPressed = false
+    state.isMarkedSelfAsCorrect = false
+    state.isMarkedSelfAsWrong = false
     state.pressedKeyCombination.reset()
   }
 
