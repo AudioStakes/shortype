@@ -2,152 +2,31 @@ import { parse } from 'csv-parse/sync'
 import * as fs from 'fs'
 import * as path from 'path'
 
+import { DENY_LIST_OF_KEY_COMBINATION } from '../src/constants/keyCombinations'
+import {
+  ALT_DESCRIPTION_REGEXP,
+  CTRL_DESCRIPTION_REGEXP,
+  KEY_DESCRIPTION_EXCLUDING_MODIFIER_REGEXP,
+  META_DESCRIPTION_REGEXP,
+  MODIFIER_KEY_DESCRIPTION_REGEXP,
+  SHIFT_DESCRIPTION_REGEXP,
+} from '../src/constants/keyDescriptionRegexp'
+import keyDescriptionToKeyArray from '../src/constants/keyDescriptionToKeyArray'
+import { MODIFIED_KEY_REGEXP } from '../src/constants/keyRegexp'
+import {
+  HAS_MOUSE_ACTIONS_REGEXP,
+  HAS_MULTIPLE_ANSWERS_REGEXP,
+  HAS_OTHER_ACTIONS_REGEXP,
+  HAS_RANGED_ANSWERS_REGEXP,
+} from '../src/constants/shortcutDescriptionRegexp'
 import KeyCombination from '../src/models/keyCombination'
 import { Shortcut } from '../src/types/interfaces'
 
-const KEY_REGEXP =
-  /([0-9A-Za-z,+-]|[S|s]pace|[D|d]elete|[E|e]sc|[T|t]ab|F[0-9]|[Right|Left|Down|Up] arrow|[右|左|上|下]矢印|バックスラッシュ（\\）|プラス記号（\+）|マイナス記号（\-）|グレイヴアクセント記号（`）|ティルダ記号（~）|Page Down|Page Up|[→|←]キー|削除|スペースバー|Return|カンマ（,）|ピリオド（.）|↓|↑|疑問符（\?）|スラッシュ（\/）)$/
-const ALT_REGEXP = /Option|option/
-const CTRL_REGEXP = /Control|Ctrl|control|ctrl/
-const META_REGEXP = /⌘|Command|command/
-const SHIFT_REGEXP = /Shift|shift/
+const deniedKeyCombinations = DENY_LIST_OF_KEY_COMBINATION.map(
+  (deniedKeyCombination) => new KeyCombination(deniedKeyCombination)
+)
 
-const HAS_MODIFIED_KEY_REGEXP = /\\|\+|`|~|\?/
-const HAS_MULTIPLE_ANSWERS_REGEXP = /または|もしくは|同等/
-const HAS_RANGED_ANSWERS_REGEXP = /～/
-const HAS_MOUSE_ACTIONS_REGEXP = /ドラッグ|クリック/
-const HAS_OTHER_ACTIONS_REGEXP = /入力|選択|ながら/
-
-const convertToKeyArray = [
-  ['Right arrow', 'ArrowRight'],
-  ['Left arrow', 'ArrowLeft'],
-  ['Up arrow', 'ArrowUp'],
-  ['Down arrow', 'ArrowDown'],
-  ['右矢印', 'ArrowRight'],
-  ['左矢印', 'ArrowLeft'],
-  ['上矢印', 'ArrowUp'],
-  ['下矢印', 'ArrowDown'],
-  ['Esc', 'Escape'],
-  ['enter', 'Enter'],
-  ['space', 'Space'],
-  ['esc', 'Escape'],
-  ['tab', 'Tab'],
-  ['delete', 'Delete'],
-  ['バックスラッシュ（\\）', '\\'], // 日本語キーボードの場合 option + ￥
-  ['プラス記号（+）', '+'], // 日本語キーボードの場合 command + ;
-  ['マイナス記号（-）', '-'],
-  ['グレイヴアクセント記号（`）', '`'], // 日本語キーボードの場合 shift + @
-  ['ティルダ記号（~）', '~'], // 日本語キーボードの場合 shift + ^
-  ['Page Down', 'PageDown'],
-  ['Page Up', 'PageUp'],
-  ['→キー', 'ArrowRight'],
-  ['←キー', 'ArrowLeft'],
-  ['削除', 'Backspace'],
-  ['スペースバー', 'Space'],
-  ['Return', 'Enter'],
-  ['カンマ（,）', ','],
-  ['ピリオド（.）', '.'],
-  ['↑', 'PageUp'],
-  ['↓', 'PageDown'],
-  ['疑問符（?）', '?'], // 日本語キーボードの場合 shift + /
-  ['スラッシュ（/）', '/'],
-] as const
-
-const unavailableKeyCombinations = [
-  {
-    altKey: false,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: false,
-    key: 'n',
-  },
-  {
-    altKey: false,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: false,
-    key: 'q',
-  },
-  {
-    altKey: false,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: false,
-    key: 't',
-  },
-  {
-    altKey: false,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: false,
-    key: 'w',
-  },
-  {
-    altKey: true,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: false,
-    key: 'ArrowLeft',
-  },
-  {
-    altKey: true,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: false,
-    key: 'ArrowRight',
-  },
-  {
-    altKey: false,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: true,
-    key: 'n',
-  },
-  {
-    altKey: false,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: true,
-    key: 't',
-  },
-  {
-    altKey: false,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: true,
-    key: 'w',
-  },
-  {
-    altKey: false,
-    ctrlKey: true,
-    metaKey: false,
-    shiftKey: false,
-    key: 'F2',
-  },
-  {
-    altKey: false,
-    ctrlKey: true,
-    metaKey: false,
-    shiftKey: false,
-    key: 'F5',
-  },
-  {
-    altKey: false,
-    ctrlKey: true,
-    metaKey: false,
-    shiftKey: false,
-    key: 'Tab',
-  },
-  {
-    altKey: false,
-    ctrlKey: true,
-    metaKey: false,
-    shiftKey: true,
-    key: 'Tab',
-  },
-]
-
-const convertToKeyMap = new Map<string, string>(convertToKeyArray)
+const keyDescriptionToKeyMap = new Map<string, string>(keyDescriptionToKeyArray)
 
 export default async function createShortcuts(csvPath: string) {
   const csvRawData = fs.readFileSync(csvPath)
@@ -187,44 +66,53 @@ export const createShortcut = (shortcutRaw: ShortcutFromCsv) => {
     category: shortcutRaw.category,
     action: shortcutRaw.action,
     shortcut: shortcutRaw.shortcut,
-    altKey: ALT_REGEXP.test(shortcutRaw.shortcut),
-    ctrlKey: CTRL_REGEXP.test(shortcutRaw.shortcut),
-    metaKey: META_REGEXP.test(shortcutRaw.shortcut),
-    shiftKey: SHIFT_REGEXP.test(shortcutRaw.shortcut),
+    altKey: ALT_DESCRIPTION_REGEXP.test(shortcutRaw.shortcut),
+    ctrlKey: CTRL_DESCRIPTION_REGEXP.test(shortcutRaw.shortcut),
+    metaKey: META_DESCRIPTION_REGEXP.test(shortcutRaw.shortcut),
+    shiftKey: SHIFT_DESCRIPTION_REGEXP.test(shortcutRaw.shortcut),
     key: null,
     isAvailable: true,
+    unavailableReason: null,
   }
 
-  const matchKey = shortcutRaw.shortcut.match(KEY_REGEXP)
-  if (matchKey) {
-    let matchedKey = matchKey[0] as string
-    matchedKey = convertToKeyMap.get(matchedKey) ?? matchedKey
+  const matched = shortcutRaw.shortcut
+    .replaceAll(MODIFIER_KEY_DESCRIPTION_REGEXP, '')
+    .match(KEY_DESCRIPTION_EXCLUDING_MODIFIER_REGEXP)
+
+  if (matched) {
+    let matchedKey = matched[0] as string
+    matchedKey = keyDescriptionToKeyMap.get(matchedKey) ?? matchedKey
     matchedKey = matchedKey.length === 1 ? matchedKey.toLowerCase() : matchedKey
     shortcut.key = matchedKey
   } else {
     shortcut.key = null
   }
 
-  const keyCombination = new KeyCombination(shortcut)
-
-  if (!shortcut.key) {
+  if (HAS_MULTIPLE_ANSWERS_REGEXP.test(shortcut.shortcut)) {
     shortcut.isAvailable = false
-  } else if (HAS_MODIFIED_KEY_REGEXP.test(shortcut.key)) {
-    shortcut.isAvailable = false
-  } else if (HAS_MULTIPLE_ANSWERS_REGEXP.test(shortcut.shortcut)) {
-    shortcut.isAvailable = false
+    shortcut.unavailableReason = 'hasMultipleAnswers'
   } else if (HAS_RANGED_ANSWERS_REGEXP.test(shortcut.shortcut)) {
     shortcut.isAvailable = false
+    shortcut.unavailableReason = 'hasRangedAnswers'
   } else if (HAS_MOUSE_ACTIONS_REGEXP.test(shortcut.shortcut)) {
     shortcut.isAvailable = false
+    shortcut.unavailableReason = 'hasMouseActions'
   } else if (HAS_OTHER_ACTIONS_REGEXP.test(shortcut.shortcut)) {
     shortcut.isAvailable = false
+    shortcut.unavailableReason = 'hasOtherActions'
   } else if (
-    unavailableKeyCombinations.some((unavailableKeyCombination) => {
-      return keyCombination.is(unavailableKeyCombination)
-    })
+    deniedKeyCombinations.some((deniedKeyCombination) =>
+      deniedKeyCombination.is(shortcut)
+    )
   ) {
     shortcut.isAvailable = false
+    shortcut.unavailableReason = 'hasDeniedKeyCombination'
+  } else if (!shortcut.key) {
+    shortcut.isAvailable = false
+    shortcut.unavailableReason = 'noMatchedKeyExists'
+  } else if (MODIFIED_KEY_REGEXP.test(shortcut.key)) {
+    shortcut.isAvailable = false
+    shortcut.unavailableReason = 'hasModifiedKey'
   } else {
     shortcut.isAvailable = true
   }

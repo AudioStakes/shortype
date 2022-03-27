@@ -11,7 +11,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+n"
+    "shortcut": "⌘+n",
+    "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "新しいウィンドウをシークレット モードで開く",
@@ -25,7 +26,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+shift+n"
+    "shortcut": "⌘+shift+n",
+    "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "新しいタブを開いてそのタブに移動する",
@@ -39,7 +41,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+t"
+    "shortcut": "⌘+t",
+    "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "閉じたタブを閉じた順序で再び開く",
@@ -53,7 +56,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+shift+t"
+    "shortcut": "⌘+shift+t",
+    "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "開いている次のタブに移動する",
@@ -67,7 +71,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+option+右矢印"
+    "shortcut": "⌘+option+右矢印",
+    "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "開いている前のタブに移動する",
@@ -81,7 +86,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+option+左矢印"
+    "shortcut": "⌘+option+左矢印",
+    "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "特定のタブに移動する",
@@ -91,11 +97,12 @@
     "ctrlKey": false,
     "id": "7",
     "isAvailable": false,
-    "key": "8",
+    "key": "1",
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+1～⌘+8"
+    "shortcut": "⌘+1～⌘+8",
+    "unavailableReason": "hasRangedAnswers"
   },
   {
     "action": "最後のタブに移動する",
@@ -109,7 +116,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+9"
+    "shortcut": "⌘+9",
+    "unavailableReason": null
   },
   {
     "action": "現在のタブの閲覧履歴の中で前にあるページを開く",
@@ -119,11 +127,12 @@
     "ctrlKey": false,
     "id": "9",
     "isAvailable": false,
-    "key": "ArrowLeft",
+    "key": "[",
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+[ または ⌘+左矢印"
+    "shortcut": "⌘+[ または ⌘+左矢印",
+    "unavailableReason": "hasMultipleAnswers"
   },
   {
     "action": "現在のタブの閲覧履歴の中で次にあるページを開く",
@@ -133,11 +142,12 @@
     "ctrlKey": false,
     "id": "10",
     "isAvailable": false,
-    "key": "ArrowRight",
+    "key": "]",
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+] または ⌘+右矢印"
+    "shortcut": "⌘+] または ⌘+右矢印",
+    "unavailableReason": "hasMultipleAnswers"
   },
   {
     "action": "現在のタブまたはポップアップを閉じる",
@@ -151,7 +161,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+w"
+    "shortcut": "⌘+w",
+    "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "現在のウィンドウを閉じる",
@@ -165,7 +176,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+shift+w"
+    "shortcut": "⌘+shift+w",
+    "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "ウィンドウを最小化する",
@@ -179,7 +191,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+m"
+    "shortcut": "⌘+m",
+    "unavailableReason": null
   },
   {
     "action": "Google Chrome を隠す",
@@ -193,7 +206,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+h"
+    "shortcut": "⌘+h",
+    "unavailableReason": null
   },
   {
     "action": "Google Chrome を終了する",
@@ -207,7 +221,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+q"
+    "shortcut": "⌘+q",
+    "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "キーボード フォーカスのあるタブを左右に移動する",
@@ -217,11 +232,12 @@
     "ctrlKey": false,
     "id": "16",
     "isAvailable": false,
-    "key": "ArrowLeft",
+    "key": "ArrowRight",
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+右矢印または ⌘+左矢印"
+    "shortcut": "⌘+右矢印または ⌘+左矢印",
+    "unavailableReason": "hasMultipleAnswers"
   },
   {
     "action": "ブックマーク バーの表示と非表示を切り替える",
@@ -235,7 +251,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+shift+b"
+    "shortcut": "⌘+shift+b",
+    "unavailableReason": null
   },
   {
     "action": "ブックマーク マネージャを開く",
@@ -249,7 +266,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+option+b"
+    "shortcut": "⌘+option+b",
+    "unavailableReason": null
   },
   {
     "action": "設定ページを新しいタブで開く",
@@ -263,7 +281,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+,"
+    "shortcut": "⌘+,",
+    "unavailableReason": null
   },
   {
     "action": "履歴ページを新しいタブで開く",
@@ -277,7 +296,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+y"
+    "shortcut": "⌘+y",
+    "unavailableReason": null
   },
   {
     "action": "ダウンロード ページを新しいタブで開く",
@@ -291,7 +311,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+shift+j"
+    "shortcut": "⌘+shift+j",
+    "unavailableReason": null
   },
   {
     "action": "現在のページ内を検索する検索バーを開く",
@@ -305,7 +326,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+f"
+    "shortcut": "⌘+f",
+    "unavailableReason": null
   },
   {
     "action": "検索バーでの検索内容に一致する次の部分に移動する",
@@ -319,7 +341,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+g"
+    "shortcut": "⌘+g",
+    "unavailableReason": null
   },
   {
     "action": "検索バーでの検索内容に一致する前の部分に移動する",
@@ -333,7 +356,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+shift+g"
+    "shortcut": "⌘+shift+g",
+    "unavailableReason": null
   },
   {
     "action": "検索バーが開いているときに、選択したテキストを検索する",
@@ -347,7 +371,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+e"
+    "shortcut": "⌘+e",
+    "unavailableReason": null
   },
   {
     "action": "デベロッパー ツールを開く",
@@ -357,11 +382,12 @@
     "ctrlKey": false,
     "id": "26",
     "isAvailable": false,
-    "key": "2",
+    "key": "i",
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+option+i または F12"
+    "shortcut": "⌘+option+i または F12",
+    "unavailableReason": "hasMultipleAnswers"
   },
   {
     "action": "[閲覧履歴データを消去する] オプションを開く",
@@ -371,11 +397,12 @@
     "ctrlKey": false,
     "id": "27",
     "isAvailable": true,
-    "key": "Delete",
+    "key": "Backspace",
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+shift+delete"
+    "shortcut": "⌘+shift+delete",
+    "unavailableReason": null
   },
   {
     "action": "別のユーザーでログインする、ゲストとしてブラウジングする、お支払い情報とパスワード情報にアクセスする",
@@ -389,7 +416,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+shift+m"
+    "shortcut": "⌘+shift+m",
+    "unavailableReason": null
   },
   {
     "action": "メインのメニューバーに移動する",
@@ -403,7 +431,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "control+F2"
+    "shortcut": "control+F2",
+    "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "フォーカスのないダイアログ（表示されている場合）とすべてのツールバーにフォーカスを順番に移動する",
@@ -413,11 +442,12 @@
     "ctrlKey": false,
     "id": "30",
     "isAvailable": false,
-    "key": "ArrowDown",
+    "key": "ArrowUp",
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+option+上矢印または下矢印"
+    "shortcut": "⌘+option+上矢印または下矢印",
+    "unavailableReason": "hasMultipleAnswers"
   },
   {
     "action": "フィードバック フォームを開く",
@@ -431,7 +461,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+option+shift+i"
+    "shortcut": "⌘+option+shift+i",
+    "unavailableReason": null
   },
   {
     "action": "カーソル ブラウジングをオンにする",
@@ -445,7 +476,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "F7"
+    "shortcut": "F7",
+    "unavailableReason": null
   },
   {
     "action": "アクティブでないダイアログにフォーカスする",
@@ -459,7 +491,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+option+shift+a"
+    "shortcut": "⌘+option+shift+a",
+    "unavailableReason": null
   },
   {
     "action": "既定の検索エンジンで検索する",
@@ -469,11 +502,12 @@
     "ctrlKey": false,
     "id": "34",
     "isAvailable": false,
-    "key": "r",
+    "key": "Enter",
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "検索キーワードを入力+enter"
+    "shortcut": "検索キーワードを入力+enter",
+    "unavailableReason": "hasOtherActions"
   },
   {
     "action": "別の検索エンジンで検索する",
@@ -487,7 +521,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "検索エンジン名を入力+tab"
+    "shortcut": "検索エンジン名を入力+tab",
+    "unavailableReason": "hasOtherActions"
   },
   {
     "action": "サイト名に www. と .com を追加して現在のタブで開く",
@@ -497,11 +532,12 @@
     "ctrlKey": true,
     "id": "36",
     "isAvailable": false,
-    "key": "r",
+    "key": "Enter",
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "サイト名を入力+control+enter"
+    "shortcut": "サイト名を入力+control+enter",
+    "unavailableReason": "hasOtherActions"
   },
   {
     "action": "サイト名に www. と .com を追加して新しいタブで開く",
@@ -511,11 +547,12 @@
     "ctrlKey": true,
     "id": "37",
     "isAvailable": false,
-    "key": "r",
+    "key": "Enter",
     "metaKey": false,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "サイト名を入力+control+shift+enter"
+    "shortcut": "サイト名を入力+control+shift+enter",
+    "unavailableReason": "hasOtherActions"
   },
   {
     "action": "ウェブサイトを新しいバックグラウンド タブで開く",
@@ -525,11 +562,12 @@
     "ctrlKey": false,
     "id": "38",
     "isAvailable": false,
-    "key": "r",
+    "key": "Enter",
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "ウェブアドレスを入力+⌘+enter"
+    "shortcut": "ウェブアドレスを入力+⌘+enter",
+    "unavailableReason": "hasOtherActions"
   },
   {
     "action": "アドレスバーに移動する",
@@ -543,7 +581,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+l"
+    "shortcut": "⌘+l",
+    "unavailableReason": null
   },
   {
     "action": "アドレスバーから予測候補を削除する",
@@ -553,11 +592,12 @@
     "ctrlKey": false,
     "id": "40",
     "isAvailable": false,
-    "key": "Delete",
+    "key": "ArrowDown",
     "metaKey": false,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "下矢印で選択+shift+fn+delete\r\nノートパソコンの場合は forward delete または fn+delete"
+    "shortcut": "下矢印で選択+shift+fn+delete\r\nノートパソコンの場合は forward delete または fn+delete",
+    "unavailableReason": "hasMultipleAnswers"
   },
   {
     "action": "アドレスバーにカーソルを移動する",
@@ -571,7 +611,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "control+F5"
+    "shortcut": "control+F5",
+    "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "現在のページを印刷するオプションを開く",
@@ -585,7 +626,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+p"
+    "shortcut": "⌘+p",
+    "unavailableReason": null
   },
   {
     "action": "現在のページを保存するオプションを開く",
@@ -599,7 +641,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+s"
+    "shortcut": "⌘+s",
+    "unavailableReason": null
   },
   {
     "action": "[ページ設定] ダイアログを開く",
@@ -613,7 +656,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+option+p"
+    "shortcut": "⌘+option+p",
+    "unavailableReason": null
   },
   {
     "action": "キャッシュ コンテンツを無視して現在のページを再読み込みする",
@@ -627,7 +671,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+shift+r"
+    "shortcut": "⌘+shift+r",
+    "unavailableReason": null
   },
   {
     "action": "ページの読み込みを停止する",
@@ -641,7 +686,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "esc"
+    "shortcut": "esc",
+    "unavailableReason": null
   },
   {
     "action": "クリック可能な項目間を移動する（順方向）",
@@ -655,7 +701,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "tab"
+    "shortcut": "tab",
+    "unavailableReason": null
   },
   {
     "action": "クリック可能な項目間を移動する（逆方向）",
@@ -669,7 +716,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "shift+tab"
+    "shortcut": "shift+tab",
+    "unavailableReason": null
   },
   {
     "action": "パソコン上のファイルを Google Chrome で開く",
@@ -679,11 +727,12 @@
     "ctrlKey": false,
     "id": "49",
     "isAvailable": false,
-    "key": null,
+    "key": "o",
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+o+ファイルを選択"
+    "shortcut": "⌘+o+ファイルを選択",
+    "unavailableReason": "hasOtherActions"
   },
   {
     "action": "現在のページの HTML ソースコードを表示する（編集不可）",
@@ -697,7 +746,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+option+u"
+    "shortcut": "⌘+option+u",
+    "unavailableReason": null
   },
   {
     "action": "JavaScript コンソールを開く",
@@ -711,7 +761,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+option+j"
+    "shortcut": "⌘+option+j",
+    "unavailableReason": null
   },
   {
     "action": "現在のウェブページをブックマークとして保存する",
@@ -725,7 +776,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+d"
+    "shortcut": "⌘+d",
+    "unavailableReason": null
   },
   {
     "action": "開いているすべてのタブをブックマークとして新しいフォルダに保存する",
@@ -739,7 +791,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+shift+d"
+    "shortcut": "⌘+shift+d",
+    "unavailableReason": null
   },
   {
     "action": "全画面表示モードをオンまたはオフにする",
@@ -753,7 +806,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+control+f"
+    "shortcut": "⌘+control+f",
+    "unavailableReason": null
   },
   {
     "action": "ページ上のすべての要素を拡大する",
@@ -763,11 +817,12 @@
     "ctrlKey": false,
     "id": "55",
     "isAvailable": false,
-    "key": null,
+    "key": "Plus",
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘ を押しながら + キーを押す"
+    "shortcut": "⌘ を押しながら + キーを押す",
+    "unavailableReason": "hasModifiedKey"
   },
   {
     "action": "ページ上のすべての要素を縮小する",
@@ -776,12 +831,13 @@
     "category": "ウェブページのショートカット",
     "ctrlKey": false,
     "id": "56",
-    "isAvailable": false,
-    "key": null,
+    "isAvailable": true,
+    "key": "-",
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘ を押しながら - キーを押す"
+    "shortcut": "⌘ を押しながら - キーを押す",
+    "unavailableReason": null
   },
   {
     "action": "ページ上のすべての要素をデフォルトのサイズに戻す",
@@ -795,7 +851,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+0"
+    "shortcut": "⌘+0",
+    "unavailableReason": null
   },
   {
     "action": "ウェブページを 1 画面ずつ下にスクロールする",
@@ -809,7 +866,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "space"
+    "shortcut": "space",
+    "unavailableReason": null
   },
   {
     "action": "ウェブページを 1 画面ずつ上にスクロールする",
@@ -823,7 +881,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "shift+space"
+    "shortcut": "shift+space",
+    "unavailableReason": null
   },
   {
     "action": "ウェブを検索する",
@@ -837,7 +896,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+option+f"
+    "shortcut": "⌘+option+f",
+    "unavailableReason": null
   },
   {
     "action": "テキスト欄内で前にある単語の先頭にカーソルを移動する",
@@ -851,7 +911,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "option+左矢印"
+    "shortcut": "option+左矢印",
+    "unavailableReason": null
   },
   {
     "action": "テキスト欄内で次にある単語の後ろにカーソルを移動する",
@@ -865,7 +926,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "option+右矢印"
+    "shortcut": "option+右矢印",
+    "unavailableReason": null
   },
   {
     "action": "テキスト欄内で前にある単語を削除する",
@@ -875,11 +937,12 @@
     "ctrlKey": false,
     "id": "63",
     "isAvailable": true,
-    "key": "Delete",
+    "key": "Backspace",
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "option+delete"
+    "shortcut": "option+delete",
+    "unavailableReason": null
   },
   {
     "action": "ホームページを現在のタブで開く",
@@ -893,7 +956,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+shift+h"
+    "shortcut": "⌘+shift+h",
+    "unavailableReason": null
   },
   {
     "action": "ページのズームレベルをリセットする",
@@ -907,7 +971,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "command+0"
+    "shortcut": "command+0",
+    "unavailableReason": null
   },
   {
     "action": "リンクを現在のタブで開く（マウスのみ）",
@@ -921,7 +986,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "リンクをタブにドラッグ"
+    "shortcut": "リンクをタブにドラッグ",
+    "unavailableReason": "hasMouseActions"
   },
   {
     "action": "リンクを新しいバックグラウンド タブで開く",
@@ -935,7 +1001,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "⌘+リンクをクリック"
+    "shortcut": "⌘+リンクをクリック",
+    "unavailableReason": "hasMouseActions"
   },
   {
     "action": "リンクを開いてリンク先に移動する",
@@ -949,7 +1016,8 @@
     "metaKey": true,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "⌘+shift+リンクをクリック"
+    "shortcut": "⌘+shift+リンクをクリック",
+    "unavailableReason": "hasMouseActions"
   },
   {
     "action": "リンクを開いてリンク先に移動する（マウスのみ）",
@@ -963,7 +1031,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "タブバーの空白部分にリンクをドラッグ"
+    "shortcut": "タブバーの空白部分にリンクをドラッグ",
+    "unavailableReason": "hasMouseActions"
   },
   {
     "action": "リンクを新しいウィンドウで開く",
@@ -977,7 +1046,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": true,
-    "shortcut": "shift+リンクをクリック"
+    "shortcut": "shift+リンクをクリック",
+    "unavailableReason": "hasMouseActions"
   },
   {
     "action": "タブを新しいウィンドウで開く（マウスのみ）",
@@ -991,7 +1061,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "タブバーの外にタブをドラッグ"
+    "shortcut": "タブバーの外にタブをドラッグ",
+    "unavailableReason": "hasMouseActions"
   },
   {
     "action": "タブを現在のウィンドウに移動する（マウスのみ）",
@@ -1005,7 +1076,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "既存のウィンドウにタブをドラッグ"
+    "shortcut": "既存のウィンドウにタブをドラッグ",
+    "unavailableReason": "hasMouseActions"
   },
   {
     "action": "タブを元の位置に戻す",
@@ -1015,11 +1087,12 @@
     "ctrlKey": false,
     "id": "73",
     "isAvailable": false,
-    "key": null,
+    "key": "Escape",
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "ドラッグ中に esc キーを押す"
+    "shortcut": "ドラッグ中に esc キーを押す",
+    "unavailableReason": "hasMouseActions"
   },
   {
     "action": "現在のウェブページをブックマークとして保存する",
@@ -1033,7 +1106,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "ブックマーク バーにウェブアドレスをドラッグ"
+    "shortcut": "ブックマーク バーにウェブアドレスをドラッグ",
+    "unavailableReason": "hasMouseActions"
   },
   {
     "action": "リンク先をダウンロードする",
@@ -1047,7 +1121,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "option+リンクをクリック"
+    "shortcut": "option+リンクをクリック",
+    "unavailableReason": "hasMouseActions"
   },
   {
     "action": "閲覧履歴を表示する",
@@ -1061,7 +1136,8 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "戻る  を右クリック、または戻る  を長押し\r\n次へ  を右クリック、または次へ  を長押し"
+    "shortcut": "戻る  を右クリック、または戻る  を長押し\r\n次へ  を右クリック、または次へ  を長押し",
+    "unavailableReason": "hasMultipleAnswers"
   },
   {
     "action": "ウィンドウの高さを最大化する",
@@ -1075,6 +1151,7 @@
     "metaKey": false,
     "os": "macOS",
     "shiftKey": false,
-    "shortcut": "タブバーの空白部分をダブルクリック"
+    "shortcut": "タブバーの空白部分をダブルクリック",
+    "unavailableReason": "hasMouseActions"
   }
 ]

@@ -25,8 +25,10 @@ export interface Shortcut {
 
   altKey: boolean
   ctrlKey: boolean
-  isAvailable: boolean
-  key: string | undefined | null
   metaKey: boolean
   shiftKey: boolean
+  key: string | undefined | null
+
+  isAvailable: boolean
+  unavailableReason: string | null
 }
