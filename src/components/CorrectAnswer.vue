@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import KeyList from '@/components/KeyList.vue'
+import ShortcutDescription from '@/components/ShortcutDescription.vue'
 import GameKey from '@/stores/gameKey'
 import { injectStrict } from '@/utils'
 
@@ -16,10 +17,12 @@ const { state, correctKeys } = injectStrict(GameKey)
       data-testid="correct-key-combination"
     >
       <span class="text-xl my-2">正解</span>
-      <KeyList v-if="state.shortcut.key" :keys="correctKeys" />
-      <div v-else class="text-2xl my-2">
-        {{ state.shortcut.shortcut }}
-      </div>
+      <KeyList v-if="state.shortcut.isAvailable" :keys="correctKeys" />
+
+      <ShortcutDescription
+        v-else
+        :shortcut-description="state.shortcut.shortcut"
+      ></ShortcutDescription>
     </div>
   </div>
 </template>

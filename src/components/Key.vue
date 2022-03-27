@@ -9,18 +9,21 @@ defineProps<{ keyName: string }>()
     :data-testid="keyName"
   >
     <ruby
-      class="grid my-auto"
-      :class="
-        (Keyboard.symbol(keyName) ?? keyName.toUpperCase()).length > 3
-          ? 'px-2 text-base break-all'
-          : 'text-3xl'
-      "
+      class="grid my-auto text-3xl"
+      :class="{
+        'px-2 text-xl break-all':
+          !Keyboard.hasSymbol(keyName) && keyName.length > 4,
+      }"
     >
-      <template v-if="Keyboard.toDisplayName(keyName)">
-        <rt class="text-base leading-4">{{
-          Keyboard.toDisplayName(keyName)
-        }}</rt>
-        {{ Keyboard.symbol(keyName) }}
+      <template v-if="Keyboard.hasSymbol(keyName)">
+        <rt
+          class="text-base leading-4"
+          :class="{
+            'text-sm': Keyboard.annotationOfSymbol(keyName).length > 8,
+          }"
+          >{{ Keyboard.annotationOfSymbol(keyName) }}</rt
+        >
+        {{ Keyboard.symbol(keyName) ?? keyName }}
       </template>
       <template v-else>{{
         keyName.charAt(0).toUpperCase() + keyName.slice(1)
