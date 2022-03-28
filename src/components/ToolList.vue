@@ -47,25 +47,28 @@ const update = (appName: string) => {
     >
       <div
         v-if="state.isSelectToolsKeyPressed || props.isShow"
-        class="z-10 p-3 w-3/4 max-w-[50rem] flex flex-col items-center gap-2 bg-white border-2 border-gray-500 rounded-lg top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 absolute"
+        class="z-10 p-5 w-3/5 max-w-[35rem] flex flex-col bg-white border border-gray-300 rounded-lg top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 absolute"
       >
-        <div class="flex justify-between items-start w-10/12 border-b">
-          <h2 class="my-auto text-xl">ツールを選択してください</h2>
-          <XIcon
-            class="h-10 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg p-1.5"
-            @click="hide()"
-          />
-        </div>
+        <XIcon
+          class="self-end h-6 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg transition duration-200 hover:ease-out"
+          @click="hide()"
+        />
 
-        <!-- eslint-disable -->
-        <template v-for="app in masteredRateOfEachTool()">
-          <ToolCard
-            :app="app.name"
-            :mastered-rate="app.masteredRate"
-            @click="update(app.name)"
-          />
-        </template>
-        <!-- eslint-enable -->
+        <div class="w-full flex flex-col items-center gap-6 bg-white">
+          <div class="flex justify-between items-start w-10/12 pb-1 border-b">
+            <h2 class="my-auto text-base">ツールを選択してください</h2>
+          </div>
+
+          <!-- eslint-disable -->
+          <template v-for="app in masteredRateOfEachTool()">
+            <ToolCard
+              :app="app.name"
+              :mastered-rate="app.masteredRate"
+              @click="update(app.name)"
+            />
+          </template>
+          <!-- eslint-enable -->
+        </div>
       </div>
     </transition>
   </div>
