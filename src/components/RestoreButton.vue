@@ -10,7 +10,7 @@ const { removedShortcutExists, restoreRemovedShortcuts } = injectStrict(GameKey)
 <template>
   <button
     v-if="removedShortcutExists"
-    class="mx-auto flex text-xs bg-gray-200 hover:bg-gray-300 py-0.2 px-1.5 rounded my-3"
+    class="mx-auto flex text-xs bg-gray-200 hover:bg-gray-300 py-0.2 px-1.5 rounded my-3 transition duration-200 hover:ease-out"
     @click="restoreRemovedShortcuts"
   >
     <RefreshIcon class="my-auto h-6 px-1 py-1" />
