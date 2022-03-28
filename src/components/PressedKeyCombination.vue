@@ -48,6 +48,7 @@ const { state } = injectStrict(GameKey)
       :keys="state.pressedKeyCombination.keys()"
       :class="state.isShakingKeyCombinationView ? 'animate-[shake_600ms]' : ''"
     />
+    <span v-else-if="state.isWrongKeyPressed">正解を入力してみましょう</span>
     <span v-else>ショートカットキーを入力してください...</span>
   </div>
 </template>
