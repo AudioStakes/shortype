@@ -4,6 +4,7 @@ module.exports = {
     extend: {
       boxShadow: {
         '3d': '1px 3px rgb(208, 213, 219, 1), 1px 1px rgb(208, 213, 219, 1)',
+        '3d-sm': '1px 2px rgb(208, 213, 219, 1), 1px 1px rgb(208, 213, 219, 1)',
       },
     },
     animation: {
