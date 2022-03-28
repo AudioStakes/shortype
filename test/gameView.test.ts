@@ -304,12 +304,11 @@ test('show the current mastered ratio', async () => {
     props: { shortcuts: shortcuts },
   })
 
-  expect(container.querySelector('svg')?.textContent).toEqual('0 % 身についた')
-
+  expect(container.querySelector('svg')?.textContent?.trim()).toEqual('0 %')
   getByText('最後のタブに移動する')
   await userEvent.keyboard('{Meta>}{9}')
 
-  expect(container.querySelector('svg')?.textContent).toEqual('50 % 身についた')
+  expect(container.querySelector('svg')?.textContent?.trim()).toEqual('50 %')
 })
 
 test('show the modal to select a tool when the tool key is pressed', async () => {

@@ -79,24 +79,12 @@ const totalCountOfIncluded = computed(() => {
   )
 })
 
-const totalCountOfRemoved = computed(() => {
-  return Object.values(countsOfEachStatus.value).reduce(
-    (previous, { removed }) => previous + removed,
-    0
-  )
-})
-
 const rateOf = (
   count: number,
   totalCount: number = totalCountOfIncluded.value
 ) => {
   return Math.floor((count / totalCount) * 100)
 }
-
-const isAllMastered = computed(
-  () =>
-    countsOfEachStatus.value.mastered.included === totalCountOfIncluded.value
-)
 
 const subStatusOrder = ['included', 'removed']
 const statuses = computed(() => {
@@ -150,48 +138,58 @@ const statuses = computed(() => {
 </script>
 
 <template>
-  <div class="flex-initial h-48 flex justify-center">
-    <div
-      v-if="isShowCircleDescription"
-      class="text-left bg-white absolute z-10 left-1/2 translate-x-[5rem] top-[10%] border-2 border-gray-500 rounded-lg p-2"
+  <div class="h-48 w-48 mx-auto flex justify-center">
+    <transition
+      enter-active-class="duration-200 ease-out"
+      enter-from-class="transform opacity-0"
+      enter-to-class="opacity-1"
+      leave-active-class="duration-200 ease-in"
+      leave-from-class="opacity-1"
+      leave-to-class="transform opacity-0"
     >
-      <table class="border-separate" style="border-spacing: 0 0.25rem">
-        <thead class="text-xs">
-          <tr>
-            <th colspan="2" class="border-b p-1">ステータス</th>
-            <th class="border-b px-2 py-0.5 text-right">個数</th>
-            <th class="border-b px-2 py-0.5 text-center">比率</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- eslint-disable -->
-          <template v-for="(subStatus, status) in countsOfEachStatus">
-            <tr
-              class="text-base"
-              :class="styleOfEachStatus[status].included.bgColor"
-            >
-              <td class="px-1">
-                {{ styleOfEachStatus[status].name }}
-              </td>
-
-              <td class="px-1 py-0.5"></td>
-              <td class="px-2 py-0.5 text-right">
-                {{ countsOfEachStatus[status].included }}
-              </td>
-              <td class="px-2 py-0.5 text-right">
-                {{ rateOf(countsOfEachStatus[status].included)
-                }}<span class="p-0.5 text-xs">%</span>
-              </td>
-            </tr>
-          </template>
-          <!-- eslint-enable -->
-        </tbody>
-      </table>
-
-      <span class="mx-2 text-sm"
-        >※ 出題しないリスト: {{ totalCountOfRemoved }}個</span
+      <div
+        v-if="isShowCircleDescription"
+        class="w-64 flex flex-col text-left bg-white absolute z-10 left-1/2 translate-x-[5rem] top-[10%] border border-gray-300 rounded-lg p-2"
       >
-    </div>
+        <table class="border-separate" style="border-spacing: 0 0.25rem">
+          <thead class="text-sm">
+            <tr>
+              <th colspan="2" class="border-b p-1">ステータス</th>
+              <th class="border-b px-2 py-0.5 text-right">個数</th>
+              <th class="border-b pr-4 py-0.5 text-right">比率</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- eslint-disable -->
+            <template v-for="(subStatus, status) in countsOfEachStatus">
+              <tr
+                class="text-base"
+                :class="styleOfEachStatus[status].included.bgColor"
+              >
+                <td class="px-1 py-1.5">
+                  {{ styleOfEachStatus[status].name }}
+                </td>
+
+                <td class="px-1 py-1.5"></td>
+                <td class="px-2 py-1.5 text-right">
+                  {{ countsOfEachStatus[status].included }}
+                </td>
+                <td class="px-2 py-1.5 text-right">
+                  {{ rateOf(countsOfEachStatus[status].included)
+                  }}<span class="p-0.5 text-xs">%</span>
+                </td>
+              </tr>
+            </template>
+            <!-- eslint-enable -->
+          </tbody>
+        </table>
+
+        <ul class="list-none text-sm mt-2">
+          <li class="mx-2 break-all"></li>
+          ※ 上記は「出題しない」ショートカットキーを含みません
+        </ul>
+      </div>
+    </transition>
 
     <svg
       class="origin-center -rotate-90 fill-transparent stroke-[3]"
@@ -211,13 +209,22 @@ const statuses = computed(() => {
         dominant-baseline="central"
         class="origin-center rotate-90 fill-slate-700"
       >
-        <tspan x="50%" y="45%" class="text-[0.8rem]">
+        <tspan x="50%" y="50%" class="text-[0.8rem] font-bold">
           {{ rateOf(countsOfEachStatus.mastered.included) }}
         </tspan>
-        <tspan :x="isAllMastered ? '69%' : '66%'" y="50%" class="text-[0.3rem]">
+        <tspan
+          :x="
+            `${
+              rateOf(countsOfEachStatus.mastered.included).toString().length *
+                3 +
+              60
+            }` + '%'
+          "
+          y="54%"
+          class="text-[0.25rem]"
+        >
           %
         </tspan>
-        <tspan x="50%" y="60%" class="text-[0.25rem]">身についた</tspan>
       </text>
     </svg>
   </div>
