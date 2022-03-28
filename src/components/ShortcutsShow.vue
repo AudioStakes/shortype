@@ -1,7 +1,5 @@
 <template>
-  <ul
-    class="flex-initial h-72 flex justify-center items-center text-sm space-x-8"
-  >
+  <ul class="flex justify-center items-center text-sm space-x-8 py-3">
     <div class="flex justify-center items-center space-x-2">
       <kbd
         class="bg-white rounded border-[1px] border-gray-300 shadow-3d px-2 py-1"

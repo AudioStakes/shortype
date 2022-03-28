@@ -11,7 +11,7 @@ const { state } = injectStrict(GameKey)
 
 <template>
   <div
-    class="flex-initial h-44 w-fit min-w-[30rem] mx-auto p-4 flex flex-col justify-center content-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50"
+    class="h-44 w-fit min-w-[30rem] mx-auto p-4 flex flex-col justify-center content-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50"
     data-testid="pressed-key-combination"
   >
     <div class="h-16 w-16 absolute self-center -translate-y-14 text-green-500">

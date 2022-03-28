@@ -8,7 +8,7 @@ const { state } = injectStrict(GameKey)
 </script>
 
 <template>
-  <div class="flex-initial min-h-[4rem] h-fit flex flex-col space-y-2">
+  <div class="min-h-[4rem] h-fit flex flex-col space-y-2">
     <span>{{ state.shortcut.app }} | {{ state.shortcut.category }}</span>
     <h2
       class="w-4/5 text-3xl break-words font-bold mx-auto"

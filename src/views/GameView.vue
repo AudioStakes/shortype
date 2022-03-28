@@ -54,13 +54,15 @@ useKeyboardEventListener('keyup', handleKeyUp)
 </script>
 
 <template>
-  <div v-if="!isAllRemoved">
+  <div v-if="!isAllRemoved" class="flex-1 flex flex-col">
     <PieChart />
     <QuestionShow />
     <CorrectAnswer />
     <PressedKeyCombination />
-    <ShortcutsShow />
-    <RestoreButton />
+    <div class="my-auto">
+      <ShortcutsShow />
+      <RestoreButton />
+    </div>
     <ToolList
       :is-show="isShowToolModal"
       @hide-tool-modal="emit('hide-tool-modal')"
