@@ -10,7 +10,7 @@ id,app,os,category,action,shortcut
 86,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,背景色を編集する,Option＋Command＋I
 87,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,フォントを大きくする,Command＋プラス記号（+）
 88,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,フォントを小さくする,Command＋マイナス記号（-）
-89,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,新規ウインドウ,Command＋グレイヴアクセント記号（`）
+89,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,次のウインドウ,Command＋グレイヴアクセント記号（`）
 90,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,前のウインドウ,Command＋Shift＋ティルダ記号（~）
 91,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,次のタブ,Control＋Tab
 92,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,前のタブ,Control＋Shift＋Tab

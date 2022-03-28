@@ -21,7 +21,7 @@ const unmasteredAttributes = {
 </script>
 
 <template>
-  <div
+  <button
     class="flex justify-between w-10/12 h-20 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100"
   >
     <h3 class="my-auto mx-4 text-3xl font-bold tracking-tight">
@@ -47,5 +47,5 @@ const unmasteredAttributes = {
         </text>
       </svg>
     </div>
-  </div>
+  </button>
 </template>

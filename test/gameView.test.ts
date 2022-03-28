@@ -46,6 +46,37 @@ const shortcuts = [
   },
 ]
 
+const unsupportedShortcuts = [
+  {
+    action: '新しいウィンドウを開く',
+    altKey: false,
+    app: 'Google Chrome',
+    category: 'タブとウィンドウのショートカット',
+    ctrlKey: false,
+    id: '1',
+    isAvailable: false,
+    key: 'n',
+    metaKey: true,
+    os: 'macOS',
+    shiftKey: false,
+    shortcut: '⌘+n',
+  },
+  {
+    action: '新しいウィンドウをシークレット モードで開く',
+    altKey: false,
+    app: 'Google Chrome',
+    category: 'タブとウィンドウのショートカット',
+    ctrlKey: false,
+    id: '2',
+    isAvailable: false,
+    key: 'n',
+    metaKey: true,
+    os: 'macOS',
+    shiftKey: true,
+    shortcut: '⌘+shift+n',
+  },
+]
+
 let mockStorage: { [key: string]: string } = {}
 
 beforeAll(() => {
@@ -103,7 +134,7 @@ test('proceed to a next question when the correct key is pressed', async () => {
   getByText('最後のタブに移動する')
 
   await userEvent.keyboard('{Meta>}{9}') // 正解を入力
-  await waitForElementToBeRemoved(getByTestId('check-circle-icon')) // 正解アイコンが非表示になるまで待つ
+  await waitForElementToBeRemoved(getByTestId('correct-key-pressed')) // 正解アイコンが非表示になるまで待つ
 
   getByText('ウィンドウを最小化する') // 次の質問
 })
@@ -130,7 +161,7 @@ test('proceed to a next question when the correct key is pressed after a wrong k
   await userEvent.keyboard('{Meta>}{A}') // 不正解を入力
   await waitFor(() => getByText('ショートカットキーを入力してください...')) // 不正解入力時のアニメーションの終了を待つ
   await userEvent.keyboard('{Meta>}{9}') // 正解を入力
-  await waitForElementToBeRemoved(getByTestId('check-icon')) // 正解アイコンが非表示になるまで待つ
+  await waitForElementToBeRemoved(getByTestId('wrong-key-pressed')) // 正解アイコンが非表示になるまで待つ
 
   getByText('ウィンドウを最小化する')
 })
@@ -203,7 +234,7 @@ test('restore removed shortcut keys when the restore button is clicked', async (
   getByText('最後のタブに移動する')
 })
 
-test('save a record of correct answer when the correct key is pressed', () => {
+test('save a record of answered correctly when the correct key is pressed', () => {
   const { getByText } = render(GameView, {
     props: { shortcuts: shortcuts },
   })
@@ -215,7 +246,7 @@ test('save a record of correct answer when the correct key is pressed', () => {
   expect(loadAnsweredHistory().get(shortcuts[0].id)).toStrictEqual([true])
 })
 
-test('save a record of incorrect answer when the incorrect key is pressed', () => {
+test('save a record of answered incorrectly when the incorrect key is pressed', () => {
   const { getByText } = render(GameView, {
     props: { shortcuts: shortcuts },
   })
@@ -234,7 +265,7 @@ test('increase the frequency of the shortcut keys answered incorrectly', async (
 
   getByText('最後のタブに移動する')
   await userEvent.keyboard('{Meta>}{9}') // 正解
-  await waitForElementToBeRemoved(getByTestId('check-circle-icon'))
+  await waitForElementToBeRemoved(getByTestId('correct-key-pressed'))
 
   getByText('ウィンドウを最小化する')
   await userEvent.keyboard('{Meta>}{9}') // 不正解
@@ -259,7 +290,7 @@ test('show an unanswered shortcut key as the highest priority', async () => {
 
   getByText('最後のタブに移動する')
   await userEvent.keyboard('{Meta>}{9}')
-  await waitForElementToBeRemoved(getByTestId('check-circle-icon'))
+  await waitForElementToBeRemoved(getByTestId('correct-key-pressed'))
 
   getByText('ウィンドウを最小化する')
 
@@ -303,7 +334,70 @@ test('switch a tool when the tool on the modal is clicked', async () => {
   getByText('ツールを選択してください')
 
   await userEvent.click(screen.getByText('Terminal'))
+  document.body.focus()
 
   expect(queryByText(/Google Chrome/)).toBeNull()
   getByText(/Terminal/)
+})
+
+test('show the message to confirm the correct answer when the question is an unsupported shortcut key ', () => {
+  const { getByText, container } = render(GameView, {
+    props: { shortcuts: unsupportedShortcuts },
+  })
+
+  getByText('新しいウィンドウを開く')
+
+  getByText('正解判定に未対応のため、')
+  expect(
+    container.querySelector('[data-testid="pressed-key-combination"]')
+      ?.textContent
+  ).toContain('Cで正解を確認 & 自己採点')
+  getByText('をお願いします')
+})
+
+test('show the correct shortcut key when the c key is pressed for an unsupported shortcut key', async () => {
+  const { getByTestId } = render(GameView, {
+    props: { shortcuts: unsupportedShortcuts },
+  })
+
+  await userEvent.keyboard('{C}')
+
+  getByTestId('correct-key-combination')
+})
+
+test('present options for self-scoring when the c key is pressed for the unsupported shortcut key', async () => {
+  const { getByText } = render(GameView, {
+    props: { shortcuts: unsupportedShortcuts },
+  })
+
+  await userEvent.keyboard('{C}')
+
+  getByText('正解した')
+  getByText('不正解だった')
+})
+
+test('save a record of answered correctly when mark self as correct for the unsupported shortcut key', () => {
+  render(GameView, {
+    props: { shortcuts: unsupportedShortcuts },
+  })
+
+  userEvent.keyboard('{C}')
+  userEvent.keyboard('{Y}')
+
+  expect(loadAnsweredHistory().get(unsupportedShortcuts[0].id)).toStrictEqual([
+    true,
+  ])
+})
+
+test('save a record of answered wrongly when mark self as wrong for the unsupported shortcut key', () => {
+  render(GameView, {
+    props: { shortcuts: unsupportedShortcuts },
+  })
+
+  userEvent.keyboard('{C}')
+  userEvent.keyboard('{N}')
+
+  expect(loadAnsweredHistory().get(unsupportedShortcuts[0].id)).toStrictEqual([
+    false,
+  ])
 })

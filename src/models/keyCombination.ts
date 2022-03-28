@@ -83,6 +83,39 @@ export default class KeyCombination {
     return this.is(keyCombinationOfSelectTools)
   }
 
+  isShowCorrectKey() {
+    const keyCombinationOfShowCorrectKey = {
+      altKey: false,
+      ctrlKey: false,
+      metaKey: false,
+      shiftKey: false,
+      key: 'c',
+    }
+    return this.is(keyCombinationOfShowCorrectKey)
+  }
+
+  isMarkedSelfAsCorrectKey() {
+    const keyCombinationOfMarkingSelfAsCorrectKey = {
+      altKey: false,
+      ctrlKey: false,
+      metaKey: false,
+      shiftKey: false,
+      key: 'y',
+    }
+    return this.is(keyCombinationOfMarkingSelfAsCorrectKey)
+  }
+
+  isMarkedSelfAsWrongKey() {
+    const keyCombinationOfMarkingSelfAsWrongKey = {
+      altKey: false,
+      ctrlKey: false,
+      metaKey: false,
+      shiftKey: false,
+      key: 'n',
+    }
+    return this.is(keyCombinationOfMarkingSelfAsWrongKey)
+  }
+
   isModifierKey() {
     return (
       this.keyCombinable.key !== undefined &&

@@ -14,7 +14,7 @@ const proceed = () => {
   isUnsupported.value = false
 }
 
-const shortcuts = chromeShortcutsJson.filter((shortcut) => shortcut.isAvailable)
+const shortcuts = chromeShortcutsJson
 const isShowToolModal = ref(false)
 </script>
 

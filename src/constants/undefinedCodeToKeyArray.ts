@@ -1,5 +1,5 @@
 // 「KeyboardLayoutMap.get(KeyboardEvent.code) の返り値が undefined となる KeyboardEvent.code」 と KeyboardEvent.key の対応
-const specialCodeToKeyArray = [
+const undefinedCodeToKeyArray = [
   ['AltLeft', 'Alt'],
   ['AltRight', 'Alt'],
   ['ArrowDown', 'ArrowDown'],
@@ -57,6 +57,6 @@ const specialCodeToKeyArray = [
   ['ShiftRight', 'Shift'],
   ['Space', 'Space'], // 正しくは ['Space', ' '] だが、空白では表示されているか判別つかないため Space とした
   ['Tab', 'Tab'],
-] as const // https://stackoverflow.com/questions/67631458/no-overload-matches-this-call-while-constructing-map-from-array
+] as const
 
-export default specialCodeToKeyArray
+export default undefinedCodeToKeyArray
