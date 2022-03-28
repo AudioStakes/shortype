@@ -1,22 +1,22 @@
 <template>
-  <ul class="flex-initial h-72 grid justify-center content-end text-sm">
-    <li class="flex my-2">
-      <div class="w-20 my-auto">
+  <ul
+    class="flex-initial h-72 flex justify-center items-center text-sm space-x-8"
+  >
+    <div class="flex justify-center items-center space-x-2">
+      <kbd
+        class="bg-white rounded border-[1px] border-gray-300 shadow-3d px-2 py-1"
+        >Enter
+      </kbd>
+      <span>スキップ</span>
+    </div>
+    <div class="flex justify-center items-center space-x-2">
+      <div class="">
         <kbd
-          class="h-6 bg-white rounded border-[1px] border-gray-300 shadow-3d px-2 py-1"
-          >Enter
-        </kbd>
-      </div>
-      <span class="my-auto">スキップ</span>
-    </li>
-    <li class="flex my-2">
-      <div class="w-20 my-auto">
-        <kbd
-          class="h-6 bg-white rounded border-[1px] border-gray-300 shadow-3d px-2 py-1"
+          class="bg-white rounded border-[1px] border-gray-300 shadow-3d px-2 py-1"
           >R
         </kbd>
       </div>
-      <span class="my-auto">次から出題しない</span>
-    </li>
+      <span>次から出題しない</span>
+    </div>
   </ul>
 </template>
