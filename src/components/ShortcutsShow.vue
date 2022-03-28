@@ -1,5 +1,5 @@
 <template>
-  <ul class="flex-initial h-72 grid justify-center content-end text-xs">
+  <ul class="flex-initial h-72 grid justify-center content-end text-sm">
     <li class="flex my-2">
       <div class="w-20 my-auto">
         <kbd

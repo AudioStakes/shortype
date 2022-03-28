@@ -8,12 +8,12 @@ const { state } = injectStrict(GameKey)
 
 <template>
   <div v-if="!state.isShowCorrectKeyPressed">
-    <span class="text-sm">正解判定に未対応のため、</span>
+    <span class="text-base">正解判定に未対応のため、</span>
     <div class="flex space-x-4 justify-center items-center py-3">
       <Key :key-name="'c'" class="w-14 h-14"></Key>
-      <span class="text-xl">で正解を確認 & 自己採点</span>
+      <span class="text-xl font-bold">で正解を確認 & 自己採点</span>
     </div>
-    <span class="text-sm">をお願いします</span>
+    <span class="text-base">をお願いします</span>
   </div>
   <div v-else>
     <div class="flex space-x-8 justify-center items-center">

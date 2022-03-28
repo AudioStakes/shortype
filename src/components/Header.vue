@@ -4,7 +4,7 @@ const emit = defineEmits(['show-tool-modal'])
 
 <template>
   <header
-    class="font-sans max-h-30 w-full flex justify-between self-center items-center px-10 py-3 bg-gray-200"
+    class="max-h-30 w-full flex justify-between self-center items-center px-10 py-3 bg-gray-200"
   >
     <div class="flex">
       <span class="mx-2 text-3xl font-bold text-black-900">Shortype</span>

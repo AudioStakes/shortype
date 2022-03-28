@@ -211,7 +211,7 @@ const statuses = computed(() => {
         dominant-baseline="central"
         class="origin-center rotate-90 fill-slate-700"
       >
-        <tspan x="50%" y="45%" class="text-[0.8rem] font-sans">
+        <tspan x="50%" y="45%" class="text-[0.8rem]">
           {{ rateOf(countsOfEachStatus.mastered.included) }}
         </tspan>
         <tspan :x="isAllMastered ? '69%' : '66%'" y="50%" class="text-[0.3rem]">

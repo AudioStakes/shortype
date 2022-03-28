@@ -20,7 +20,7 @@ const isShowToolModal = ref(false)
 
 <template>
   <div
-    class="font-mono antialiased text-slate-700 h-screen flex flex-col text-center"
+    class="font-sans antialiased text-slate-700 h-screen flex flex-col text-center"
   >
     <Header @show-tool-modal="isShowToolModal = true" />
     <main class="flex-auto flex flex-col justify-center">

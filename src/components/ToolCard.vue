@@ -41,7 +41,7 @@ const unmasteredAttributes = {
           dominant-baseline="central"
           class="origin-center rotate-90 fill-slate-700"
         >
-          <tspan x="50%" y="50%" class="text-lg font-sans">
+          <tspan x="50%" y="50%" class="text-lg">
             {{ masteredRate }}
           </tspan>
         </text>
