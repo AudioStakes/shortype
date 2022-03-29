@@ -158,7 +158,7 @@ export function loadShortcutsByTool(tool: string) {
       json = chrome as Shortcut[]
       break
 
-    case 'Terminal':
+    case 'Terminal (macOS)':
       json = terminal as Shortcut[]
       break
 
@@ -177,7 +177,7 @@ export function loadAllTools() {
       shortcuts: chrome as Shortcut[],
     },
     {
-      name: 'Terminal',
+      name: 'Terminal (macOS)',
       shortcuts: terminal as Shortcut[],
     },
   ]

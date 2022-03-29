@@ -159,7 +159,7 @@ test('proceed to a next question when the correct key is pressed after a wrong k
   getByText('最後のタブに移動する')
 
   await userEvent.keyboard('{Meta>}{A}') // 不正解を入力
-  await waitFor(() => getByText('ショートカットキーを入力してください...')) // 不正解入力時のアニメーションの終了を待つ
+  await waitFor(() => getByText('正解を入力してみましょう')) // 不正解入力時のアニメーションの終了を待つ
   await userEvent.keyboard('{Meta>}{9}') // 正解を入力
   await waitForElementToBeRemoved(getByTestId('wrong-key-pressed')) // 正解アイコンが非表示になるまで待つ
 
@@ -269,7 +269,7 @@ test('increase the frequency of the shortcut keys answered incorrectly', async (
 
   getByText('ウィンドウを最小化する')
   await userEvent.keyboard('{Meta>}{9}') // 不正解
-  await waitFor(() => getByText('ショートカットキーを入力してください...'))
+  await waitFor(() => getByText('正解を入力してみましょう'))
 
   let frequencyOfShortcutAnsweredIncorrectly = 0
   for (let i = 0; i < 100; i++) {
@@ -304,12 +304,11 @@ test('show the current mastered ratio', async () => {
     props: { shortcuts: shortcuts },
   })
 
-  expect(container.querySelector('svg')?.textContent).toEqual('0 % 身についた')
-
+  expect(container.querySelector('svg')?.textContent?.trim()).toEqual('0 %')
   getByText('最後のタブに移動する')
   await userEvent.keyboard('{Meta>}{9}')
 
-  expect(container.querySelector('svg')?.textContent).toEqual('50 % 身についた')
+  expect(container.querySelector('svg')?.textContent?.trim()).toEqual('50 %')
 })
 
 test('show the modal to select a tool when the tool key is pressed', async () => {
@@ -333,7 +332,7 @@ test('switch a tool when the tool on the modal is clicked', async () => {
 
   getByText('ツールを選択してください')
 
-  await userEvent.click(screen.getByText('Terminal'))
+  await userEvent.click(screen.getByText('Terminal (macOS)'))
   document.body.focus()
 
   expect(queryByText(/Google Chrome/)).toBeNull()

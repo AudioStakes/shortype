@@ -188,20 +188,6 @@ const gameStore = (shortcuts: Shortcut[]) => {
     ) as Shortcut
   }
 
-  const restart = () => {
-    if (isAllRemoved.value) {
-      restoreRemovedShortcuts(
-        null,
-        '出題できるショートカットキーがありません。\n出題しないリストを空にしますか？'
-      )
-    }
-    state.isListeningKeyboardEvent = true
-    state.isCorrectKeyPressed = false
-    state.isWrongKeyPressed = false
-    state.isShakingKeyCombinationView = false
-    state.pressedKeyCombination.reset()
-  }
-
   const respondToSelectToolsKey = () => {
     resetTypingState()
     state.isListeningKeyboardEvent = false
@@ -296,19 +282,16 @@ const gameStore = (shortcuts: Shortcut[]) => {
     state.pressedKeyCombination.reset()
   }
 
-  const restoreRemovedShortcuts = (
-    _e: Event | null,
-    confirmationMessage?: string
-  ) => {
+  const restoreRemovedShortcuts = () => {
     if (
       confirm(
-        confirmationMessage ??
-          'すべてのショートカットキーが出題されるようになります。\nよろしいですか？'
+        'すべてのショートカットキーが出題されるようになります。\nよろしいですか？'
       )
     ) {
       localStorage.removeItem('removedIds')
       state.removedIdSet = new Set<string>()
-      state.shortcut = nextShortcut()
+      resetTypingState()
+      state.shortcut = shortcuts[0]
     }
   }
 
@@ -363,7 +346,6 @@ const gameStore = (shortcuts: Shortcut[]) => {
     keyDown,
     keyUp,
     judge,
-    restart,
     restoreRemovedShortcuts,
     updateTool,
     masteredRateOfEachTool,
