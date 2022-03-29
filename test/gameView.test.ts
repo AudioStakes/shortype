@@ -13,67 +13,112 @@ import GameView from '@/views/GameView.vue'
 
 const shortcuts = [
   {
-    id: '1',
-    app: 'Google Chrome',
-    os: 'macOS',
-    category: 'タブとウィンドウのショートカット',
     action: '最後のタブに移動する',
-    shortcut: '⌘+9',
-
-    altKey: false,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: false,
-    key: '9',
-
+    app: 'Google Chrome',
+    category: 'タブとウィンドウのショートカット',
+    id: '1',
     isAvailable: true,
+    keyCombinations: [
+      {
+        altKey: false,
+        ctrlKey: false,
+        key: '9',
+        metaKey: true,
+        shiftKey: false,
+      },
+    ],
+    os: 'macOS',
+    shortcut: '⌘+9',
+    unavailableReason: null,
   },
   {
-    id: '2',
-    app: 'Google Chrome',
-    os: 'macOS',
-    category: 'タブとウィンドウのショートカット',
     action: 'ウィンドウを最小化する',
-    shortcut: '⌘+m',
-
-    altKey: false,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: false,
-    key: 'm',
-
+    app: 'Google Chrome',
+    category: 'タブとウィンドウのショートカット',
+    id: '2',
     isAvailable: true,
+    keyCombinations: [
+      {
+        altKey: false,
+        ctrlKey: false,
+        key: 'm',
+        metaKey: true,
+        shiftKey: false,
+      },
+    ],
+    os: 'macOS',
+    shortcut: '⌘+m',
+    unavailableReason: null,
   },
 ]
 
 const unsupportedShortcuts = [
   {
     action: '新しいウィンドウを開く',
-    altKey: false,
     app: 'Google Chrome',
     category: 'タブとウィンドウのショートカット',
-    ctrlKey: false,
     id: '1',
     isAvailable: false,
-    key: 'n',
-    metaKey: true,
+    keyCombinations: [
+      {
+        altKey: false,
+        ctrlKey: false,
+        key: 'n',
+        metaKey: true,
+        shiftKey: false,
+      },
+    ],
     os: 'macOS',
-    shiftKey: false,
     shortcut: '⌘+n',
+    unavailableReason: 'hasDeniedKeyCombination',
   },
   {
     action: '新しいウィンドウをシークレット モードで開く',
-    altKey: false,
     app: 'Google Chrome',
     category: 'タブとウィンドウのショートカット',
-    ctrlKey: false,
     id: '2',
     isAvailable: false,
-    key: 'n',
-    metaKey: true,
+    keyCombinations: [
+      {
+        altKey: false,
+        ctrlKey: false,
+        key: 'n',
+        metaKey: true,
+        shiftKey: true,
+      },
+    ],
     os: 'macOS',
-    shiftKey: true,
     shortcut: '⌘+shift+n',
+    unavailableReason: 'hasDeniedKeyCombination',
+  },
+]
+
+const shortcutWithMultipleKeyCombinations = [
+  {
+    action: 'キーボード フォーカスのあるタブを左右に移動する',
+    app: 'Google Chrome',
+    category: 'タブとウィンドウのショートカット',
+    id: '16',
+    isAvailable: true,
+    keyCombinations: [
+      {
+        altKey: false,
+        ctrlKey: false,
+        key: 'ArrowRight',
+        metaKey: true,
+        shiftKey: false,
+      },
+      {
+        altKey: false,
+        ctrlKey: false,
+        key: 'ArrowLeft',
+        metaKey: true,
+        shiftKey: false,
+      },
+    ],
+    os: 'macOS',
+    shortcut: '⌘+右矢印または ⌘+左矢印',
+    unavailableReason: null,
   },
 ]
 
@@ -400,3 +445,36 @@ test('save a record of answered wrongly when mark self as wrong for the unsuppor
     false,
   ])
 })
+
+test('show multiple correct answers when a shortcut key has multiple key combinations', async () => {
+  const { getByText, container } = render(GameView, {
+    props: { shortcuts: shortcutWithMultipleKeyCombinations },
+  })
+
+  getByText('キーボード フォーカスのあるタブを左右に移動する')
+
+  await userEvent.keyboard('{Meta>}{A}') // 不正解を入力
+
+  expect(
+    container
+      .querySelector('[data-testid="correct-key-combination"]')
+      ?.textContent?.trim()
+  ).toContain('Command ⌘+Right →もしくはCommand ⌘+Left ←')
+})
+
+test.each([
+  { keyCombination: '{Meta>}{arrowleft}' },
+  { keyCombination: '{Meta>}{arrowright}' },
+])(
+  'judge $keyCombination as correct when a shortcut key has multiple key combinations including $keyCombination',
+  async ({ keyCombination }) => {
+    const { getByText, getByTestId } = render(GameView, {
+      props: { shortcuts: shortcutWithMultipleKeyCombinations },
+    })
+
+    getByText('キーボード フォーカスのあるタブを左右に移動する')
+
+    await userEvent.keyboard(keyCombination)
+    await waitForElementToBeRemoved(getByTestId('correct-key-pressed'))
+  }
+)
