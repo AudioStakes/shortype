@@ -6,11 +6,9 @@ defineProps<{ keys: string[] }>()
 
 <template>
   <div class="flex justify-center align-center">
-    <!-- eslint-disable -->
-    <template v-for="(keyName, index) in keys">
+    <div v-for="(keyName, index) in keys" :key="index" class="flex">
       <span v-if="index > 0" class="mx-7 my-auto">+</span>
       <Key :key-name="keyName" />
-    </template>
-    <!-- eslint-enable -->
+    </div>
   </div>
 </template>

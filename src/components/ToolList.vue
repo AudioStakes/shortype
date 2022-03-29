@@ -59,15 +59,13 @@ const update = (appName: string) => {
             <h2 class="my-auto text-base">ツールを選択してください</h2>
           </div>
 
-          <!-- eslint-disable -->
-          <template v-for="app in masteredRateOfEachTool()">
-            <ToolCard
-              :app="app.name"
-              :mastered-rate="app.masteredRate"
-              @click="update(app.name)"
-            />
-          </template>
-          <!-- eslint-enable -->
+          <ToolCard
+            v-for="(app, index) in masteredRateOfEachTool()"
+            :key="index"
+            :app="app.name"
+            :mastered-rate="app.masteredRate"
+            @click="update(app.name)"
+          />
         </div>
       </div>
     </transition>
