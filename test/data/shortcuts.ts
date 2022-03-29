@@ -41,41 +41,43 @@ export const availableShortcuts = [
 
 export const unsupportedShortcuts = [
   {
-    action: '新しいウィンドウを開く',
+    action: '開いている次のタブに移動する',
     app: 'Google Chrome',
     category: 'タブとウィンドウのショートカット',
-    id: '1',
+    id: '5',
     isAvailable: false,
     keyCombinations: [
       {
-        altKey: false,
+        altKey: true,
         ctrlKey: false,
-        key: 'n',
+        key: 'ArrowRight',
         metaKey: true,
         shiftKey: false,
       },
     ],
+    needFillInBlankMode: false,
     os: 'macOS',
-    shortcut: '⌘+n',
+    shortcut: '⌘+option+右矢印',
     unavailableReason: 'hasDeniedKeyCombination',
   },
   {
-    action: '新しいウィンドウをシークレット モードで開く',
+    action: '開いている前のタブに移動する',
     app: 'Google Chrome',
     category: 'タブとウィンドウのショートカット',
-    id: '2',
+    id: '6',
     isAvailable: false,
     keyCombinations: [
       {
-        altKey: false,
+        altKey: true,
         ctrlKey: false,
-        key: 'n',
+        key: 'ArrowLeft',
         metaKey: true,
-        shiftKey: true,
+        shiftKey: false,
       },
     ],
+    needFillInBlankMode: false,
     os: 'macOS',
-    shortcut: '⌘+shift+n',
+    shortcut: '⌘+option+左矢印',
     unavailableReason: 'hasDeniedKeyCombination',
   },
 ] as const
@@ -131,3 +133,46 @@ export const shortcutWithNonKeyActions = [
     unavailableReason: null,
   },
 ] as const
+
+export const shortcutsOnlyAvailableInFullscreen = [
+  {
+    action: '新しいウィンドウを開く',
+    app: 'Google Chrome',
+    category: 'タブとウィンドウのショートカット',
+    id: '1',
+    isAvailable: true,
+    keyCombinations: [
+      {
+        altKey: false,
+        ctrlKey: false,
+        key: 'n',
+        metaKey: true,
+        shiftKey: false,
+      },
+    ],
+    needFillInBlankMode: false,
+    os: 'macOS',
+    shortcut: '⌘+n',
+    unavailableReason: null,
+  },
+  {
+    action: '新しいウィンドウをシークレット モードで開く',
+    app: 'Google Chrome',
+    category: 'タブとウィンドウのショートカット',
+    id: '2',
+    isAvailable: true,
+    keyCombinations: [
+      {
+        altKey: false,
+        ctrlKey: false,
+        key: 'n',
+        metaKey: true,
+        shiftKey: true,
+      },
+    ],
+    needFillInBlankMode: false,
+    os: 'macOS',
+    shortcut: '⌘+shift+n',
+    unavailableReason: null,
+  },
+]
