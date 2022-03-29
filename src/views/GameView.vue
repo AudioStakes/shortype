@@ -28,7 +28,7 @@ const emit = defineEmits(['hide-tool-modal'])
 
 const game = gameStore(props.shortcuts)
 provide(GameKey, game)
-const { keyDown, keyUp, isAllRemoved, restart } = game
+const { keyDown, keyUp, isAllRemoved } = game
 
 const keyboard = new Keyboard()
 if ('keyboard' in navigator)
@@ -69,11 +69,9 @@ useKeyboardEventListener('keyup', handleKeyUp)
     />
   </div>
   <div v-else>
-    <button
-      class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-fit mx-auto"
-      @click="restart()"
-    >
-      出題しないリストを空にする
-    </button>
+    <span>出題できるショートカットキーがありません。</span>
+    <RestoreButton
+      class="bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4"
+    />
   </div>
 </template>
