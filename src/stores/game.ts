@@ -40,11 +40,9 @@ const gameStore = (shortcuts: Shortcut[]) => {
     state.shortcuts.map((shortcut) => shortcut.id)
   )
 
-  const availableIds = computed(() => {
-    const removedIds = [...state.removedIdSet]
-
-    return shortcutsIds.value.filter((id) => !removedIds.includes(id))
-  })
+  const availableIds = computed(() =>
+    shortcutsIds.value.filter((id) => !state.removedIdSet.has(id))
+  )
 
   const answeredIds = computed(() => {
     return Array.from(state.answeredHistoryMap.keys())
@@ -318,15 +316,15 @@ const gameStore = (shortcuts: Shortcut[]) => {
       .map(([id, results]) => [id, weight(results)])
       .filter(([, weight]) => weight <= 0.6)
       .map(([id]) => id)
-    const removedIds = [...state.removedIdSet]
 
     return Object.values(allTools).map(({ name, shortcuts }) => {
       const countOfShortcut = shortcuts.filter(
-        (shortcut) => !removedIds.includes(shortcut.id)
+        (shortcut) => !state.removedIdSet.has(shortcut.id)
       ).length
       const countOfMastered = shortcuts.filter(
         (shortcut) =>
-          masteredIds.includes(shortcut.id) && !removedIds.includes(shortcut.id)
+          masteredIds.includes(shortcut.id) &&
+          !state.removedIdSet.has(shortcut.id)
       ).length
 
       return {
