@@ -1,1156 +1,1520 @@
 [
   {
     "action": "新しいウィンドウを開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "1",
     "isAvailable": false,
-    "key": "n",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "n",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+n",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "新しいウィンドウをシークレット モードで開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "2",
     "isAvailable": false,
-    "key": "n",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "n",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+shift+n",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "新しいタブを開いてそのタブに移動する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "3",
     "isAvailable": false,
-    "key": "t",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "t",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+t",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "閉じたタブを閉じた順序で再び開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "4",
     "isAvailable": false,
-    "key": "t",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "t",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+shift+t",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "開いている次のタブに移動する",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "5",
     "isAvailable": false,
-    "key": "ArrowRight",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowRight",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+option+右矢印",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "開いている前のタブに移動する",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "6",
     "isAvailable": false,
-    "key": "ArrowLeft",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowLeft",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+option+左矢印",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "特定のタブに移動する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "7",
     "isAvailable": false,
-    "key": "1",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "1",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+1～⌘+8",
     "unavailableReason": "hasRangedAnswers"
   },
   {
     "action": "最後のタブに移動する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "8",
     "isAvailable": true,
-    "key": "9",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "9",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+9",
     "unavailableReason": null
   },
   {
     "action": "現在のタブの閲覧履歴の中で前にあるページを開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "9",
-    "isAvailable": false,
-    "key": "[",
-    "metaKey": true,
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "[",
+        "metaKey": true,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowLeft",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+[ または ⌘+左矢印",
-    "unavailableReason": "hasMultipleAnswers"
+    "unavailableReason": null
   },
   {
     "action": "現在のタブの閲覧履歴の中で次にあるページを開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "10",
-    "isAvailable": false,
-    "key": "]",
-    "metaKey": true,
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "]",
+        "metaKey": true,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowRight",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+] または ⌘+右矢印",
-    "unavailableReason": "hasMultipleAnswers"
+    "unavailableReason": null
   },
   {
     "action": "現在のタブまたはポップアップを閉じる",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "11",
     "isAvailable": false,
-    "key": "w",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "w",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+w",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "現在のウィンドウを閉じる",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "12",
     "isAvailable": false,
-    "key": "w",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "w",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+shift+w",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "ウィンドウを最小化する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "13",
     "isAvailable": true,
-    "key": "m",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "m",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+m",
     "unavailableReason": null
   },
   {
     "action": "Google Chrome を隠す",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "14",
     "isAvailable": true,
-    "key": "h",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "h",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+h",
     "unavailableReason": null
   },
   {
     "action": "Google Chrome を終了する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "15",
     "isAvailable": false,
-    "key": "q",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "q",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+q",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "キーボード フォーカスのあるタブを左右に移動する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
-    "ctrlKey": false,
     "id": "16",
-    "isAvailable": false,
-    "key": "ArrowRight",
-    "metaKey": true,
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowRight",
+        "metaKey": true,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowLeft",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+右矢印または ⌘+左矢印",
-    "unavailableReason": "hasMultipleAnswers"
+    "unavailableReason": null
   },
   {
     "action": "ブックマーク バーの表示と非表示を切り替える",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "17",
     "isAvailable": true,
-    "key": "b",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "b",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+shift+b",
     "unavailableReason": null
   },
   {
     "action": "ブックマーク マネージャを開く",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "18",
     "isAvailable": true,
-    "key": "b",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "b",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+option+b",
     "unavailableReason": null
   },
   {
     "action": "設定ページを新しいタブで開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "19",
     "isAvailable": true,
-    "key": ",",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": ",",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+,",
     "unavailableReason": null
   },
   {
     "action": "履歴ページを新しいタブで開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "20",
     "isAvailable": true,
-    "key": "y",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "y",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+y",
     "unavailableReason": null
   },
   {
     "action": "ダウンロード ページを新しいタブで開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "21",
     "isAvailable": true,
-    "key": "j",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "j",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+shift+j",
     "unavailableReason": null
   },
   {
     "action": "現在のページ内を検索する検索バーを開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "22",
     "isAvailable": true,
-    "key": "f",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "f",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+f",
     "unavailableReason": null
   },
   {
     "action": "検索バーでの検索内容に一致する次の部分に移動する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "23",
     "isAvailable": true,
-    "key": "g",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "g",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+g",
     "unavailableReason": null
   },
   {
     "action": "検索バーでの検索内容に一致する前の部分に移動する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "24",
     "isAvailable": true,
-    "key": "g",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "g",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+shift+g",
     "unavailableReason": null
   },
   {
     "action": "検索バーが開いているときに、選択したテキストを検索する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "25",
     "isAvailable": true,
-    "key": "e",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "e",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+e",
     "unavailableReason": null
   },
   {
     "action": "デベロッパー ツールを開く",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "26",
-    "isAvailable": false,
-    "key": "i",
-    "metaKey": true,
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "i",
+        "metaKey": true,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "F12",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+option+i または F12",
-    "unavailableReason": "hasMultipleAnswers"
+    "unavailableReason": null
   },
   {
     "action": "[閲覧履歴データを消去する] オプションを開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "27",
     "isAvailable": true,
-    "key": "Backspace",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Backspace",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+shift+delete",
     "unavailableReason": null
   },
   {
     "action": "別のユーザーでログインする、ゲストとしてブラウジングする、お支払い情報とパスワード情報にアクセスする",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "28",
     "isAvailable": true,
-    "key": "m",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "m",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+shift+m",
     "unavailableReason": null
   },
   {
     "action": "メインのメニューバーに移動する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": true,
     "id": "29",
     "isAvailable": false,
-    "key": "F2",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "F2",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "control+F2",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "フォーカスのないダイアログ（表示されている場合）とすべてのツールバーにフォーカスを順番に移動する",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "30",
-    "isAvailable": false,
-    "key": "ArrowUp",
-    "metaKey": true,
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowUp",
+        "metaKey": true,
+        "shiftKey": false
+      },
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowDown",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
-    "shortcut": "⌘+option+上矢印または下矢印",
-    "unavailableReason": "hasMultipleAnswers"
+    "shortcut": "⌘+option+上矢印または⌘+option+下矢印",
+    "unavailableReason": null
   },
   {
     "action": "フィードバック フォームを開く",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "31",
     "isAvailable": true,
-    "key": "i",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "i",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+option+shift+i",
     "unavailableReason": null
   },
   {
     "action": "カーソル ブラウジングをオンにする",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "32",
     "isAvailable": true,
-    "key": "F7",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "F7",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "F7",
     "unavailableReason": null
   },
   {
     "action": "アクティブでないダイアログにフォーカスする",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
-    "ctrlKey": false,
     "id": "33",
     "isAvailable": true,
-    "key": "a",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "a",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+option+shift+a",
     "unavailableReason": null
   },
   {
     "action": "既定の検索エンジンで検索する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "アドレスバーのショートカット",
-    "ctrlKey": false,
     "id": "34",
     "isAvailable": false,
-    "key": "Enter",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Enter",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "検索キーワードを入力+enter",
     "unavailableReason": "hasOtherActions"
   },
   {
     "action": "別の検索エンジンで検索する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "アドレスバーのショートカット",
-    "ctrlKey": false,
     "id": "35",
     "isAvailable": false,
-    "key": "Tab",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Tab",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "検索エンジン名を入力+tab",
     "unavailableReason": "hasOtherActions"
   },
   {
     "action": "サイト名に www. と .com を追加して現在のタブで開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "アドレスバーのショートカット",
-    "ctrlKey": true,
     "id": "36",
     "isAvailable": false,
-    "key": "Enter",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "Enter",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "サイト名を入力+control+enter",
     "unavailableReason": "hasOtherActions"
   },
   {
     "action": "サイト名に www. と .com を追加して新しいタブで開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "アドレスバーのショートカット",
-    "ctrlKey": true,
     "id": "37",
     "isAvailable": false,
-    "key": "Enter",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "Enter",
+        "metaKey": false,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "サイト名を入力+control+shift+enter",
     "unavailableReason": "hasOtherActions"
   },
   {
     "action": "ウェブサイトを新しいバックグラウンド タブで開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "アドレスバーのショートカット",
-    "ctrlKey": false,
     "id": "38",
     "isAvailable": false,
-    "key": "Enter",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Enter",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "ウェブアドレスを入力+⌘+enter",
     "unavailableReason": "hasOtherActions"
   },
   {
     "action": "アドレスバーに移動する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "アドレスバーのショートカット",
-    "ctrlKey": false,
     "id": "39",
     "isAvailable": true,
-    "key": "l",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "l",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+l",
     "unavailableReason": null
   },
   {
     "action": "アドレスバーから予測候補を削除する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "アドレスバーのショートカット",
-    "ctrlKey": false,
     "id": "40",
     "isAvailable": false,
-    "key": "ArrowDown",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowDown",
+        "metaKey": false,
+        "shiftKey": true
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "fn",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "下矢印で選択+shift+fn+delete\r\nノートパソコンの場合は forward delete または fn+delete",
-    "unavailableReason": "hasMultipleAnswers"
+    "unavailableReason": "hasOtherActions"
   },
   {
     "action": "アドレスバーにカーソルを移動する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "アドレスバーのショートカット",
-    "ctrlKey": true,
     "id": "41",
     "isAvailable": false,
-    "key": "F5",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "F5",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "control+F5",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "現在のページを印刷するオプションを開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "42",
     "isAvailable": true,
-    "key": "p",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "p",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+p",
     "unavailableReason": null
   },
   {
     "action": "現在のページを保存するオプションを開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "43",
     "isAvailable": true,
-    "key": "s",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "s",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+s",
     "unavailableReason": null
   },
   {
     "action": "[ページ設定] ダイアログを開く",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "44",
     "isAvailable": true,
-    "key": "p",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "p",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+option+p",
     "unavailableReason": null
   },
   {
     "action": "キャッシュ コンテンツを無視して現在のページを再読み込みする",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "45",
     "isAvailable": true,
-    "key": "r",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "r",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+shift+r",
     "unavailableReason": null
   },
   {
     "action": "ページの読み込みを停止する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "46",
     "isAvailable": true,
-    "key": "Escape",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Escape",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "esc",
     "unavailableReason": null
   },
   {
     "action": "クリック可能な項目間を移動する（順方向）",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "47",
     "isAvailable": true,
-    "key": "Tab",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Tab",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "tab",
     "unavailableReason": null
   },
   {
     "action": "クリック可能な項目間を移動する（逆方向）",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "48",
     "isAvailable": true,
-    "key": "Tab",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Tab",
+        "metaKey": false,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "shift+tab",
     "unavailableReason": null
   },
   {
     "action": "パソコン上のファイルを Google Chrome で開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "49",
     "isAvailable": false,
-    "key": "o",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "o",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+o+ファイルを選択",
     "unavailableReason": "hasOtherActions"
   },
   {
     "action": "現在のページの HTML ソースコードを表示する（編集不可）",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "50",
     "isAvailable": true,
-    "key": "u",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "u",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+option+u",
     "unavailableReason": null
   },
   {
     "action": "JavaScript コンソールを開く",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "51",
     "isAvailable": true,
-    "key": "j",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "j",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+option+j",
     "unavailableReason": null
   },
   {
     "action": "現在のウェブページをブックマークとして保存する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "52",
     "isAvailable": true,
-    "key": "d",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "d",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+d",
     "unavailableReason": null
   },
   {
     "action": "開いているすべてのタブをブックマークとして新しいフォルダに保存する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "53",
     "isAvailable": true,
-    "key": "d",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "d",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+shift+d",
     "unavailableReason": null
   },
   {
     "action": "全画面表示モードをオンまたはオフにする",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": true,
     "id": "54",
     "isAvailable": true,
-    "key": "f",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "f",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+control+f",
     "unavailableReason": null
   },
   {
     "action": "ページ上のすべての要素を拡大する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "55",
     "isAvailable": false,
-    "key": "Plus",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Plus",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘ を押しながら + キーを押す",
     "unavailableReason": "hasModifiedKey"
   },
   {
     "action": "ページ上のすべての要素を縮小する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "56",
     "isAvailable": true,
-    "key": "-",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "-",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘ を押しながら - キーを押す",
     "unavailableReason": null
   },
   {
     "action": "ページ上のすべての要素をデフォルトのサイズに戻す",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "57",
     "isAvailable": true,
-    "key": "0",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "0",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+0",
     "unavailableReason": null
   },
   {
     "action": "ウェブページを 1 画面ずつ下にスクロールする",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "58",
     "isAvailable": true,
-    "key": "Space",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Space",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "space",
     "unavailableReason": null
   },
   {
     "action": "ウェブページを 1 画面ずつ上にスクロールする",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "59",
     "isAvailable": true,
-    "key": "Space",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Space",
+        "metaKey": false,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "shift+space",
     "unavailableReason": null
   },
   {
     "action": "ウェブを検索する",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "60",
     "isAvailable": true,
-    "key": "f",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "f",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+option+f",
     "unavailableReason": null
   },
   {
     "action": "テキスト欄内で前にある単語の先頭にカーソルを移動する",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "61",
     "isAvailable": true,
-    "key": "ArrowLeft",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowLeft",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "option+左矢印",
     "unavailableReason": null
   },
   {
     "action": "テキスト欄内で次にある単語の後ろにカーソルを移動する",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "62",
     "isAvailable": true,
-    "key": "ArrowRight",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowRight",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "option+右矢印",
     "unavailableReason": null
   },
   {
     "action": "テキスト欄内で前にある単語を削除する",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "63",
     "isAvailable": true,
-    "key": "Backspace",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "Backspace",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "option+delete",
     "unavailableReason": null
   },
   {
     "action": "ホームページを現在のタブで開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "64",
     "isAvailable": true,
-    "key": "h",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "h",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+shift+h",
     "unavailableReason": null
   },
   {
     "action": "ページのズームレベルをリセットする",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "ウェブページのショートカット",
-    "ctrlKey": false,
     "id": "65",
     "isAvailable": true,
-    "key": "0",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "0",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "command+0",
     "unavailableReason": null
   },
   {
     "action": "リンクを現在のタブで開く（マウスのみ）",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "マウスのショートカット",
-    "ctrlKey": false,
     "id": "66",
     "isAvailable": false,
-    "key": null,
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "リンクをタブにドラッグ",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "リンクを新しいバックグラウンド タブで開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "マウスのショートカット",
-    "ctrlKey": false,
     "id": "67",
     "isAvailable": false,
-    "key": null,
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "⌘+リンクをクリック",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "リンクを開いてリンク先に移動する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "マウスのショートカット",
-    "ctrlKey": false,
     "id": "68",
     "isAvailable": false,
-    "key": null,
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "⌘+shift+リンクをクリック",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "リンクを開いてリンク先に移動する（マウスのみ）",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "マウスのショートカット",
-    "ctrlKey": false,
     "id": "69",
     "isAvailable": false,
-    "key": null,
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "タブバーの空白部分にリンクをドラッグ",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "リンクを新しいウィンドウで開く",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "マウスのショートカット",
-    "ctrlKey": false,
     "id": "70",
     "isAvailable": false,
-    "key": null,
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "shift+リンクをクリック",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "タブを新しいウィンドウで開く（マウスのみ）",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "マウスのショートカット",
-    "ctrlKey": false,
     "id": "71",
     "isAvailable": false,
-    "key": null,
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "タブバーの外にタブをドラッグ",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "タブを現在のウィンドウに移動する（マウスのみ）",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "マウスのショートカット",
-    "ctrlKey": false,
     "id": "72",
     "isAvailable": false,
-    "key": null,
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "既存のウィンドウにタブをドラッグ",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "タブを元の位置に戻す",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "マウスのショートカット",
-    "ctrlKey": false,
     "id": "73",
     "isAvailable": false,
-    "key": "Escape",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Escape",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "ドラッグ中に esc キーを押す",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "現在のウェブページをブックマークとして保存する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "マウスのショートカット",
-    "ctrlKey": false,
     "id": "74",
     "isAvailable": false,
-    "key": null,
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "ブックマーク バーにウェブアドレスをドラッグ",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "リンク先をダウンロードする",
-    "altKey": true,
     "app": "Google Chrome",
     "category": "マウスのショートカット",
-    "ctrlKey": false,
     "id": "75",
     "isAvailable": false,
-    "key": null,
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "option+リンクをクリック",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "閲覧履歴を表示する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "マウスのショートカット",
-    "ctrlKey": false,
     "id": "76",
     "isAvailable": false,
-    "key": null,
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "戻る  を右クリック、または戻る  を長押し\r\n次へ  を右クリック、または次へ  を長押し",
-    "unavailableReason": "hasMultipleAnswers"
+    "unavailableReason": "hasMouseActions"
   },
   {
     "action": "ウィンドウの高さを最大化する",
-    "altKey": false,
     "app": "Google Chrome",
     "category": "マウスのショートカット",
-    "ctrlKey": false,
     "id": "77",
     "isAvailable": false,
-    "key": null,
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "タブバーの空白部分をダブルクリック",
     "unavailableReason": "hasMouseActions"
   }

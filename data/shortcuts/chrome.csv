@@ -28,7 +28,7 @@ id,app,os,category,action,shortcut
 27,Google Chrome,macOS,Google Chrome 機能のショートカット,[閲覧履歴データを消去する] オプションを開く,⌘+shift+delete
 28,Google Chrome,macOS,Google Chrome 機能のショートカット,別のユーザーでログインする、ゲストとしてブラウジングする、お支払い情報とパスワード情報にアクセスする,⌘+shift+m
 29,Google Chrome,macOS,Google Chrome 機能のショートカット,メインのメニューバーに移動する,control+F2
-30,Google Chrome,macOS,Google Chrome 機能のショートカット,フォーカスのないダイアログ（表示されている場合）とすべてのツールバーにフォーカスを順番に移動する,⌘+option+上矢印または下矢印
+30,Google Chrome,macOS,Google Chrome 機能のショートカット,フォーカスのないダイアログ（表示されている場合）とすべてのツールバーにフォーカスを順番に移動する,⌘+option+上矢印または⌘+option+下矢印
 31,Google Chrome,macOS,Google Chrome 機能のショートカット,フィードバック フォームを開く,⌘+option+shift+i
 32,Google Chrome,macOS,Google Chrome 機能のショートカット,カーソル ブラウジングをオンにする,F7
 33,Google Chrome,macOS,Google Chrome 機能のショートカット,アクティブでないダイアログにフォーカスする,⌘+option+shift+a
