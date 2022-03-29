@@ -8,6 +8,7 @@ import QuestionShow from '@/components/QuestionShow.vue'
 import RestoreButton from '@/components/RestoreButton.vue'
 import ShortcutsShow from '@/components/ShortcutsShow.vue'
 import ToolList from '@/components/ToolList.vue'
+import useEventListener from '@/composables/useEventListener'
 import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
 import Keyboard from '@/keyboard'
 import gameStore from '@/stores/game'
@@ -28,7 +29,7 @@ const emit = defineEmits(['hide-tool-modal'])
 
 const game = gameStore(props.shortcuts)
 provide(GameKey, game)
-const { keyDown, keyUp, isAllRemoved } = game
+const { keyDown, keyUp, isAllRemoved, onFullscreenchange } = game
 
 const keyboard = new Keyboard()
 if ('keyboard' in navigator)
@@ -49,6 +50,7 @@ const handleKeyUp = (e: KeyboardEvent) => {
   keyUp(key)
 }
 
+useEventListener('fullscreenchange', onFullscreenchange)
 useKeyboardEventListener('keydown', handleKeyDown)
 useKeyboardEventListener('keyup', handleKeyUp)
 </script>

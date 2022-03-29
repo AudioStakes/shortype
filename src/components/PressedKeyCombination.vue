@@ -2,13 +2,14 @@
 import { CheckCircleIcon, CheckIcon } from '@heroicons/vue/solid'
 
 import KeyList from '@/components/KeyList.vue'
-import SelfScoring from '@/components/SelfScoring.vue'
+import RequestFullScreenOrSelfScoring from '@/components/RequestFullScreenOrSelfScoring.vue'
+import RequestSelfScoring from '@/components/RequestSelfScoring.vue'
 import GameKey from '@/stores/gameKey'
 import { injectStrict } from '@/utils'
 
 import ShortcutDescription from './ShortcutDescription.vue'
 
-const { state } = injectStrict(GameKey)
+const { state, needsFullscreenMode } = injectStrict(GameKey)
 </script>
 
 <template>
@@ -44,7 +45,10 @@ const { state } = injectStrict(GameKey)
         <CheckIcon />
       </div>
     </div>
-    <SelfScoring v-if="!state.shortcut.isAvailable"></SelfScoring>
+    <RequestSelfScoring v-if="!state.shortcut.isAvailable"></RequestSelfScoring>
+    <RequestFullScreenOrSelfScoring
+      v-else-if="needsFullscreenMode"
+    ></RequestFullScreenOrSelfScoring>
     <ShortcutDescription
       v-else-if="state.shortcut.needsFillInBlankMode"
       :is-fill-in-blank-mode="true"

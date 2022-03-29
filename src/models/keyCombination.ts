@@ -1,4 +1,5 @@
-import { KeyCombinable } from '../types/interfaces'
+import { KEY_COMBINATIONS_ONLY_AVAILABLE_IN_FULL_SCREEN_MODE } from '@/constants/keyCombinations'
+import { KeyCombinable } from '@/types/interfaces'
 
 export default class KeyCombination {
   static defaultValue = {
@@ -44,6 +45,19 @@ export default class KeyCombination {
   static isModified(keyCombinable: KeyCombinable) {
     const { altKey, ctrlKey, metaKey, shiftKey } = keyCombinable
     return altKey || ctrlKey || metaKey || shiftKey
+  }
+
+  static keyCombinationsOnlyAvailableInFullscreen =
+    KEY_COMBINATIONS_ONLY_AVAILABLE_IN_FULL_SCREEN_MODE.map(
+      (keyCombinationOnlyAvailableInFullscreen) =>
+        new KeyCombination(keyCombinationOnlyAvailableInFullscreen)
+    )
+
+  static isOnlyAvailableInFullscreen(keyCombinable: KeyCombinable) {
+    return KeyCombination.keyCombinationsOnlyAvailableInFullscreen.some(
+      (keyCombinationOnlyAvailableInFullscreen) =>
+        keyCombinationOnlyAvailableInFullscreen.is(keyCombinable)
+    )
   }
 
   static extractKeys(keyCombinable: KeyCombinable) {
@@ -144,6 +158,17 @@ export default class KeyCombination {
       key: 'n',
     }
     return this.is(keyCombinationOfMarkingSelfAsWrongKey)
+  }
+
+  isToggleFullscreenKey() {
+    const keyCombinationOfToggleFullscreenKey = {
+      altKey: false,
+      ctrlKey: false,
+      metaKey: false,
+      shiftKey: false,
+      key: 'f',
+    }
+    return this.is(keyCombinationOfToggleFullscreenKey)
   }
 
   isModifierKey() {

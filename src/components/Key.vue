@@ -5,7 +5,7 @@ defineProps<{ keyName: string }>()
 
 <template>
   <kbd
-    class="grid h-20 w-20 bg-white rounded-lg border-[1px] border-gray-300 shadow-3d"
+    class="grid h-20 w-20 bg-white rounded-lg border-[1px] border-gray-300 shadow-3d text-center"
     :data-testid="keyName"
   >
     <ruby

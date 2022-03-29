@@ -11,6 +11,7 @@ import {
   sampleShortcut,
   saveAnsweredHistory,
   saveRemovedIds,
+  toggleFullscreen,
   weight,
   weightedSampleKey,
 } from '@/utils'
@@ -31,6 +32,8 @@ const gameStore = (shortcuts: Shortcut[]) => {
     isMarkedSelfAsCorrect: false,
     isMarkedSelfAsWrong: false,
     isShakingKeyCombinationView: false,
+    isFullscreenMode:
+      !!document.fullscreenElement && document.fullscreenElement !== null,
     pressedKeyCombination: new KeyCombination(),
     removedIdSet: new Set<string>(removedIds),
     answeredHistoryMap: loadAnsweredHistory(),
@@ -43,6 +46,14 @@ const gameStore = (shortcuts: Shortcut[]) => {
   const wordsOfDescriptionFilledByCorrectKeys = computed(() =>
     Keyboard.splitByKey(state.shortcut.shortcut)
   )
+
+  const needsFullscreenMode = computed(() => {
+    return (
+      state.shortcut.keyCombinations.some((keyCombination) =>
+        KeyCombination.isOnlyAvailableInFullscreen(keyCombination)
+      ) && !state.isFullscreenMode
+    )
+  })
 
   const wordsOfDescriptionFilledByPressedKeys = computed(() => {
     const pressedKeys = state.pressedKeyCombination.keys()
@@ -172,9 +183,12 @@ const gameStore = (shortcuts: Shortcut[]) => {
     } else if (state.pressedKeyCombination.isSelectToolsKey()) {
       respondToSelectToolsKey()
       return
+    } else if (state.pressedKeyCombination.isToggleFullscreenKey()) {
+      toggleFullscreen()
+      return
     }
 
-    if (state.shortcut.isAvailable) {
+    if (state.shortcut.isAvailable && !needsFullscreenMode.value) {
       if (
         state.shortcut.keyCombinations.some(
           (keyCombination) =>
@@ -378,6 +392,11 @@ const gameStore = (shortcuts: Shortcut[]) => {
     })
   }
 
+  const onFullscreenchange = () => {
+    state.isFullscreenMode = !!document.fullscreenElement
+    state.pressedKeyCombination.reset()
+  }
+
   return {
     state: readonly(state),
 
@@ -385,6 +404,8 @@ const gameStore = (shortcuts: Shortcut[]) => {
     isAllRemoved,
     wordsOfDescriptionFilledByCorrectKeys,
     wordsOfDescriptionFilledByPressedKeys,
+    needsFullscreenMode,
+    countsOfEachStatus,
 
     keyDown,
     keyUp,
@@ -393,7 +414,7 @@ const gameStore = (shortcuts: Shortcut[]) => {
     updateTool,
     masteredRateOfEachTool,
     hideToolsView,
-    countsOfEachStatus,
+    onFullscreenchange,
   }
 }
 
