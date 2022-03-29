@@ -6,6 +6,7 @@ import { DENY_LIST_OF_KEY_COMBINATION } from '../src/constants/keyCombinations'
 import {
   ALT_DESCRIPTION_REGEXP,
   CTRL_DESCRIPTION_REGEXP,
+  DENY_LIST_OF_KEY_DESCRIPTION_REGEXP,
   KEY_DESCRIPTION_EXCLUDING_MODIFIER_REGEXP,
   META_DESCRIPTION_REGEXP,
   MODIFIER_KEY_DESCRIPTION_REGEXP,
@@ -72,6 +73,7 @@ export const createShortcut = (shortcutRaw: ShortcutFromCsv) => {
   }
 
   if (HAS_RANGED_ANSWERS_REGEXP.test(shortcut.shortcut)) {
+    shortcut.isAvailable = false
     shortcut.unavailableReason = 'hasRangedAnswers'
   } else if (HAS_MOUSE_ACTIONS_REGEXP.test(shortcut.shortcut)) {
     shortcut.unavailableReason = 'hasMouseActions'
@@ -121,6 +123,7 @@ const extractKeyCombinations = (shortcutDescriptions: string) => {
 const extractKey = (shortcutDescription: string) => {
   const matched = shortcutDescription
     .replaceAll(MODIFIER_KEY_DESCRIPTION_REGEXP, '')
+    .replaceAll(DENY_LIST_OF_KEY_DESCRIPTION_REGEXP, '')
     .match(KEY_DESCRIPTION_EXCLUDING_MODIFIER_REGEXP)
 
   if (matched) {

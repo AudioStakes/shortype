@@ -859,7 +859,7 @@
       {
         "altKey": false,
         "ctrlKey": false,
-        "key": "u",
+        "key": null,
         "metaKey": true,
         "shiftKey": true
       }
@@ -1607,7 +1607,7 @@
       {
         "altKey": false,
         "ctrlKey": false,
-        "key": "u",
+        "key": null,
         "metaKey": true,
         "shiftKey": false
       }
@@ -1626,7 +1626,7 @@
       {
         "altKey": false,
         "ctrlKey": false,
-        "key": "f",
+        "key": null,
         "metaKey": false,
         "shiftKey": false
       }
@@ -1816,7 +1816,7 @@
       {
         "altKey": false,
         "ctrlKey": false,
-        "key": "1",
+        "key": "Tab",
         "metaKey": false,
         "shiftKey": false
       }
@@ -1835,7 +1835,7 @@
       {
         "altKey": false,
         "ctrlKey": false,
-        "key": "1",
+        "key": "Tab",
         "metaKey": false,
         "shiftKey": false
       }
