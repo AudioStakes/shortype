@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import KeyList from '@/components/KeyList.vue'
 import ShortcutDescription from '@/components/ShortcutDescription.vue'
+import KeyCombination from '@/models/keyCombination'
 import GameKey from '@/stores/gameKey'
 import { injectStrict } from '@/utils'
 
-const { state, correctKeys } = injectStrict(GameKey)
+const { state } = injectStrict(GameKey)
 </script>
 
 <template>
@@ -17,7 +18,16 @@ const { state, correctKeys } = injectStrict(GameKey)
       data-testid="correct-key-combination"
     >
       <span class="text-xl my-2">正解</span>
-      <KeyList v-if="state.shortcut.isAvailable" :keys="correctKeys" />
+      <div v-if="state.shortcut.isAvailable" class="flex">
+        <div
+          v-for="(keyCombination, index) in state.shortcut.keyCombinations"
+          :key="index"
+          class="flex"
+        >
+          <span v-if="index > 0" class="mx-8 my-auto text-xl">もしくは</span>
+          <KeyList :keys="KeyCombination.extractKeys(keyCombination)" />
+        </div>
+      </div>
 
       <ShortcutDescription
         v-else

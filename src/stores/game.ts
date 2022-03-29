@@ -113,7 +113,6 @@ const gameStore = (shortcuts: Shortcut[]) => {
     }
   })
 
-  const correctKeys = computed(() => KeyCombination.extractKeys(state.shortcut))
   const removedShortcutExists = computed(() => state.removedIdSet.size > 0)
   const isAllRemoved = computed(() =>
     state.shortcuts.every((shortcut) => state.removedIdSet.has(shortcut.id))
@@ -149,7 +148,11 @@ const gameStore = (shortcuts: Shortcut[]) => {
     }
 
     if (state.shortcut.isAvailable) {
-      if (state.pressedKeyCombination.is(state.shortcut)) {
+      if (
+        state.shortcut.keyCombinations.some((keyCombination) =>
+          state.pressedKeyCombination.is(keyCombination)
+        )
+      ) {
         respondToCorrectKey()
       } else if (!state.isWrongKeyPressed) {
         respondToWrongKey()
@@ -341,7 +344,6 @@ const gameStore = (shortcuts: Shortcut[]) => {
   return {
     state: readonly(state),
 
-    correctKeys,
     removedShortcutExists,
     isAllRemoved,
 

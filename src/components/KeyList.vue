@@ -7,7 +7,7 @@ defineProps<{ keys: string[] }>()
 <template>
   <div class="flex justify-center align-center">
     <div v-for="(keyName, index) in keys" :key="index" class="flex">
-      <span v-if="index > 0" class="mx-7 my-auto">+</span>
+      <span v-if="index > 0" class="mx-4 my-auto">+</span>
       <Key :key-name="keyName" />
     </div>
   </div>
