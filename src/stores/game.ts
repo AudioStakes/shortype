@@ -77,12 +77,16 @@ const gameStore = (shortcuts: Shortcut[]) => {
   })
 
   const countsOfEachStatus = computed(() => {
-    const masteredIds = [...idToWeightMap.value]
-      .filter(([, weight]) => weight <= 0.6)
-      .map(([id]) => id)
-    const unmasteredIds = [...idToWeightMap.value]
-      .filter(([, weight]) => weight > 0.6)
-      .map(([id]) => id)
+    const [masteredIds, unmasteredIds]: [string[], string[]] = [
+      ...idToWeightMap.value,
+    ].reduce(
+      ([masteredIds, unmasteredIds], [id, weight]) =>
+        weight <= 0.6
+          ? [[...masteredIds, id], unmasteredIds]
+          : [masteredIds, [...unmasteredIds, id]],
+      [[], []]
+    )
+
     const noAnsweredIds = shortcutsIds.value.filter(
       (id) => !answeredIds.value.includes(id)
     )
