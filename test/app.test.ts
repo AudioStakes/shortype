@@ -54,7 +54,7 @@ test('switch a tool when the tool on the modal is clicked', async () => {
 
   getByText('ツールを選択してください')
 
-  await userEvent.click(screen.getByText('Terminal'))
+  await userEvent.click(screen.getByText('Terminal (macOS)'))
 
   expect(queryByText(/Google Chrome/)).toBeNull()
   getByText(/Terminal/)
