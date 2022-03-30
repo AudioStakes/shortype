@@ -21,6 +21,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋N もしくは Control＋Command＋N",
     "unavailableReason": "hasDeniedKeyCombination"
@@ -47,6 +48,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋T もしくは Control＋Command＋T",
     "unavailableReason": "hasDeniedKeyCombination"
@@ -66,6 +68,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋T",
     "unavailableReason": "hasDeniedKeyCombination"
@@ -85,6 +88,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋バックスラッシュ（\\）",
     "unavailableReason": "hasModifiedKey"
@@ -104,6 +108,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋N",
     "unavailableReason": "hasDeniedKeyCombination"
@@ -123,6 +128,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋K",
     "unavailableReason": null
@@ -142,6 +148,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋I",
     "unavailableReason": null
@@ -161,6 +168,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋I",
     "unavailableReason": null
@@ -180,6 +188,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋Command＋I",
     "unavailableReason": null
@@ -199,6 +208,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋プラス記号（+）",
     "unavailableReason": "hasModifiedKey"
@@ -218,6 +228,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋マイナス記号（-）",
     "unavailableReason": null
@@ -237,6 +248,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋グレイヴアクセント記号（`）",
     "unavailableReason": "hasModifiedKey"
@@ -256,6 +268,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋Shift＋ティルダ記号（~）",
     "unavailableReason": "hasModifiedKey"
@@ -275,6 +288,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋Tab",
     "unavailableReason": "hasDeniedKeyCombination"
@@ -294,6 +308,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋Shift＋Tab",
     "unavailableReason": "hasDeniedKeyCombination"
@@ -313,6 +328,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋D",
     "unavailableReason": null
@@ -332,6 +348,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋D",
     "unavailableReason": null
@@ -351,6 +368,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋W",
     "unavailableReason": "hasDeniedKeyCombination"
@@ -370,6 +388,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋W",
     "unavailableReason": "hasDeniedKeyCombination"
@@ -389,6 +408,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋Command＋W",
     "unavailableReason": null
@@ -408,6 +428,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋Shift＋Command＋W",
     "unavailableReason": null
@@ -427,6 +448,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋Home",
     "unavailableReason": null
@@ -446,6 +468,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋End",
     "unavailableReason": null
@@ -465,6 +488,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋Page Up",
     "unavailableReason": null
@@ -484,6 +508,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋Page Down",
     "unavailableReason": null
@@ -503,6 +528,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋Command＋Page Up",
     "unavailableReason": null
@@ -522,6 +548,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋Command＋Page Down",
     "unavailableReason": null
@@ -541,6 +568,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Optionキーを押したままポインタを新しい挿入ポイントに移動する",
     "unavailableReason": null
@@ -560,6 +588,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋A",
     "unavailableReason": null
@@ -579,6 +608,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋E",
     "unavailableReason": null
@@ -598,6 +628,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "→キー",
     "unavailableReason": null
@@ -617,6 +648,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "←キー",
     "unavailableReason": null
@@ -636,6 +668,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋右矢印",
     "unavailableReason": null
@@ -655,6 +688,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋左矢印",
     "unavailableReason": null
@@ -674,6 +708,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋U",
     "unavailableReason": null
@@ -693,6 +728,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋K",
     "unavailableReason": null
@@ -712,9 +748,10 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": true,
     "os": "macOS",
     "shortcut": "Option＋D（「メタキーとしてOptionキーを使用」を選択している場合に使用できます）",
-    "unavailableReason": "hasOtherActions"
+    "unavailableReason": "needsCustomizedModifierKey"
   },
   {
     "action": "前の単語の先頭まで削除する",
@@ -731,6 +768,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋W",
     "unavailableReason": null
@@ -750,6 +788,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "削除",
     "unavailableReason": null
@@ -769,6 +808,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Forward Delete",
     "unavailableReason": null
@@ -788,6 +828,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋T",
     "unavailableReason": null
@@ -797,7 +838,7 @@
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
     "id": "119",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -807,9 +848,10 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": true,
     "os": "macOS",
     "shortcut": "Shift＋Commandキーを押したまま、パスをダブルクリックする",
-    "unavailableReason": "hasMouseActions"
+    "unavailableReason": null
   },
   {
     "action": "テキストの1行全体を選択する",
@@ -826,9 +868,10 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": true,
     "os": "macOS",
     "shortcut": "行をトリプルクリックする",
-    "unavailableReason": "hasMouseActions"
+    "unavailableReason": "hasOnlyNonKeyAction"
   },
   {
     "action": "単語を選択する",
@@ -845,16 +888,17 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": true,
     "os": "macOS",
     "shortcut": "単語をダブルクリックする",
-    "unavailableReason": "hasMouseActions"
+    "unavailableReason": "hasOnlyNonKeyAction"
   },
   {
     "action": "URLを選択する",
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
     "id": "122",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -864,16 +908,17 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": true,
     "os": "macOS",
     "shortcut": "Shift＋Commandキーを押したまま、URLをダブルクリックする",
-    "unavailableReason": "hasMouseActions"
+    "unavailableReason": null
   },
   {
     "action": "矩形ブロックを選択する",
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
     "id": "123",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": true,
@@ -883,9 +928,10 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": true,
     "os": "macOS",
     "shortcut": "Optionキーを押したまま、テキストをドラッグして選択する",
-    "unavailableReason": "hasMouseActions"
+    "unavailableReason": null
   },
   {
     "action": "カット",
@@ -902,6 +948,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋X",
     "unavailableReason": null
@@ -921,6 +968,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋C",
     "unavailableReason": null
@@ -940,6 +988,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋Shift＋Command＋C",
     "unavailableReason": null
@@ -959,6 +1008,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋Shift＋Command＋C",
     "unavailableReason": null
@@ -978,6 +1028,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋V",
     "unavailableReason": null
@@ -997,6 +1048,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋V",
     "unavailableReason": null
@@ -1016,6 +1068,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋Command＋V",
     "unavailableReason": null
@@ -1035,6 +1088,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋Shift＋Command＋V",
     "unavailableReason": null
@@ -1054,6 +1108,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋F",
     "unavailableReason": null
@@ -1073,6 +1128,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋G",
     "unavailableReason": null
@@ -1092,6 +1148,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋Shift＋G",
     "unavailableReason": null
@@ -1111,6 +1168,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋E",
     "unavailableReason": null
@@ -1130,6 +1188,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋J",
     "unavailableReason": null
@@ -1149,6 +1208,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋A",
     "unavailableReason": null
@@ -1168,6 +1228,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋Command＋スペースバー",
     "unavailableReason": null
@@ -1187,6 +1248,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋U",
     "unavailableReason": null
@@ -1206,6 +1268,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋Command＋U",
     "unavailableReason": null
@@ -1225,6 +1288,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋U",
     "unavailableReason": null
@@ -1244,6 +1308,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋Return",
     "unavailableReason": null
@@ -1263,6 +1328,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋Return",
     "unavailableReason": null
@@ -1282,6 +1348,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋M",
     "unavailableReason": null
@@ -1301,6 +1368,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋Shift＋Command＋M",
     "unavailableReason": null
@@ -1320,6 +1388,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋上矢印",
     "unavailableReason": null
@@ -1339,6 +1408,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋下矢印",
     "unavailableReason": null
@@ -1358,6 +1428,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋Command＋上矢印",
     "unavailableReason": null
@@ -1377,6 +1448,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋Command＋下矢印",
     "unavailableReason": null
@@ -1396,6 +1468,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋L",
     "unavailableReason": null
@@ -1415,6 +1488,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋Command＋L",
     "unavailableReason": null
@@ -1434,6 +1508,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋K",
     "unavailableReason": null
@@ -1453,6 +1528,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋A",
     "unavailableReason": null
@@ -1472,6 +1548,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋Command＋F",
     "unavailableReason": null
@@ -1491,6 +1568,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋C",
     "unavailableReason": null
@@ -1510,6 +1588,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋カンマ（,）",
     "unavailableReason": null
@@ -1536,6 +1615,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋ ピリオド（.）もしくはControl＋Cキー",
     "unavailableReason": null
@@ -1555,6 +1635,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋P",
     "unavailableReason": null
@@ -1574,6 +1655,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Option＋Command＋R",
     "unavailableReason": null
@@ -1593,6 +1675,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋Option＋Command＋R",
     "unavailableReason": null
@@ -1602,7 +1685,7 @@
     "app": "Terminal",
     "category": "その他のショートカット",
     "id": "161",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -1612,9 +1695,10 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": true,
     "os": "macOS",
     "shortcut": "Commandキーを押したまま、URLをダブルクリックする",
-    "unavailableReason": "hasMouseActions"
+    "unavailableReason": null
   },
   {
     "action": "ファイルに完全なパスを追加する",
@@ -1631,9 +1715,10 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": true,
     "os": "macOS",
     "shortcut": "Finderから「ターミナル」ウインドウ内にファイルをドラッグする",
-    "unavailableReason": "hasMouseActions"
+    "unavailableReason": "hasOnlyNonKeyAction"
   },
   {
     "action": "テキストを書き出す",
@@ -1650,6 +1735,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋S",
     "unavailableReason": null
@@ -1669,6 +1755,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋S",
     "unavailableReason": null
@@ -1688,6 +1775,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋R",
     "unavailableReason": null
@@ -1707,6 +1795,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋R",
     "unavailableReason": null
@@ -1726,6 +1815,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋Option＋O",
     "unavailableReason": null
@@ -1745,6 +1835,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋ ↓",
     "unavailableReason": null
@@ -1764,6 +1855,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋ ↑",
     "unavailableReason": null
@@ -1783,6 +1875,7 @@
         "shiftKey": true
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋Shift＋Command＋疑問符（?）",
     "unavailableReason": "hasModifiedKey"
@@ -1802,6 +1895,7 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋Option＋Command＋スラッシュ（/）",
     "unavailableReason": null
@@ -1811,7 +1905,7 @@
     "app": "Terminal",
     "category": "その他のショートカット",
     "id": "172",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -1821,16 +1915,17 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": true,
     "os": "macOS",
     "shortcut": "コマンドラインで、1つ以上の文字を入力してから、Tabキーを押す",
-    "unavailableReason": "hasOtherActions"
+    "unavailableReason": null
   },
   {
     "action": "ディレクトリまたはファイル名補完のリストを表示する",
     "app": "Terminal",
     "category": "その他のショートカット",
     "id": "173",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -1840,8 +1935,9 @@
         "shiftKey": false
       }
     ],
+    "needsFillInBlankMode": true,
     "os": "macOS",
     "shortcut": "コマンドラインで、1つ以上の文字を入力してから、Tabキーを2回押す",
-    "unavailableReason": "hasOtherActions"
+    "unavailableReason": null
   }
 ]

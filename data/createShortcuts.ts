@@ -19,6 +19,8 @@ import {
   HAS_MULTIPLE_ANSWERS_REGEXP,
   HAS_OTHER_ACTIONS_REGEXP,
   HAS_RANGED_ANSWERS_REGEXP,
+  IS_DEPEND_ON_DEVICE_REGEXP,
+  NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP,
 } from '../src/constants/shortcutDescriptionRegexp'
 import KeyCombination from '../src/models/keyCombination'
 import { Shortcut } from '../src/types/interfaces'
@@ -70,15 +72,21 @@ export const createShortcut = (shortcutRaw: ShortcutFromCsv) => {
     keyCombinations: extractKeyCombinations(shortcutRaw.shortcut),
     isAvailable: false,
     unavailableReason: null,
+    needsFillInBlankMode: false,
   }
 
-  if (HAS_RANGED_ANSWERS_REGEXP.test(shortcut.shortcut)) {
-    shortcut.isAvailable = false
+  if (NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP.test(shortcut.shortcut)) {
+    shortcut.unavailableReason = 'needsCustomizedModifierKey'
+  } else if (IS_DEPEND_ON_DEVICE_REGEXP.test(shortcut.shortcut)) {
+    shortcut.unavailableReason = 'isDependOnDevice'
+  } else if (
+    shortcut.keyCombinations.some((keyCombination) =>
+      KeyCombination.isDefaultValue(keyCombination)
+    )
+  ) {
+    shortcut.unavailableReason = 'hasOnlyNonKeyAction'
+  } else if (HAS_RANGED_ANSWERS_REGEXP.test(shortcut.shortcut)) {
     shortcut.unavailableReason = 'hasRangedAnswers'
-  } else if (HAS_MOUSE_ACTIONS_REGEXP.test(shortcut.shortcut)) {
-    shortcut.unavailableReason = 'hasMouseActions'
-  } else if (HAS_OTHER_ACTIONS_REGEXP.test(shortcut.shortcut)) {
-    shortcut.unavailableReason = 'hasOtherActions'
   } else if (
     deniedKeyCombinations.some((deniedKeyCombination) =>
       shortcut.keyCombinations.some((keyCombination) =>
@@ -102,6 +110,8 @@ export const createShortcut = (shortcutRaw: ShortcutFromCsv) => {
   } else {
     shortcut.isAvailable = true
   }
+
+  shortcut.needsFillInBlankMode = needsFillInBlankMode(shortcut.shortcut)
 
   return shortcut
 }
@@ -136,4 +146,11 @@ const extractKey = (shortcutDescription: string) => {
   } else {
     return null
   }
+}
+
+const needsFillInBlankMode = (description: string) => {
+  return (
+    HAS_MOUSE_ACTIONS_REGEXP.test(description) ||
+    HAS_OTHER_ACTIONS_REGEXP.test(description)
+  )
 }

@@ -6,7 +6,11 @@ export default class KeyCombination {
     ctrlKey: false,
     metaKey: false,
     shiftKey: false,
-    key: undefined,
+    key: null,
+  }
+
+  static isDefaultValue(keyCombinable: KeyCombinable) {
+    return new KeyCombination(keyCombinable).is(KeyCombination.defaultValue)
   }
 
   static extractKeys(keyCombinable: KeyCombinable) {

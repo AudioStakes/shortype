@@ -27,4 +27,5 @@ export interface Shortcut {
 
   isAvailable: boolean
   unavailableReason: string | null
+  needsFillInBlankMode: boolean
 }
