@@ -1,14 +1,29 @@
 <script setup lang="ts">
 import Key from '@/components/Key.vue'
 import Keyboard from '@/keyboard'
+import GameKey from '@/stores/gameKey'
+import { injectStrict } from '@/utils'
 
-const props = defineProps<{ shortcutDescription: string }>()
-const words = Keyboard.splitByKey(props.shortcutDescription)
+const {
+  wordsOfDescriptionFilledByCorrectKeys,
+  wordsOfDescriptionFilledByPressedKeys,
+} = injectStrict(GameKey)
+
+withDefaults(defineProps<{ isFillInBlankMode?: boolean }>(), {
+  isFillInBlankMode: false,
+})
 </script>
 
 <template>
-  <div class="flex justify-center items-center align-center space-x-2">
-    <div v-for="(word, index) in words" :key="index">
+  <div
+    class="flex flex-wrap justify-center items-center align-center space-x-2"
+  >
+    <div
+      v-for="(word, index) in isFillInBlankMode
+        ? wordsOfDescriptionFilledByPressedKeys
+        : wordsOfDescriptionFilledByCorrectKeys"
+      :key="index"
+    >
       <!-- 正規表現に含まれていないのに key と判定される（Keyboard.isKey が true を返す）文字をガード -->
       <span
         v-if="['+', '＋', '～', '）'].includes(word)"
@@ -17,7 +32,7 @@ const words = Keyboard.splitByKey(props.shortcutDescription)
         >{{ word }}</span
       >
       <Key
-        v-else-if="Keyboard.isKey(word)"
+        v-else-if="Keyboard.isKey(word) || word === ''"
         :key-name="word"
         class="scale-[0.8]"
       ></Key>

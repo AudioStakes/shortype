@@ -1,5 +1,6 @@
 import { computed, reactive, readonly } from 'vue'
 
+import Keyboard from '@/keyboard'
 import KeyCombination from '@/models/keyCombination'
 import { KeyCombinable, Shortcut } from '@/types/interfaces'
 import {
@@ -39,6 +40,22 @@ const gameStore = (shortcuts: Shortcut[]) => {
   const shortcutsIds = computed(() =>
     state.shortcuts.map((shortcut) => shortcut.id)
   )
+
+  const wordsOfDescriptionFilledByCorrectKeys = computed(() =>
+    Keyboard.splitByKey(state.shortcut.shortcut)
+  )
+
+  const wordsOfDescriptionFilledByPressedKeys = computed(() => {
+    const pressedKeys = state.pressedKeyCombination.keys()
+
+    return Keyboard.splitByKey(state.shortcut.shortcut).map((word) => {
+      if (Keyboard.isKey(word)) {
+        return pressedKeys.shift() ?? ''
+      } else {
+        return word
+      }
+    })
+  })
 
   const availableIds = computed(() =>
     shortcutsIds.value.filter((id) => !state.removedIdSet.has(id))
@@ -133,9 +150,20 @@ const gameStore = (shortcuts: Shortcut[]) => {
 
   const judge = () => {
     if (!state.pressedKeyCombination.hasPressedSomeKey()) return
-    if (state.pressedKeyCombination.isModifierKey()) return
+    if (
+      state.pressedKeyCombination.isModifierKey() &&
+      !state.shortcut.keyCombinations.some((keyCombination) =>
+        KeyCombination.isOnlyModifierKeys(keyCombination)
+      )
+    )
+      return
 
-    if (state.pressedKeyCombination.isOnlyEnterKey()) {
+    if (
+      state.pressedKeyCombination.isOnlyEnterKey() &&
+      !state.shortcut.keyCombinations.some((keyCombination) =>
+        KeyCombination.isOnlyEnterKey(keyCombination)
+      )
+    ) {
       state.shortcut = nextShortcut()
       resetTypingState()
       return
@@ -149,12 +177,18 @@ const gameStore = (shortcuts: Shortcut[]) => {
 
     if (state.shortcut.isAvailable) {
       if (
-        state.shortcut.keyCombinations.some((keyCombination) =>
-          state.pressedKeyCombination.is(keyCombination)
+        state.shortcut.keyCombinations.some(
+          (keyCombination) =>
+            state.pressedKeyCombination.is(keyCombination) ||
+            (KeyCombination.isOnlyModifierKeys(keyCombination) &&
+              state.pressedKeyCombination.hasEqualModifiers(keyCombination))
         )
       ) {
         respondToCorrectKey()
-      } else if (!state.isWrongKeyPressed) {
+      } else if (
+        !state.isWrongKeyPressed &&
+        !state.pressedKeyCombination.isModifierKey()
+      ) {
         respondToWrongKey()
       }
     } else {
@@ -346,6 +380,8 @@ const gameStore = (shortcuts: Shortcut[]) => {
 
     removedShortcutExists,
     isAllRemoved,
+    wordsOfDescriptionFilledByCorrectKeys,
+    wordsOfDescriptionFilledByPressedKeys,
 
     keyDown,
     keyUp,

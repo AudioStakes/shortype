@@ -13,6 +13,39 @@ export default class KeyCombination {
     return new KeyCombination(keyCombinable).is(KeyCombination.defaultValue)
   }
 
+  static isOnlyEnterKey(keyCombinable: KeyCombinable) {
+    const onlyEnterKey = {
+      altKey: false,
+      ctrlKey: false,
+      metaKey: false,
+      shiftKey: false,
+      key: 'Enter',
+    }
+    return new KeyCombination(keyCombinable).is(onlyEnterKey)
+  }
+
+  static isOnlyModifierKeys(keyCombinable: KeyCombinable) {
+    return (
+      (KeyCombination.isModifierKey(keyCombinable) ||
+        keyCombinable.key === null ||
+        keyCombinable === undefined) &&
+      KeyCombination.isModified(keyCombinable)
+    )
+  }
+
+  static isModifierKey(keyCombinable: KeyCombinable) {
+    return (
+      keyCombinable.key !== undefined &&
+      keyCombinable.key !== null &&
+      ['Alt', 'Shift', 'Meta', 'Control'].includes(keyCombinable.key)
+    )
+  }
+
+  static isModified(keyCombinable: KeyCombinable) {
+    const { altKey, ctrlKey, metaKey, shiftKey } = keyCombinable
+    return altKey || ctrlKey || metaKey || shiftKey
+  }
+
   static extractKeys(keyCombinable: KeyCombinable) {
     const keys = []
 
@@ -55,14 +88,7 @@ export default class KeyCombination {
   }
 
   isOnlyEnterKey() {
-    const onlyEnterKey = {
-      altKey: false,
-      ctrlKey: false,
-      metaKey: false,
-      shiftKey: false,
-      key: 'Enter',
-    }
-    return this.is(onlyEnterKey)
+    return KeyCombination.isOnlyEnterKey(this.keyCombinable)
   }
 
   isRemoveKey() {
@@ -121,11 +147,7 @@ export default class KeyCombination {
   }
 
   isModifierKey() {
-    return (
-      this.keyCombinable.key !== undefined &&
-      this.keyCombinable.key !== null &&
-      ['Alt', 'Shift', 'Meta', 'Control'].includes(this.keyCombinable.key)
-    )
+    return KeyCombination.isModifierKey(this.keyCombinable)
   }
 
   hasPressedSomeKey() {
@@ -139,6 +161,15 @@ export default class KeyCombination {
       this.keyCombinable.metaKey === other.metaKey &&
       this.keyCombinable.shiftKey === other.shiftKey &&
       this.keyCombinable.key === other.key
+    )
+  }
+
+  hasEqualModifiers(other: KeyCombinable) {
+    return (
+      this.keyCombinable.altKey === other.altKey &&
+      this.keyCombinable.ctrlKey === other.ctrlKey &&
+      this.keyCombinable.metaKey === other.metaKey &&
+      this.keyCombinable.shiftKey === other.shiftKey
     )
   }
 }
