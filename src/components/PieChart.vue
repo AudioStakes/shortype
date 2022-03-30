@@ -34,8 +34,6 @@ const strokeDashArray = (
   }
 }
 
-type status = 'mastered' | 'unmastered' | 'noAnswered'
-type subStatus = 'included' | 'removed'
 const styleOfEachStatus = {
   mastered: {
     name: '身についた',
@@ -117,8 +115,9 @@ const statuses = computed(() => {
       return {
         count,
         strokeColor:
-          styleOfEachStatus[status as status][subStatus as subStatus]
-            .strokeColor,
+          styleOfEachStatus[status as 'mastered' | 'unmastered' | 'noAnswered'][
+            subStatus as 'included' | 'removed'
+          ].strokeColor,
         attributes: {
           cx: '50%',
           cy: '50%',
@@ -160,27 +159,25 @@ const statuses = computed(() => {
             </tr>
           </thead>
           <tbody>
-            <!-- eslint-disable -->
-            <template v-for="(subStatus, status) in countsOfEachStatus">
-              <tr
-                class="text-base"
-                :class="styleOfEachStatus[status].included.bgColor"
-              >
-                <td class="px-1 py-1.5">
-                  {{ styleOfEachStatus[status].name }}
-                </td>
+            <tr
+              v-for="(_, status, index) in countsOfEachStatus"
+              :key="index"
+              class="text-base"
+              :class="styleOfEachStatus[status].included.bgColor"
+            >
+              <td class="px-1 py-1.5">
+                {{ styleOfEachStatus[status].name }}
+              </td>
 
-                <td class="px-1 py-1.5"></td>
-                <td class="px-2 py-1.5 text-right">
-                  {{ countsOfEachStatus[status].included }}
-                </td>
-                <td class="px-2 py-1.5 text-right">
-                  {{ rateOf(countsOfEachStatus[status].included)
-                  }}<span class="p-0.5 text-xs">%</span>
-                </td>
-              </tr>
-            </template>
-            <!-- eslint-enable -->
+              <td class="px-1 py-1.5"></td>
+              <td class="px-2 py-1.5 text-right">
+                {{ countsOfEachStatus[status].included }}
+              </td>
+              <td class="px-2 py-1.5 text-right">
+                {{ rateOf(countsOfEachStatus[status].included)
+                }}<span class="p-0.5 text-xs">%</span>
+              </td>
+            </tr>
           </tbody>
         </table>
 
@@ -198,11 +195,12 @@ const statuses = computed(() => {
       @mouseleave="hideCircleDescription"
       @mouseover="showCircleDescription"
     >
-      <!-- eslint-disable -->
-      <template v-for="(status, key, index) in statuses">
-        <circle v-bind="status.attributes" :class="status.strokeColor" />
-      </template>
-      <!-- eslint-enable -->
+      <circle
+        v-for="(status, index) in statuses"
+        :key="index"
+        v-bind="status.attributes"
+        :class="status.strokeColor"
+      />
 
       <text
         text-anchor="middle"

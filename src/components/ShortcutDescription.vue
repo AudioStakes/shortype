@@ -8,8 +8,8 @@ const words = Keyboard.splitByKey(props.shortcutDescription)
 
 <template>
   <div class="flex justify-center items-center align-center space-x-2">
-    <template v-for="word in words">
-      <!-- eslint-disable -->
+    <div v-for="(word, index) in words" :key="index">
+      <!-- 正規表現に含まれていないのに key と判定される（Keyboard.isKey が true を返す）文字をガード -->
       <span
         v-if="['+', '＋', '～', '）'].includes(word)"
         :key="word"
@@ -22,7 +22,6 @@ const words = Keyboard.splitByKey(props.shortcutDescription)
         class="scale-[0.8]"
       ></Key>
       <span v-else class="text-xl">{{ word }}</span>
-      <!-- eslint-enable -->
-    </template>
+    </div>
   </div>
 </template>
