@@ -1,1441 +1,1846 @@
 [
   {
     "action": "新規ウインドウ",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": true,
     "id": "78",
     "isAvailable": false,
-    "key": "n",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "n",
+        "metaKey": true,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "n",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋N もしくは Control＋Command＋N",
-    "unavailableReason": "hasMultipleAnswers"
+    "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "新規タブ",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": true,
     "id": "79",
     "isAvailable": false,
-    "key": "t",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "t",
+        "metaKey": true,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "t",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋T もしくは Control＋Command＋T",
-    "unavailableReason": "hasMultipleAnswers"
+    "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "タブバーを表示する/非表示にする",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "80",
     "isAvailable": false,
-    "key": "t",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "t",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋T",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "すべてのタブを表示する/タブの概要を終了する",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "81",
     "isAvailable": false,
-    "key": "\\",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "\\",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋バックスラッシュ（\\）",
     "unavailableReason": "hasModifiedKey"
   },
   {
     "action": "新規コマンド",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "82",
     "isAvailable": false,
-    "key": "n",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "n",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋N",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "新規リモート接続",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "83",
     "isAvailable": true,
-    "key": "k",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "k",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋K",
     "unavailableReason": null
   },
   {
     "action": "インスペクタを表示する/非表示にする",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "84",
     "isAvailable": true,
-    "key": "i",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "i",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋I",
     "unavailableReason": null
   },
   {
     "action": "タイトルを編集する",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "85",
     "isAvailable": true,
-    "key": "i",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "i",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋I",
     "unavailableReason": null
   },
   {
     "action": "背景色を編集する",
-    "altKey": true,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "86",
     "isAvailable": true,
-    "key": "i",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "i",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Option＋Command＋I",
     "unavailableReason": null
   },
   {
     "action": "フォントを大きくする",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "87",
     "isAvailable": false,
-    "key": "Plus",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Plus",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋プラス記号（+）",
     "unavailableReason": "hasModifiedKey"
   },
   {
     "action": "フォントを小さくする",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "88",
     "isAvailable": true,
-    "key": "-",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "-",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋マイナス記号（-）",
     "unavailableReason": null
   },
   {
     "action": "次のウインドウ",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "89",
     "isAvailable": false,
-    "key": "`",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "`",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋グレイヴアクセント記号（`）",
     "unavailableReason": "hasModifiedKey"
   },
   {
     "action": "前のウインドウ",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "90",
     "isAvailable": false,
-    "key": "˜",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "˜",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Command＋Shift＋ティルダ記号（~）",
     "unavailableReason": "hasModifiedKey"
   },
   {
     "action": "次のタブ",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": true,
     "id": "91",
     "isAvailable": false,
-    "key": "Tab",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "Tab",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Control＋Tab",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "前のタブ",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": true,
     "id": "92",
     "isAvailable": false,
-    "key": "Tab",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "Tab",
+        "metaKey": false,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Control＋Shift＋Tab",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "ウインドウを2つに分割する",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "93",
     "isAvailable": true,
-    "key": "d",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "d",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋D",
     "unavailableReason": null
   },
   {
     "action": "分割パネルを閉じる",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "94",
     "isAvailable": true,
-    "key": "d",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "d",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋D",
     "unavailableReason": null
   },
   {
     "action": "タブを閉じる",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "95",
     "isAvailable": false,
-    "key": "w",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "w",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋W",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "ウインドウを閉じる",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "96",
     "isAvailable": false,
-    "key": "w",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "w",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋W",
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
     "action": "ほかのタブを閉じる",
-    "altKey": true,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "97",
     "isAvailable": true,
-    "key": "w",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "w",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Option＋Command＋W",
     "unavailableReason": null
   },
   {
     "action": "すべてを閉じる",
-    "altKey": true,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "98",
     "isAvailable": true,
-    "key": "w",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "w",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Option＋Shift＋Command＋W",
     "unavailableReason": null
   },
   {
     "action": "上端までスクロールする",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "99",
     "isAvailable": true,
-    "key": "h",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "h",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋Home",
     "unavailableReason": null
   },
   {
     "action": "下端までスクロールする",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "100",
     "isAvailable": true,
-    "key": "e",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "e",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋End",
     "unavailableReason": null
   },
   {
     "action": "ページアップ",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "101",
     "isAvailable": true,
-    "key": "PageUp",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "PageUp",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋Page Up",
     "unavailableReason": null
   },
   {
     "action": "ページダウン",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "102",
     "isAvailable": true,
-    "key": "PageDown",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "PageDown",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋Page Down",
     "unavailableReason": null
   },
   {
     "action": "1行上へ",
-    "altKey": true,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "103",
     "isAvailable": true,
-    "key": "PageUp",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "PageUp",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Option＋Command＋Page Up",
     "unavailableReason": null
   },
   {
     "action": "1行下へ",
-    "altKey": true,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
-    "ctrlKey": false,
     "id": "104",
     "isAvailable": true,
-    "key": "PageDown",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "PageDown",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Option＋Command＋Page Down",
     "unavailableReason": null
   },
   {
     "action": "挿入ポイントの位置を変更する",
-    "altKey": true,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": false,
     "id": "105",
-    "isAvailable": false,
-    "key": null,
-    "metaKey": false,
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Optionキーを押したままポインタを新しい挿入ポイントに移動する",
-    "unavailableReason": "noMatchedKeyExists"
+    "unavailableReason": null
   },
   {
     "action": "挿入ポイントを行の先頭に移動する",
-    "altKey": false,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": true,
     "id": "106",
     "isAvailable": true,
-    "key": "a",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "a",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Control＋A",
     "unavailableReason": null
   },
   {
     "action": "挿入ポイントを行の末尾に移動する",
-    "altKey": false,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": true,
     "id": "107",
     "isAvailable": true,
-    "key": "e",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "e",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Control＋E",
     "unavailableReason": null
   },
   {
     "action": "挿入ポイントを1文字先に移動する",
-    "altKey": false,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": false,
     "id": "108",
     "isAvailable": true,
-    "key": "ArrowRight",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowRight",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "→キー",
     "unavailableReason": null
   },
   {
     "action": "挿入ポイントを1文字前に移動する",
-    "altKey": false,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": false,
     "id": "109",
     "isAvailable": true,
-    "key": "ArrowLeft",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowLeft",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "←キー",
     "unavailableReason": null
   },
   {
     "action": "挿入ポイントを1単語先に移動する",
-    "altKey": true,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": false,
     "id": "110",
     "isAvailable": true,
-    "key": "ArrowRight",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowRight",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Option＋右矢印",
     "unavailableReason": null
   },
   {
     "action": "挿入ポイントを1単語前に移動する",
-    "altKey": true,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": false,
     "id": "111",
     "isAvailable": true,
-    "key": "ArrowLeft",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowLeft",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Option＋左矢印",
     "unavailableReason": null
   },
   {
     "action": "行を削除する",
-    "altKey": false,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": true,
     "id": "112",
     "isAvailable": true,
-    "key": "u",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "u",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Control＋U",
     "unavailableReason": null
   },
   {
     "action": "行の末尾まで削除する",
-    "altKey": false,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": true,
     "id": "113",
     "isAvailable": true,
-    "key": "k",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "k",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Control＋K",
     "unavailableReason": null
   },
   {
     "action": "次の単語の末尾まで削除する",
-    "altKey": true,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": false,
     "id": "114",
     "isAvailable": false,
-    "key": "d",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "d",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Option＋D（「メタキーとしてOptionキーを使用」を選択している場合に使用できます）",
     "unavailableReason": "hasOtherActions"
   },
   {
     "action": "前の単語の先頭まで削除する",
-    "altKey": false,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": true,
     "id": "115",
     "isAvailable": true,
-    "key": "w",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "w",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Control＋W",
     "unavailableReason": null
   },
   {
     "action": "1文字削除する",
-    "altKey": false,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": false,
     "id": "116",
     "isAvailable": true,
-    "key": "Backspace",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Backspace",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "削除",
     "unavailableReason": null
   },
   {
     "action": "次の1文字を削除する",
-    "altKey": false,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": false,
     "id": "117",
-    "isAvailable": false,
-    "key": "Delete",
-    "metaKey": false,
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Delete",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
-    "shortcut": "Forward Delete（またはFn＋Delete）",
-    "unavailableReason": "hasMultipleAnswers"
+    "shortcut": "Forward Delete",
+    "unavailableReason": null
   },
   {
     "action": "2つの文字を転置する",
-    "altKey": false,
     "app": "Terminal",
     "category": "コマンドラインを編集する",
-    "ctrlKey": true,
     "id": "118",
     "isAvailable": true,
-    "key": "t",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "t",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Control＋T",
     "unavailableReason": null
   },
   {
     "action": "ファイルの完全なパスを選択する",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "119",
     "isAvailable": false,
-    "key": null,
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Commandキーを押したまま、パスをダブルクリックする",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "テキストの1行全体を選択する",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "120",
     "isAvailable": false,
-    "key": null,
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "行をトリプルクリックする",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "単語を選択する",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "121",
     "isAvailable": false,
-    "key": null,
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "単語をダブルクリックする",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "URLを選択する",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "122",
     "isAvailable": false,
-    "key": "u",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Commandキーを押したまま、URLをダブルクリックする",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "矩形ブロックを選択する",
-    "altKey": true,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "123",
     "isAvailable": false,
-    "key": null,
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Optionキーを押したまま、テキストをドラッグして選択する",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "カット",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "124",
     "isAvailable": true,
-    "key": "x",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "x",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋X",
     "unavailableReason": null
   },
   {
     "action": "コピー",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "125",
     "isAvailable": true,
-    "key": "c",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "c",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋C",
     "unavailableReason": null
   },
   {
     "action": "背景色以外をコピーする",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": true,
     "id": "126",
     "isAvailable": true,
-    "key": "c",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "c",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Control＋Shift＋Command＋C",
     "unavailableReason": null
   },
   {
     "action": "標準テキストをコピーする",
-    "altKey": true,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "127",
     "isAvailable": true,
-    "key": "c",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "c",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Option＋Shift＋Command＋C",
     "unavailableReason": null
   },
   {
     "action": "ペースト",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "128",
     "isAvailable": true,
-    "key": "v",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "v",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋V",
     "unavailableReason": null
   },
   {
     "action": "選択部分をペーストする",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "129",
     "isAvailable": true,
-    "key": "v",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "v",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋V",
     "unavailableReason": null
   },
   {
     "action": "テキストをエスケープしてペーストする",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": true,
     "id": "130",
     "isAvailable": true,
-    "key": "v",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "v",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Control＋Command＋V",
     "unavailableReason": null
   },
   {
     "action": "選択部分をエスケープしてペーストする",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": true,
     "id": "131",
     "isAvailable": true,
-    "key": "v",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "v",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Control＋Shift＋Command＋V",
     "unavailableReason": null
   },
   {
     "action": "検索する",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "132",
     "isAvailable": true,
-    "key": "f",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "f",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋F",
     "unavailableReason": null
   },
   {
     "action": "次を検索",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "133",
     "isAvailable": true,
-    "key": "g",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "g",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋G",
     "unavailableReason": null
   },
   {
     "action": "前を検索",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "134",
     "isAvailable": true,
-    "key": "g",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "g",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Command＋Shift＋G",
     "unavailableReason": null
   },
   {
     "action": "選択したテキストを使って検索する",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "135",
     "isAvailable": true,
-    "key": "e",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "e",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋E",
     "unavailableReason": null
   },
   {
     "action": "選択したテキストへジャンプする",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "136",
     "isAvailable": true,
-    "key": "j",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "j",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋J",
     "unavailableReason": null
   },
   {
     "action": "すべてを選択する",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": false,
     "id": "137",
     "isAvailable": true,
-    "key": "a",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "a",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋A",
     "unavailableReason": null
   },
   {
     "action": "文字ビューアを開く",
-    "altKey": false,
     "app": "Terminal",
     "category": "「ターミナル」ウインドウでテキストを選択する/検索する",
-    "ctrlKey": true,
     "id": "138",
     "isAvailable": true,
-    "key": "Space",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "Space",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Control＋Command＋スペースバー",
     "unavailableReason": null
   },
   {
     "action": "マークする",
-    "altKey": false,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "139",
     "isAvailable": true,
-    "key": "u",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "u",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋U",
     "unavailableReason": null
   },
   {
     "action": "ブックマークとしてマークする",
-    "altKey": true,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "140",
     "isAvailable": true,
-    "key": "u",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "u",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Option＋Command＋U",
     "unavailableReason": null
   },
   {
     "action": "マークを解除する",
-    "altKey": false,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "141",
     "isAvailable": true,
-    "key": "u",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "u",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋U",
     "unavailableReason": null
   },
   {
     "action": "行をマークして改行を送信する",
-    "altKey": false,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "142",
     "isAvailable": true,
-    "key": "Enter",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Enter",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋Return",
     "unavailableReason": null
   },
   {
     "action": "マークせずに改行を送信する",
-    "altKey": false,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "143",
     "isAvailable": true,
-    "key": "Enter",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Enter",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋Return",
     "unavailableReason": null
   },
   {
     "action": "ブックマークを挿入する",
-    "altKey": false,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "144",
     "isAvailable": true,
-    "key": "m",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "m",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋M",
     "unavailableReason": null
   },
   {
     "action": "ブックマークに名前を付けて挿入する",
-    "altKey": true,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "145",
     "isAvailable": true,
-    "key": "m",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "m",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Option＋Shift＋Command＋M",
     "unavailableReason": null
   },
   {
     "action": "前のマークへジャンプする",
-    "altKey": false,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "146",
     "isAvailable": true,
-    "key": "ArrowUp",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowUp",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋上矢印",
     "unavailableReason": null
   },
   {
     "action": "次のマークへジャンプする",
-    "altKey": false,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "147",
     "isAvailable": true,
-    "key": "ArrowDown",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowDown",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋下矢印",
     "unavailableReason": null
   },
   {
     "action": "前のブックマークへジャンプする",
-    "altKey": true,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "148",
     "isAvailable": true,
-    "key": "ArrowUp",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowUp",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Option＋Command＋上矢印",
     "unavailableReason": null
   },
   {
     "action": "次のブックマークへジャンプする",
-    "altKey": true,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "149",
     "isAvailable": true,
-    "key": "ArrowDown",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowDown",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Option＋Command＋下矢印",
     "unavailableReason": null
   },
   {
     "action": "前のマークまで消去する",
-    "altKey": false,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "150",
     "isAvailable": true,
-    "key": "l",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "l",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋L",
     "unavailableReason": null
   },
   {
     "action": "前のブックマークまで消去する",
-    "altKey": true,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "151",
     "isAvailable": true,
-    "key": "l",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "l",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Option＋Command＋L",
     "unavailableReason": null
   },
   {
     "action": "開始位置まで消去する",
-    "altKey": false,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "152",
     "isAvailable": true,
-    "key": "k",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "k",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋K",
     "unavailableReason": null
   },
   {
     "action": "マーク間を選択する",
-    "altKey": false,
     "app": "Terminal",
     "category": "マークとブックマークを操作する",
-    "ctrlKey": false,
     "id": "153",
     "isAvailable": true,
-    "key": "a",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "a",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋A",
     "unavailableReason": null
   },
   {
     "action": "フルスクリーンを開始する/終了する",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": true,
     "id": "154",
     "isAvailable": true,
-    "key": "f",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "f",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Control＋Command＋F",
     "unavailableReason": null
   },
   {
     "action": "カラーを表示する/非表示にする",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "155",
     "isAvailable": true,
-    "key": "c",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "c",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋C",
     "unavailableReason": null
   },
   {
     "action": "「ターミナル」環境設定を開く",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "156",
     "isAvailable": true,
-    "key": ",",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": ",",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋カンマ（,）",
     "unavailableReason": null
   },
   {
     "action": "ブレーク",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": true,
     "id": "157",
-    "isAvailable": false,
-    "key": ".",
-    "metaKey": true,
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": ".",
+        "metaKey": true,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "c",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
-    "shortcut": "Command＋ ピリオド（.）は、コマンドラインでControl＋Cキーを押すことと同等です",
-    "unavailableReason": "hasMultipleAnswers"
+    "shortcut": "Command＋ ピリオド（.）もしくはControl＋Cキー",
+    "unavailableReason": null
   },
   {
     "action": "プリント",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "158",
     "isAvailable": true,
-    "key": "p",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "p",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋P",
     "unavailableReason": null
   },
   {
     "action": "端末エミュレータ状態をソフトリセットする",
-    "altKey": true,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "159",
     "isAvailable": true,
-    "key": "r",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "r",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Option＋Command＋R",
     "unavailableReason": null
   },
   {
     "action": "端末エミュレータ状態をハードリセットする",
-    "altKey": true,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": true,
     "id": "160",
     "isAvailable": true,
-    "key": "r",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": true,
+        "key": "r",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Control＋Option＋Command＋R",
     "unavailableReason": null
   },
   {
     "action": "URLを開く",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "161",
     "isAvailable": false,
-    "key": "u",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Commandキーを押したまま、URLをダブルクリックする",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "ファイルに完全なパスを追加する",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "162",
     "isAvailable": false,
-    "key": "f",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Finderから「ターミナル」ウインドウ内にファイルをドラッグする",
     "unavailableReason": "hasMouseActions"
   },
   {
     "action": "テキストを書き出す",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "163",
     "isAvailable": true,
-    "key": "s",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "s",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋S",
     "unavailableReason": null
   },
   {
     "action": "選択したテキストを書き出す",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "164",
     "isAvailable": true,
-    "key": "s",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "s",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋S",
     "unavailableReason": null
   },
   {
     "action": "検索コマンド履歴を逆順にする",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": true,
     "id": "165",
     "isAvailable": true,
-    "key": "r",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "r",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Control＋R",
     "unavailableReason": null
   },
   {
     "action": "「マウスレポーティングを許可」オプションを切り替える",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "166",
     "isAvailable": true,
-    "key": "r",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "r",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋R",
     "unavailableReason": null
   },
   {
     "action": "「メタキーとしてOptionキーを使用」オプションを切り替える",
-    "altKey": true,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "167",
     "isAvailable": true,
-    "key": "o",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "o",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Command＋Option＋O",
     "unavailableReason": null
   },
   {
     "action": "代替スクリーンを表示する",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "168",
     "isAvailable": true,
-    "key": "PageDown",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "PageDown",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋ ↓",
     "unavailableReason": null
   },
   {
     "action": "代替スクリーンを非表示にする",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "169",
     "isAvailable": true,
-    "key": "PageUp",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "PageUp",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Shift＋Command＋ ↑",
     "unavailableReason": null
   },
   {
     "action": "選択部分のmanページを開く",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": true,
     "id": "170",
     "isAvailable": false,
-    "key": "?",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "?",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
     "os": "macOS",
-    "shiftKey": true,
     "shortcut": "Control＋Shift＋Command＋疑問符（?）",
     "unavailableReason": "hasModifiedKey"
   },
   {
     "action": "選択部分をmanページインデックスで検索する",
-    "altKey": true,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": true,
     "id": "171",
     "isAvailable": true,
-    "key": "/",
-    "metaKey": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": true,
+        "key": "/",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "Control＋Option＋Command＋スラッシュ（/）",
     "unavailableReason": null
   },
   {
     "action": "ディレクトリ名またはファイル名を補完する",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "172",
     "isAvailable": false,
-    "key": "1",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Tab",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "コマンドラインで、1つ以上の文字を入力してから、Tabキーを押す",
     "unavailableReason": "hasOtherActions"
   },
   {
     "action": "ディレクトリまたはファイル名補完のリストを表示する",
-    "altKey": false,
     "app": "Terminal",
     "category": "その他のショートカット",
-    "ctrlKey": false,
     "id": "173",
     "isAvailable": false,
-    "key": "1",
-    "metaKey": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Tab",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
     "os": "macOS",
-    "shiftKey": false,
     "shortcut": "コマンドラインで、1つ以上の文字を入力してから、Tabキーを2回押す",
     "unavailableReason": "hasOtherActions"
   }

@@ -38,7 +38,7 @@ id,app,os,category,action,shortcut
 114,Terminal,macOS,コマンドラインを編集する,次の単語の末尾まで削除する,Option＋D（「メタキーとしてOptionキーを使用」を選択している場合に使用できます）
 115,Terminal,macOS,コマンドラインを編集する,前の単語の先頭まで削除する,Control＋W
 116,Terminal,macOS,コマンドラインを編集する,1文字削除する,削除
-117,Terminal,macOS,コマンドラインを編集する,次の1文字を削除する,Forward Delete（またはFn＋Delete）
+117,Terminal,macOS,コマンドラインを編集する,次の1文字を削除する,Forward Delete
 118,Terminal,macOS,コマンドラインを編集する,2つの文字を転置する,Control＋T
 119,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,ファイルの完全なパスを選択する,Shift＋Commandキーを押したまま、パスをダブルクリックする
 120,Terminal,macOS,「ターミナル」ウインドウでテキストを選択する/検索する,テキストの1行全体を選択する,行をトリプルクリックする
@@ -78,7 +78,7 @@ id,app,os,category,action,shortcut
 154,Terminal,macOS,その他のショートカット,フルスクリーンを開始する/終了する,Control＋Command＋F
 155,Terminal,macOS,その他のショートカット,カラーを表示する/非表示にする,Shift＋Command＋C
 156,Terminal,macOS,その他のショートカット,「ターミナル」環境設定を開く,"Command＋カンマ（,）"
-157,Terminal,macOS,その他のショートカット,ブレーク,Command＋ ピリオド（.）は、コマンドラインでControl＋Cキーを押すことと同等です
+157,Terminal,macOS,その他のショートカット,ブレーク,Command＋ ピリオド（.）もしくはControl＋Cキー
 158,Terminal,macOS,その他のショートカット,プリント,Command＋P
 159,Terminal,macOS,その他のショートカット,端末エミュレータ状態をソフトリセットする,Option＋Command＋R
 160,Terminal,macOS,その他のショートカット,端末エミュレータ状態をハードリセットする,Control＋Option＋Command＋R

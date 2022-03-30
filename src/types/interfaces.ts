@@ -23,11 +23,7 @@ export interface Shortcut {
   action: string
   shortcut: string
 
-  altKey: boolean
-  ctrlKey: boolean
-  metaKey: boolean
-  shiftKey: boolean
-  key: string | undefined | null
+  keyCombinations: KeyCombinable[]
 
   isAvailable: boolean
   unavailableReason: string | null

@@ -357,7 +357,7 @@ const standardKeys = [
 ]
 const STANDARD_KEY_REGEXP = new RegExp(standardKeys.join('|'))
 
-const modifiedKeys = ['\\.', '\\?', '\\\\', '`', '˜', 'Plus'] // Plus は + のこと。説明文と区別をつけるため、あえて plus として扱っている
+const modifiedKeys = ['\\?', '\\\\', '`', '˜', 'Plus'] // Plus は + のこと。説明文と区別をつけるため、あえて plus として扱っている
 export const MODIFIED_KEY_REGEXP = new RegExp(modifiedKeys.join('|'))
 
 const additionalKeys = ['plus'] // 説明文中の単語と区別するため、本来の key と別名にした
