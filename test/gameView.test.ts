@@ -13,6 +13,7 @@ import GameView from '@/views/GameView.vue'
 
 import {
   availableShortcuts,
+  shortcutsOnlyAvailableInFullscreen,
   shortcutWithMultipleKeyCombinations,
   shortcutWithNonKeyActions,
   unsupportedShortcuts,
@@ -293,7 +294,7 @@ test('show the message to confirm the correct answer when the question is an uns
     props: { shortcuts: unsupportedShortcuts },
   })
 
-  getByText('新しいウィンドウを開く')
+  getByText('開いている次のタブに移動する')
 
   getByText('正解判定に未対応のため、')
   expect(
@@ -415,4 +416,21 @@ test('show a pressed key on fill-in-blank mode', async () => {
   ).queryByText(/Shift/)
 
   expect(pressedKeyElement).toBeTruthy()
+})
+
+test('show the message to request fullscreen mode when the shortcut key is only available in fullscreen mode', () => {
+  const { getByText, getByTestId } = render(GameView, {
+    props: { shortcuts: shortcutsOnlyAvailableInFullscreen },
+  })
+
+  getByText('新しいウィンドウを開く')
+
+  const pressedKeyCombination = getByTestId('pressed-key-combination')
+
+  expect(pressedKeyCombination.textContent).toContain(
+    '正解判定できるようにするため、Fで全画面モードを ONにしてください'
+  )
+  expect(pressedKeyCombination.textContent).toContain(
+    'このまま続ける場合、Cで正解を確認 & 自己採点をお願いします'
+  )
 })

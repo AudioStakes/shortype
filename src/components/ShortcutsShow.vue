@@ -16,5 +16,14 @@
       </div>
       <span>次から出題しない</span>
     </div>
+    <div class="flex justify-center items-center space-x-2">
+      <div class="">
+        <kbd
+          class="bg-white rounded border-[1px] border-gray-300 shadow-3d px-2 py-1"
+          >F
+        </kbd>
+      </div>
+      <span>全画面モードを ON / OFF</span>
+    </div>
   </ul>
 </template>

@@ -4,7 +4,7 @@
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
     "id": "78",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -24,14 +24,14 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋N もしくは Control＋Command＋N",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "新規タブ",
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
     "id": "79",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -51,14 +51,14 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋T もしくは Control＋Command＋T",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "タブバーを表示する/非表示にする",
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
     "id": "80",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -71,7 +71,7 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋T",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "すべてのタブを表示する/タブの概要を終了する",
@@ -98,7 +98,7 @@
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
     "id": "82",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -111,7 +111,7 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋N",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "新規リモート接続",
@@ -278,7 +278,7 @@
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
     "id": "91",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -291,14 +291,14 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋Tab",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "前のタブ",
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
     "id": "92",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -311,7 +311,7 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Control＋Shift＋Tab",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "ウインドウを2つに分割する",
@@ -358,7 +358,7 @@
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
     "id": "95",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -371,14 +371,14 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Command＋W",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "ウインドウを閉じる",
     "app": "Terminal",
     "category": "「ターミナル」ウインドウとタブを操作する",
     "id": "96",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -391,7 +391,7 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "Shift＋Command＋W",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "ほかのタブを閉じる",
