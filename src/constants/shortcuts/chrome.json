@@ -4,7 +4,7 @@
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
     "id": "1",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -17,14 +17,14 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "⌘+n",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "新しいウィンドウをシークレット モードで開く",
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
     "id": "2",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -37,14 +37,14 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "⌘+shift+n",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "新しいタブを開いてそのタブに移動する",
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
     "id": "3",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -57,14 +57,14 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "⌘+t",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "閉じたタブを閉じた順序で再び開く",
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
     "id": "4",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -77,7 +77,7 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "⌘+shift+t",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "開いている次のタブに移動する",
@@ -218,7 +218,7 @@
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
     "id": "11",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -231,14 +231,14 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "⌘+w",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "現在のウィンドウを閉じる",
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
     "id": "12",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -251,7 +251,7 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "⌘+shift+w",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "ウィンドウを最小化する",
