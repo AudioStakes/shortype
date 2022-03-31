@@ -84,7 +84,7 @@
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
     "id": "5",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": true,
@@ -97,14 +97,14 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "⌘+option+右矢印",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "開いている前のタブに移動する",
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
     "id": "6",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": true,
@@ -117,7 +117,7 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "⌘+option+左矢印",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "特定のタブに移動する",
@@ -298,7 +298,7 @@
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
     "id": "15",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -311,7 +311,7 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "⌘+q",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "キーボード フォーカスのあるタブを左右に移動する",

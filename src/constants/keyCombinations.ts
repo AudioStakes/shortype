@@ -2,27 +2,6 @@
 export const DENY_LIST_OF_KEY_COMBINATION = [
   {
     altKey: false,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: false,
-    key: 'q',
-  },
-  {
-    altKey: true,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: false,
-    key: 'ArrowLeft',
-  },
-  {
-    altKey: true,
-    ctrlKey: false,
-    metaKey: true,
-    shiftKey: false,
-    key: 'ArrowRight',
-  },
-  {
-    altKey: false,
     ctrlKey: true,
     metaKey: false,
     shiftKey: false,
@@ -70,6 +49,13 @@ export const KEY_COMBINATIONS_ONLY_AVAILABLE_IN_FULL_SCREEN_MODE = [
     altKey: false,
     ctrlKey: false,
     metaKey: true,
+    shiftKey: false,
+    key: 'q',
+  },
+  {
+    altKey: false,
+    ctrlKey: false,
+    metaKey: true,
     shiftKey: true,
     key: 't',
   },
@@ -93,5 +79,19 @@ export const KEY_COMBINATIONS_ONLY_AVAILABLE_IN_FULL_SCREEN_MODE = [
     metaKey: false,
     shiftKey: true,
     key: 'Tab',
+  },
+  {
+    altKey: true,
+    ctrlKey: false,
+    metaKey: true,
+    shiftKey: false,
+    key: 'ArrowLeft',
+  },
+  {
+    altKey: true,
+    ctrlKey: false,
+    metaKey: true,
+    shiftKey: false,
+    key: 'ArrowRight',
   },
 ] as const

@@ -1,6 +1,6 @@
 import { inject, InjectionKey } from 'vue'
 
-import { Shortcut } from '@/types/interfaces'
+import { NavigatorExtend, Shortcut } from '@/types/interfaces'
 
 // https://logaretm.com/blog/type-safe-provide-inject/
 export function injectStrict<T>(key: InjectionKey<T>, fallback?: T) {
@@ -207,5 +207,12 @@ export function toggleFullscreen() {
     if (document.exitFullscreen) {
       document.exitFullscreen()
     }
+  }
+}
+
+export function lockKeyboard() {
+  const navigatorExtend = navigator as NavigatorExtend
+  if ('keyboard' in navigatorExtend && 'lock' in navigatorExtend.keyboard) {
+    navigatorExtend.keyboard.lock()
   }
 }

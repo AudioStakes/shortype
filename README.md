@@ -15,7 +15,7 @@ https://shortype.vercel.app/
 - Just type the shortcut key to train
 - All shortcut keys from the official documentation are available
 - Automatically increases the frequency of unmastered shortcut keys
-- Focus on the shortcut keys you want to learn by excluding non-interesting shortcut keys
+- Focus on the shortcut keys you want to master by excluding non-interesting shortcut keys
 
 ## Available apps for training
 

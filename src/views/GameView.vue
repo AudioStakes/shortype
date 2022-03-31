@@ -18,6 +18,7 @@ import {
   NavigatorKeyboard,
   Shortcut,
 } from '@/types/interfaces'
+import { lockKeyboard } from '@/utils'
 
 const props = withDefaults(
   defineProps<{ shortcuts: Shortcut[]; isShowToolModal?: boolean }>(),
@@ -32,10 +33,12 @@ provide(GameKey, game)
 const { keyDown, keyUp, isAllRemoved, onFullscreenchange } = game
 
 const keyboard = new Keyboard()
-if ('keyboard' in navigator)
+if ('keyboard' in navigator) {
   keyboard.setKeyboardLayoutMap(
     (navigator as NavigatorExtend).keyboard as NavigatorKeyboard
   )
+  lockKeyboard()
+}
 
 const handleKeyDown = (e: KeyboardEvent) => {
   const { altKey, metaKey, shiftKey, ctrlKey } = e
