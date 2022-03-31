@@ -298,7 +298,7 @@
     "app": "Google Chrome",
     "category": "タブとウィンドウのショートカット",
     "id": "15",
-    "isAvailable": false,
+    "isAvailable": true,
     "keyCombinations": [
       {
         "altKey": false,
@@ -311,7 +311,7 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "shortcut": "⌘+q",
-    "unavailableReason": "hasDeniedKeyCombination"
+    "unavailableReason": null
   },
   {
     "action": "キーボード フォーカスのあるタブを左右に移動する",
