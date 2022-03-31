@@ -1,5 +1,6 @@
 import { computed, reactive, readonly } from 'vue'
 
+import Keyboard from '@/keyboard'
 import KeyCombination from '@/models/keyCombination'
 import { KeyCombinable, Shortcut } from '@/types/interfaces'
 import {
@@ -7,6 +8,7 @@ import {
   loadAnsweredHistory,
   loadRemovedIds,
   loadShortcutsByTool,
+  sampleShortcut,
   saveAnsweredHistory,
   saveRemovedIds,
   weight,
@@ -19,9 +21,7 @@ const removedIds = [...loadRemovedIds()]
 const gameStore = (shortcuts: Shortcut[]) => {
   const state = reactive({
     shortcuts: shortcuts,
-    shortcut:
-      shortcuts.find((shortcut) => !removedIds.includes(shortcut.id)) ??
-      shortcuts[0],
+    shortcut: sampleShortcut(shortcuts, removedIds),
     isListeningKeyboardEvent: true,
     isCorrectKeyPressed: false,
     isWrongKeyPressed: false,
@@ -39,6 +39,22 @@ const gameStore = (shortcuts: Shortcut[]) => {
   const shortcutsIds = computed(() =>
     state.shortcuts.map((shortcut) => shortcut.id)
   )
+
+  const wordsOfDescriptionFilledByCorrectKeys = computed(() =>
+    Keyboard.splitByKey(state.shortcut.shortcut)
+  )
+
+  const wordsOfDescriptionFilledByPressedKeys = computed(() => {
+    const pressedKeys = state.pressedKeyCombination.keys()
+
+    return Keyboard.splitByKey(state.shortcut.shortcut).map((word) => {
+      if (Keyboard.isKey(word)) {
+        return pressedKeys.shift() ?? ''
+      } else {
+        return word
+      }
+    })
+  })
 
   const availableIds = computed(() =>
     shortcutsIds.value.filter((id) => !state.removedIdSet.has(id))
@@ -133,9 +149,20 @@ const gameStore = (shortcuts: Shortcut[]) => {
 
   const judge = () => {
     if (!state.pressedKeyCombination.hasPressedSomeKey()) return
-    if (state.pressedKeyCombination.isModifierKey()) return
+    if (
+      state.pressedKeyCombination.isModifierKey() &&
+      !state.shortcut.keyCombinations.some((keyCombination) =>
+        KeyCombination.isOnlyModifierKeys(keyCombination)
+      )
+    )
+      return
 
-    if (state.pressedKeyCombination.isOnlyEnterKey()) {
+    if (
+      state.pressedKeyCombination.isOnlyEnterKey() &&
+      !state.shortcut.keyCombinations.some((keyCombination) =>
+        KeyCombination.isOnlyEnterKey(keyCombination)
+      )
+    ) {
       state.shortcut = nextShortcut()
       resetTypingState()
       return
@@ -149,12 +176,18 @@ const gameStore = (shortcuts: Shortcut[]) => {
 
     if (state.shortcut.isAvailable) {
       if (
-        state.shortcut.keyCombinations.some((keyCombination) =>
-          state.pressedKeyCombination.is(keyCombination)
+        state.shortcut.keyCombinations.some(
+          (keyCombination) =>
+            state.pressedKeyCombination.is(keyCombination) ||
+            (KeyCombination.isOnlyModifierKeys(keyCombination) &&
+              state.pressedKeyCombination.hasEqualModifiers(keyCombination))
         )
       ) {
         respondToCorrectKey()
-      } else if (!state.isWrongKeyPressed) {
+      } else if (
+        !state.isWrongKeyPressed &&
+        !state.pressedKeyCombination.isModifierKey()
+      ) {
         respondToWrongKey()
       }
     } else {
@@ -178,19 +211,23 @@ const gameStore = (shortcuts: Shortcut[]) => {
   }
 
   const nextShortcut = () => {
-    let nextId: string
+    if (noAnsweredAvailableIds.value.length === 0) {
+      const nextId = weightedSampleKey(availableIdToWeightMap.value)
 
-    if (noAnsweredAvailableIds.value.length > 0) {
-      nextId =
-        noAnsweredAvailableIds.value.find((id) => id > state.shortcut.id) ??
-        noAnsweredAvailableIds.value[0]
+      return state.shortcuts.find(
+        (shortcut) => shortcut.id === nextId
+      ) as Shortcut
+    } else if (noAnsweredAvailableIds.value.length === 1) {
+      return state.shortcuts.find(
+        (shortcut) => shortcut.id === noAnsweredAvailableIds.value[0]
+      ) as Shortcut
     } else {
-      nextId = weightedSampleKey(availableIdToWeightMap.value)
-    }
+      const noAnsweredAvailableShortcuts = state.shortcuts.filter((shortcut) =>
+        noAnsweredAvailableIds.value.includes(shortcut.id)
+      )
 
-    return state.shortcuts.find(
-      (shortcut) => shortcut.id === nextId
-    ) as Shortcut
+      return sampleShortcut(noAnsweredAvailableShortcuts, [state.shortcut.id])
+    }
   }
 
   const respondToSelectToolsKey = () => {
@@ -346,6 +383,8 @@ const gameStore = (shortcuts: Shortcut[]) => {
 
     removedShortcutExists,
     isAllRemoved,
+    wordsOfDescriptionFilledByCorrectKeys,
+    wordsOfDescriptionFilledByPressedKeys,
 
     keyDown,
     keyUp,

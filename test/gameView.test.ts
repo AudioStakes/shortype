@@ -11,116 +11,12 @@ import Keyboard from '@/keyboard'
 import { loadAnsweredHistory } from '@/utils'
 import GameView from '@/views/GameView.vue'
 
-const shortcuts = [
-  {
-    action: '最後のタブに移動する',
-    app: 'Google Chrome',
-    category: 'タブとウィンドウのショートカット',
-    id: '1',
-    isAvailable: true,
-    keyCombinations: [
-      {
-        altKey: false,
-        ctrlKey: false,
-        key: '9',
-        metaKey: true,
-        shiftKey: false,
-      },
-    ],
-    os: 'macOS',
-    shortcut: '⌘+9',
-    unavailableReason: null,
-  },
-  {
-    action: 'ウィンドウを最小化する',
-    app: 'Google Chrome',
-    category: 'タブとウィンドウのショートカット',
-    id: '2',
-    isAvailable: true,
-    keyCombinations: [
-      {
-        altKey: false,
-        ctrlKey: false,
-        key: 'm',
-        metaKey: true,
-        shiftKey: false,
-      },
-    ],
-    os: 'macOS',
-    shortcut: '⌘+m',
-    unavailableReason: null,
-  },
-]
-
-const unsupportedShortcuts = [
-  {
-    action: '新しいウィンドウを開く',
-    app: 'Google Chrome',
-    category: 'タブとウィンドウのショートカット',
-    id: '1',
-    isAvailable: false,
-    keyCombinations: [
-      {
-        altKey: false,
-        ctrlKey: false,
-        key: 'n',
-        metaKey: true,
-        shiftKey: false,
-      },
-    ],
-    os: 'macOS',
-    shortcut: '⌘+n',
-    unavailableReason: 'hasDeniedKeyCombination',
-  },
-  {
-    action: '新しいウィンドウをシークレット モードで開く',
-    app: 'Google Chrome',
-    category: 'タブとウィンドウのショートカット',
-    id: '2',
-    isAvailable: false,
-    keyCombinations: [
-      {
-        altKey: false,
-        ctrlKey: false,
-        key: 'n',
-        metaKey: true,
-        shiftKey: true,
-      },
-    ],
-    os: 'macOS',
-    shortcut: '⌘+shift+n',
-    unavailableReason: 'hasDeniedKeyCombination',
-  },
-]
-
-const shortcutWithMultipleKeyCombinations = [
-  {
-    action: 'キーボード フォーカスのあるタブを左右に移動する',
-    app: 'Google Chrome',
-    category: 'タブとウィンドウのショートカット',
-    id: '16',
-    isAvailable: true,
-    keyCombinations: [
-      {
-        altKey: false,
-        ctrlKey: false,
-        key: 'ArrowRight',
-        metaKey: true,
-        shiftKey: false,
-      },
-      {
-        altKey: false,
-        ctrlKey: false,
-        key: 'ArrowLeft',
-        metaKey: true,
-        shiftKey: false,
-      },
-    ],
-    os: 'macOS',
-    shortcut: '⌘+右矢印または ⌘+左矢印',
-    unavailableReason: null,
-  },
-]
+import {
+  availableShortcuts,
+  shortcutWithMultipleKeyCombinations,
+  shortcutWithNonKeyActions,
+  unsupportedShortcuts,
+} from './data/shortcuts'
 
 let mockStorage: { [key: string]: string } = {}
 
@@ -138,7 +34,9 @@ beforeEach(() => {
 })
 
 test('show a question', () => {
-  const { getByText } = render(GameView, { props: { shortcuts: shortcuts } })
+  const { getByText } = render(GameView, {
+    props: { shortcuts: availableShortcuts },
+  })
 
   getByText('Google Chrome | タブとウィンドウのショートカット')
   getByText('最後のタブに移動する')
@@ -158,7 +56,7 @@ test.each([
   'show keys of $keys when press $keyCombination',
   async ({ keyCombination, keys }) => {
     const { getByTestId } = render(GameView, {
-      props: { shortcuts: shortcuts },
+      props: { shortcuts: availableShortcuts },
     })
 
     await userEvent.keyboard(keyCombination)
@@ -173,7 +71,7 @@ test.each([
 
 test('proceed to a next question when the correct key is pressed', async () => {
   const { getByText, getByTestId } = render(GameView, {
-    props: { shortcuts: shortcuts },
+    props: { shortcuts: availableShortcuts },
   })
 
   getByText('最後のタブに移動する')
@@ -186,7 +84,7 @@ test('proceed to a next question when the correct key is pressed', async () => {
 
 test('show a correct answer when a wrong key is pressed', async () => {
   const { getByText, getByTestId } = render(GameView, {
-    props: { shortcuts: shortcuts },
+    props: { shortcuts: availableShortcuts },
   })
 
   getByText('最後のタブに移動する')
@@ -198,7 +96,7 @@ test('show a correct answer when a wrong key is pressed', async () => {
 
 test('proceed to a next question when the correct key is pressed after a wrong key', async () => {
   const { getByText, getByTestId } = render(GameView, {
-    props: { shortcuts: shortcuts },
+    props: { shortcuts: availableShortcuts },
   })
 
   getByText('最後のタブに移動する')
@@ -212,7 +110,9 @@ test('proceed to a next question when the correct key is pressed after a wrong k
 })
 
 test('skip a question when an Enter key is pressed', async () => {
-  const { getByText } = render(GameView, { props: { shortcuts: shortcuts } })
+  const { getByText } = render(GameView, {
+    props: { shortcuts: availableShortcuts },
+  })
 
   getByText('最後のタブに移動する')
 
@@ -223,7 +123,7 @@ test('skip a question when an Enter key is pressed', async () => {
 
 test('remove a question when an R key is pressed', async () => {
   const { getByText } = render(GameView, {
-    props: { shortcuts: shortcuts },
+    props: { shortcuts: availableShortcuts },
   })
 
   getByText('最後のタブに移動する')
@@ -245,7 +145,7 @@ test('remove a question when an R key is pressed', async () => {
 
 test('removed shortcut keys are stored in localStorage', async () => {
   const { getByText } = render(GameView, {
-    props: { shortcuts: shortcuts },
+    props: { shortcuts: availableShortcuts },
   })
 
   getByText('最後のタブに移動する')
@@ -262,7 +162,7 @@ test('removed shortcut keys are stored in localStorage', async () => {
 
 test('restore removed shortcut keys when the restore button is clicked', async () => {
   const { getByText } = render(GameView, {
-    props: { shortcuts: shortcuts },
+    props: { shortcuts: availableShortcuts },
   })
 
   getByText('最後のタブに移動する')
@@ -281,31 +181,35 @@ test('restore removed shortcut keys when the restore button is clicked', async (
 
 test('save a record of answered correctly when the correct key is pressed', () => {
   const { getByText } = render(GameView, {
-    props: { shortcuts: shortcuts },
+    props: { shortcuts: availableShortcuts },
   })
 
   getByText('最後のタブに移動する')
 
   userEvent.keyboard('{Meta>}{9}')
 
-  expect(loadAnsweredHistory().get(shortcuts[0].id)).toStrictEqual([true])
+  expect(loadAnsweredHistory().get(availableShortcuts[0].id)).toStrictEqual([
+    true,
+  ])
 })
 
 test('save a record of answered incorrectly when the incorrect key is pressed', () => {
   const { getByText } = render(GameView, {
-    props: { shortcuts: shortcuts },
+    props: { shortcuts: availableShortcuts },
   })
 
   getByText('最後のタブに移動する')
 
   userEvent.keyboard('{Meta>}{A}')
 
-  expect(loadAnsweredHistory().get(shortcuts[0].id)).toStrictEqual([false])
+  expect(loadAnsweredHistory().get(availableShortcuts[0].id)).toStrictEqual([
+    false,
+  ])
 })
 
 test('increase the frequency of the shortcut keys answered incorrectly', async () => {
   const { getByText, getByTestId, queryByText } = render(GameView, {
-    props: { shortcuts: shortcuts },
+    props: { shortcuts: availableShortcuts },
   })
 
   getByText('最後のタブに移動する')
@@ -330,7 +234,7 @@ test('increase the frequency of the shortcut keys answered incorrectly', async (
 
 test('show an unanswered shortcut key as the highest priority', async () => {
   const { getByText, getByTestId } = render(GameView, {
-    props: { shortcuts: shortcuts },
+    props: { shortcuts: availableShortcuts },
   })
 
   getByText('最後のタブに移動する')
@@ -346,7 +250,7 @@ test('show an unanswered shortcut key as the highest priority', async () => {
 
 test('show the current mastered ratio', async () => {
   const { getByText, container } = render(GameView, {
-    props: { shortcuts: shortcuts },
+    props: { shortcuts: availableShortcuts },
   })
 
   expect(container.querySelector('svg')?.textContent?.trim()).toEqual('0 %')
@@ -358,7 +262,7 @@ test('show the current mastered ratio', async () => {
 
 test('show the modal to select a tool when the tool key is pressed', async () => {
   const { getByText } = render(GameView, {
-    props: { shortcuts: shortcuts },
+    props: { shortcuts: availableShortcuts },
   })
 
   await userEvent.keyboard('{T}')
@@ -368,7 +272,7 @@ test('show the modal to select a tool when the tool key is pressed', async () =>
 
 test('switch a tool when the tool on the modal is clicked', async () => {
   const { getByText, queryByText } = render(GameView, {
-    props: { shortcuts: shortcuts },
+    props: { shortcuts: availableShortcuts },
   })
 
   getByText(/Google Chrome/)
@@ -478,3 +382,37 @@ test.each([
     await waitForElementToBeRemoved(getByTestId('correct-key-pressed'))
   }
 )
+
+test('show a fill-in-blank question when a shortcut key has non-key actions', async () => {
+  const { getByText, getByTestId } = render(GameView, {
+    props: { shortcuts: shortcutWithNonKeyActions },
+  })
+
+  getByText('リンクを新しいバックグラウンド タブで開く')
+
+  const keyElement = within(getByTestId('pressed-key-combination')).queryByText(
+    /⌘/
+  )
+  const nonKeyElement = within(
+    getByTestId('pressed-key-combination')
+  ).queryByText(/リンクをクリック/)
+
+  expect(keyElement).toBeNull()
+  expect(nonKeyElement).toBeTruthy()
+})
+
+test('show a pressed key on fill-in-blank mode', async () => {
+  const { getByText, getByTestId } = render(GameView, {
+    props: { shortcuts: shortcutWithNonKeyActions },
+  })
+
+  getByText('リンクを新しいバックグラウンド タブで開く')
+
+  await userEvent.keyboard('{Shift}')
+
+  const pressedKeyElement = within(
+    getByTestId('pressed-key-combination')
+  ).queryByText(/Shift/)
+
+  expect(pressedKeyElement).toBeTruthy()
+})

@@ -6,6 +6,8 @@ import SelfScoring from '@/components/SelfScoring.vue'
 import GameKey from '@/stores/gameKey'
 import { injectStrict } from '@/utils'
 
+import ShortcutDescription from './ShortcutDescription.vue'
+
 const { state } = injectStrict(GameKey)
 </script>
 
@@ -43,6 +45,11 @@ const { state } = injectStrict(GameKey)
       </div>
     </div>
     <SelfScoring v-if="!state.shortcut.isAvailable"></SelfScoring>
+    <ShortcutDescription
+      v-else-if="state.shortcut.needsFillInBlankMode"
+      :is-fill-in-blank-mode="true"
+      :class="state.isShakingKeyCombinationView ? 'animate-[shake_600ms]' : ''"
+    />
     <KeyList
       v-else-if="state.pressedKeyCombination.hasPressedSomeKey()"
       :keys="state.pressedKeyCombination.keys()"

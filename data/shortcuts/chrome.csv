@@ -38,8 +38,7 @@ id,app,os,category,action,shortcut
 37,Google Chrome,macOS,アドレスバーのショートカット,サイト名に www. と .com を追加して新しいタブで開く,サイト名を入力+control+shift+enter
 38,Google Chrome,macOS,アドレスバーのショートカット,ウェブサイトを新しいバックグラウンド タブで開く,ウェブアドレスを入力+⌘+enter
 39,Google Chrome,macOS,アドレスバーのショートカット,アドレスバーに移動する,⌘+l
-40,Google Chrome,macOS,アドレスバーのショートカット,アドレスバーから予測候補を削除する,"下矢印で選択+shift+fn+delete
-ノートパソコンの場合は forward delete または fn+delete"
+40,Google Chrome,macOS,アドレスバーのショートカット,アドレスバーから予測候補を削除する,"下矢印で選択+shift+fn+delete（ノートパソコンの場合は forward delete または fn+delete）"
 41,Google Chrome,macOS,アドレスバーのショートカット,アドレスバーにカーソルを移動する,control+F5
 42,Google Chrome,macOS,ウェブページのショートカット,現在のページを印刷するオプションを開く,⌘+p
 43,Google Chrome,macOS,ウェブページのショートカット,現在のページを保存するオプションを開く,⌘+s

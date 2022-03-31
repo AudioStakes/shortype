@@ -18,7 +18,12 @@ const { state } = injectStrict(GameKey)
       data-testid="correct-key-combination"
     >
       <span class="text-xl my-2">正解</span>
-      <div v-if="state.shortcut.isAvailable" class="flex">
+      <div
+        v-if="
+          state.shortcut.isAvailable && !state.shortcut.needsFillInBlankMode
+        "
+        class="flex"
+      >
         <div
           v-for="(keyCombination, index) in state.shortcut.keyCombinations"
           :key="index"
