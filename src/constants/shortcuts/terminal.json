@@ -568,7 +568,7 @@
         "shiftKey": false
       }
     ],
-    "needsFillInBlankMode": false,
+    "needsFillInBlankMode": true,
     "os": "macOS",
     "shortcut": "Optionキーを押したままポインタを新しい挿入ポイントに移動する",
     "unavailableReason": null
