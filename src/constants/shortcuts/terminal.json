@@ -443,7 +443,7 @@
       {
         "altKey": false,
         "ctrlKey": false,
-        "key": "h",
+        "key": "Home",
         "metaKey": true,
         "shiftKey": false
       }
@@ -463,7 +463,7 @@
       {
         "altKey": false,
         "ctrlKey": false,
-        "key": "e",
+        "key": "End",
         "metaKey": true,
         "shiftKey": false
       }
@@ -568,7 +568,7 @@
         "shiftKey": false
       }
     ],
-    "needsFillInBlankMode": false,
+    "needsFillInBlankMode": true,
     "os": "macOS",
     "shortcut": "Optionキーを押したままポインタを新しい挿入ポイントに移動する",
     "unavailableReason": null
