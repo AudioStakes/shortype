@@ -2,7 +2,7 @@
 import { RefreshIcon } from '@heroicons/vue/outline'
 
 import GameKey from '@/stores/gameKey'
-import { injectStrict } from '@/utils'
+import { injectStrict } from '@/utils/injectStrict'
 
 const { removedShortcutExists, restoreRemovedShortcuts } = injectStrict(GameKey)
 </script>

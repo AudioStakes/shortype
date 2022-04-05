@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 
 import GameKey from '@/stores/gameKey'
-import { injectStrict } from '@/utils'
+import { injectStrict } from '@/utils/injectStrict'
 
 const { countsOfEachStatus } = injectStrict(GameKey)
 

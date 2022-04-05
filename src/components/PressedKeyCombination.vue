@@ -5,7 +5,7 @@ import KeyList from '@/components/KeyList.vue'
 import RequestFullScreenOrSelfScoring from '@/components/RequestFullScreenOrSelfScoring.vue'
 import RequestSelfScoring from '@/components/RequestSelfScoring.vue'
 import GameKey from '@/stores/gameKey'
-import { injectStrict } from '@/utils'
+import { injectStrict } from '@/utils/injectStrict'
 
 import ShortcutDescription from './ShortcutDescription.vue'
 

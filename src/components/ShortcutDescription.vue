@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Key from '@/components/Key.vue'
-import Keyboard from '@/keyboard'
 import GameKey from '@/stores/gameKey'
-import { injectStrict } from '@/utils'
+import { injectStrict } from '@/utils/injectStrict'
+import Keyboard from '@/utils/keyboard'
 
 const {
   wordsOfDescriptionFilledByCorrectKeys,

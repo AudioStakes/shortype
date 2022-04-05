@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Keyboard from '@/keyboard'
+import Keyboard from '@/utils/keyboard'
 defineProps<{ keyName: string }>()
 </script>
 

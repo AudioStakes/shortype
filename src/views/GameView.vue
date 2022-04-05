@@ -10,7 +10,6 @@ import ShortcutsShow from '@/components/ShortcutsShow.vue'
 import ToolList from '@/components/ToolList.vue'
 import useEventListener from '@/composables/useEventListener'
 import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
-import Keyboard from '@/keyboard'
 import gameStore from '@/stores/game'
 import GameKey from '@/stores/gameKey'
 import {
@@ -18,7 +17,8 @@ import {
   NavigatorKeyboard,
   Shortcut,
 } from '@/types/interfaces'
-import { lockKeyboard } from '@/utils'
+import Keyboard from '@/utils/keyboard'
+import lockKeyboard from '@/utils/lockKeyboard'
 
 const props = withDefaults(
   defineProps<{ shortcuts: Shortcut[]; isShowToolModal?: boolean }>(),

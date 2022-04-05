@@ -1,20 +1,27 @@
 import { computed, reactive, readonly } from 'vue'
 
-import Keyboard from '@/keyboard'
 import KeyCombination from '@/models/keyCombination'
 import { KeyCombinable, Shortcut } from '@/types/interfaces'
+import Keyboard from '@/utils/keyboard'
 import {
   loadAllTools,
+  loadShortcutsByTool,
+  loadShortcutsByToolAndCategories,
+} from '@/utils/loadShortcuts'
+import {
   loadAnsweredHistory,
   loadRemovedIds,
-  loadShortcutsByTool,
-  sampleShortcut,
   saveAnsweredHistory,
   saveRemovedIds,
-  toggleFullscreen,
-  weight,
-  weightedSampleKey,
-} from '@/utils'
+  saveSelectedCategories,
+  saveSelectedTool,
+} from '@/utils/localStorage'
+import { sampleShortcut } from '@/utils/sampleShortcut'
+import toggleFullscreen from '@/utils/toggleFullscreen'
+import { weight, weightedSampleKey } from '@/utils/weightedSample'
+
+const selectedTool = loadSelectedTool() ?? 'Google Chrome'
+const selectedCategories = loadSelectedCategories() ?? []
 
 const TimeIntervalToRestartTyping = import.meta.env.MODE === 'test' ? 0 : 1000
 const removedIds = [...loadRemovedIds()]
