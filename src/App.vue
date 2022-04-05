@@ -4,7 +4,6 @@ import { ref } from 'vue'
 import About from '@/components/About.vue'
 import Footer from '@/components/Footer.vue'
 import Header from '@/components/Header.vue'
-import chromeShortcutsJson from '@/constants/shortcuts/chrome.json'
 import GameView from '@/views/GameView.vue'
 import Unsupported from '@/views/Unsupported.vue'
 
@@ -14,8 +13,6 @@ const isUnsupported = ref(isUnsupportedBrowser || isUnsupportedOs)
 const proceed = () => {
   isUnsupported.value = false
 }
-
-const shortcuts = chromeShortcutsJson
 
 const isShowToolModal = ref(false)
 const isShowAboutModal = ref(false)
@@ -38,7 +35,6 @@ const isShowAboutModal = ref(false)
       />
       <GameView
         v-else
-        :shortcuts="shortcuts"
         :is-show-tool-modal="isShowToolModal"
         @hide-tool-modal="isShowToolModal = false"
       />

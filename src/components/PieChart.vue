@@ -207,14 +207,24 @@ const statuses = computed(() => {
         dominant-baseline="central"
         class="origin-center rotate-90 fill-slate-700"
       >
-        <tspan x="50%" y="50%" class="text-[0.8rem] font-bold">
+        <tspan
+          :x="
+            rateOf(countsOfEachStatus.mastered.included) === 100 ? '49%' : '50%'
+          "
+          y="50%"
+          class="text-[0.8rem] font-semibold"
+          :class="{
+            'tracking-tighter':
+              rateOf(countsOfEachStatus.mastered.included) === 100,
+          }"
+        >
           {{ rateOf(countsOfEachStatus.mastered.included) }}
         </tspan>
         <tspan
           :x="
             `${
               rateOf(countsOfEachStatus.mastered.included).toString().length *
-                3 +
+                2.5 +
               60
             }` + '%'
           "
