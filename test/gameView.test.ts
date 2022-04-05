@@ -39,7 +39,9 @@ test('show a question', () => {
     props: { shortcuts: availableShortcuts },
   })
 
-  getByText('Google Chrome | タブとウィンドウのショートカット')
+  getByText('Google Chrome')
+  getByText('タブとウィンドウのショートカット')
+  getByText('からの出題')
   getByText('最後のタブに移動する')
 })
 
