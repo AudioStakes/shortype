@@ -4,9 +4,9 @@ import KeyCombination from '@/models/keyCombination'
 import { KeyCombinable, Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
 import {
-  loadAllTools,
   loadShortcutsByTool,
   loadShortcutsByToolAndCategories,
+  toolToShortcutsMap,
 } from '@/utils/loadShortcuts'
 import {
   loadAnsweredHistory,
@@ -392,13 +392,14 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     name: string
     masteredRate: number
   }[] => {
-    const allTools = loadAllTools()
     const masteredIds = [...state.answeredHistoryMap]
       .map(([id, results]) => [id, weight(results)])
       .filter(([, weight]) => weight <= 0.6)
       .map(([id]) => id)
 
-    return Object.values(allTools).map(({ name, shortcuts }) => {
+    const masteredRateOfEachTool: { name: string; masteredRate: number }[] = []
+
+    toolToShortcutsMap.forEach((shortcuts, name) => {
       const countOfShortcut = shortcuts.filter(
         (shortcut) => !state.removedIdSet.has(shortcut.id)
       ).length
@@ -408,11 +409,13 @@ const gameStore = (shortcuts?: Shortcut[]) => {
           !state.removedIdSet.has(shortcut.id)
       ).length
 
-      return {
+      masteredRateOfEachTool.push({
         name,
         masteredRate: Math.floor((countOfMastered / countOfShortcut) * 100),
-      }
+      })
     })
+
+    return masteredRateOfEachTool
   }
 
   const categoriesWithMasteredRate = (
