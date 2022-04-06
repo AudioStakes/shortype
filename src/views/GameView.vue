@@ -7,10 +7,9 @@ import PressedKeyCombination from '@/components/PressedKeyCombination.vue'
 import QuestionShow from '@/components/QuestionShow.vue'
 import RestoreButton from '@/components/RestoreButton.vue'
 import ShortcutsShow from '@/components/ShortcutsShow.vue'
-import ToolList from '@/components/ToolList.vue'
+import ToolsAndCategoriesModal from '@/components/ToolsAndCategoriesModal.vue'
 import useEventListener from '@/composables/useEventListener'
 import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
-import Keyboard from '@/keyboard'
 import gameStore from '@/stores/game'
 import GameKey from '@/stores/gameKey'
 import {
@@ -18,11 +17,16 @@ import {
   NavigatorKeyboard,
   Shortcut,
 } from '@/types/interfaces'
-import { lockKeyboard } from '@/utils'
+import Keyboard from '@/utils/keyboard'
+import lockKeyboard from '@/utils/lockKeyboard'
 
 const props = withDefaults(
-  defineProps<{ shortcuts: Shortcut[]; isShowToolModal?: boolean }>(),
+  defineProps<{
+    shortcuts?: Shortcut[] | undefined
+    isShowToolModal?: boolean
+  }>(),
   {
+    shortcuts: undefined,
     isShowToolModal: false,
   }
 )
@@ -68,7 +72,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
       <ShortcutsShow />
       <RestoreButton />
     </div>
-    <ToolList
+    <ToolsAndCategoriesModal
       :is-show="isShowToolModal"
       @hide-tool-modal="emit('hide-tool-modal')"
     />

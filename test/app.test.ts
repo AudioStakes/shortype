@@ -42,22 +42,25 @@ test('show the modal to select a tool when the tool button on the header is pres
 
   await userEvent.click(screen.getByText('ツールを選ぶ'))
 
-  getByText('ツールを選択してください')
+  getByText('ツールを選んでください')
 })
 
-test('switch a tool when the tool on the modal is clicked', async () => {
-  const { getByText, queryByText } = render(App)
+test('switch a tool when the tool on the modal is selected', async () => {
+  const { getByText, queryAllByText } = render(App)
 
   getByText(/Google Chrome/)
 
   await userEvent.click(screen.getByText('ツールを選ぶ'))
 
-  getByText('ツールを選択してください')
+  getByText('ツールを選んでください')
 
   await userEvent.click(screen.getByText('Terminal (macOS)'))
+  await userEvent.click(screen.getByText('すべて選ぶ'))
+  await userEvent.click(screen.getByText('選んだカテゴリーの練習をはじめる'))
+  document.body.focus()
 
-  expect(queryByText(/Google Chrome/)).toBeNull()
-  getByText(/Terminal/)
+  expect(queryAllByText(/Google Chrome/)).toEqual([])
+  queryAllByText(/Terminal/)
 })
 
 test('show the modal about Shortype when the About link is clicked', async () => {

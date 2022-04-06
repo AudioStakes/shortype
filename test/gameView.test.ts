@@ -7,8 +7,8 @@ import {
   within,
 } from '@testing-library/vue'
 
-import Keyboard from '@/keyboard'
-import { loadAnsweredHistory } from '@/utils'
+import Keyboard from '@/utils/keyboard'
+import { loadAnsweredHistory } from '@/utils/localStorage'
 import GameView from '@/views/GameView.vue'
 
 import {
@@ -39,7 +39,9 @@ test('show a question', () => {
     props: { shortcuts: availableShortcuts },
   })
 
-  getByText('Google Chrome | タブとウィンドウのショートカット')
+  getByText('Google Chrome')
+  getByText('タブとウィンドウのショートカット')
+  getByText('からの出題')
   getByText('最後のタブに移動する')
 })
 
@@ -268,25 +270,100 @@ test('show the modal to select a tool when the tool key is pressed', async () =>
 
   await userEvent.keyboard('{T}')
 
-  getByText('ツールを選択してください')
+  getByText('ツールを選んでください')
 })
 
-test('switch a tool when the tool on the modal is clicked', async () => {
+test('switch a tool when the tool on the modal is selected', async () => {
   const { getByText, queryByText } = render(GameView, {
     props: { shortcuts: availableShortcuts },
   })
 
   getByText(/Google Chrome/)
+  expect(queryByText(/Terminal/)).toBeNull()
 
   await userEvent.keyboard('{T}')
 
-  getByText('ツールを選択してください')
+  getByText('ツールを選んでください')
 
   await userEvent.click(screen.getByText('Terminal (macOS)'))
+  await userEvent.click(screen.getByText('すべて選ぶ'))
+  await userEvent.click(screen.getByText('選んだカテゴリーの練習をはじめる'))
   document.body.focus()
 
   expect(queryByText(/Google Chrome/)).toBeNull()
   getByText(/Terminal/)
+})
+
+test('select a category when the category on the modal is clicked', async () => {
+  const { getByText, getByTestId, queryByText } = render(GameView, {
+    props: { shortcuts: availableShortcuts },
+  })
+
+  getByText(/Google Chrome/)
+  getByText(/タブとウィンドウのショートカット/)
+
+  await userEvent.keyboard('{T}')
+
+  getByText('ツールを選んでください')
+
+  await userEvent.click(within(getByTestId('modal')).getByText('Google Chrome'))
+
+  getByText('カテゴリーを選んでください')
+
+  await userEvent.click(screen.getByText('すべての選択を外す'))
+  await userEvent.click(screen.getByText('アドレスバーのショートカット'))
+  await userEvent.click(screen.getByText('選んだカテゴリーの練習をはじめる'))
+  document.body.focus()
+
+  expect(queryByText(/タブとウィンドウのショートカット/)).toBeNull()
+  getByText(/アドレスバーのショートカット/)
+})
+
+test('save a selected tool to localStorage when the tool is selected and start training', async () => {
+  const { getByText, queryByText } = render(GameView, {
+    props: { shortcuts: availableShortcuts },
+  })
+
+  getByText(/Google Chrome/)
+  expect(queryByText(/Terminal/)).toBeNull()
+
+  await userEvent.keyboard('{T}')
+  await userEvent.click(screen.getByText('Terminal (macOS)'))
+  await userEvent.click(screen.getByText('すべて選ぶ'))
+  await userEvent.click(screen.getByText('選んだカテゴリーの練習をはじめる'))
+  document.body.focus()
+
+  expect(queryByText(/Google Chrome/)).toBeNull()
+  getByText(/Terminal/)
+
+  window.location.reload()
+
+  expect(queryByText(/Google Chrome/)).toBeNull()
+  getByText(/Terminal/)
+})
+
+test('save selected categories to localStorage when categories is selected and start training', async () => {
+  const { getByText, getByTestId, queryByText } = render(GameView, {
+    props: { shortcuts: availableShortcuts },
+  })
+
+  getByText(/タブとウィンドウのショートカット/)
+  expect(queryByText(/アドレスバーのショートカット/)).toBeNull()
+
+  await userEvent.keyboard('{T}')
+  await userEvent.click(within(getByTestId('modal')).getByText('Google Chrome'))
+  await userEvent.click(screen.getByText('すべての選択を外す'))
+  await userEvent.click(screen.getByText('アドレスバーのショートカット'))
+  await userEvent.click(screen.getByText('選んだカテゴリーの練習をはじめる'))
+  document.body.focus()
+
+  getByText(/アドレスバーのショートカット/)
+  expect(queryByText(/タブとウィンドウのショートカット/)).toBeNull()
+
+  window.location.reload()
+
+  getByText(/アドレスバーのショートカット/)
+  expect(queryByText(/タブとウィンドウのショートカット/)).toBeNull()
 })
 
 test('show the message to confirm the correct answer when the question is an unsupported shortcut key ', () => {

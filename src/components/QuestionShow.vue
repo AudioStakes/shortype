@@ -2,16 +2,22 @@
 import { XCircleIcon } from '@heroicons/vue/outline'
 
 import GameKey from '@/stores/gameKey'
-import { injectStrict } from '@/utils'
+import { injectStrict } from '@/utils/injectStrict'
 
 const { state } = injectStrict(GameKey)
 </script>
 
 <template>
   <div class="min-h-[4rem] h-fit flex flex-col space-y-2">
-    <span>{{ state.shortcut.app }} | {{ state.shortcut.category }}</span>
+    <div class="flex flex-col text-base">
+      <span>{{ state.shortcut.app }}</span>
+      <div>
+        <span class="mr-1">{{ state.shortcut.category }}</span>
+        <span>からの出題</span>
+      </div>
+    </div>
     <h2
-      class="w-4/5 text-3xl break-words font-bold mx-auto"
+      class="w-3/5 max-w-[54rem] min-w-[36rem] text-3xl break-words font-bold mx-auto"
       :class="{ 'animate-[fadeOut_1000ms]': state.isRemoveKeyPressed }"
     >
       {{ state.shortcut.action }}
