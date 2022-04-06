@@ -432,12 +432,12 @@ const gameStore = (shortcuts?: Shortcut[]) => {
 
     return Object.values([...categoriesOfTool]).map((categoryName) => {
       const shortcutsOfCategory = shortcutsOfTool.filter(
-        (shortcut) => shortcut.category === categoryName
+        (shortcut) =>
+          shortcut.category === categoryName &&
+          !state.removedIdSet.has(shortcut.id)
       )
       const masteredShortcutsOfCategory = shortcutsOfCategory.filter(
-        (shortcut) =>
-          masteredIds.includes(shortcut.id) &&
-          !state.removedIdSet.has(shortcut.id)
+        (shortcut) => masteredIds.includes(shortcut.id)
       )
 
       return {
