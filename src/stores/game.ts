@@ -134,19 +134,23 @@ const gameStore = (shortcuts?: Shortcut[]) => {
   })
 
   const wordsOfDescriptionFilledByCorrectKeys = computed(() =>
-    Keyboard.splitByKey(state.shortcut.shortcut)
+    Keyboard.splitByKeyDescription(state.shortcut.shortcut).map(
+      (word) => Keyboard.keyOfKeyDescription(word) ?? word
+    )
   )
 
   const wordsOfDescriptionFilledByPressedKeys = computed(() => {
     const pressedKeys = state.pressedKeyCombination.keys()
 
-    return Keyboard.splitByKey(state.shortcut.shortcut).map((word) => {
-      if (Keyboard.isKey(word)) {
-        return pressedKeys.shift() ?? ''
-      } else {
-        return word
-      }
-    })
+    return Keyboard.splitByKeyDescription(state.shortcut.shortcut)
+      .map((word) => Keyboard.keyOfKeyDescription(word) ?? word)
+      .map((word) => {
+        if (Keyboard.isKey(word) && !Keyboard.isUndetectableKey(word)) {
+          return pressedKeys.shift() ?? ''
+        } else {
+          return word
+        }
+      })
   })
 
   const needsFullscreenMode = computed(() => {

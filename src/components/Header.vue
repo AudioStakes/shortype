@@ -2,8 +2,7 @@
 import ModalKey from '@/stores/modalKey'
 import { injectStrict } from '@/utils/injectStrict'
 
-const { showAboutModal, showSelectToolAndCategoriesModal } =
-  injectStrict(ModalKey)
+const { showAboutModal, showToolsAndCategoriesModal } = injectStrict(ModalKey)
 </script>
 
 <template>
@@ -23,7 +22,7 @@ const { showAboutModal, showSelectToolAndCategoriesModal } =
       </a>
       <button
         class="border rounded-full px-4 py-2 bg-white hover:bg-gray-300 transition duration-200 hover:ease-out"
-        @click="showSelectToolAndCategoriesModal()"
+        @click="showToolsAndCategoriesModal()"
       >
         <span class="mx-2 font-bold text-[14px]" href="#">ツールを選ぶ</span>
         <kbd

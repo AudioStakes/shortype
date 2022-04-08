@@ -408,7 +408,7 @@ test('show multiple correct answers when a shortcut key has multiple key combina
     container
       .querySelector('[data-testid="correct-key-combination"]')
       ?.textContent?.trim()
-  ).toContain('Command ⌘+Right →もしくはCommand ⌘+Left ←')
+  ).toContain('Command⌘+Right→もしくはCommand⌘+Left←')
 })
 
 test.each([

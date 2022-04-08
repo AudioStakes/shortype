@@ -1,0 +1,3420 @@
+[
+  {
+    "action": "選択した項目をカット",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "176",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "x",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + X",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択した項目をコピー",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "177",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "c",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + C",
+    "unavailableReason": null
+  },
+  {
+    "action": "ペースト",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "178",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "v",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + V",
+    "unavailableReason": null
+  },
+  {
+    "action": "直前のコマンドを取り消す",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "179",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "z",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + Z",
+    "unavailableReason": null
+  },
+  {
+    "action": "直前の取り消しコマンドを取り消す",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "180",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "z",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + Z",
+    "unavailableReason": null
+  },
+  {
+    "action": "項目をすべて選択",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "181",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "a",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + A",
+    "unavailableReason": null
+  },
+  {
+    "action": "検索ウインドウを開く",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "182",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "f",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + F",
+    "unavailableReason": null
+  },
+  {
+    "action": "次を検索：検索内容が次に出現する箇所に移動",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "183",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "g",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + G",
+    "unavailableReason": null
+  },
+  {
+    "action": "前を検索：検索内容が前に出現した箇所に移動",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "184",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "g",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + G",
+    "unavailableReason": null
+  },
+  {
+    "action": "最前面の App のウインドウを非表示にする",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "185",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "h",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + H",
+    "unavailableReason": null
+  },
+  {
+    "action": "最前面の App 以外のウインドウを非表示にする",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "186",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "h",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + H",
+    "unavailableReason": null
+  },
+  {
+    "action": "最前面のウインドウを最小化して Dock にしまう",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "187",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "m",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + M",
+    "unavailableReason": null
+  },
+  {
+    "action": "最前面の App のウインドウをすべて最小化",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "188",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "m",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + M",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択した項目を開く、またはファイル選択のダイアログを表示",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "189",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "o",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + O",
+    "unavailableReason": null
+  },
+  {
+    "action": "書類をプリントする",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "190",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "p",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + P",
+    "unavailableReason": null
+  },
+  {
+    "action": "書類を保存",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "191",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "s",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + S",
+    "unavailableReason": null
+  },
+  {
+    "action": "新しいタブを開く",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "192",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "t",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + T",
+    "unavailableReason": null
+  },
+  {
+    "action": "最前面のウインドウを閉じる",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "193",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "w",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + W",
+    "unavailableReason": null
+  },
+  {
+    "action": "最前面の App のウインドウをすべて閉じる",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "194",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "w",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + W",
+    "unavailableReason": null
+  },
+  {
+    "action": "App を強制終了する",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "195",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "Escape",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + esc",
+    "unavailableReason": "hasDeniedKeyCombination"
+  },
+  {
+    "action": "Spotlight 検索フィールドの表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "196",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Space",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + スペースバー",
+    "unavailableReason": "hasDeniedKeyCombination"
+  },
+  {
+    "action": "絵文字や記号を選べる「文字ビューア」を表示",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "197",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "Space",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + command + スペースバー",
+    "unavailableReason": null
+  },
+  {
+    "action": "App をフルスクリーンで使う (App がフルスクリーンに対応している場合)",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "198",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "f",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + command + F",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択した項目をクイックルックでプレビュー",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "199",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Space",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "スペースバー",
+    "unavailableReason": null
+  },
+  {
+    "action": "直前に使っていた App に切り替える",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "200",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Tab",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + tab",
+    "unavailableReason": "hasDeniedKeyCombination"
+  },
+  {
+    "action": "スクリーンショットを撮る、または画面収録を実行する",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "201",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "5",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + 5",
+    "unavailableReason": "hasDeniedKeyCombination"
+  },
+  {
+    "action": "画面全体のスクリーンショットを撮る",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "202",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "3",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + 3",
+    "unavailableReason": "hasDeniedKeyCombination"
+  },
+  {
+    "action": "画面の一部のスクリーンショットを撮る",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "203",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "4",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + 4",
+    "unavailableReason": "hasDeniedKeyCombination"
+  },
+  {
+    "action": "Finder で新しいフォルダを作成",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "204",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "n",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + N",
+    "unavailableReason": null
+  },
+  {
+    "action": "最前面の App の環境設定を開く",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "205",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": ",",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + カンマ (,)",
+    "unavailableReason": null
+  },
+  {
+    "action": "電源 ON またはスリープ解除。1.5 秒押すとスリープ。押し続けると強制的に電源OFF。",
+    "app": "macOS",
+    "category": "スリープ、ログアウト、システム終了に関するショートカット",
+    "id": "206",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "電源ボタン",
+    "unavailableReason": "hasOnlyNonKeyAction"
+  },
+  {
+    "action": "Mac をスリープ状態にする",
+    "app": "macOS",
+    "category": "スリープ、ログアウト、システム終了に関するショートカット",
+    "id": "207",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "option + command +（電源ボタンまたはメディア取り出しキー）",
+    "unavailableReason": null
+  },
+  {
+    "action": "ディスプレイをスリープ状態にする",
+    "app": "macOS",
+    "category": "スリープ、ログアウト、システム終了に関するショートカット",
+    "id": "208",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": true
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "control + shift +（電源ボタンまたはメディア取り出しキー）",
+    "unavailableReason": null
+  },
+  {
+    "action": "再起動、スリープ、またはシステム終了を選択するダイアログを表示",
+    "app": "macOS",
+    "category": "スリープ、ログアウト、システム終了に関するショートカット",
+    "id": "209",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "control +（電源ボタンまたはメディア取り出しキー）",
+    "unavailableReason": null
+  },
+  {
+    "action": "Mac を強制的に再起動（確認メッセージなし）",
+    "app": "macOS",
+    "category": "スリープ、ログアウト、システム終了に関するショートカット",
+    "id": "210",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "control + command + 電源ボタン",
+    "unavailableReason": null
+  },
+  {
+    "action": "すべての App を終了し、Mac を再起動（確認メッセージあり）",
+    "app": "macOS",
+    "category": "スリープ、ログアウト、システム終了に関するショートカット",
+    "id": "211",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "control + command + メディア取り出しキー",
+    "unavailableReason": null
+  },
+  {
+    "action": "すべての App を終了し、Mac をシステム終了（確認メッセージあり）",
+    "app": "macOS",
+    "category": "スリープ、ログアウト、システム終了に関するショートカット",
+    "id": "212",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": true,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "control + option + command +（電源ボタンまたはメディア取り出しキー）",
+    "unavailableReason": null
+  },
+  {
+    "action": "すぐに画面をロック",
+    "app": "macOS",
+    "category": "スリープ、ログアウト、システム終了に関するショートカット",
+    "id": "213",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "q",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + command + Q",
+    "unavailableReason": "hasDeniedKeyCombination"
+  },
+  {
+    "action": "macOS ユーザアカウントからログアウト（確認メッセージあり）",
+    "app": "macOS",
+    "category": "スリープ、ログアウト、システム終了に関するショートカット",
+    "id": "214",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "q",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + Q",
+    "unavailableReason": "hasDeniedKeyCombination"
+  },
+  {
+    "action": "macOS ユーザアカウントからログアウト（確認メッセージなし）",
+    "app": "macOS",
+    "category": "スリープ、ログアウト、システム終了に関するショートカット",
+    "id": "215",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "q",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + shift + command + Q",
+    "unavailableReason": "hasDeniedKeyCombination"
+  },
+  {
+    "action": "選択したファイルを複製",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "216",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "d",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + D",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択したディスクまたはボリュームを取り出す",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "217",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "e",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + E",
+    "unavailableReason": null
+  },
+  {
+    "action": "Finder で Spotlight 検索を開始",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "218",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "f",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + F",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択したファイルの「情報を見る」ウインドウを表示",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "219",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "i",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + I",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択されているエイリアスの作成元のファイルを表示",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "220",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "r",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + R",
+    "unavailableReason": null
+  },
+  {
+    "action": "「コンピュータ」ウインドウを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "221",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "c",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + C",
+    "unavailableReason": null
+  },
+  {
+    "action": "「デスクトップ」フォルダを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "222",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "d",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + D",
+    "unavailableReason": null
+  },
+  {
+    "action": "「最近使った項目」ウインドウを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "223",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "f",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + F",
+    "unavailableReason": null
+  },
+  {
+    "action": "「フォルダへ移動」ウインドウを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "224",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "g",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + G",
+    "unavailableReason": null
+  },
+  {
+    "action": "現在の macOS ユーザアカウントのホームフォルダを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "225",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "h",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + H",
+    "unavailableReason": null
+  },
+  {
+    "action": "iCloud Drive を開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "226",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "i",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + I",
+    "unavailableReason": null
+  },
+  {
+    "action": "「ネットワーク」ウインドウを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "227",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "k",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + K",
+    "unavailableReason": null
+  },
+  {
+    "action": "「ダウンロード」フォルダを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "228",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "l",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + L",
+    "unavailableReason": null
+  },
+  {
+    "action": "新しいフォルダを作成",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "229",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "n",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + N",
+    "unavailableReason": null
+  },
+  {
+    "action": "「書類」フォルダを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "230",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "o",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + O",
+    "unavailableReason": null
+  },
+  {
+    "action": "プレビューパネルの表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "231",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "p",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + P",
+    "unavailableReason": null
+  },
+  {
+    "action": "「AirDrop」ウインドウを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "232",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "r",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + R",
+    "unavailableReason": null
+  },
+  {
+    "action": "タブバーの表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "233",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "t",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + T",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択した項目を Dock に追加",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "234",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "t",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + shift + command + T",
+    "unavailableReason": null
+  },
+  {
+    "action": "「ユーティリティ」フォルダを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "235",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "u",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + U",
+    "unavailableReason": null
+  },
+  {
+    "action": "Dock の表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "236",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "d",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + D",
+    "unavailableReason": "hasDeniedKeyCombination"
+  },
+  {
+    "action": "選択した項目をサイドバーに追加",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "237",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "t",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + command + T",
+    "unavailableReason": null
+  },
+  {
+    "action": "パスバーの表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "238",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "p",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + P",
+    "unavailableReason": null
+  },
+  {
+    "action": "サイドバーの非表示／表示を切り替える",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "239",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "s",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + S",
+    "unavailableReason": null
+  },
+  {
+    "action": "ステータスバーの非表示／表示を切り替える",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "240",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "/",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + スラッシュ (/)",
+    "unavailableReason": null
+  },
+  {
+    "action": "表示オプションを表示",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "241",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "j",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + J",
+    "unavailableReason": null
+  },
+  {
+    "action": "「サーバへ接続」ウインドウを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "242",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "k",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + K",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択した項目のエイリアスを作成",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "243",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "a",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + command + A",
+    "unavailableReason": null
+  },
+  {
+    "action": "新しいウインドウを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "244",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "n",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + N",
+    "unavailableReason": null
+  },
+  {
+    "action": "新しいスマートフォルダを作成",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "245",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "n",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + N",
+    "unavailableReason": null
+  },
+  {
+    "action": "新しいタブを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "246",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "t",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + T",
+    "unavailableReason": null
+  },
+  {
+    "action": "ウインドウでタブが 1 つ開いているときに、ツールバーの表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "247",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "t",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + T",
+    "unavailableReason": null
+  },
+  {
+    "action": "クリップボードに配置したファイルを、元の場所から現在の場所に移動",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "248",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "v",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + V",
+    "unavailableReason": null
+  },
+  {
+    "action": "クイックルックを使って、選択したファイルをプレビュー",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "249",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "y",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + Y",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択したファイルのクイックルックスライドショーを表示",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "250",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "y",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + Y",
+    "unavailableReason": null
+  },
+  {
+    "action": "項目をアイコン形式で表示",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "251",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "1",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + 1",
+    "unavailableReason": null
+  },
+  {
+    "action": "項目をリスト形式で表示",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "252",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "2",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + 2",
+    "unavailableReason": null
+  },
+  {
+    "action": "項目をカラム形式で表示",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "253",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "3",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + 3",
+    "unavailableReason": null
+  },
+  {
+    "action": "項目をギャラリー表示にする",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "254",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "4",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + 4",
+    "unavailableReason": null
+  },
+  {
+    "action": "前のフォルダに移動",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "255",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "[",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + 左角かっこ ([)",
+    "unavailableReason": null
+  },
+  {
+    "action": "次のフォルダに移動",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "256",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "]",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + 右角かっこ (])",
+    "unavailableReason": null
+  },
+  {
+    "action": "現在のフォルダを内包するフォルダを開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "257",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowUp",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + 上矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "現在のフォルダを内包するフォルダを新規ウインドウで開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "258",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "ArrowUp",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + control + 上矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択した項目を開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "259",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowDown",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + 下矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択したフォルダを開く（リスト表示でのみ機能する）",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "260",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowRight",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "右矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択したフォルダを閉じる（リスト表示でのみ機能する）",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "261",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowLeft",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "左矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択した項目をゴミ箱に移動",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "262",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Backspace",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + delete",
+    "unavailableReason": null
+  },
+  {
+    "action": "ゴミ箱を空にする",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "263",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Backspace",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + delete",
+    "unavailableReason": null
+  },
+  {
+    "action": "確認ダイアログを表示せずにゴミ箱を空にする",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "264",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "Backspace",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + shift + command + delete",
+    "unavailableReason": null
+  },
+  {
+    "action": "Mac が複数ディスプレイに接続している場合、ビデオミラーリングのオン／オフを切り替える",
+    "app": "macOS",
+    "category": "システム環境設定のショートカット",
+    "id": "265",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "command + 輝度を下げる",
+    "unavailableReason": null
+  },
+  {
+    "action": "システム環境設定の「ディスプレイ」パネルを開く",
+    "app": "macOS",
+    "category": "システム環境設定のショートカット",
+    "id": "266",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "option +（輝度を上げるまたは輝度を下げる）",
+    "unavailableReason": null
+  },
+  {
+    "action": "外付けディスプレイの明るさを調節 (ディスプレイが対応している場合)",
+    "app": "macOS",
+    "category": "システム環境設定のショートカット",
+    "id": "267",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "control +（輝度を上げるまたは輝度を下げる）",
+    "unavailableReason": null
+  },
+  {
+    "action": "ディスプレイの明るさを細かく調節",
+    "app": "macOS",
+    "category": "システム環境設定のショートカット",
+    "id": "268",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": true
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "option + shift +（輝度を上げるまたは輝度を下げる）",
+    "unavailableReason": null
+  },
+  {
+    "action": "外付けディスプレイの明るさを細かく調節 (ディスプレイが対応している場合)",
+    "app": "macOS",
+    "category": "システム環境設定のショートカット",
+    "id": "269",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": true,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": true
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "control + option + shift +（輝度を上げるまたは輝度を下げる）",
+    "unavailableReason": null
+  },
+  {
+    "action": "システム環境設定の「Mission Control」パネルを開く",
+    "app": "macOS",
+    "category": "システム環境設定のショートカット",
+    "id": "270",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "option + Mission Control",
+    "unavailableReason": null
+  },
+  {
+    "action": "デスクトップを表示",
+    "app": "macOS",
+    "category": "システム環境設定のショートカット",
+    "id": "271",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "command + Mission Control",
+    "unavailableReason": null
+  },
+  {
+    "action": "最前面の App のウインドウをすべて表示",
+    "app": "macOS",
+    "category": "システム環境設定のショートカット",
+    "id": "272",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "ArrowDown",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + 下矢印",
+    "unavailableReason": "hasDeniedKeyCombination"
+  },
+  {
+    "action": "システム環境設定の「サウンド」パネルを開く",
+    "app": "macOS",
+    "category": "システム環境設定のショートカット",
+    "id": "273",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "option +（音量を上げるまたは音量を下げる）",
+    "unavailableReason": null
+  },
+  {
+    "action": "音量を細かく調節",
+    "app": "macOS",
+    "category": "システム環境設定のショートカット",
+    "id": "274",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": true
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "option + shift +（音量を上げるまたは音量を下げる）",
+    "unavailableReason": null
+  },
+  {
+    "action": "システム環境設定の「キーボード」パネルを開く",
+    "app": "macOS",
+    "category": "システム環境設定のショートカット",
+    "id": "275",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "option +（キーボードの明るさを上げるまたはキーボードの明るさを下げる）",
+    "unavailableReason": null
+  },
+  {
+    "action": "キーボードの明るさを細かく調節",
+    "app": "macOS",
+    "category": "システム環境設定のショートカット",
+    "id": "276",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": true
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "option + shift +（キーボードの明るさを上げるまたはキーボードの明るさを下げる）",
+    "unavailableReason": null
+  },
+  {
+    "action": "項目を別のウインドウで開き、元のウインドウを閉じる",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "277",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "option + ダブルクリック",
+    "unavailableReason": null
+  },
+  {
+    "action": "フォルダを別のタブまたはウインドウで開く",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "278",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "command + ダブルクリック",
+    "unavailableReason": null
+  },
+  {
+    "action": "ドラッグした項目をコピーするのではなく、その別ボリュームに移動する",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "279",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "command + 別のボリュームにドラッグ",
+    "unavailableReason": null
+  },
+  {
+    "action": "ドラッグした項目をコピー（ドラッグ中はポインタが変化）",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "280",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "option + ドラッグ",
+    "unavailableReason": null
+  },
+  {
+    "action": "ドラッグした項目のエイリアスを作成（ドラッグ中はポインタが変化）",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "281",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "option + command を押しながらドラッグ",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択したフォルダ内のすべてのフォルダを開く（リスト表示でのみ機能する）",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "282",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "option + 詳細表示三角形をクリック",
+    "unavailableReason": null
+  },
+  {
+    "action": "現在のフォルダを内包するフォルダを表示",
+    "app": "macOS",
+    "category": "Finder のショートカット",
+    "id": "283",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": null,
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": true,
+    "os": "macOS",
+    "shortcut": "command + ウインドウのタイトルをクリック",
+    "unavailableReason": null
+  },
+  {
+    "action": "太字にする、または太字属性のオン／オフを切り替える",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "284",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "b",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + B",
+    "unavailableReason": null
+  },
+  {
+    "action": "テキストを斜体にする、または斜体属性のオン／オフを切り替える",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "285",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "i",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + I",
+    "unavailableReason": null
+  },
+  {
+    "action": "Web リンクを追加",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "286",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "k",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + K",
+    "unavailableReason": null
+  },
+  {
+    "action": "テキストに下線を引く、または下線属性のオン／オフを切り替える",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "287",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "u",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + U",
+    "unavailableReason": null
+  },
+  {
+    "action": "「フォント」ウインドウの表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "288",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "t",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + T",
+    "unavailableReason": null
+  },
+  {
+    "action": "「開く」または「保存」のダイアログ内で、「デスクトップ」フォルダを選択",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "289",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "d",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + D",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択した単語の定義の表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "290",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "d",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + command + D",
+    "unavailableReason": "hasDeniedKeyCombination"
+  },
+  {
+    "action": "「スペルと文法」ウインドウを表示",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "291",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": ":",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + コロン (:)",
+    "unavailableReason": null
+  },
+  {
+    "action": "書類内でスペルに誤りのある単語を検索",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "292",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": ";",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + セミコロン (;)",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントの左側にある単語を削除",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "293",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "Backspace",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + delete",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントの左側にある文字を削除",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "294",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "h",
+        "metaKey": false,
+        "shiftKey": false
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Backspace",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + H または delete",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントの右側にある文字を削除",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "295",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "d",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + D または「fn + delete」キー",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントから、行または段落の末尾までの範囲にあるテキストを削除",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "296",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "k",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + K",
+    "unavailableReason": null
+  },
+  {
+    "action": "page up：1 ページ分上にスクロール",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "297",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "PageUp",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "fn + 上矢印 または page up",
+    "unavailableReason": null
+  },
+  {
+    "action": "page down：1 ページ分下にスクロール",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "298",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "PageDown",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "fn + 下矢印 または page down",
+    "unavailableReason": null
+  },
+  {
+    "action": "home：書類の先頭までスクロール",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "299",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Home",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "fn + 左矢印 または home",
+    "unavailableReason": null
+  },
+  {
+    "action": "end：書類の末尾までスクロール",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "300",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "End",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "fn + 右矢印 または end",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントを書類の先頭に移動",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "301",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowUp",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + 上矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントを書類の末尾に移動",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "302",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowDown",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + 下矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントを行の先頭に移動",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "303",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowLeft",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + 左矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントを行の末尾に移動",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "304",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowRight",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + 右矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントを前の単語の先頭に移動",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "305",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowLeft",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + 左矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントを次の単語の末尾に移動",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "306",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowRight",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + 右矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントから書類の先頭まで選択",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "307",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowUp",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + 上矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントから書類の末尾まで選択",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "308",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowDown",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + 下矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントから行の先頭まで選択",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "309",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowLeft",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + 左矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントから行の末尾まで選択",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "310",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowRight",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + 右矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択範囲を1 つ上の行まで拡張",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "311",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowUp",
+        "metaKey": false,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + 上矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択範囲を1 つ下の行まで拡張",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "312",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowDown",
+        "metaKey": false,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + 下矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択範囲を 1 文字分左に拡張",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "313",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowLeft",
+        "metaKey": false,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + 左矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択範囲を 1 文字分右に拡張",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "314",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "ArrowRight",
+        "metaKey": false,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + 右矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択範囲を段落の先頭まで拡張",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "315",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowUp",
+        "metaKey": false,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + shift + 上矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択範囲を段落の末尾まで拡張",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "316",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowDown",
+        "metaKey": false,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + shift + 下矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択範囲を単語の先頭まで拡張",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "317",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowLeft",
+        "metaKey": false,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + shift + 左矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択範囲を単語の末尾まで拡張",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "318",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "ArrowRight",
+        "metaKey": false,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + shift + 右矢印",
+    "unavailableReason": null
+  },
+  {
+    "action": "行または段落の先頭に移動",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "319",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "a",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + A",
+    "unavailableReason": null
+  },
+  {
+    "action": "行または段落の末尾に移動",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "320",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "e",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + E",
+    "unavailableReason": null
+  },
+  {
+    "action": "1 文字分進む",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "321",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "f",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + F",
+    "unavailableReason": null
+  },
+  {
+    "action": "1 文字分戻る",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "322",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "b",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + B",
+    "unavailableReason": null
+  },
+  {
+    "action": "カーソルまたは選択範囲を表示領域の中央に表示",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "323",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "l",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + L",
+    "unavailableReason": null
+  },
+  {
+    "action": "1 行上に移動",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "324",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "p",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + P",
+    "unavailableReason": null
+  },
+  {
+    "action": "1 行下に移動",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "325",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "n",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + N",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントの後に 1 行挿入",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "326",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "o",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + O",
+    "unavailableReason": null
+  },
+  {
+    "action": "挿入ポイントの右側の文字と左側の文字を置換",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "327",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "t",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "control + T",
+    "unavailableReason": null
+  },
+  {
+    "action": "左揃えにする",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "328",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "{",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + { (左中かっこ)",
+    "unavailableReason": "hasModifiedKey"
+  },
+  {
+    "action": "右揃えにする",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "329",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "}",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "command + } (右中かっこ)",
+    "unavailableReason": "hasModifiedKey"
+  },
+  {
+    "action": "中央揃えにする",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "330",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "|",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + 縦棒 (|)",
+    "unavailableReason": "hasModifiedKey"
+  },
+  {
+    "action": "検索フィールドに移動",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "331",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "f",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + F",
+    "unavailableReason": null
+  },
+  {
+    "action": "App のツールバーの表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "332",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "t",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + T",
+    "unavailableReason": null
+  },
+  {
+    "action": "スタイルをコピー：書式設定をクリップボードにコピー",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "333",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "c",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + C",
+    "unavailableReason": null
+  },
+  {
+    "action": "スタイルをペースト：コピーしたスタイルを適用",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "334",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "v",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + V",
+    "unavailableReason": null
+  },
+  {
+    "action": "ペーストしてスタイルを合わせる：周りのコンテンツと同じスタイルを適用",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "335",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "v",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + shift + command + V",
+    "unavailableReason": null
+  },
+  {
+    "action": "「インスペクタ」ウインドウの表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "336",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "i",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "option + command + I",
+    "unavailableReason": null
+  },
+  {
+    "action": "ページ設定：書類設定を選択するウインドウを表示",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "337",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "p",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + P",
+    "unavailableReason": null
+  },
+  {
+    "action": "「別名で保存」ダイアログを表示、または書類を複製",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "338",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "s",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + S",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択した項目のサイズを縮小",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "339",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "-",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + マイナス記号 (-)",
+    "unavailableReason": null
+  },
+  {
+    "action": "選択した項目のサイズを拡大",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "340",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "Plus",
+        "metaKey": true,
+        "shiftKey": true
+      },
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "=",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + プラス記号 (+) または「command + 等号 (=)」キー",
+    "unavailableReason": "hasModifiedKey"
+  },
+  {
+    "action": "「ヘルプ」メニューを開く",
+    "app": "macOS",
+    "category": "書類に関するショートカット",
+    "id": "341",
+    "isAvailable": false,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "?",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "shortcut": "shift + command + 疑問符 (?)",
+    "unavailableReason": "hasModifiedKey"
+  }
+]

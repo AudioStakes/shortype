@@ -14,7 +14,7 @@ const modalStore = () => {
     modalState.isShowAboutModal = false
   }
 
-  const showSelectToolAndCategoriesModal = () => {
+  const showToolsAndCategoriesModal = () => {
     modalState.isShowToolsAndCategoriesModal = true
   }
 
@@ -28,7 +28,7 @@ const modalStore = () => {
     showAboutModal,
     hideAboutModal,
 
-    showSelectToolAndCategoriesModal,
+    showToolsAndCategoriesModal,
     hideToolsAndCategoriesModal,
   }
 }

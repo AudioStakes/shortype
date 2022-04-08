@@ -820,22 +820,7 @@
     "category": "アドレスバーのショートカット",
     "id": "40",
     "isAvailable": false,
-    "keyCombinations": [
-      {
-        "altKey": false,
-        "ctrlKey": false,
-        "key": "ArrowDown",
-        "metaKey": false,
-        "shiftKey": true
-      },
-      {
-        "altKey": false,
-        "ctrlKey": false,
-        "key": "fn",
-        "metaKey": false,
-        "shiftKey": false
-      }
-    ],
+    "keyCombinations": [],
     "needsFillInBlankMode": true,
     "os": "macOS",
     "shortcut": "下矢印で選択+shift+fn+delete（ノートパソコンの場合は forward delete または fn+delete）",

@@ -54,6 +54,9 @@ const keyToSymbolArray = [
   ['belowdiaeresis', '̤'],
   ['invertedbreve', '̯'],
   ['belowcomma', '̦'],
+  ['Tab', '⇥'],
+  ['Eject', '⏏'],
+  ['Space', '␣'],
 ] as const
 
 export default keyToSymbolArray

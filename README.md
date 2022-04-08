@@ -21,6 +21,7 @@ https://shortype.vercel.app/
 
 - Google Chrome
 - Terminal (macOS)
+- macOS
 
 ## Usage
 

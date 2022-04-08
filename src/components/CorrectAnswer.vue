@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import KeyList from '@/components/KeyList.vue'
 import ShortcutDescription from '@/components/ShortcutDescription.vue'
+import { FUNCTION_KEY_DESCRIPTION_REGEXP } from '@/constants/keyDescriptionRegexp'
 import KeyCombination from '@/models/keyCombination'
 import GameKey from '@/stores/gameKey'
 import { injectStrict } from '@/utils/injectStrict'
@@ -20,7 +21,9 @@ const { state } = injectStrict(GameKey)
       <span class="text-xl my-2">正解</span>
       <div
         v-if="
-          state.shortcut.isAvailable && !state.shortcut.needsFillInBlankMode
+          state.shortcut.isAvailable &&
+          !state.shortcut.needsFillInBlankMode &&
+          !FUNCTION_KEY_DESCRIPTION_REGEXP.test(state.shortcut.shortcut)
         "
         class="flex"
       >
