@@ -368,7 +368,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     }
   }
 
-  const updateToolAndCategories = (tool: string, categories: string[]) => {
+  const selectToolAndCategories = (tool: string, categories: string[]) => {
     state.tool = tool
     saveSelectedTool(tool)
 
@@ -380,10 +380,11 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     state.shortcut =
       state.shortcuts.find((shortcut) => !removedIds.includes(shortcut.id)) ??
       state.shortcuts[0]
-    hideToolsView()
+
+    exitSelectionOfToolAndCategories()
   }
 
-  const hideToolsView = () => {
+  const exitSelectionOfToolAndCategories = () => {
     resetTypingState()
     state.isListeningKeyboardEvent = true
   }
@@ -472,9 +473,9 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     keyUp,
     judge,
     restoreRemovedShortcuts,
-    updateToolAndCategories,
+    selectToolAndCategories,
     masteredRateOfEachTool,
-    hideToolsView,
+    exitSelectionOfToolAndCategories,
     onFullscreenchange,
     categoriesWithMasteredRate,
   }

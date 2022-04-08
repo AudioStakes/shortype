@@ -7,6 +7,8 @@ import {
   within,
 } from '@testing-library/vue'
 
+import modalStore from '@/stores/modal'
+import ModalKey from '@/stores/modalKey'
 import Keyboard from '@/utils/keyboard'
 import { loadAnsweredHistory } from '@/utils/localStorage'
 import GameView from '@/views/GameView.vue'
@@ -34,10 +36,19 @@ beforeEach(() => {
   mockStorage = {}
 })
 
-test('show a question', () => {
-  const { getByText } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
+const renderGameView = (props: object = { shortcuts: availableShortcuts }) => {
+  return render(GameView, {
+    props,
+    global: {
+      provide: {
+        [ModalKey as symbol]: modalStore(),
+      },
+    },
   })
+}
+
+test('show a question', () => {
+  const { getByText } = renderGameView()
 
   getByText('Google Chrome')
   getByText('タブとウィンドウのショートカット')
@@ -58,9 +69,7 @@ test.each([
 ])(
   'show keys of $keys when press $keyCombination',
   async ({ keyCombination, keys }) => {
-    const { getByTestId } = render(GameView, {
-      props: { shortcuts: availableShortcuts },
-    })
+    const { getByTestId } = renderGameView()
 
     await userEvent.keyboard(keyCombination)
 
@@ -73,9 +82,7 @@ test.each([
 )
 
 test('proceed to a next question when the correct key is pressed', async () => {
-  const { getByText, getByTestId } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText, getByTestId } = renderGameView()
 
   getByText('最後のタブに移動する')
 
@@ -86,9 +93,7 @@ test('proceed to a next question when the correct key is pressed', async () => {
 })
 
 test('show a correct answer when a wrong key is pressed', async () => {
-  const { getByText, getByTestId } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText, getByTestId } = renderGameView()
 
   getByText('最後のタブに移動する')
 
@@ -98,9 +103,7 @@ test('show a correct answer when a wrong key is pressed', async () => {
 })
 
 test('proceed to a next question when the correct key is pressed after a wrong key', async () => {
-  const { getByText, getByTestId } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText, getByTestId } = renderGameView()
 
   getByText('最後のタブに移動する')
 
@@ -113,9 +116,7 @@ test('proceed to a next question when the correct key is pressed after a wrong k
 })
 
 test('skip a question when an Enter key is pressed', async () => {
-  const { getByText } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText } = renderGameView()
 
   getByText('最後のタブに移動する')
 
@@ -125,9 +126,7 @@ test('skip a question when an Enter key is pressed', async () => {
 })
 
 test('remove a question when an R key is pressed', async () => {
-  const { getByText } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText } = renderGameView()
 
   getByText('最後のタブに移動する')
 
@@ -147,9 +146,7 @@ test('remove a question when an R key is pressed', async () => {
 })
 
 test('removed shortcut keys are stored in localStorage', async () => {
-  const { getByText } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText } = renderGameView()
 
   getByText('最後のタブに移動する')
 
@@ -164,9 +161,7 @@ test('removed shortcut keys are stored in localStorage', async () => {
 })
 
 test('restore removed shortcut keys when the restore button is clicked', async () => {
-  const { getByText } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText } = renderGameView()
 
   getByText('最後のタブに移動する')
 
@@ -183,9 +178,7 @@ test('restore removed shortcut keys when the restore button is clicked', async (
 })
 
 test('save a record of answered correctly when the correct key is pressed', () => {
-  const { getByText } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText } = renderGameView()
 
   getByText('最後のタブに移動する')
 
@@ -197,9 +190,7 @@ test('save a record of answered correctly when the correct key is pressed', () =
 })
 
 test('save a record of answered incorrectly when the incorrect key is pressed', () => {
-  const { getByText } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText } = renderGameView()
 
   getByText('最後のタブに移動する')
 
@@ -211,9 +202,7 @@ test('save a record of answered incorrectly when the incorrect key is pressed', 
 })
 
 test('increase the frequency of the shortcut keys answered incorrectly', async () => {
-  const { getByText, getByTestId, queryByText } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText, getByTestId, queryByText } = renderGameView()
 
   getByText('最後のタブに移動する')
   await userEvent.keyboard('{Meta>}{9}') // 正解
@@ -236,9 +225,7 @@ test('increase the frequency of the shortcut keys answered incorrectly', async (
 })
 
 test('show an unanswered shortcut key as the highest priority', async () => {
-  const { getByText, getByTestId } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText, getByTestId } = renderGameView()
 
   getByText('最後のタブに移動する')
   await userEvent.keyboard('{Meta>}{9}')
@@ -252,9 +239,7 @@ test('show an unanswered shortcut key as the highest priority', async () => {
 })
 
 test('show the current mastered ratio', async () => {
-  const { getByText, container } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText, container } = renderGameView()
 
   expect(container.querySelector('svg')?.textContent?.trim()).toEqual('0 %')
   getByText('最後のタブに移動する')
@@ -264,9 +249,7 @@ test('show the current mastered ratio', async () => {
 })
 
 test('show the modal to select a tool when the tool key is pressed', async () => {
-  const { getByText } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText } = renderGameView()
 
   await userEvent.keyboard('{T}')
 
@@ -274,9 +257,7 @@ test('show the modal to select a tool when the tool key is pressed', async () =>
 })
 
 test('switch a tool when the tool on the modal is selected', async () => {
-  const { getByText, queryByText } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText, queryByText } = renderGameView()
 
   getByText(/Google Chrome/)
   expect(queryByText(/Terminal/)).toBeNull()
@@ -295,9 +276,7 @@ test('switch a tool when the tool on the modal is selected', async () => {
 })
 
 test('select a category when the category on the modal is clicked', async () => {
-  const { getByText, getByTestId, queryByText } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText, getByTestId, queryByText } = renderGameView()
 
   getByText(/Google Chrome/)
   getByText(/タブとウィンドウのショートカット/)
@@ -320,9 +299,7 @@ test('select a category when the category on the modal is clicked', async () => 
 })
 
 test('save a selected tool to localStorage when the tool is selected and start training', async () => {
-  const { getByText, queryByText } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText, queryByText } = renderGameView()
 
   getByText(/Google Chrome/)
   expect(queryByText(/Terminal/)).toBeNull()
@@ -343,9 +320,7 @@ test('save a selected tool to localStorage when the tool is selected and start t
 })
 
 test('save selected categories to localStorage when categories is selected and start training', async () => {
-  const { getByText, getByTestId, queryByText } = render(GameView, {
-    props: { shortcuts: availableShortcuts },
-  })
+  const { getByText, getByTestId, queryByText } = renderGameView()
 
   getByText(/タブとウィンドウのショートカット/)
   expect(queryByText(/アドレスバーのショートカット/)).toBeNull()
@@ -367,8 +342,8 @@ test('save selected categories to localStorage when categories is selected and s
 })
 
 test('show the message to confirm the correct answer when the question is an unsupported shortcut key ', () => {
-  const { getByText, container } = render(GameView, {
-    props: { shortcuts: unsupportedShortcuts },
+  const { getByText, container } = renderGameView({
+    shortcuts: unsupportedShortcuts,
   })
 
   getByText('開いている次のタブに移動する')
@@ -382,9 +357,7 @@ test('show the message to confirm the correct answer when the question is an uns
 })
 
 test('show the correct shortcut key when the c key is pressed for an unsupported shortcut key', async () => {
-  const { getByTestId } = render(GameView, {
-    props: { shortcuts: unsupportedShortcuts },
-  })
+  const { getByTestId } = renderGameView({ shortcuts: unsupportedShortcuts })
 
   await userEvent.keyboard('{C}')
 
@@ -392,9 +365,7 @@ test('show the correct shortcut key when the c key is pressed for an unsupported
 })
 
 test('present options for self-scoring when the c key is pressed for the unsupported shortcut key', async () => {
-  const { getByText } = render(GameView, {
-    props: { shortcuts: unsupportedShortcuts },
-  })
+  const { getByText } = renderGameView({ shortcuts: unsupportedShortcuts })
 
   await userEvent.keyboard('{C}')
 
@@ -403,9 +374,7 @@ test('present options for self-scoring when the c key is pressed for the unsuppo
 })
 
 test('save a record of answered correctly when mark self as correct for the unsupported shortcut key', () => {
-  render(GameView, {
-    props: { shortcuts: unsupportedShortcuts },
-  })
+  renderGameView({ shortcuts: unsupportedShortcuts })
 
   userEvent.keyboard('{C}')
   userEvent.keyboard('{Y}')
@@ -416,9 +385,7 @@ test('save a record of answered correctly when mark self as correct for the unsu
 })
 
 test('save a record of answered wrongly when mark self as wrong for the unsupported shortcut key', () => {
-  render(GameView, {
-    props: { shortcuts: unsupportedShortcuts },
-  })
+  renderGameView({ shortcuts: unsupportedShortcuts })
 
   userEvent.keyboard('{C}')
   userEvent.keyboard('{N}')
@@ -429,8 +396,8 @@ test('save a record of answered wrongly when mark self as wrong for the unsuppor
 })
 
 test('show multiple correct answers when a shortcut key has multiple key combinations', async () => {
-  const { getByText, container } = render(GameView, {
-    props: { shortcuts: shortcutWithMultipleKeyCombinations },
+  const { getByText, container } = renderGameView({
+    shortcuts: shortcutWithMultipleKeyCombinations,
   })
 
   getByText('キーボード フォーカスのあるタブを左右に移動する')
@@ -450,8 +417,8 @@ test.each([
 ])(
   'judge $keyCombination as correct when a shortcut key has multiple key combinations including $keyCombination',
   async ({ keyCombination }) => {
-    const { getByText, getByTestId } = render(GameView, {
-      props: { shortcuts: shortcutWithMultipleKeyCombinations },
+    const { getByText, getByTestId } = renderGameView({
+      shortcuts: shortcutWithMultipleKeyCombinations,
     })
 
     getByText('キーボード フォーカスのあるタブを左右に移動する')
@@ -462,8 +429,8 @@ test.each([
 )
 
 test('show a fill-in-blank question when a shortcut key has non-key actions', async () => {
-  const { getByText, getByTestId } = render(GameView, {
-    props: { shortcuts: shortcutWithNonKeyActions },
+  const { getByText, getByTestId } = renderGameView({
+    shortcuts: shortcutWithNonKeyActions,
   })
 
   getByText('リンクを新しいバックグラウンド タブで開く')
@@ -480,8 +447,8 @@ test('show a fill-in-blank question when a shortcut key has non-key actions', as
 })
 
 test('show a pressed key on fill-in-blank mode', async () => {
-  const { getByText, getByTestId } = render(GameView, {
-    props: { shortcuts: shortcutWithNonKeyActions },
+  const { getByText, getByTestId } = renderGameView({
+    shortcuts: shortcutWithNonKeyActions,
   })
 
   getByText('リンクを新しいバックグラウンド タブで開く')
@@ -495,9 +462,9 @@ test('show a pressed key on fill-in-blank mode', async () => {
   expect(pressedKeyElement).toBeTruthy()
 })
 
-test('show the message to request fullscreen mode when the shortcut key is only available in fullscreen mode', () => {
-  const { getByText, getByTestId } = render(GameView, {
-    props: { shortcuts: shortcutsOnlyAvailableInFullscreen },
+test('show the message to request fullscreen mode when the shortcut key is only available in fullscreen mode', async () => {
+  const { getByText, getByTestId } = renderGameView({
+    shortcuts: shortcutsOnlyAvailableInFullscreen,
   })
 
   getByText('新しいウィンドウを開く')
