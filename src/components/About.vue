@@ -4,8 +4,11 @@ import { XIcon } from '@heroicons/vue/solid'
 import imageOfPieChartAndTable from '@/assets/pie-chart-and-table.png'
 import imageOfRemovingShortcutKey from '@/assets/removing-shortcut-key.png'
 import imageOfToolSelectButton from '@/assets/tool-select-button.png'
-const props = defineProps<{ isShow: boolean }>()
-const emit = defineEmits(['hide-about-modal'])
+import ModalKey from '@/stores/modalKey'
+import { injectStrict } from '@/utils/injectStrict'
+
+const { hideAboutModal } = injectStrict(ModalKey)
+defineProps<{ isShow: boolean }>()
 </script>
 
 <template>
@@ -19,9 +22,9 @@ const emit = defineEmits(['hide-about-modal'])
       leave-to-class="transform opacity-0"
     >
       <div
-        v-if="props.isShow"
+        v-if="isShow"
         class="z-10 absolute w-screen h-screen bg-black opacity-30 top-0"
-        @click="emit('hide-about-modal')"
+        @click="hideAboutModal()"
       />
     </transition>
 
@@ -34,12 +37,12 @@ const emit = defineEmits(['hide-about-modal'])
       leave-to-class="transform opacity-0 translate-y-0.5"
     >
       <div
-        v-if="props.isShow"
+        v-if="isShow"
         class="z-10 p-5 h-4/5 w-4/5 max-w-[45rem] overflow-y-auto flex flex-col bg-white border border-gray-300 rounded-lg top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 absolute"
       >
         <XIcon
           class="self-end h-6 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg transition duration-200 hover:ease-out"
-          @click="emit('hide-about-modal')"
+          @click="hideAboutModal()"
         />
 
         <div class="w-full flex flex-col space-y-4 text-left">

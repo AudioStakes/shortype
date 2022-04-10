@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ isShow: boolean; isEnterFromRight: boolean }>()
+defineProps<{ isShow?: boolean; isEnterFromRight?: boolean }>()
 </script>
 
 <template>

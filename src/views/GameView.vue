@@ -30,7 +30,7 @@ const props = withDefaults(
     isShowToolModal: false,
   }
 )
-const emit = defineEmits(['hide-tool-modal'])
+const emit = defineEmits(['hide-modal'])
 
 const game = gameStore(props.shortcuts)
 provide(GameKey, game)
@@ -74,7 +74,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
     </div>
     <ToolsAndCategoriesModal
       :is-show="isShowToolModal"
-      @hide-tool-modal="emit('hide-tool-modal')"
+      @hide-modal="emit('hide-modal')"
     />
   </div>
   <div v-else>

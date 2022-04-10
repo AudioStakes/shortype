@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "@heroicons/vue": "^1.0.5",
-    "vue": "^3.2.25"
+    "vue": "^3.2.25",
+    "vue-tabler-icons": "^2.5.0"
   },
   "devDependencies": {
     "@testing-library/user-event": "^13.5.0",

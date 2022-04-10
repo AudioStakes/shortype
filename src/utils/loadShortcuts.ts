@@ -1,44 +1,21 @@
-import { Shortcut } from '@/types/interfaces'
+import chrome from '@/constants/shortcuts/chrome.json'
+import mac from '@/constants/shortcuts/mac.json'
+import terminal from '@/constants/shortcuts/terminal.json'
+
+export const toolToShortcutsMap = new Map([
+  ['Google Chrome', chrome],
+  ['Terminal (macOS)', terminal],
+  ['macOS', mac],
+])
+
+export function loadShortcutsByTool(tool: string) {
+  return toolToShortcutsMap.get(tool) ?? chrome
+}
 
 export function loadShortcutsByToolAndCategories(
   tool: string,
   categories: string[]
 ) {
-  const shortcuts = loadShortcutsByTool(tool)
+  const shortcuts = toolToShortcutsMap.get(tool) ?? chrome
   return shortcuts.filter((shortcut) => categories.includes(shortcut.category))
-}
-
-import chrome from '@/constants/shortcuts/chrome.json'
-import terminal from '@/constants/shortcuts/terminal.json'
-export function loadShortcutsByTool(tool: string) {
-  let json
-
-  switch (tool) {
-    case 'Google Chrome':
-      json = chrome as Shortcut[]
-      break
-
-    case 'Terminal (macOS)':
-      json = terminal as Shortcut[]
-      break
-
-    default:
-      json = chrome as Shortcut[]
-      break
-  }
-
-  return json
-}
-
-export function loadAllTools() {
-  return [
-    {
-      name: 'Google Chrome',
-      shortcuts: chrome as Shortcut[],
-    },
-    {
-      name: 'Terminal (macOS)',
-      shortcuts: terminal as Shortcut[],
-    },
-  ]
 }

@@ -357,14 +357,46 @@ const standardKeys = [
 ]
 const STANDARD_KEY_REGEXP = new RegExp(standardKeys.join('|'))
 
-const modifiedKeys = ['\\?', '\\\\', '`', '˜', 'Plus'] // Plus は + のこと。説明文と区別をつけるため、あえて plus として扱っている
+const modifiedKeys = [
+  '\\?',
+  '\\\\',
+  '`',
+  '˜',
+  'Plus', // Plus は + のこと。説明文と区別をつけるため、あえて Plus として扱っている
+  '{',
+  '}',
+  '\\|',
+  '=',
+]
 export const MODIFIED_KEY_REGEXP = new RegExp(modifiedKeys.join('|'))
 
-const additionalKeys = ['plus'] // 説明文中の単語と区別するため、本来の key と別名にした
+const additionalKeys = [
+  'KeyboardBacklightDown', // MDN になかったため新たに名付けた
+  'KeyboardBacklightUp', // MDN になかったため新たに名付けた
+  'MissionControl', // MDN になかったため新たに名付けた
+  'Space', // 本来の key の値 ' ' は読み取りにくいため別名にした
+  'Plus', // 説明文中の単語と区別するため、本来の key と別名にした
+]
 const ADDITIONAL_KEY_REGEXP = new RegExp(additionalKeys.join('|'))
 
-const missingKeys = ['\\[', '\\]'] // key として存在するけれど MDN には載っていない
+const missingKeys = ['\\[', '\\]', ';', ':', '/', '.', ','] // key として存在するけれど MDN には載っていない
 const MISSING_KEY_REGEXP = new RegExp(missingKeys.join('|'))
+
+// KeyboardEvent が発火しないため検出できない key
+const undetectableKeys = [
+  'KeyboardBacklightDown',
+  'KeyboardBacklightUp',
+  'AudioVolumeDown',
+  'MissionControl',
+  'BrightnessDown',
+  'AudioVolumeUp',
+  'BrightnessUp',
+  'Eject',
+  'Power',
+]
+export const UNDETECTABLE_KEY_REGEXP = new RegExp(undetectableKeys.join('|'))
+
+export const FUNCTION_KEY_REGEXP = /Fn/
 
 const KEY_REGEXP = new RegExp(
   '^(' +
@@ -379,3 +411,6 @@ const KEY_REGEXP = new RegExp(
   'i'
 )
 export default KEY_REGEXP
+
+// key ではないものの key として検出されてしまう文字列
+export const DENY_LIST_OF_KEY_REGEXP = /\+|＋|〜|（|）|「|」/

@@ -11,7 +11,7 @@ import { injectStrict } from '@/utils/injectStrict'
 
 const { categoriesWithMasteredRate } = injectStrict(GameKey)
 const props = defineProps<{ tool: string; categories: string[] }>()
-const emit = defineEmits(['update-tool-and-categories', 'reset-tool'])
+const emit = defineEmits(['select-tool-and-categories', 'reset-tool'])
 
 const categoriesWithRate = categoriesWithMasteredRate(props.tool)
 const targetCategories = categoriesWithRate.map((category) => category.name)
@@ -107,7 +107,7 @@ const rejectAllCategories = () => {
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 my-4"
       :name="'選んだカテゴリーの練習をはじめる'"
       :is-disabled="!hasSelectedCategory"
-      @click="emit('update-tool-and-categories', [...selectedCategories])"
+      @click="emit('select-tool-and-categories', [...selectedCategories])"
     >
     </Button>
   </div>

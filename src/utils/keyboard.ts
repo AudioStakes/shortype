@@ -1,8 +1,12 @@
 import defaultKeyboardLayoutArray from '@/constants/defaultKeyboardLayoutArray'
 import { KEY_DESCRIPTION_INCLUDING_DENY_LIST_REGEXP } from '@/constants/keyDescriptionRegexp'
 import keyDescriptionToKeyArray from '@/constants/keyDescriptionToKeyArray'
-import KEY_REGEXP from '@/constants/keyRegexp'
+import KEY_REGEXP, {
+  DENY_LIST_OF_KEY_REGEXP,
+  UNDETECTABLE_KEY_REGEXP,
+} from '@/constants/keyRegexp'
 import keyToAnnotationArray from '@/constants/keyToAnnotationArray'
+import keyToIconAnnotationMap from '@/constants/keyToIconAnnotationMap'
 import keyToSymbolArray from '@/constants/keyToSymbolArray'
 import symbolicKeyToAnnotationArray from '@/constants/symbolicKeyToAnnotationArray'
 import undefinedCodeToKeyArray from '@/constants/undefinedCodeToKeyArray'
@@ -21,11 +25,23 @@ const keyDescriptionToKeyMap = new Map<string, string>(keyDescriptionToKeyArray)
 
 export default class Keyboard {
   static isKey(word: string) {
-    return KEY_REGEXP.test(word)
+    return !DENY_LIST_OF_KEY_REGEXP.test(word) && KEY_REGEXP.test(word)
+  }
+
+  static isUndetectableKey(word: string) {
+    return UNDETECTABLE_KEY_REGEXP.test(word)
   }
 
   static hasSymbol(key: string) {
-    return Keyboard.symbol(key) ?? symbolicKeyToAnnotationMap.get(key)
+    return keyToSymbolMap.has(key) || symbolicKeyToAnnotationMap.has(key)
+  }
+
+  static hasIcon(key: string) {
+    return keyToIconAnnotationMap.has(key)
+  }
+
+  static annotationOfIcon(key: string) {
+    return keyToIconAnnotationMap.get(key)
   }
 
   static symbol(key: string) {
@@ -33,16 +49,17 @@ export default class Keyboard {
   }
 
   static annotationOfSymbol(key: string) {
-    return (
-      keyToAnnotationMap.get(key) ?? symbolicKeyToAnnotationMap.get(key) ?? key
-    )
+    return keyToAnnotationMap.get(key) ?? symbolicKeyToAnnotationMap.get(key)
   }
 
-  static splitByKey(description: string) {
+  static splitByKeyDescription(description: string) {
     return description
       .split(KEY_DESCRIPTION_INCLUDING_DENY_LIST_REGEXP)
       .filter(Boolean)
-      .map((word) => keyDescriptionToKeyMap.get(word) ?? word)
+  }
+
+  static keyOfKeyDescription(keyDescription: string) {
+    return keyDescriptionToKeyMap.get(keyDescription)
   }
 
   constructor(private keyboardMap?: Map<string, string>) {}

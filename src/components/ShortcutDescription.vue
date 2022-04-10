@@ -24,15 +24,8 @@ withDefaults(defineProps<{ isFillInBlankMode?: boolean }>(), {
         : wordsOfDescriptionFilledByCorrectKeys"
       :key="index"
     >
-      <!-- 正規表現に含まれていないのに key と判定される（Keyboard.isKey が true を返す）文字をガード -->
-      <span
-        v-if="['+', '＋', '～', '）'].includes(word)"
-        :key="word"
-        class="text-base"
-        >{{ word }}</span
-      >
       <Key
-        v-else-if="Keyboard.isKey(word) || word === ''"
+        v-if="Keyboard.isKey(word) || word === ''"
         :key-name="word"
         class="scale-[0.8]"
       ></Key>

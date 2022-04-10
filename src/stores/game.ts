@@ -4,9 +4,9 @@ import KeyCombination from '@/models/keyCombination'
 import { KeyCombinable, Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
 import {
-  loadAllTools,
   loadShortcutsByTool,
   loadShortcutsByToolAndCategories,
+  toolToShortcutsMap,
 } from '@/utils/loadShortcuts'
 import {
   loadAnsweredHistory,
@@ -134,19 +134,23 @@ const gameStore = (shortcuts?: Shortcut[]) => {
   })
 
   const wordsOfDescriptionFilledByCorrectKeys = computed(() =>
-    Keyboard.splitByKey(state.shortcut.shortcut)
+    Keyboard.splitByKeyDescription(state.shortcut.shortcut).map(
+      (word) => Keyboard.keyOfKeyDescription(word) ?? word
+    )
   )
 
   const wordsOfDescriptionFilledByPressedKeys = computed(() => {
     const pressedKeys = state.pressedKeyCombination.keys()
 
-    return Keyboard.splitByKey(state.shortcut.shortcut).map((word) => {
-      if (Keyboard.isKey(word)) {
-        return pressedKeys.shift() ?? ''
-      } else {
-        return word
-      }
-    })
+    return Keyboard.splitByKeyDescription(state.shortcut.shortcut)
+      .map((word) => Keyboard.keyOfKeyDescription(word) ?? word)
+      .map((word) => {
+        if (Keyboard.isKey(word) && !Keyboard.isUndetectableKey(word)) {
+          return pressedKeys.shift() ?? ''
+        } else {
+          return word
+        }
+      })
   })
 
   const needsFullscreenMode = computed(() => {
@@ -368,7 +372,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     }
   }
 
-  const updateToolAndCategories = (tool: string, categories: string[]) => {
+  const selectToolAndCategories = (tool: string, categories: string[]) => {
     state.tool = tool
     saveSelectedTool(tool)
 
@@ -380,10 +384,11 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     state.shortcut =
       state.shortcuts.find((shortcut) => !removedIds.includes(shortcut.id)) ??
       state.shortcuts[0]
-    hideToolsView()
+
+    exitSelectionOfToolAndCategories()
   }
 
-  const hideToolsView = () => {
+  const exitSelectionOfToolAndCategories = () => {
     resetTypingState()
     state.isListeningKeyboardEvent = true
   }
@@ -392,13 +397,14 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     name: string
     masteredRate: number
   }[] => {
-    const allTools = loadAllTools()
     const masteredIds = [...state.answeredHistoryMap]
       .map(([id, results]) => [id, weight(results)])
       .filter(([, weight]) => weight <= 0.6)
       .map(([id]) => id)
 
-    return Object.values(allTools).map(({ name, shortcuts }) => {
+    const masteredRateOfEachTool: { name: string; masteredRate: number }[] = []
+
+    toolToShortcutsMap.forEach((shortcuts, name) => {
       const countOfShortcut = shortcuts.filter(
         (shortcut) => !state.removedIdSet.has(shortcut.id)
       ).length
@@ -408,11 +414,13 @@ const gameStore = (shortcuts?: Shortcut[]) => {
           !state.removedIdSet.has(shortcut.id)
       ).length
 
-      return {
+      masteredRateOfEachTool.push({
         name,
         masteredRate: Math.floor((countOfMastered / countOfShortcut) * 100),
-      }
+      })
     })
+
+    return masteredRateOfEachTool
   }
 
   const categoriesWithMasteredRate = (
@@ -432,12 +440,12 @@ const gameStore = (shortcuts?: Shortcut[]) => {
 
     return Object.values([...categoriesOfTool]).map((categoryName) => {
       const shortcutsOfCategory = shortcutsOfTool.filter(
-        (shortcut) => shortcut.category === categoryName
+        (shortcut) =>
+          shortcut.category === categoryName &&
+          !state.removedIdSet.has(shortcut.id)
       )
       const masteredShortcutsOfCategory = shortcutsOfCategory.filter(
-        (shortcut) =>
-          masteredIds.includes(shortcut.id) &&
-          !state.removedIdSet.has(shortcut.id)
+        (shortcut) => masteredIds.includes(shortcut.id)
       )
 
       return {
@@ -469,9 +477,9 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     keyUp,
     judge,
     restoreRemovedShortcuts,
-    updateToolAndCategories,
+    selectToolAndCategories,
     masteredRateOfEachTool,
-    hideToolsView,
+    exitSelectionOfToolAndCategories,
     onFullscreenchange,
     categoriesWithMasteredRate,
   }

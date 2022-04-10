@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { provide, ref } from 'vue'
 
 import About from '@/components/About.vue'
 import Footer from '@/components/Footer.vue'
 import Header from '@/components/Header.vue'
+import modalStore from '@/stores/modal'
+import ModalKey from '@/stores/modalKey'
 import GameView from '@/views/GameView.vue'
 import Unsupported from '@/views/Unsupported.vue'
+
+const modal = modalStore()
+provide(ModalKey, modal)
+const { modalState } = modal
 
 const isUnsupportedBrowser = navigator.userAgent.indexOf('Chrome') === -1
 const isUnsupportedOs = navigator.userAgent.indexOf('Mac') === -1
@@ -13,19 +19,13 @@ const isUnsupported = ref(isUnsupportedBrowser || isUnsupportedOs)
 const proceed = () => {
   isUnsupported.value = false
 }
-
-const isShowToolModal = ref(false)
-const isShowAboutModal = ref(false)
 </script>
 
 <template>
   <div
     class="font-sans antialiased text-slate-700 h-screen flex flex-col text-center"
   >
-    <Header
-      @show-tool-modal="isShowToolModal = true"
-      @show-about-modal="isShowAboutModal = true"
-    />
+    <Header />
     <main class="flex-auto flex flex-col justify-center">
       <Unsupported
         v-if="isUnsupported"
@@ -35,13 +35,9 @@ const isShowAboutModal = ref(false)
       />
       <GameView
         v-else
-        :is-show-tool-modal="isShowToolModal"
-        @hide-tool-modal="isShowToolModal = false"
+        :is-show-tool-modal="modalState.isShowToolsAndCategoriesModal"
       />
-      <About
-        :is-show="isShowAboutModal"
-        @hide-about-modal="isShowAboutModal = false"
-      />
+      <About :is-show="modalState.isShowAboutModal" />
     </main>
     <Footer />
   </div>

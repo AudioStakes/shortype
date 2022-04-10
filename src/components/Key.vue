@@ -1,33 +1,29 @@
 <script setup lang="ts">
+import KeyWithAnnotation from '@/components/KeyWithAnnotation.vue'
+import formatKeyName from '@/utils/formatKeyName'
 import Keyboard from '@/utils/keyboard'
+
 defineProps<{ keyName: string }>()
 </script>
 
 <template>
-  <kbd
-    class="grid h-20 w-20 bg-white rounded-lg border-[1px] border-gray-300 shadow-3d text-center"
-    :data-testid="keyName"
+  <KeyWithAnnotation
+    v-if="Keyboard.hasSymbol(keyName) || Keyboard.hasIcon(keyName)"
+    :key-name="keyName"
   >
-    <ruby
-      class="grid my-auto text-3xl"
-      :class="{
-        'px-2 text-xl break-all':
-          !Keyboard.hasSymbol(keyName) && keyName.length > 4,
-      }"
-    >
-      <template v-if="Keyboard.hasSymbol(keyName)">
-        <rt
-          class="text-base leading-4"
-          :class="{
-            'text-sm': Keyboard.annotationOfSymbol(keyName).length > 8,
-          }"
-          >{{ Keyboard.annotationOfSymbol(keyName) }}</rt
-        >
-        {{ Keyboard.symbol(keyName) ?? keyName }}
-      </template>
-      <template v-else>{{
-        keyName.charAt(0).toUpperCase() + keyName.slice(1)
-      }}</template>
-    </ruby>
+  </KeyWithAnnotation>
+  <kbd
+    v-else
+    class="grid h-20 w-20 bg-white rounded-lg border-[1px] border-gray-300 shadow-3d text-center text-3xl"
+    :data-testid="keyName"
+    :class="{
+      'text-2xl': 4 < keyName.length && keyName.length <= 6,
+      'text-lg': 6 < keyName.length && keyName.length <= 8,
+      'text-sm': 8 < keyName.length,
+    }"
+  >
+    <div class="my-auto">
+      {{ formatKeyName(keyName) }}
+    </div>
   </kbd>
 </template>

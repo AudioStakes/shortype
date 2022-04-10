@@ -10,6 +10,7 @@ const symbolicKeyToAnnotationArray = [
   [';', 'Semicolon'],
   [':', 'Colon'],
   ['˜', 'Tilde'],
+  ['=', 'Equal'],
 ] as const
 
 export default symbolicKeyToAnnotationArray

@@ -2,15 +2,18 @@
 import { XIcon } from '@heroicons/vue/solid'
 
 import GameKey from '@/stores/gameKey'
+import ModalKey from '@/stores/modalKey'
 import { injectStrict } from '@/utils/injectStrict'
 
-const { hideToolsView } = injectStrict(GameKey)
+const { hideAboutModal, hideToolsAndCategoriesModal } = injectStrict(ModalKey)
+
+const { exitSelectionOfToolAndCategories } = injectStrict(GameKey)
 defineProps<{ isShow: boolean }>()
 
-const emit = defineEmits(['hide-tool-modal'])
 const hide = () => {
-  hideToolsView()
-  emit('hide-tool-modal')
+  exitSelectionOfToolAndCategories()
+  hideAboutModal()
+  hideToolsAndCategoriesModal()
 }
 </script>
 
@@ -47,7 +50,7 @@ const hide = () => {
           class="self-end h-6 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg transition duration-200 hover:ease-out"
           @click="hide()"
         />
-        <slot></slot>
+        <slot @hide-modal="hide()"></slot>
       </div>
     </transition>
   </div>
