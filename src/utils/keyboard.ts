@@ -1,13 +1,13 @@
 import DEFAULT_KEYBOARD_LAYOUT_MAP from '@/constants/default-keyboard-layout-map'
+import { KEY_DESCRIPTION_INCLUDING_DENY_LIST_REGEXP } from '@/constants/key-description-regexp'
 import KEY_DESCRIPTION_TO_KEY_MAP from '@/constants/key-description-to-key-map'
-import KEY_TO_ANNOTATION_MAP from '@/constants/key-to-annotation-map'
-import KEY_TO_ICON_ANNOTATION_MAP from '@/constants/key-to-icon-annotation-map'
-import KEY_TO_SYMBOL_MAP from '@/constants/key-to-symbol-map'
-import { KEY_DESCRIPTION_INCLUDING_DENY_LIST_REGEXP } from '@/constants/keyDescriptionRegexp'
 import KEY_REGEXP, {
   DENY_LIST_OF_KEY_REGEXP,
   UNDETECTABLE_KEY_REGEXP,
-} from '@/constants/keyRegexp'
+} from '@/constants/key-regexp'
+import KEY_TO_ANNOTATION_MAP from '@/constants/key-to-annotation-map'
+import KEY_TO_ICON_ANNOTATION_MAP from '@/constants/key-to-icon-annotation-map'
+import KEY_TO_SYMBOL_MAP from '@/constants/key-to-symbol-map'
 import SYMBOLIC_KEY_TO_ANNOTATION_MAP from '@/constants/symbolic-key-to-annotation-map'
 import UNDEFINED_CODE_TO_KEY_MAP from '@/constants/undefined-code-to-key-map'
 import { NavigatorKeyboard } from '@/types/interfaces'

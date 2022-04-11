@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import KeyWithAnnotation from '@/components/KeyWithAnnotation.vue'
-import formatKeyName from '@/utils/formatKeyName'
+import formatKeyName from '@/utils/format-key-name'
 import Keyboard from '@/utils/keyboard'
 
 defineProps<{ keyName: string }>()

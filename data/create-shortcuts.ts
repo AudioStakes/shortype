@@ -2,8 +2,7 @@ import { parse } from 'csv-parse/sync'
 import * as fs from 'fs'
 import * as path from 'path'
 
-import KEY_DESCRIPTION_TO_KEY_MAP from '@/constants/key-description-to-key-map'
-import { DENY_LIST_OF_KEY_COMBINATION } from '@/constants/keyCombinations'
+import { DENY_LIST_OF_KEY_COMBINATION } from '@/constants/key-combinations'
 import {
   ALT_DESCRIPTION_REGEXP,
   CTRL_DESCRIPTION_REGEXP,
@@ -14,11 +13,12 @@ import {
   MODIFIER_KEY_DESCRIPTION_REGEXP,
   SHIFT_DESCRIPTION_REGEXP,
   UNDETECTABLE_KEY_DESCRIPTION_REGEXP,
-} from '@/constants/keyDescriptionRegexp'
+} from '@/constants/key-description-regexp'
+import KEY_DESCRIPTION_TO_KEY_MAP from '@/constants/key-description-to-key-map'
 import {
   MODIFIED_KEY_REGEXP,
   UNDETECTABLE_KEY_REGEXP,
-} from '@/constants/keyRegexp'
+} from '@/constants/key-regexp'
 import {
   HAS_MOUSE_ACTIONS_REGEXP,
   HAS_MULTIPLE_ANSWERS_REGEXP,
@@ -26,8 +26,8 @@ import {
   HAS_RANGED_ANSWERS_REGEXP,
   IS_DEPEND_ON_DEVICE_REGEXP,
   NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP,
-} from '@/constants/shortcutDescriptionRegexp'
-import KeyCombination from '@/models/keyCombination'
+} from '@/constants/shortcut-description-regexp'
+import KeyCombination from '@/models/key-combination'
 import { Shortcut } from '@/types/interfaces'
 
 const deniedKeyCombinations = DENY_LIST_OF_KEY_COMBINATION.map(

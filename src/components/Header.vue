@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ModalKey from '@/stores/modalKey'
-import { injectStrict } from '@/utils/injectStrict'
+import ModalKey from '@/stores/modal-key'
+import { injectStrict } from '@/utils/inject-strict'
 
 const { showAboutModal, showToolsAndCategoriesModal } = injectStrict(ModalKey)
 </script>

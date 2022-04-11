@@ -8,9 +8,9 @@ import {
 } from '@testing-library/vue'
 
 import modalStore from '@/stores/modal'
-import ModalKey from '@/stores/modalKey'
+import ModalKey from '@/stores/modal-key'
 import Keyboard from '@/utils/keyboard'
-import { loadAnsweredHistory } from '@/utils/localStorage'
+import { loadAnsweredHistory } from '@/utils/local-storage'
 import GameView from '@/views/GameView.vue'
 
 import {

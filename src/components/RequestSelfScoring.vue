@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Key from '@/components/Key.vue'
 import SelfScoring from '@/components/SelfScoring.vue'
-import GameKey from '@/stores/gameKey'
-import { injectStrict } from '@/utils/injectStrict'
+import GameKey from '@/stores/game-key'
+import { injectStrict } from '@/utils/inject-strict'
 
 const { state } = injectStrict(GameKey)
 </script>

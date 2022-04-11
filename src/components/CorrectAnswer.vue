@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import KeyList from '@/components/KeyList.vue'
 import ShortcutDescription from '@/components/ShortcutDescription.vue'
-import { FUNCTION_KEY_DESCRIPTION_REGEXP } from '@/constants/keyDescriptionRegexp'
-import KeyCombination from '@/models/keyCombination'
-import GameKey from '@/stores/gameKey'
-import { injectStrict } from '@/utils/injectStrict'
+import { FUNCTION_KEY_DESCRIPTION_REGEXP } from '@/constants/key-description-regexp'
+import KeyCombination from '@/models/key-combination'
+import GameKey from '@/stores/game-key'
+import { injectStrict } from '@/utils/inject-strict'
 
 const { state } = injectStrict(GameKey)
 </script>

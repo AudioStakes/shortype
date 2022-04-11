@@ -1,4 +1,4 @@
-import { KEY_COMBINATIONS_ONLY_AVAILABLE_IN_FULL_SCREEN_MODE } from '@/constants/keyCombinations'
+import { KEY_COMBINATIONS_ONLY_AVAILABLE_IN_FULL_SCREEN_MODE } from '@/constants/key-combinations'
 import { KeyCombinable } from '@/types/interfaces'
 
 export default class KeyCombination {

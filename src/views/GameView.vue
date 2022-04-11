@@ -8,17 +8,17 @@ import QuestionShow from '@/components/QuestionShow.vue'
 import RestoreButton from '@/components/RestoreButton.vue'
 import ShortcutsShow from '@/components/ShortcutsShow.vue'
 import ToolsAndCategoriesModal from '@/components/ToolsAndCategoriesModal.vue'
-import useEventListener from '@/composables/useEventListener'
-import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
+import useEventListener from '@/composables/use-event-listener'
+import useKeyboardEventListener from '@/composables/use-keyboard-event-listener'
 import gameStore from '@/stores/game'
-import GameKey from '@/stores/gameKey'
+import GameKey from '@/stores/game-key'
 import {
   NavigatorExtend,
   NavigatorKeyboard,
   Shortcut,
 } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
-import lockKeyboard from '@/utils/lockKeyboard'
+import lockKeyboard from '@/utils/lock-keyboard'
 
 const props = withDefaults(
   defineProps<{

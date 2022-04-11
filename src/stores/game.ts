@@ -1,13 +1,13 @@
 import { computed, reactive, readonly } from 'vue'
 
-import KeyCombination from '@/models/keyCombination'
+import KeyCombination from '@/models/key-combination'
 import { KeyCombinable, Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
 import {
   loadShortcutsByTool,
   loadShortcutsByToolAndCategories,
   toolToShortcutsMap,
-} from '@/utils/loadShortcuts'
+} from '@/utils/load-shortcuts'
 import {
   loadAnsweredHistory,
   loadRemovedIds,
@@ -17,10 +17,10 @@ import {
   saveRemovedIds,
   saveSelectedCategories,
   saveSelectedTool,
-} from '@/utils/localStorage'
-import { sampleShortcut } from '@/utils/sampleShortcut'
-import toggleFullscreen from '@/utils/toggleFullscreen'
-import { weight, weightedSampleKey } from '@/utils/weightedSample'
+} from '@/utils/local-storage'
+import { sampleShortcut } from '@/utils/sample-shortcut'
+import toggleFullscreen from '@/utils/toggle-fullscreen'
+import { weight, weightedSampleKey } from '@/utils/weighted-sample'
 
 const selectedTool = loadSelectedTool()
 const selectedCategories = loadSelectedCategories()

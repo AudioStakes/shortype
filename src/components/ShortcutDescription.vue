@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Key from '@/components/Key.vue'
-import GameKey from '@/stores/gameKey'
-import { injectStrict } from '@/utils/injectStrict'
+import GameKey from '@/stores/game-key'
+import { injectStrict } from '@/utils/inject-strict'
 import Keyboard from '@/utils/keyboard'
 
 const {
