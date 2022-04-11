@@ -162,19 +162,19 @@ const gameStore = (shortcuts?: Shortcut[]) => {
   })
 
   const removedShortcutExists = computed(() => state.removedIdSet.size > 0)
-  const isAllRemoved = computed(() =>
+  const isRemovedAll = computed(() =>
     state.shortcuts.every((shortcut) => state.removedIdSet.has(shortcut.id))
   )
 
   const keyDown = (keyCombinable: KeyCombinable) => {
-    if (isAllRemoved.value || !state.isListeningKeyboardEvent) return
+    if (isRemovedAll.value || !state.isListeningKeyboardEvent) return
 
     state.pressedKeyCombination.keyDown(keyCombinable)
     judge()
   }
 
   const keyUp = (key: string) => {
-    if (isAllRemoved.value || !state.isListeningKeyboardEvent) return
+    if (isRemovedAll.value || !state.isListeningKeyboardEvent) return
 
     state.pressedKeyCombination.keyUp(key)
   }
@@ -467,7 +467,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     state: readonly(state),
 
     removedShortcutExists,
-    isAllRemoved,
+    isRemovedAll,
     wordsOfDescriptionFilledByCorrectKeys,
     wordsOfDescriptionFilledByPressedKeys,
     needsFullscreenMode,

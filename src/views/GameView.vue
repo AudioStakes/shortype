@@ -34,7 +34,7 @@ const emit = defineEmits(['hide-modal'])
 
 const game = gameStore(props.shortcuts)
 provide(GameKey, game)
-const { keyDown, keyUp, isAllRemoved, onFullscreenchange } = game
+const { keyDown, keyUp, isRemovedAll, onFullscreenchange } = game
 
 const keyboard = new Keyboard()
 if ('keyboard' in navigator) {
@@ -63,7 +63,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
 </script>
 
 <template>
-  <div v-if="!isAllRemoved" class="flex-1 flex flex-col">
+  <div v-if="!isRemovedAll" class="flex-1 flex flex-col">
     <PieChart />
     <QuestionShow />
     <CorrectAnswer />
