@@ -2,6 +2,7 @@ import { parse } from 'csv-parse/sync'
 import * as fs from 'fs'
 import * as path from 'path'
 
+import KEY_DESCRIPTION_TO_KEY_MAP from '@/constants/key-description-to-key-map'
 import { DENY_LIST_OF_KEY_COMBINATION } from '@/constants/keyCombinations'
 import {
   ALT_DESCRIPTION_REGEXP,
@@ -14,7 +15,6 @@ import {
   SHIFT_DESCRIPTION_REGEXP,
   UNDETECTABLE_KEY_DESCRIPTION_REGEXP,
 } from '@/constants/keyDescriptionRegexp'
-import keyDescriptionToKeyArray from '@/constants/keyDescriptionToKeyArray'
 import {
   MODIFIED_KEY_REGEXP,
   UNDETECTABLE_KEY_REGEXP,
@@ -33,8 +33,6 @@ import { Shortcut } from '@/types/interfaces'
 const deniedKeyCombinations = DENY_LIST_OF_KEY_COMBINATION.map(
   (deniedKeyCombination) => new KeyCombination(deniedKeyCombination)
 )
-
-const keyDescriptionToKeyMap = new Map<string, string>(keyDescriptionToKeyArray)
 
 export default async function createShortcuts(csvPath: string) {
   const csvRawData = fs.readFileSync(csvPath)
@@ -153,7 +151,7 @@ const extractKey = (shortcutDescription: string) => {
 
     if (UNDETECTABLE_KEY_REGEXP.test(matchedKey)) return null
 
-    matchedKey = keyDescriptionToKeyMap.get(matchedKey) ?? matchedKey
+    matchedKey = KEY_DESCRIPTION_TO_KEY_MAP.get(matchedKey) ?? matchedKey
     matchedKey = matchedKey.length === 1 ? matchedKey.toLowerCase() : matchedKey
 
     return matchedKey

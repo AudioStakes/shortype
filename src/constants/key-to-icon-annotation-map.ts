@@ -1,4 +1,4 @@
-const keyToIconAnnotationMap: ReadonlyMap<string, string> = new Map([
+const KEY_TO_ICON_ANNOTATION_MAP: ReadonlyMap<string, string> = new Map([
   ['MissionControl', 'MissionControl'],
   ['KeyboardBacklightDown', 'KeyboardBacklightDown'],
   ['KeyboardBacklightUp', 'KeyboardBacklightUp'],
@@ -8,4 +8,4 @@ const keyToIconAnnotationMap: ReadonlyMap<string, string> = new Map([
   ['BrightnessDown', 'BrightnessDown'],
   ['Power', 'Power'],
 ])
-export default keyToIconAnnotationMap
+export default KEY_TO_ICON_ANNOTATION_MAP

@@ -1,5 +1,5 @@
 // 「KeyboardLayoutMap.get(KeyboardEvent.code) の返り値が undefined となる KeyboardEvent.code」 と KeyboardEvent.key の対応
-const undefinedCodeToKeyArray = [
+const UNDEFINED_CODE_TO_KEY_MAP: ReadonlyMap<string, string> = new Map([
   ['AltLeft', 'Alt'],
   ['AltRight', 'Alt'],
   ['ArrowDown', 'ArrowDown'],
@@ -57,6 +57,6 @@ const undefinedCodeToKeyArray = [
   ['ShiftRight', 'Shift'],
   ['Space', 'Space'], // 正しくは ['Space', ' '] だが、空白では表示されているか判別つかないため Space とした
   ['Tab', 'Tab'],
-] as const
+] as const)
 
-export default undefinedCodeToKeyArray
+export default UNDEFINED_CODE_TO_KEY_MAP
