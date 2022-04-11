@@ -8,9 +8,9 @@ import {
   VolumeIcon,
 } from 'vue-tabler-icons'
 
-import KeyboardBackLightDownImg from '@/assets/keyboard_backlight_down.png'
-import KeyboardBackLightUpImg from '@/assets/keyboard_backlight_up.png'
-import MissionControlImg from '@/assets/mission_control.png'
+import KeyboardBackLightDownImg from '@/assets/key-icons/keyboard-backlight-down.png'
+import KeyboardBackLightUpImg from '@/assets/key-icons/keyboard-backlight-up.png'
+import MissionControlImg from '@/assets/key-icons/mission-control.png'
 
 defineProps<{ iconName: string }>()
 </script>
