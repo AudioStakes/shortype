@@ -1,4 +1,4 @@
-id,app,os,category,action,shortcut
+id,app,os,category,action,keysDescription
 78,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,新規ウインドウ,Command＋N もしくは Control＋Command＋N
 79,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,新規タブ,Command＋T もしくは Control＋Command＋T
 80,Terminal,macOS,「ターミナル」ウインドウとタブを操作する,タブバーを表示する/非表示にする,Shift＋Command＋T

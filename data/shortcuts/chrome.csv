@@ -1,4 +1,4 @@
-id,app,os,category,action,shortcut
+id,app,os,category,action,keysDescription
 1,Google Chrome,macOS,タブとウィンドウのショートカット,新しいウィンドウを開く,⌘+n
 2,Google Chrome,macOS,タブとウィンドウのショートカット,新しいウィンドウをシークレット モードで開く,⌘+shift+n
 3,Google Chrome,macOS,タブとウィンドウのショートカット,新しいタブを開いてそのタブに移動する,⌘+t

@@ -23,7 +23,7 @@ const { state } = injectStrict(GameKey)
         v-if="
           state.shortcut.isAvailable &&
           !state.shortcut.needsFillInBlankMode &&
-          !FUNCTION_KEY_DESCRIPTION_REGEXP.test(state.shortcut.shortcut)
+          !FUNCTION_KEY_DESCRIPTION_REGEXP.test(state.shortcut.keysDescription)
         "
         class="flex"
       >
@@ -39,7 +39,7 @@ const { state } = injectStrict(GameKey)
 
       <ShortcutDescription
         v-else
-        :shortcut-description="state.shortcut.shortcut"
+        :shortcut-description="state.shortcut.keysDescription"
       ></ShortcutDescription>
     </div>
   </div>

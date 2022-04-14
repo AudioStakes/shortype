@@ -134,7 +134,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
   })
 
   const wordsOfDescriptionFilledByCorrectKeys = computed(() =>
-    Keyboard.splitByKeyDescription(state.shortcut.shortcut).map(
+    Keyboard.splitByKeyDescription(state.shortcut.keysDescription).map(
       (word) => Keyboard.keyOfKeyDescription(word) ?? word
     )
   )
@@ -142,7 +142,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
   const wordsOfDescriptionFilledByPressedKeys = computed(() => {
     const pressedKeys = state.pressedKeyCombination.keys()
 
-    return Keyboard.splitByKeyDescription(state.shortcut.shortcut)
+    return Keyboard.splitByKeyDescription(state.shortcut.keysDescription)
       .map((word) => Keyboard.keyOfKeyDescription(word) ?? word)
       .map((word) => {
         if (Keyboard.isKey(word) && !Keyboard.isUndetectableKey(word)) {

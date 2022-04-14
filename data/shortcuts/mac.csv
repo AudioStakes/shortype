@@ -1,4 +1,4 @@
-id,app,os,category,category_original,action,action_original,shortcut
+id,app,os,category,category_original,action,action_original,keysDescription
 176,macOS,macOS,基本的なショートカット,切り取り、コピー、貼り付け、その他の一般的なショートカット,選択した項目をカット,選択した項目を切り取り、クリップボードにコピーします。,command + X
 177,macOS,macOS,基本的なショートカット,切り取り、コピー、貼り付け、その他の一般的なショートカット,選択した項目をコピー,選択した項目をクリップボードにコピーします。このショートカットは、Finder 内のファイルに対しても使えます。,command + C
 178,macOS,macOS,基本的なショートカット,切り取り、コピー、貼り付け、その他の一般的なショートカット,ペースト,クリップボードの内容を現在の書類または App にペーストします。このショートカットは、Finder 内のファイルに対しても使えます。,command + V

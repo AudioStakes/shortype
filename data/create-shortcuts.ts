@@ -61,7 +61,7 @@ interface ShortcutFromCsv {
   os: string
   category: string
   action: string
-  shortcut: string
+  keysDescription: string
 }
 
 export const createShortcut = (shortcutRaw: ShortcutFromCsv) => {
@@ -71,16 +71,16 @@ export const createShortcut = (shortcutRaw: ShortcutFromCsv) => {
     os: shortcutRaw.os,
     category: shortcutRaw.category,
     action: shortcutRaw.action,
-    shortcut: shortcutRaw.shortcut,
-    keyCombinations: extractKeyCombinations(shortcutRaw.shortcut),
+    keysDescription: shortcutRaw.keysDescription,
+    keyCombinations: extractKeyCombinations(shortcutRaw.keysDescription),
     isAvailable: false,
     unavailableReason: null,
     needsFillInBlankMode: false,
   }
 
-  if (NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP.test(shortcut.shortcut)) {
+  if (NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP.test(shortcut.keysDescription)) {
     shortcut.unavailableReason = 'needsCustomizedModifierKey'
-  } else if (IS_DEPEND_ON_DEVICE_REGEXP.test(shortcut.shortcut)) {
+  } else if (IS_DEPEND_ON_DEVICE_REGEXP.test(shortcut.keysDescription)) {
     shortcut.unavailableReason = 'isDependOnDevice'
   } else if (
     shortcut.keyCombinations.every((keyCombination) =>
@@ -88,7 +88,7 @@ export const createShortcut = (shortcutRaw: ShortcutFromCsv) => {
     )
   ) {
     shortcut.unavailableReason = 'hasOnlyNonKeyAction'
-  } else if (HAS_RANGED_ANSWERS_REGEXP.test(shortcut.shortcut)) {
+  } else if (HAS_RANGED_ANSWERS_REGEXP.test(shortcut.keysDescription)) {
     shortcut.unavailableReason = 'hasRangedAnswers'
   } else if (
     deniedKeyCombinations.some((deniedKeyCombination) =>
@@ -114,7 +114,7 @@ export const createShortcut = (shortcutRaw: ShortcutFromCsv) => {
     shortcut.isAvailable = true
   }
 
-  shortcut.needsFillInBlankMode = needsFillInBlankMode(shortcut.shortcut)
+  shortcut.needsFillInBlankMode = needsFillInBlankMode(shortcut.keysDescription)
 
   return shortcut
 }

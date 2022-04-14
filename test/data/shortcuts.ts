@@ -15,7 +15,7 @@ export const availableShortcuts = [
       },
     ],
     os: 'macOS',
-    shortcut: '⌘+9',
+    keysDescription: '⌘+9',
     unavailableReason: null,
   },
   {
@@ -34,7 +34,7 @@ export const availableShortcuts = [
       },
     ],
     os: 'macOS',
-    shortcut: '⌘+m',
+    keysDescription: '⌘+m',
     unavailableReason: null,
   },
 ] as const
@@ -57,7 +57,7 @@ export const unsupportedShortcuts = [
     ],
     needFillInBlankMode: false,
     os: 'macOS',
-    shortcut: '⌘+option+右矢印',
+    keysDescription: '⌘+option+右矢印',
     unavailableReason: 'hasDeniedKeyCombination',
   },
   {
@@ -77,7 +77,7 @@ export const unsupportedShortcuts = [
     ],
     needFillInBlankMode: false,
     os: 'macOS',
-    shortcut: '⌘+option+左矢印',
+    keysDescription: '⌘+option+左矢印',
     unavailableReason: 'hasDeniedKeyCombination',
   },
 ] as const
@@ -106,7 +106,7 @@ export const shortcutWithMultipleKeyCombinations = [
       },
     ],
     os: 'macOS',
-    shortcut: '⌘+右矢印または ⌘+左矢印',
+    keysDescription: '⌘+右矢印または ⌘+左矢印',
     unavailableReason: null,
   },
 ] as const
@@ -129,7 +129,7 @@ export const shortcutWithNonKeyActions = [
       },
     ],
     os: 'macOS',
-    shortcut: '⌘+リンクをクリック',
+    keysDescription: '⌘+リンクをクリック',
     unavailableReason: null,
   },
 ] as const
@@ -152,7 +152,7 @@ export const shortcutsOnlyAvailableInFullscreen = [
     ],
     needFillInBlankMode: false,
     os: 'macOS',
-    shortcut: '⌘+n',
+    keysDescription: '⌘+n',
     unavailableReason: null,
   },
   {
@@ -172,7 +172,7 @@ export const shortcutsOnlyAvailableInFullscreen = [
     ],
     needFillInBlankMode: false,
     os: 'macOS',
-    shortcut: '⌘+shift+n',
+    keysDescription: '⌘+shift+n',
     unavailableReason: null,
   },
 ]

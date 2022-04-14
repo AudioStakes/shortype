@@ -22,7 +22,7 @@ export interface Shortcut {
   os: string
   category: string
   action: string
-  shortcut: string
+  keysDescription: string
 
   keyCombinations: KeyCombinable[]
 
