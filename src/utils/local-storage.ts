@@ -1,142 +1,42 @@
-const LATEST_SCHEMA_VERSION = 0
-const KEY_OF_SCHEMA_VERSION = 'schemaVersion'
-const KEY_OF_REMOVED_IDS = 'removedIds'
-const KEY_OF_ANSWERED_HISTORY = 'answeredHistory'
-const KEY_OF_SELECTED_TOOL = 'selectedTool'
-const KEY_OF_SELECTED_CATEGORIES = 'selectedCategories'
+import LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE from '@/constants/local-storage-key-to-default-value'
+import { SCHEMA_VERSION_KEY } from '@/constants/local-storage-keys'
 
-export function loadRemovedIds(
-  key: string = KEY_OF_REMOVED_IDS,
-  defaultValue: string[] = []
-): string[] {
-  if (!isLatestSchemaVersion()) {
-    localStorage.removeItem(key)
-    return defaultValue
+export default class LocalStorage {
+  static LATEST_SCHEMA_VERSION = 0
+
+  static get(key: keyof typeof LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE) {
+    if (
+      !localStorage.getItem(key) ||
+      (key !== SCHEMA_VERSION_KEY && !LocalStorage._isLatestSchemaVersion())
+    ) {
+      return LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE[key]
+    }
+
+    try {
+      const json = localStorage.getItem(key) as string
+      return JSON.parse(json)
+    } catch (e) {
+      localStorage.removeItem(key)
+      return LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE[key]
+    }
   }
 
-  return loadFromLocalStorage(key, defaultValue)
-}
+  static set<T>(
+    key: keyof typeof LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE,
+    value: T
+  ) {
+    const json = JSON.stringify(value)
+    localStorage.setItem(key, json)
 
-export function saveRemovedIds(
-  value: string[],
-  key: string = KEY_OF_REMOVED_IDS
-) {
-  saveToLocalStorage(key, value)
-  saveSchemaVersion()
-}
-
-export function loadAnsweredHistory(
-  key: string = KEY_OF_ANSWERED_HISTORY,
-  defaultValue: { [key: string]: boolean[] } = {}
-): Map<string, boolean[]> {
-  if (!isLatestSchemaVersion()) {
-    localStorage.removeItem(key)
-    return new Map(Object.entries(defaultValue))
+    if (key !== SCHEMA_VERSION_KEY) {
+      LocalStorage.set(SCHEMA_VERSION_KEY, LocalStorage.LATEST_SCHEMA_VERSION)
+    }
   }
 
-  const parsedJson = loadFromLocalStorage(key, defaultValue)
-  return new Map(Object.entries(parsedJson))
-}
-
-export function saveAnsweredHistory(
-  answeredHistory: Map<string, boolean[]>,
-  key: string = KEY_OF_ANSWERED_HISTORY
-) {
-  saveToLocalStorage(key, Object.fromEntries(answeredHistory))
-  saveSchemaVersion()
-}
-
-const loadSchemaVersion = (
-  key: string = KEY_OF_SCHEMA_VERSION,
-  defaultValue = -1
-) => loadFromLocalStorage(key, defaultValue)
-
-const isLatestSchemaVersion = () =>
-  loadSchemaVersion() === LATEST_SCHEMA_VERSION
-
-const saveSchemaVersion = (
-  key: string = KEY_OF_SCHEMA_VERSION,
-  value: number = LATEST_SCHEMA_VERSION
-) => {
-  saveToLocalStorage(key, value)
-}
-
-export function loadSelectedTool(
-  key: string = KEY_OF_SELECTED_TOOL,
-  defaultValue = 'Google Chrome'
-): string {
-  if (!isLatestSchemaVersion()) {
-    localStorage.removeItem(key)
-    return defaultValue
+  private static _isLatestSchemaVersion() {
+    return (
+      LocalStorage.get(SCHEMA_VERSION_KEY) ===
+      LocalStorage.LATEST_SCHEMA_VERSION
+    )
   }
-
-  return loadFromLocalStorage(key, defaultValue)
-}
-
-export function saveSelectedTool(
-  value: string,
-  key: string = KEY_OF_SELECTED_TOOL
-) {
-  saveToLocalStorage(key, value)
-  saveSchemaVersion()
-}
-
-export function loadSelectedCategories(
-  key: string = KEY_OF_SELECTED_CATEGORIES,
-  defaultValue = [
-    'タブとウィンドウのショートカット',
-    'Google Chrome 機能のショートカット',
-    'アドレスバーのショートカット',
-    'ウェブページのショートカット',
-    'マウスのショートカット',
-  ]
-): string[] {
-  if (!isLatestSchemaVersion()) {
-    localStorage.removeItem(key)
-    return defaultValue
-  }
-
-  return loadFromLocalStorage(key, defaultValue)
-}
-
-export function saveSelectedCategories(
-  value: string[],
-  key: string = KEY_OF_SELECTED_CATEGORIES
-) {
-  saveToLocalStorage(key, value)
-  saveSchemaVersion()
-}
-
-const loadFromLocalStorage = (
-  key: string,
-  defaultValue:
-    | number
-    | string
-    | string[]
-    | { [key: string]: boolean[] }
-    | { toolName: string; selectedCategories: string[] }[]
-) => {
-  if (!localStorage.getItem(key)) return defaultValue
-
-  try {
-    const json = localStorage.getItem(key) as string
-    const parsedJson = JSON.parse(json)
-    return parsedJson
-  } catch (e) {
-    localStorage.removeItem(key)
-    return defaultValue
-  }
-}
-
-const saveToLocalStorage = (
-  key: string,
-  value:
-    | number
-    | string
-    | string[]
-    | { [k: string]: boolean[] }
-    | { toolName: string; selectedCategories: string[] }[]
-) => {
-  const parsed = JSON.stringify(value)
-  localStorage.setItem(key, parsed)
 }

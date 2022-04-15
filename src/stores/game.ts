@@ -1,33 +1,30 @@
 import { computed, reactive, readonly } from 'vue'
 
+import {
+  ANSWERED_HISTORY_KEY,
+  REMOVED_IDS_KEY,
+  SELECTED_CATEGORIES_KEY,
+  SELECTED_TOOL_KEY,
+} from '@/constants/local-storage-keys'
 import TOOL_TO_SHORTCUTS_MAP from '@/constants/tool-to-shortcuts-map'
 import KeyCombination from '@/models/key-combination'
 import KeyCombinations from '@/models/key-combinations'
 import { KeyCombinable, Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
-import {
-  loadAnsweredHistory,
-  loadRemovedIds,
-  loadSelectedCategories,
-  loadSelectedTool,
-  saveAnsweredHistory,
-  saveRemovedIds,
-  saveSelectedCategories,
-  saveSelectedTool,
-} from '@/utils/local-storage'
+import LocalStorage from '@/utils/local-storage'
 import sample from '@/utils/sample'
 import shortcutStorage from '@/utils/shortcut-storage'
 import toggleFullscreen from '@/utils/toggle-fullscreen'
 import { weight, weightedSampleKey } from '@/utils/weighted-sample'
 
-const selectedTool = loadSelectedTool()
-const selectedCategories = loadSelectedCategories()
+const selectedTool = LocalStorage.get(SELECTED_TOOL_KEY)
+const selectedCategories = LocalStorage.get(SELECTED_CATEGORIES_KEY)
 const selectedShortcuts = shortcutStorage.where({
   tool: selectedTool,
   categories: selectedCategories,
 })
 
-const removedIds = [...loadRemovedIds()]
+const removedIds = [...LocalStorage.get(REMOVED_IDS_KEY)]
 
 const selectedAvailableShortcuts = selectedShortcuts.filter(
   (shortcut) => !removedIds.includes(shortcut.id)
@@ -38,7 +35,7 @@ const TimeIntervalToRestartTyping = import.meta.env.MODE === 'test' ? 0 : 1000
 const gameStore = (shortcuts?: Shortcut[]) => {
   const state = reactive({
     tool: selectedTool,
-    categories: new Set(selectedCategories),
+    categories: new Set(selectedCategories) as Set<string>,
     shortcuts: shortcuts ?? selectedShortcuts,
     shortcut:
       import.meta.env.MODE === 'test'
@@ -59,7 +56,9 @@ const gameStore = (shortcuts?: Shortcut[]) => {
 
     pressedKeyCombination: new KeyCombination(),
     removedIdSet: new Set<string>(removedIds),
-    answeredHistoryMap: loadAnsweredHistory(),
+    answeredHistoryMap: new Map<string, boolean[]>(
+      Object.entries(LocalStorage.get(ANSWERED_HISTORY_KEY))
+    ),
   })
 
   const correctKeyCombinations = computed(
@@ -289,7 +288,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     state.isListeningKeyboardEvent = false
     state.isRemoveKeyPressed = true
     state.removedIdSet.add(state.shortcut.id)
-    saveRemovedIds([...state.removedIdSet])
+    LocalStorage.set(REMOVED_IDS_KEY, [...state.removedIdSet])
 
     setTimeout(() => {
       state.shortcut = nextShortcut()
@@ -354,7 +353,10 @@ const gameStore = (shortcuts?: Shortcut[]) => {
       state.answeredHistoryMap.set(id, [result])
     }
 
-    saveAnsweredHistory(state.answeredHistoryMap)
+    LocalStorage.set(
+      ANSWERED_HISTORY_KEY,
+      Object.fromEntries(state.answeredHistoryMap)
+    )
   }
 
   const resetTypingState = () => {
@@ -383,10 +385,10 @@ const gameStore = (shortcuts?: Shortcut[]) => {
 
   const selectToolAndCategories = (tool: string, categories: string[]) => {
     state.tool = tool
-    saveSelectedTool(tool)
+    LocalStorage.set(SELECTED_TOOL_KEY, tool)
 
     state.categories = new Set(categories)
-    saveSelectedCategories(categories)
+    LocalStorage.set(SELECTED_CATEGORIES_KEY, categories)
 
     state.shortcuts = shortcutStorage.where({
       tool,
