@@ -105,6 +105,14 @@ export default class KeyCombination {
     return KeyCombination.isOnlyEnterKey(this.keyCombinable)
   }
 
+  isOnlyModifierKeys() {
+    return KeyCombination.isOnlyModifierKeys(this.keyCombinable)
+  }
+
+  isOnlyAvailableInFullscreen() {
+    return KeyCombination.isOnlyAvailableInFullscreen(this.keyCombinable)
+  }
+
   isRemoveKey() {
     const keyCombinationOfRemove = {
       altKey: false,
@@ -179,17 +187,29 @@ export default class KeyCombination {
     return !this.is(KeyCombination.defaultValue)
   }
 
-  is(other: KeyCombinable) {
-    return (
-      this.keyCombinable.altKey === other.altKey &&
-      this.keyCombinable.ctrlKey === other.ctrlKey &&
-      this.keyCombinable.metaKey === other.metaKey &&
-      this.keyCombinable.shiftKey === other.shiftKey &&
-      this.keyCombinable.key === other.key
-    )
+  is(other: KeyCombinable | KeyCombination) {
+    if (other instanceof KeyCombination) {
+      other = other.keyCombinable
+    }
+
+    if (this.isOnlyModifierKeys()) {
+      return this.hasEqualModifiers(other)
+    } else {
+      return (
+        this.keyCombinable.altKey === other.altKey &&
+        this.keyCombinable.ctrlKey === other.ctrlKey &&
+        this.keyCombinable.metaKey === other.metaKey &&
+        this.keyCombinable.shiftKey === other.shiftKey &&
+        this.keyCombinable.key === other.key
+      )
+    }
   }
 
-  hasEqualModifiers(other: KeyCombinable) {
+  hasEqualModifiers(other: KeyCombinable | KeyCombination) {
+    if (other instanceof KeyCombination) {
+      other = other.keyCombinable
+    }
+
     return (
       this.keyCombinable.altKey === other.altKey &&
       this.keyCombinable.ctrlKey === other.ctrlKey &&
