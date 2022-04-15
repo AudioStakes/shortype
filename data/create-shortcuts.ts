@@ -28,7 +28,7 @@ import {
   NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP,
 } from '@/constants/shortcut-description-regexp'
 import KeyCombination from '@/models/key-combination'
-import { Shortcut } from '@/types/interfaces'
+import { Shortcut, ShortcutDescription } from '@/types/interfaces'
 
 const deniedKeyCombinations = DENY_LIST_OF_KEY_COMBINATION.map(
   (deniedKeyCombination) => new KeyCombination(deniedKeyCombination)
@@ -54,17 +54,7 @@ export default async function createShortcuts(csvPath: string) {
   )
 }
 
-interface ShortcutFromCsv {
-  id: string
-
-  app: string
-  os: string
-  category: string
-  action: string
-  keysDescription: string
-}
-
-export const createShortcut = (shortcutRaw: ShortcutFromCsv) => {
+export const createShortcut = (shortcutRaw: ShortcutDescription) => {
   const shortcut: Shortcut = {
     id: shortcutRaw.id,
     app: shortcutRaw.app,
