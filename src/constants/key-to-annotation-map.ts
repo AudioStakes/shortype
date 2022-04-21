@@ -1,4 +1,4 @@
-const keyToAnnotationArray = [
+const KEY_TO_ANNOTATION_MAP: ReadonlyMap<string, string> = new Map([
   ['Alt', 'Option'], // macOS
   ['ArrowDown', 'Down'],
   ['ArrowLeft', 'Left'],
@@ -13,6 +13,6 @@ const keyToAnnotationArray = [
   ['NumpadDivide', 'Divide'],
   ['NumpadMultiply', 'Multiply'],
   ['NumpadSubtract', 'Subtract'],
-] as const
+] as const)
 
-export default keyToAnnotationArray
+export default KEY_TO_ANNOTATION_MAP

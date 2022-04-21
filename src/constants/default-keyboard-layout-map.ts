@@ -2,7 +2,7 @@
 // Because there is no way to determine the current keyboard layout, this
 // assumes that the current layout is US-en.
 
-const defaultKeyboardLayoutArray = [
+const DEFAULT_KEYBOARD_LAYOUT_MAP: ReadonlyMap<string, string> = new Map([
   ['Backquote', '`'],
   ['Digit1', '1'],
   ['Digit2', '2'],
@@ -52,6 +52,6 @@ const defaultKeyboardLayoutArray = [
   ['Comma', ','],
   ['Period', '.'],
   ['Slash', '/'],
-] as const
+] as const)
 
-export default defaultKeyboardLayoutArray
+export default DEFAULT_KEYBOARD_LAYOUT_MAP

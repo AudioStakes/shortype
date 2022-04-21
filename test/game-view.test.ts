@@ -7,10 +7,11 @@ import {
   within,
 } from '@testing-library/vue'
 
+import { ANSWERED_HISTORY_KEY } from '@/constants/local-storage-keys'
 import modalStore from '@/stores/modal'
-import ModalKey from '@/stores/modalKey'
+import ModalKey from '@/stores/modal-key'
 import Keyboard from '@/utils/keyboard'
-import { loadAnsweredHistory } from '@/utils/localStorage'
+import LocalStorage from '@/utils/local-storage'
 import GameView from '@/views/GameView.vue'
 
 import {
@@ -184,9 +185,11 @@ test('save a record of answered correctly when the correct key is pressed', () =
 
   userEvent.keyboard('{Meta>}{9}')
 
-  expect(loadAnsweredHistory().get(availableShortcuts[0].id)).toStrictEqual([
-    true,
-  ])
+  expect(
+    new Map(Object.entries(LocalStorage.get(ANSWERED_HISTORY_KEY))).get(
+      availableShortcuts[0].id
+    )
+  ).toStrictEqual([true])
 })
 
 test('save a record of answered incorrectly when the incorrect key is pressed', () => {
@@ -196,9 +199,11 @@ test('save a record of answered incorrectly when the incorrect key is pressed', 
 
   userEvent.keyboard('{Meta>}{A}')
 
-  expect(loadAnsweredHistory().get(availableShortcuts[0].id)).toStrictEqual([
-    false,
-  ])
+  expect(
+    new Map(Object.entries(LocalStorage.get(ANSWERED_HISTORY_KEY))).get(
+      availableShortcuts[0].id
+    )
+  ).toStrictEqual([false])
 })
 
 test('increase the frequency of the shortcut keys answered incorrectly', async () => {
@@ -379,9 +384,11 @@ test('save a record of answered correctly when mark self as correct for the unsu
   userEvent.keyboard('{C}')
   userEvent.keyboard('{Y}')
 
-  expect(loadAnsweredHistory().get(unsupportedShortcuts[0].id)).toStrictEqual([
-    true,
-  ])
+  expect(
+    new Map(Object.entries(LocalStorage.get(ANSWERED_HISTORY_KEY))).get(
+      unsupportedShortcuts[0].id
+    )
+  ).toStrictEqual([true])
 })
 
 test('save a record of answered wrongly when mark self as wrong for the unsupported shortcut key', () => {
@@ -390,9 +397,11 @@ test('save a record of answered wrongly when mark self as wrong for the unsuppor
   userEvent.keyboard('{C}')
   userEvent.keyboard('{N}')
 
-  expect(loadAnsweredHistory().get(unsupportedShortcuts[0].id)).toStrictEqual([
-    false,
-  ])
+  expect(
+    new Map(Object.entries(LocalStorage.get(ANSWERED_HISTORY_KEY))).get(
+      unsupportedShortcuts[0].id
+    )
+  ).toStrictEqual([false])
 })
 
 test('show multiple correct answers when a shortcut key has multiple key combinations', async () => {

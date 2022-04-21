@@ -4,8 +4,8 @@ import { XIcon } from '@heroicons/vue/solid'
 import imageOfPieChartAndTable from '@/assets/pie-chart-and-table.png'
 import imageOfRemovingShortcutKey from '@/assets/removing-shortcut-key.png'
 import imageOfToolSelectButton from '@/assets/tool-select-button.png'
-import ModalKey from '@/stores/modalKey'
-import { injectStrict } from '@/utils/injectStrict'
+import ModalKey from '@/stores/modal-key'
+import { injectStrict } from '@/utils/inject-strict'
 
 const { hideAboutModal } = injectStrict(ModalKey)
 defineProps<{ isShow: boolean }>()

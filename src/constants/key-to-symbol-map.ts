@@ -1,4 +1,4 @@
-const keyToSymbolArray = [
+const KEY_TO_SYMBOL_MAP: ReadonlyMap<string, string> = new Map([
   ['Alt', '⌥'], // macOS
   ['ArrowDown', '↓'],
   ['ArrowLeft', '←'],
@@ -57,6 +57,6 @@ const keyToSymbolArray = [
   ['Tab', '⇥'],
   ['Eject', '⏏'],
   ['Space', '␣'],
-] as const
+] as const)
 
-export default keyToSymbolArray
+export default KEY_TO_SYMBOL_MAP

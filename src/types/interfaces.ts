@@ -15,17 +15,17 @@ export interface KeyCombinable {
   key: string | undefined | null
 }
 
-export interface Shortcut {
+export interface ShortcutDescription {
   id: string
-
   app: string
   os: string
   category: string
   action: string
-  shortcut: string
+  keysDescription: string
+}
 
+export interface Shortcut extends ShortcutDescription {
   keyCombinations: KeyCombinable[]
-
   isAvailable: boolean
   unavailableReason: string | null
   needsFillInBlankMode: boolean

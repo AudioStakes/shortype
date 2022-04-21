@@ -2,23 +2,23 @@
 import { provide } from 'vue'
 
 import CorrectAnswer from '@/components/CorrectAnswer.vue'
+import KeyCombinationForm from '@/components/KeyCombinationForm.vue'
 import PieChart from '@/components/PieChart.vue'
-import PressedKeyCombination from '@/components/PressedKeyCombination.vue'
 import QuestionShow from '@/components/QuestionShow.vue'
 import RestoreButton from '@/components/RestoreButton.vue'
 import ShortcutsShow from '@/components/ShortcutsShow.vue'
 import ToolsAndCategoriesModal from '@/components/ToolsAndCategoriesModal.vue'
-import useEventListener from '@/composables/useEventListener'
-import useKeyboardEventListener from '@/composables/useKeyboardEventListener'
+import useEventListener from '@/composables/use-event-listener'
+import useKeyboardEventListener from '@/composables/use-keyboard-event-listener'
 import gameStore from '@/stores/game'
-import GameKey from '@/stores/gameKey'
+import GameKey from '@/stores/game-key'
 import {
   NavigatorExtend,
   NavigatorKeyboard,
   Shortcut,
 } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
-import lockKeyboard from '@/utils/lockKeyboard'
+import lockKeyboard from '@/utils/lock-keyboard'
 
 const props = withDefaults(
   defineProps<{
@@ -34,7 +34,7 @@ const emit = defineEmits(['hide-modal'])
 
 const game = gameStore(props.shortcuts)
 provide(GameKey, game)
-const { keyDown, keyUp, isAllRemoved, onFullscreenchange } = game
+const { keyDown, keyUp, isRemovedAll, onFullscreenchange } = game
 
 const keyboard = new Keyboard()
 if ('keyboard' in navigator) {
@@ -63,11 +63,11 @@ useKeyboardEventListener('keyup', handleKeyUp)
 </script>
 
 <template>
-  <div v-if="!isAllRemoved" class="flex-1 flex flex-col">
+  <div v-if="!isRemovedAll" class="flex-1 flex flex-col">
     <PieChart />
     <QuestionShow />
     <CorrectAnswer />
-    <PressedKeyCombination />
+    <KeyCombinationForm />
     <div class="my-auto">
       <ShortcutsShow />
       <RestoreButton />

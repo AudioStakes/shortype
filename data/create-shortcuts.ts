@@ -2,7 +2,7 @@ import { parse } from 'csv-parse/sync'
 import * as fs from 'fs'
 import * as path from 'path'
 
-import { DENY_LIST_OF_KEY_COMBINATION } from '@/constants/keyCombinations'
+import { DENY_LIST_OF_KEY_COMBINATION } from '@/constants/key-combinations'
 import {
   ALT_DESCRIPTION_REGEXP,
   CTRL_DESCRIPTION_REGEXP,
@@ -13,12 +13,12 @@ import {
   MODIFIER_KEY_DESCRIPTION_REGEXP,
   SHIFT_DESCRIPTION_REGEXP,
   UNDETECTABLE_KEY_DESCRIPTION_REGEXP,
-} from '@/constants/keyDescriptionRegexp'
-import keyDescriptionToKeyArray from '@/constants/keyDescriptionToKeyArray'
+} from '@/constants/key-description-regexp'
+import KEY_DESCRIPTION_TO_KEY_MAP from '@/constants/key-description-to-key-map'
 import {
   MODIFIED_KEY_REGEXP,
   UNDETECTABLE_KEY_REGEXP,
-} from '@/constants/keyRegexp'
+} from '@/constants/key-regexp'
 import {
   HAS_MOUSE_ACTIONS_REGEXP,
   HAS_MULTIPLE_ANSWERS_REGEXP,
@@ -26,15 +26,13 @@ import {
   HAS_RANGED_ANSWERS_REGEXP,
   IS_DEPEND_ON_DEVICE_REGEXP,
   NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP,
-} from '@/constants/shortcutDescriptionRegexp'
-import KeyCombination from '@/models/keyCombination'
-import { Shortcut } from '@/types/interfaces'
+} from '@/constants/shortcut-description-regexp'
+import KeyCombination from '@/models/key-combination'
+import { Shortcut, ShortcutDescription } from '@/types/interfaces'
 
 const deniedKeyCombinations = DENY_LIST_OF_KEY_COMBINATION.map(
   (deniedKeyCombination) => new KeyCombination(deniedKeyCombination)
 )
-
-const keyDescriptionToKeyMap = new Map<string, string>(keyDescriptionToKeyArray)
 
 export default async function createShortcuts(csvPath: string) {
   const csvRawData = fs.readFileSync(csvPath)
@@ -56,33 +54,23 @@ export default async function createShortcuts(csvPath: string) {
   )
 }
 
-interface ShortcutFromCsv {
-  id: string
-
-  app: string
-  os: string
-  category: string
-  action: string
-  shortcut: string
-}
-
-export const createShortcut = (shortcutRaw: ShortcutFromCsv) => {
+export const createShortcut = (shortcutRaw: ShortcutDescription) => {
   const shortcut: Shortcut = {
     id: shortcutRaw.id,
     app: shortcutRaw.app,
     os: shortcutRaw.os,
     category: shortcutRaw.category,
     action: shortcutRaw.action,
-    shortcut: shortcutRaw.shortcut,
-    keyCombinations: extractKeyCombinations(shortcutRaw.shortcut),
+    keysDescription: shortcutRaw.keysDescription,
+    keyCombinations: extractKeyCombinations(shortcutRaw.keysDescription),
     isAvailable: false,
     unavailableReason: null,
     needsFillInBlankMode: false,
   }
 
-  if (NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP.test(shortcut.shortcut)) {
+  if (NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP.test(shortcut.keysDescription)) {
     shortcut.unavailableReason = 'needsCustomizedModifierKey'
-  } else if (IS_DEPEND_ON_DEVICE_REGEXP.test(shortcut.shortcut)) {
+  } else if (IS_DEPEND_ON_DEVICE_REGEXP.test(shortcut.keysDescription)) {
     shortcut.unavailableReason = 'isDependOnDevice'
   } else if (
     shortcut.keyCombinations.every((keyCombination) =>
@@ -90,7 +78,7 @@ export const createShortcut = (shortcutRaw: ShortcutFromCsv) => {
     )
   ) {
     shortcut.unavailableReason = 'hasOnlyNonKeyAction'
-  } else if (HAS_RANGED_ANSWERS_REGEXP.test(shortcut.shortcut)) {
+  } else if (HAS_RANGED_ANSWERS_REGEXP.test(shortcut.keysDescription)) {
     shortcut.unavailableReason = 'hasRangedAnswers'
   } else if (
     deniedKeyCombinations.some((deniedKeyCombination) =>
@@ -116,7 +104,7 @@ export const createShortcut = (shortcutRaw: ShortcutFromCsv) => {
     shortcut.isAvailable = true
   }
 
-  shortcut.needsFillInBlankMode = needsFillInBlankMode(shortcut.shortcut)
+  shortcut.needsFillInBlankMode = needsFillInBlankMode(shortcut.keysDescription)
 
   return shortcut
 }
@@ -153,7 +141,7 @@ const extractKey = (shortcutDescription: string) => {
 
     if (UNDETECTABLE_KEY_REGEXP.test(matchedKey)) return null
 
-    matchedKey = keyDescriptionToKeyMap.get(matchedKey) ?? matchedKey
+    matchedKey = KEY_DESCRIPTION_TO_KEY_MAP.get(matchedKey) ?? matchedKey
     matchedKey = matchedKey.length === 1 ? matchedKey.toLowerCase() : matchedKey
 
     return matchedKey

@@ -1,4 +1,4 @@
-const symbolicKeyToAnnotationArray = [
+const SYMBOLIC_KEY_TO_ANNOTATION_MAP: ReadonlyMap<string, string> = new Map([
   ['+', 'Plus'],
   ['/', 'Slash'],
   ['-', 'Minus'],
@@ -11,6 +11,6 @@ const symbolicKeyToAnnotationArray = [
   [':', 'Colon'],
   ['˜', 'Tilde'],
   ['=', 'Equal'],
-] as const
+] as const)
 
-export default symbolicKeyToAnnotationArray
+export default SYMBOLIC_KEY_TO_ANNOTATION_MAP

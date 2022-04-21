@@ -1,43 +1,46 @@
 import { computed, reactive, readonly } from 'vue'
 
-import KeyCombination from '@/models/keyCombination'
+import {
+  ANSWERED_HISTORY_KEY,
+  REMOVED_IDS_KEY,
+  SELECTED_CATEGORIES_KEY,
+  SELECTED_TOOL_KEY,
+} from '@/constants/local-storage-keys'
+import TOOL_TO_SHORTCUTS_MAP from '@/constants/tool-to-shortcuts-map'
+import KeyCombination from '@/models/key-combination'
+import KeyCombinations from '@/models/key-combinations'
 import { KeyCombinable, Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
-import {
-  loadShortcutsByTool,
-  loadShortcutsByToolAndCategories,
-  toolToShortcutsMap,
-} from '@/utils/loadShortcuts'
-import {
-  loadAnsweredHistory,
-  loadRemovedIds,
-  loadSelectedCategories,
-  loadSelectedTool,
-  saveAnsweredHistory,
-  saveRemovedIds,
-  saveSelectedCategories,
-  saveSelectedTool,
-} from '@/utils/localStorage'
-import { sampleShortcut } from '@/utils/sampleShortcut'
-import toggleFullscreen from '@/utils/toggleFullscreen'
-import { weight, weightedSampleKey } from '@/utils/weightedSample'
+import LocalStorage from '@/utils/local-storage'
+import sample from '@/utils/sample'
+import shortcutStorage from '@/utils/shortcut-storage'
+import toggleFullscreen from '@/utils/toggle-fullscreen'
+import { weight, weightedSampleKey } from '@/utils/weighted-sample'
 
-const selectedTool = loadSelectedTool()
-const selectedCategories = loadSelectedCategories()
-const selectedShortcuts = loadShortcutsByToolAndCategories(
-  selectedTool,
-  selectedCategories
+const selectedTool = LocalStorage.get(SELECTED_TOOL_KEY)
+const selectedCategories = LocalStorage.get(SELECTED_CATEGORIES_KEY)
+const selectedShortcuts = shortcutStorage.where({
+  tool: selectedTool,
+  categories: selectedCategories,
+})
+
+const removedIds = [...LocalStorage.get(REMOVED_IDS_KEY)]
+
+const selectedAvailableShortcuts = selectedShortcuts.filter(
+  (shortcut) => !removedIds.includes(shortcut.id)
 )
 
 const TimeIntervalToRestartTyping = import.meta.env.MODE === 'test' ? 0 : 1000
-const removedIds = [...loadRemovedIds()]
 
 const gameStore = (shortcuts?: Shortcut[]) => {
   const state = reactive({
     tool: selectedTool,
-    categories: new Set(selectedCategories),
+    categories: new Set(selectedCategories) as Set<string>,
     shortcuts: shortcuts ?? selectedShortcuts,
-    shortcut: sampleShortcut(shortcuts ?? selectedShortcuts, removedIds),
+    shortcut:
+      import.meta.env.MODE === 'test'
+        ? (shortcuts ?? selectedAvailableShortcuts)[0] // 出題順に依存しているテストがあるため
+        : sample(shortcuts ?? selectedAvailableShortcuts),
 
     isListeningKeyboardEvent: true,
     isCorrectKeyPressed: false,
@@ -53,8 +56,19 @@ const gameStore = (shortcuts?: Shortcut[]) => {
 
     pressedKeyCombination: new KeyCombination(),
     removedIdSet: new Set<string>(removedIds),
-    answeredHistoryMap: loadAnsweredHistory(),
+    answeredHistoryMap: new Map<string, boolean[]>(
+      Object.entries(LocalStorage.get(ANSWERED_HISTORY_KEY))
+    ),
   })
+
+  const correctKeyCombinations = computed(
+    () =>
+      new KeyCombinations(
+        state.shortcut.keyCombinations.map(
+          (keyCombination) => new KeyCombination(keyCombination)
+        )
+      )
+  )
 
   const shortcutsIds = computed(() =>
     state.shortcuts.map((shortcut) => shortcut.id)
@@ -134,7 +148,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
   })
 
   const wordsOfDescriptionFilledByCorrectKeys = computed(() =>
-    Keyboard.splitByKeyDescription(state.shortcut.shortcut).map(
+    Keyboard.splitByKeyDescription(state.shortcut.keysDescription).map(
       (word) => Keyboard.keyOfKeyDescription(word) ?? word
     )
   )
@@ -142,7 +156,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
   const wordsOfDescriptionFilledByPressedKeys = computed(() => {
     const pressedKeys = state.pressedKeyCombination.keys()
 
-    return Keyboard.splitByKeyDescription(state.shortcut.shortcut)
+    return Keyboard.splitByKeyDescription(state.shortcut.keysDescription)
       .map((word) => Keyboard.keyOfKeyDescription(word) ?? word)
       .map((word) => {
         if (Keyboard.isKey(word) && !Keyboard.isUndetectableKey(word)) {
@@ -155,26 +169,25 @@ const gameStore = (shortcuts?: Shortcut[]) => {
 
   const needsFullscreenMode = computed(() => {
     return (
-      state.shortcut.keyCombinations.some((keyCombination) =>
-        KeyCombination.isOnlyAvailableInFullscreen(keyCombination)
-      ) && !state.isFullscreenMode
+      correctKeyCombinations.value.hasOnlyAvailableInFullscreen() &&
+      !state.isFullscreenMode
     )
   })
 
   const removedShortcutExists = computed(() => state.removedIdSet.size > 0)
-  const isAllRemoved = computed(() =>
+  const isRemovedAll = computed(() =>
     state.shortcuts.every((shortcut) => state.removedIdSet.has(shortcut.id))
   )
 
   const keyDown = (keyCombinable: KeyCombinable) => {
-    if (isAllRemoved.value || !state.isListeningKeyboardEvent) return
+    if (isRemovedAll.value || !state.isListeningKeyboardEvent) return
 
     state.pressedKeyCombination.keyDown(keyCombinable)
     judge()
   }
 
   const keyUp = (key: string) => {
-    if (isAllRemoved.value || !state.isListeningKeyboardEvent) return
+    if (isRemovedAll.value || !state.isListeningKeyboardEvent) return
 
     state.pressedKeyCombination.keyUp(key)
   }
@@ -183,17 +196,13 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     if (!state.pressedKeyCombination.hasPressedSomeKey()) return
     if (
       state.pressedKeyCombination.isModifierKey() &&
-      !state.shortcut.keyCombinations.some((keyCombination) =>
-        KeyCombination.isOnlyModifierKeys(keyCombination)
-      )
+      !correctKeyCombinations.value.hasOnlyModifierKeys()
     )
       return
 
     if (
       state.pressedKeyCombination.isOnlyEnterKey() &&
-      !state.shortcut.keyCombinations.some((keyCombination) =>
-        KeyCombination.isOnlyEnterKey(keyCombination)
-      )
+      !correctKeyCombinations.value.hasOnlyEnterKey()
     ) {
       state.shortcut = nextShortcut()
       resetTypingState()
@@ -211,11 +220,8 @@ const gameStore = (shortcuts?: Shortcut[]) => {
 
     if (state.shortcut.isAvailable && !needsFullscreenMode.value) {
       if (
-        state.shortcut.keyCombinations.some(
-          (keyCombination) =>
-            state.pressedKeyCombination.is(keyCombination) ||
-            (KeyCombination.isOnlyModifierKeys(keyCombination) &&
-              state.pressedKeyCombination.hasEqualModifiers(keyCombination))
+        correctKeyCombinations.value.has(
+          state.pressedKeyCombination as KeyCombination
         )
       ) {
         respondToCorrectKey()
@@ -257,11 +263,13 @@ const gameStore = (shortcuts?: Shortcut[]) => {
         (shortcut) => shortcut.id === noAnsweredAvailableIds.value[0]
       ) as Shortcut
     } else {
-      const noAnsweredAvailableShortcuts = state.shortcuts.filter((shortcut) =>
-        noAnsweredAvailableIds.value.includes(shortcut.id)
-      )
+      const noAnsweredAvailableShortcuts = state.shortcuts
+        .filter((shortcut) =>
+          noAnsweredAvailableIds.value.includes(shortcut.id)
+        )
+        .filter((shortcut) => shortcut.id !== state.shortcut.id)
 
-      return sampleShortcut(noAnsweredAvailableShortcuts, [state.shortcut.id])
+      return sample(noAnsweredAvailableShortcuts)
     }
   }
 
@@ -280,7 +288,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     state.isListeningKeyboardEvent = false
     state.isRemoveKeyPressed = true
     state.removedIdSet.add(state.shortcut.id)
-    saveRemovedIds([...state.removedIdSet])
+    LocalStorage.set(REMOVED_IDS_KEY, [...state.removedIdSet])
 
     setTimeout(() => {
       state.shortcut = nextShortcut()
@@ -345,7 +353,10 @@ const gameStore = (shortcuts?: Shortcut[]) => {
       state.answeredHistoryMap.set(id, [result])
     }
 
-    saveAnsweredHistory(state.answeredHistoryMap)
+    LocalStorage.set(
+      ANSWERED_HISTORY_KEY,
+      Object.fromEntries(state.answeredHistoryMap)
+    )
   }
 
   const resetTypingState = () => {
@@ -374,12 +385,15 @@ const gameStore = (shortcuts?: Shortcut[]) => {
 
   const selectToolAndCategories = (tool: string, categories: string[]) => {
     state.tool = tool
-    saveSelectedTool(tool)
+    LocalStorage.set(SELECTED_TOOL_KEY, tool)
 
     state.categories = new Set(categories)
-    saveSelectedCategories(categories)
+    LocalStorage.set(SELECTED_CATEGORIES_KEY, categories)
 
-    state.shortcuts = loadShortcutsByToolAndCategories(tool, categories)
+    state.shortcuts = shortcutStorage.where({
+      tool,
+      categories,
+    })
 
     state.shortcut =
       state.shortcuts.find((shortcut) => !removedIds.includes(shortcut.id)) ??
@@ -404,7 +418,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
 
     const masteredRateOfEachTool: { name: string; masteredRate: number }[] = []
 
-    toolToShortcutsMap.forEach((shortcuts, name) => {
+    TOOL_TO_SHORTCUTS_MAP.forEach((shortcuts, name) => {
       const countOfShortcut = shortcuts.filter(
         (shortcut) => !state.removedIdSet.has(shortcut.id)
       ).length
@@ -429,7 +443,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     name: string
     masteredRate: number
   }[] => {
-    const shortcutsOfTool = loadShortcutsByTool(tool)
+    const shortcutsOfTool = shortcutStorage.where({ tool })
     const categoriesOfTool = new Set(
       shortcutsOfTool.map((shortcut) => shortcut.category)
     )
@@ -467,7 +481,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     state: readonly(state),
 
     removedShortcutExists,
-    isAllRemoved,
+    isRemovedAll,
     wordsOfDescriptionFilledByCorrectKeys,
     wordsOfDescriptionFilledByPressedKeys,
     needsFullscreenMode,

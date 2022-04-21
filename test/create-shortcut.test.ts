@@ -1,7 +1,7 @@
 import { parse } from 'csv-parse/sync'
 import * as fs from 'fs'
 
-import { createShortcut } from '@/../data/createShortcuts'
+import { createShortcut } from '@/../data/create-shortcuts'
 import chrome from '@/constants/shortcuts/chrome.json'
 import mac from '@/constants/shortcuts/mac.json'
 import terminal from '@/constants/shortcuts/terminal.json'

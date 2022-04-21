@@ -1,27 +1,16 @@
-import defaultKeyboardLayoutArray from '@/constants/defaultKeyboardLayoutArray'
-import { KEY_DESCRIPTION_INCLUDING_DENY_LIST_REGEXP } from '@/constants/keyDescriptionRegexp'
-import keyDescriptionToKeyArray from '@/constants/keyDescriptionToKeyArray'
+import DEFAULT_KEYBOARD_LAYOUT_MAP from '@/constants/default-keyboard-layout-map'
+import { KEY_DESCRIPTION_INCLUDING_DENY_LIST_REGEXP } from '@/constants/key-description-regexp'
+import KEY_DESCRIPTION_TO_KEY_MAP from '@/constants/key-description-to-key-map'
 import KEY_REGEXP, {
   DENY_LIST_OF_KEY_REGEXP,
   UNDETECTABLE_KEY_REGEXP,
-} from '@/constants/keyRegexp'
-import keyToAnnotationArray from '@/constants/keyToAnnotationArray'
-import keyToIconAnnotationMap from '@/constants/keyToIconAnnotationMap'
-import keyToSymbolArray from '@/constants/keyToSymbolArray'
-import symbolicKeyToAnnotationArray from '@/constants/symbolicKeyToAnnotationArray'
-import undefinedCodeToKeyArray from '@/constants/undefinedCodeToKeyArray'
+} from '@/constants/key-regexp'
+import KEY_TO_ANNOTATION_MAP from '@/constants/key-to-annotation-map'
+import KEY_TO_ICON_ANNOTATION_MAP from '@/constants/key-to-icon-annotation-map'
+import KEY_TO_SYMBOL_MAP from '@/constants/key-to-symbol-map'
+import SYMBOLIC_KEY_TO_ANNOTATION_MAP from '@/constants/symbolic-key-to-annotation-map'
+import UNDEFINED_CODE_TO_KEY_MAP from '@/constants/undefined-code-to-key-map'
 import { NavigatorKeyboard } from '@/types/interfaces'
-
-const undefinedCodeToKeyMap = new Map<string, string>(undefinedCodeToKeyArray)
-const defaultCodeToKeyMap = new Map<string, string>(defaultKeyboardLayoutArray)
-
-const keyToAnnotationMap = new Map<string, string>(keyToAnnotationArray)
-const keyToSymbolMap = new Map<string, string>(keyToSymbolArray)
-const symbolicKeyToAnnotationMap = new Map<string, string>(
-  symbolicKeyToAnnotationArray
-)
-
-const keyDescriptionToKeyMap = new Map<string, string>(keyDescriptionToKeyArray)
 
 export default class Keyboard {
   static isKey(word: string) {
@@ -33,23 +22,25 @@ export default class Keyboard {
   }
 
   static hasSymbol(key: string) {
-    return keyToSymbolMap.has(key) || symbolicKeyToAnnotationMap.has(key)
+    return KEY_TO_SYMBOL_MAP.has(key) || SYMBOLIC_KEY_TO_ANNOTATION_MAP.has(key)
   }
 
   static hasIcon(key: string) {
-    return keyToIconAnnotationMap.has(key)
+    return KEY_TO_ICON_ANNOTATION_MAP.has(key)
   }
 
   static annotationOfIcon(key: string) {
-    return keyToIconAnnotationMap.get(key)
+    return KEY_TO_ICON_ANNOTATION_MAP.get(key)
   }
 
   static symbol(key: string) {
-    return keyToSymbolMap.get(key)
+    return KEY_TO_SYMBOL_MAP.get(key)
   }
 
   static annotationOfSymbol(key: string) {
-    return keyToAnnotationMap.get(key) ?? symbolicKeyToAnnotationMap.get(key)
+    return (
+      KEY_TO_ANNOTATION_MAP.get(key) ?? SYMBOLIC_KEY_TO_ANNOTATION_MAP.get(key)
+    )
   }
 
   static splitByKeyDescription(description: string) {
@@ -59,21 +50,21 @@ export default class Keyboard {
   }
 
   static keyOfKeyDescription(keyDescription: string) {
-    return keyDescriptionToKeyMap.get(keyDescription)
+    return KEY_DESCRIPTION_TO_KEY_MAP.get(keyDescription)
   }
 
   constructor(private keyboardMap?: Map<string, string>) {}
 
   key({ code, key }: { code: string; key: string }) {
     return (
-      undefinedCodeToKeyMap.get(code) ??
+      UNDEFINED_CODE_TO_KEY_MAP.get(code) ??
       this.keyboardLayoutMap().get(code) ??
       key
     )
   }
 
   keyboardLayoutMap() {
-    return this.keyboardMap ?? defaultCodeToKeyMap
+    return this.keyboardMap ?? DEFAULT_KEYBOARD_LAYOUT_MAP
   }
 
   async setKeyboardLayoutMap(keyboard: NavigatorKeyboard) {

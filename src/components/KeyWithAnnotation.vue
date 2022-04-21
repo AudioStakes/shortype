@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from '@vue/reactivity'
 
-import formatKeyName from '@/utils/formatKeyName'
+import formatKeyName from '@/utils/format-key-name'
 import Keyboard from '@/utils/keyboard'
 
 import KeyIcons from './KeyIcons.vue'

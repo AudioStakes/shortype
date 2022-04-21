@@ -1,0 +1,5 @@
+export const SCHEMA_VERSION_KEY = 'schemaVersion'
+export const REMOVED_IDS_KEY = 'removedIds'
+export const ANSWERED_HISTORY_KEY = 'answeredHistory'
+export const SELECTED_TOOL_KEY = 'selectedTool'
+export const SELECTED_CATEGORIES_KEY = 'selectedCategories'

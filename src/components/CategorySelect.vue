@@ -6,8 +6,8 @@ import { ref } from 'vue'
 
 import Button from '@/components/Button.vue'
 import CategoryCard from '@/components/CategoryCard.vue'
-import GameKey from '@/stores/gameKey'
-import { injectStrict } from '@/utils/injectStrict'
+import GameKey from '@/stores/game-key'
+import { injectStrict } from '@/utils/inject-strict'
 
 const { categoriesWithMasteredRate } = injectStrict(GameKey)
 const props = defineProps<{ tool: string; categories: string[] }>()

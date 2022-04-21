@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { XIcon } from '@heroicons/vue/solid'
 
-import GameKey from '@/stores/gameKey'
-import ModalKey from '@/stores/modalKey'
-import { injectStrict } from '@/utils/injectStrict'
+import GameKey from '@/stores/game-key'
+import ModalKey from '@/stores/modal-key'
+import { injectStrict } from '@/utils/inject-strict'
 
 const { hideAboutModal, hideToolsAndCategoriesModal } = injectStrict(ModalKey)
 

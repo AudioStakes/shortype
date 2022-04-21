@@ -5,9 +5,9 @@ import CategorySelect from '@/components/CategorySelect.vue'
 import Modal from '@/components/Modal.vue'
 import ModalContent from '@/components/ModalContent.vue'
 import ToolSelect from '@/components/ToolSelect.vue'
-import GameKey from '@/stores/gameKey'
-import ModalKey from '@/stores/modalKey'
-import { injectStrict } from '@/utils/injectStrict'
+import GameKey from '@/stores/game-key'
+import ModalKey from '@/stores/modal-key'
+import { injectStrict } from '@/utils/inject-strict'
 
 const { state, selectToolAndCategories } = injectStrict(GameKey)
 const { modalState, hideToolsAndCategoriesModal } = injectStrict(ModalKey)

@@ -1,4 +1,4 @@
-const keyDescriptionToKeyArray = [
+const KEY_DESCRIPTION_TO_KEY_MAP: ReadonlyMap<string, string> = new Map([
   ['Right arrow', 'ArrowRight'],
   ['Left arrow', 'ArrowLeft'],
   ['Up arrow', 'ArrowUp'],
@@ -67,6 +67,6 @@ const keyDescriptionToKeyArray = [
   ['音量を上げる', 'AudioVolumeUp'], // KeyboardEvent が発火しない
   ['キーボードの明るさを上げる', 'KeyboardBacklightUp'], // KeyboardEvent が発火しない。key の値は MDN になかったので独自につけた。
   ['キーボードの明るさを下げる', 'KeyboardBacklightDown'], // KeyboardEvent が発火しない。key の値は MDN になかったので独自につけた。
-] as const
+] as const)
 
-export default keyDescriptionToKeyArray
+export default KEY_DESCRIPTION_TO_KEY_MAP
