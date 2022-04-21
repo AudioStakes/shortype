@@ -2,8 +2,8 @@
 import { provide } from 'vue'
 
 import CorrectAnswer from '@/components/CorrectAnswer.vue'
+import KeyCombinationForm from '@/components/KeyCombinationForm.vue'
 import PieChart from '@/components/PieChart.vue'
-import PressedKeyCombination from '@/components/PressedKeyCombination.vue'
 import QuestionShow from '@/components/QuestionShow.vue'
 import RestoreButton from '@/components/RestoreButton.vue'
 import ShortcutsShow from '@/components/ShortcutsShow.vue'
@@ -67,7 +67,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
     <PieChart />
     <QuestionShow />
     <CorrectAnswer />
-    <PressedKeyCombination />
+    <KeyCombinationForm />
     <div class="my-auto">
       <ShortcutsShow />
       <RestoreButton />
