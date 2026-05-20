@@ -1,11 +1,16 @@
-import { Shortcut, KeyCombinable } from '@/types/interfaces'
 import KeyCombination from '@/models/key-combination'
 import KeyCombinations from '@/models/key-combinations'
+import shortcutCatalog from '@/models/shortcut-catalog'
+import {
+  getAvailableIdToWeightMap,
+  getCountsOfEachStatus,
+} from '@/models/shortcut-training-session-status'
+import createShortcutTrainingSessionSummary from '@/models/shortcut-training-session-summary'
+import type { KeyCombinable, Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
 import sample from '@/utils/sample'
-import shortcutCatalog from '@/models/shortcut-catalog'
-import { weight, weightedSampleKey } from '@/utils/weighted-sample'
 import toggleFullscreen from '@/utils/toggle-fullscreen'
+import { weightedSampleKey } from '@/utils/weighted-sample'
 
 export type ShortcutTrainingState = {
   tool: string
@@ -117,66 +122,28 @@ export const createShortcutTrainingSession = (
   const noAnsweredAvailableIds = () =>
     availableIds().filter((id) => !answeredIds().includes(id))
 
-  const idToWeightMap = () => {
-    const idToWeightMap = new Map<string, number>()
-
-    for (const [id, results] of state.answeredHistoryMap.entries()) {
-      if (shortcutsIds().includes(id)) {
-        idToWeightMap.set(id, weight(results))
-      }
-    }
-
-    return idToWeightMap
-  }
-
   const availableIdToWeightMap = () => {
-    const availableIdToWeightMap = new Map<string, number>()
-
-    for (const [id, currentWeight] of idToWeightMap().entries()) {
-      if (availableIds().includes(id)) {
-        availableIdToWeightMap.set(id, currentWeight)
-      }
-    }
-
-    return availableIdToWeightMap
+    return getAvailableIdToWeightMap({
+      shortcuts: state.shortcuts,
+      removedIds: state.removedIdSet,
+      answeredHistory: state.answeredHistoryMap,
+    })
   }
 
   const countsOfEachStatus = () => {
-    const [masteredIds, unmasteredIds] = Array.from(idToWeightMap()).reduce<
-      [string[], string[]]
-    >(
-      ([masteredIds, unmasteredIds], [id, currentWeight]) =>
-        currentWeight <= 0.6
-          ? [[...masteredIds, id], unmasteredIds]
-          : [masteredIds, [...unmasteredIds, id]],
-      [[], []],
-    )
-
-    const noAnsweredIds = shortcutsIds().filter(
-      (id) => !answeredIds().includes(id),
-    )
-
-    return {
-      mastered: {
-        included: masteredIds.filter((id) => availableIds().includes(id))
-          .length,
-        removed: masteredIds.filter((id) => !availableIds().includes(id))
-          .length,
-      },
-      unmastered: {
-        included: unmasteredIds.filter((id) => availableIds().includes(id))
-          .length,
-        removed: unmasteredIds.filter((id) => !availableIds().includes(id))
-          .length,
-      },
-      noAnswered: {
-        included: noAnsweredIds.filter((id) => availableIds().includes(id))
-          .length,
-        removed: noAnsweredIds.filter((id) => !availableIds().includes(id))
-          .length,
-      },
-    }
+    return getCountsOfEachStatus({
+      shortcuts: state.shortcuts,
+      removedIds: state.removedIdSet,
+      answeredHistory: state.answeredHistoryMap,
+    })
   }
+
+  const createSummary = () =>
+    createShortcutTrainingSessionSummary({
+      shortcuts: state.shortcuts,
+      removedIds: new Set(state.removedIdSet),
+      answeredHistory: new Map(state.answeredHistoryMap),
+    })
 
   const wordsOfDescriptionFilledByCorrectKeys = () =>
     Keyboard.splitByKeyDescription(state.shortcut.keysDescription).map(
@@ -440,14 +407,19 @@ export const createShortcutTrainingSession = (
     state.pressedKeyCombination.reset()
   }
 
+  const masteredRateOfEachTool = () => createSummary().masteredRateOfEachTool()
+  const categoriesWithMasteredRate = (tool: string) =>
+    createSummary().categoriesWithMasteredRate(tool)
+
   return {
     correctKeyCombinations,
     availableIds,
     answeredIds,
     noAnsweredAvailableIds,
-    idToWeightMap,
     availableIdToWeightMap,
     countsOfEachStatus,
+    masteredRateOfEachTool,
+    categoriesWithMasteredRate,
     wordsOfDescriptionFilledByCorrectKeys,
     wordsOfDescriptionFilledByPressedKeys,
     needsFullscreenMode,

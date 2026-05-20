@@ -1,6 +1,9 @@
 import shortcutCatalog from '@/models/shortcut-catalog'
+import {
+  getCountsOfEachStatus,
+  getMasteredIds,
+} from '@/models/shortcut-training-session-status'
 import type { Shortcut } from '@/types/interfaces'
-import { weight } from '@/utils/weighted-sample'
 
 export type ShortcutTrainingSessionSnapshot = {
   shortcuts: Shortcut[]
@@ -32,66 +35,14 @@ export type ShortcutTrainingSessionSummary = {
 export const createShortcutTrainingSessionSummary = (
   snapshot: ShortcutTrainingSessionSnapshot,
 ): ShortcutTrainingSessionSummary => {
-  const shortcutsIds = () => snapshot.shortcuts.map((shortcut) => shortcut.id)
+  const countsOfEachStatus = () =>
+    getCountsOfEachStatus({
+      shortcuts: snapshot.shortcuts,
+      removedIds: snapshot.removedIds,
+      answeredHistory: snapshot.answeredHistory,
+    })
 
-  const availableIds = () =>
-    shortcutsIds().filter((id) => !snapshot.removedIds.has(id))
-
-  const answeredIds = () => Array.from(snapshot.answeredHistory.keys())
-
-  const idToWeightMap = () => {
-    const idToWeightMap = new Map<string, number>()
-
-    for (const [id, results] of snapshot.answeredHistory.entries()) {
-      if (shortcutsIds().includes(id)) {
-        idToWeightMap.set(id, weight(results))
-      }
-    }
-
-    return idToWeightMap
-  }
-
-  const masteredIds = () =>
-    [...snapshot.answeredHistory]
-      .map(([id, results]): [string, number] => [id, weight(results)])
-      .filter(([, currentWeight]) => currentWeight <= 0.6)
-      .map(([id]) => id)
-
-  const countsOfEachStatus = () => {
-    const [masteredIdsOfStatus, unmasteredIds] =
-      Array.from(idToWeightMap()).reduce<[string[], string[]]>(
-        ([masteredIds, unmasteredIds], [id, currentWeight]) =>
-          currentWeight <= 0.6
-            ? [[...masteredIds, id], unmasteredIds]
-            : [masteredIds, [...unmasteredIds, id]],
-        [[], []],
-      )
-
-    const noAnsweredIds = shortcutsIds().filter(
-      (id) => !answeredIds().includes(id),
-    )
-
-    return {
-      mastered: {
-        included: masteredIdsOfStatus.filter((id) => availableIds().includes(id))
-          .length,
-        removed: masteredIdsOfStatus.filter((id) => !availableIds().includes(id))
-          .length,
-      },
-      unmastered: {
-        included: unmasteredIds.filter((id) => availableIds().includes(id))
-          .length,
-        removed: unmasteredIds.filter((id) => !availableIds().includes(id))
-          .length,
-      },
-      noAnswered: {
-        included: noAnsweredIds.filter((id) => availableIds().includes(id))
-          .length,
-        removed: noAnsweredIds.filter((id) => !availableIds().includes(id))
-          .length,
-      },
-    }
-  }
+  const masteredIds = () => getMasteredIds(snapshot)
 
   const masteredRateOfEachTool = () =>
     shortcutCatalog.tools().map((tool) => {
@@ -124,8 +75,8 @@ export const createShortcutTrainingSessionSummary = (
           shortcut.category === categoryName &&
           !snapshot.removedIds.has(shortcut.id),
       )
-      const masteredShortcutsOfCategory = shortcutsOfCategory.filter((shortcut) =>
-        masteredIdsOfTool.includes(shortcut.id),
+      const masteredShortcutsOfCategory = shortcutsOfCategory.filter(
+        (shortcut) => masteredIdsOfTool.includes(shortcut.id),
       )
 
       return {

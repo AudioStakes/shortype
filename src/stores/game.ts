@@ -5,24 +5,11 @@ import {
   createShortcutTrainingState,
   type ShortcutTrainingState,
 } from '@/models/shortcut-training-session'
-import createShortcutTrainingSessionSummary from '@/models/shortcut-training-session-summary'
 import {
   createGameSessionBootstrap,
   createGameSessionDeps,
 } from '@/stores/game-session'
 import type { Shortcut } from '@/types/interfaces'
-
-type TrainingSessionSummarySource = Pick<
-  ShortcutTrainingState,
-  'shortcuts' | 'removedIdSet' | 'answeredHistoryMap'
->
-
-const createTrainingSessionSummary = (state: TrainingSessionSummarySource) =>
-  createShortcutTrainingSessionSummary({
-    shortcuts: state.shortcuts,
-    removedIds: new Set(state.removedIdSet),
-    answeredHistory: new Map(state.answeredHistoryMap),
-  })
 
 const gameStore = (shortcuts?: Shortcut[]) => {
   const bootstrap = createGameSessionBootstrap(shortcuts)
@@ -32,7 +19,6 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     state as unknown as ShortcutTrainingState,
     createGameSessionDeps(),
   )
-  const sessionSummary = computed(() => createTrainingSessionSummary(state))
 
   const removedShortcutExists = computed(() => session.removedShortcutExists())
   const isRemovedAll = computed(() => session.isRemovedAll())
@@ -44,10 +30,8 @@ const gameStore = (shortcuts?: Shortcut[]) => {
   )
   const needsFullscreenMode = computed(() => session.needsFullscreenMode())
   const countsOfEachStatus = computed(() => session.countsOfEachStatus())
-  const masteredRateOfEachTool = () =>
-    sessionSummary.value.masteredRateOfEachTool()
-  const categoriesWithMasteredRate = (tool: string) =>
-    sessionSummary.value.categoriesWithMasteredRate(tool)
+  const masteredRateOfEachTool = session.masteredRateOfEachTool
+  const categoriesWithMasteredRate = session.categoriesWithMasteredRate
 
   return {
     state: readonly(state),

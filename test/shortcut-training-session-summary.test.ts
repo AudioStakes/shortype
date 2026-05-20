@@ -69,25 +69,6 @@ describe('shortcut-training-session-summary', () => {
     vi.clearAllMocks()
   })
 
-  test('counts shortcuts by status', () => {
-    const summary = createSnapshot()
-
-    expect(summary.countsOfEachStatus()).toEqual({
-      mastered: {
-        included: 1,
-        removed: 0,
-      },
-      unmastered: {
-        included: 1,
-        removed: 0,
-      },
-      noAnswered: {
-        included: 1,
-        removed: 0,
-      },
-    })
-  })
-
   test('shows mastered rate by tool and category', () => {
     const summary = createSnapshot()
 

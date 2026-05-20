@@ -1,14 +1,19 @@
 import { beforeEach, describe, expect, test } from 'vitest'
 
 import LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE from '@/constants/local-storage-key-to-default-value'
-import { ANSWERED_HISTORY_KEY, SCHEMA_VERSION_KEY } from '@/constants/local-storage-keys'
 import {
-  LATEST_SCHEMA_VERSION,
+  ANSWERED_HISTORY_KEY,
+  SCHEMA_VERSION_KEY,
+} from '@/constants/local-storage-keys'
+import {
   createLocalStorageCore,
+  LATEST_SCHEMA_VERSION,
   type LocalStorageLike,
 } from '@/utils/local-storage-core'
 
-const createStorage = (): LocalStorageLike & { state: Record<string, string> } => {
+const createStorage = (): LocalStorageLike & {
+  state: Record<string, string>
+} => {
   const state: Record<string, string> = {}
 
   return {

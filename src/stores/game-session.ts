@@ -1,12 +1,12 @@
 import shortcutCatalog from '@/models/shortcut-catalog'
-import type { Shortcut } from '@/types/interfaces'
-import sample from '@/utils/sample'
-import { weightedSampleKey } from '@/utils/weighted-sample'
-import toggleFullscreen from '@/utils/toggle-fullscreen'
 import {
   createGameSessionStoragePersistence,
   loadGameSessionStorage,
 } from '@/stores/game-session-storage'
+import type { Shortcut } from '@/types/interfaces'
+import sample from '@/utils/sample'
+import toggleFullscreen from '@/utils/toggle-fullscreen'
+import { weightedSampleKey } from '@/utils/weighted-sample'
 
 export type GameSessionBootstrap = {
   tool: string
@@ -21,12 +21,8 @@ export type GameSessionBootstrap = {
 export const createGameSessionBootstrap = (
   shortcuts?: Shortcut[],
 ): GameSessionBootstrap => {
-  const {
-    selectedTool,
-    selectedCategories,
-    removedIds,
-    answeredHistory,
-  } = loadGameSessionStorage()
+  const { selectedTool, selectedCategories, removedIds, answeredHistory } =
+    loadGameSessionStorage()
   const selectedShortcuts = shortcutCatalog.where({
     tool: selectedTool,
     categories: selectedCategories,
