@@ -25,11 +25,5 @@
     "test/*.test.ts",
     "data/*.ts"
   ],
-  "references": [{ "path": "./tsconfig.node.json" }],
-  "ts-node": {
-    "compilerOptions": {
-      "module": "commonjs"
-    },
-    "require": ["tsconfig-paths/register"]
-  }
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -6,6 +6,7 @@ import {
   waitForElementToBeRemoved,
   within,
 } from '@testing-library/vue'
+import { nextTick } from 'vue'
 
 import { ANSWERED_HISTORY_KEY } from '@/constants/local-storage-keys'
 import modalStore from '@/stores/modal'
@@ -69,7 +70,7 @@ const dispatchKeyboardEvent = (
   options: Partial<KeyboardEventInit> = {},
 ) => {
   const normalizedKey = normalizeKey(key)
-  const event = new KeyboardEvent(type, {
+  const event = new window.KeyboardEvent(type, {
     bubbles: true,
     cancelable: true,
     code: keyCodeByKey[normalizedKey] ?? normalizedKey,
@@ -84,12 +85,15 @@ const pressKey = async (key: string) => {
   const normalizedKey = normalizeKey(key)
   const flags = keyFlagsByKey[normalizedKey] ?? {}
 
+  await nextTick()
   dispatchKeyboardEvent('keydown', normalizedKey, flags)
+  await nextTick()
 }
 
 const pressChord = async (keys: string[]) => {
   const activeFlags: Partial<KeyboardEventInit> = {}
 
+  await nextTick()
   for (const key of keys) {
     const normalizedKey = normalizeKey(key)
 
@@ -104,6 +108,8 @@ const pressChord = async (keys: string[]) => {
       dispatchKeyboardEvent('keydown', normalizedKey, activeFlags)
     }
   }
+
+  await nextTick()
 }
 
 beforeAll(() => {
