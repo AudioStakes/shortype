@@ -55,9 +55,7 @@ describe('game-session-storage', () => {
     const persistence = createGameSessionStoragePersistence()
 
     persistence.persistRemovedIds(new Set(['chrome-1', 'chrome-2']))
-    persistence.persistAnsweredHistory(
-      new Map([['chrome-1', [true, false]]]),
-    )
+    persistence.persistAnsweredHistory(new Map([['chrome-1', [true, false]]]))
     persistence.persistSelectedTool('Terminal (macOS)')
     persistence.persistSelectedCategories(['Shell'])
 

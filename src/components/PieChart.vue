@@ -84,55 +84,32 @@ const rateOf = (
   return Math.floor((count / totalCount) * 100)
 }
 
-const subStatusOrder = ['included', 'removed']
+const statusOrder = ['mastered', 'unmastered', 'noAnswered'] as const
 const statuses = computed(() => {
   let sumOfPreviousCounts = 0
 
-  const statuses = Object.entries(countsOfEachStatus.value)
-    .flatMap(([status, { included, removed }]) => {
-      return [
-        {
-          status,
-          subStatus: 'included',
-          count: included,
-        },
-        {
-          status,
-          subStatus: 'removed',
-          count: removed,
-        },
-      ]
-    })
-    .sort((a, b) => {
-      return (
-        subStatusOrder.indexOf(a.subStatus) -
-        subStatusOrder.indexOf(b.subStatus)
-      )
-    })
-    .filter(({ subStatus }) => subStatus === 'included')
-    .map(({ status, subStatus, count }) => {
-      sumOfPreviousCounts += count
-      return {
-        count,
-        strokeColor:
-          styleOfEachStatus[status as 'mastered' | 'unmastered' | 'noAnswered'][
-            subStatus as 'included' | 'removed'
-          ].strokeColor,
-        attributes: {
-          cx: '50%',
-          cy: '50%',
-          r: RADIUS,
-          style: {
-            'stroke-dasharray': strokeDashArray(
-              sumOfPreviousCounts - count,
-              count
-            ),
-          },
-        },
-      }
-    })
+  return statusOrder.map((status) => {
+    const { included } = countsOfEachStatus.value[status]
+    const count = included
 
-  return statuses
+    sumOfPreviousCounts += count
+
+    return {
+      count,
+      strokeColor: styleOfEachStatus[status].included.strokeColor,
+      attributes: {
+        cx: '50%',
+        cy: '50%',
+        r: RADIUS,
+        style: {
+          'stroke-dasharray': strokeDashArray(
+            sumOfPreviousCounts - count,
+            count,
+          ),
+        },
+      },
+    }
+  })
 })
 </script>
 

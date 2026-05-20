@@ -62,17 +62,36 @@ export const getCountsOfEachStatus = (
   const availableIds = shortcutsIdList.filter(
     (id) => !snapshot.removedIds.has(id),
   )
+  const availableIdSet = new Set(availableIds)
   const answeredIdSet = new Set(snapshot.answeredHistory.keys())
-  const masteredIds = getMasteredIds(snapshot)
-  const unmasteredIds = Array.from(getIdToWeightMap(snapshot))
-    .filter(([, currentWeight]) => currentWeight > MASTERED_WEIGHT_THRESHOLD)
-    .map(([id]) => id)
   const noAnsweredIds = shortcutsIdList.filter((id) => !answeredIdSet.has(id))
+  const idToWeightMap = getIdToWeightMap(snapshot)
 
-  const count = (ids: string[]) => ({
-    included: ids.filter((id) => availableIds.includes(id)).length,
-    removed: ids.filter((id) => !availableIds.includes(id)).length,
-  })
+  const count = (ids: Iterable<string>) => {
+    let included = 0
+    let removed = 0
+
+    for (const id of ids) {
+      if (availableIdSet.has(id)) {
+        included += 1
+      } else {
+        removed += 1
+      }
+    }
+
+    return { included, removed }
+  }
+
+  const masteredIds: string[] = []
+  const unmasteredIds: string[] = []
+
+  for (const [id, currentWeight] of idToWeightMap.entries()) {
+    if (currentWeight <= MASTERED_WEIGHT_THRESHOLD) {
+      masteredIds.push(id)
+    } else {
+      unmasteredIds.push(id)
+    }
+  }
 
   return {
     mastered: count(masteredIds),

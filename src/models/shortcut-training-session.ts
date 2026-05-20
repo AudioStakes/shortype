@@ -1,6 +1,7 @@
 import KeyCombination from '@/models/key-combination'
 import KeyCombinations from '@/models/key-combinations'
 import shortcutCatalog from '@/models/shortcut-catalog'
+import { createShortcutTrainingSessionEffects } from '@/models/shortcut-training-session-effects'
 import {
   getAvailableIdToWeightMap,
   getCountsOfEachStatus,
@@ -8,7 +9,6 @@ import {
 import createShortcutTrainingSessionSummary, {
   type ShortcutCatalogSummary,
 } from '@/models/shortcut-training-session-summary'
-import { createShortcutTrainingSessionEffects } from '@/models/shortcut-training-session-effects'
 import type { KeyCombinable, Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
 import sample from '@/utils/sample'
@@ -119,10 +119,10 @@ export const createShortcutTrainingSession = (
   const availableIds = () =>
     shortcutsIds().filter((id) => !state.removedIdSet.has(id))
 
-  const answeredIds = () => Array.from(state.answeredHistoryMap.keys())
+  const answeredIdSet = () => new Set(state.answeredHistoryMap.keys())
 
   const noAnsweredAvailableIds = () =>
-    availableIds().filter((id) => !answeredIds().includes(id))
+    availableIds().filter((id) => !answeredIdSet().has(id))
 
   const availableIdToWeightMap = () => {
     return getAvailableIdToWeightMap({
@@ -178,22 +178,25 @@ export const createShortcutTrainingSession = (
     state.shortcuts.every((shortcut) => state.removedIdSet.has(shortcut.id))
 
   const nextShortcut = () => {
-    if (noAnsweredAvailableIds().length === 0) {
+    const noAnsweredAvailableIdList = noAnsweredAvailableIds()
+    const noAnsweredAvailableIdSet = new Set(noAnsweredAvailableIdList)
+    const shortcutByIdMap = new Map(
+      state.shortcuts.map((shortcut) => [shortcut.id, shortcut] as const),
+    )
+
+    if (noAnsweredAvailableIdList.length === 0) {
       const nextId = deps.weightedSampleKey(availableIdToWeightMap())
 
-      return state.shortcuts.find(
-        (shortcut) => shortcut.id === nextId,
-      ) as Shortcut
+      return (shortcutByIdMap.get(nextId) ?? state.shortcuts[0]) as Shortcut
     }
 
-    if (noAnsweredAvailableIds().length === 1) {
-      return state.shortcuts.find(
-        (shortcut) => shortcut.id === noAnsweredAvailableIds()[0],
-      ) as Shortcut
+    if (noAnsweredAvailableIdList.length === 1) {
+      return (shortcutByIdMap.get(noAnsweredAvailableIdList[0]) ??
+        state.shortcuts[0]) as Shortcut
     }
 
     const noAnsweredAvailableShortcuts = state.shortcuts
-      .filter((shortcut) => noAnsweredAvailableIds().includes(shortcut.id))
+      .filter((shortcut) => noAnsweredAvailableIdSet.has(shortcut.id))
       .filter((shortcut) => shortcut.id !== state.shortcut.id)
 
     return deps.sample(noAnsweredAvailableShortcuts)
@@ -299,7 +302,7 @@ export const createShortcutTrainingSession = (
   const selectToolAndCategories = (tool: string, categories: string[]) => {
     effects.selectToolAndCategories(tool, categories)
 
-    state.shortcuts = shortcutCatalog.where({
+    state.shortcuts = shortcutCatalog.searchShortcuts({
       tool,
       categories,
     })
@@ -329,7 +332,6 @@ export const createShortcutTrainingSession = (
   return {
     correctKeyCombinations,
     availableIds,
-    answeredIds,
     noAnsweredAvailableIds,
     availableIdToWeightMap,
     countsOfEachStatus,

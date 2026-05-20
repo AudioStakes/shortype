@@ -1,12 +1,12 @@
 import { computed, reactive, readonly } from 'vue'
 
+import shortcutCatalog from '@/models/shortcut-catalog'
+import { createShortcutCatalogSummary } from '@/models/shortcut-catalog-summary'
 import {
   createShortcutTrainingSession,
   createShortcutTrainingState,
   type ShortcutTrainingState,
 } from '@/models/shortcut-training-session'
-import { createShortcutCatalogSummary } from '@/models/shortcut-catalog-summary'
-import shortcutCatalog from '@/models/shortcut-catalog'
 import {
   createGameSessionBootstrap,
   createGameSessionDeps,
@@ -17,7 +17,7 @@ import type { Shortcut } from '@/types/interfaces'
 const gameStore = (shortcuts?: Shortcut[]) => {
   const { selectedTool, selectedCategories, removedIds, answeredHistory } =
     loadGameSessionStorage()
-  const selectedShortcuts = shortcutCatalog.where({
+  const selectedShortcuts = shortcutCatalog.searchShortcuts({
     tool: selectedTool,
     categories: selectedCategories,
   })

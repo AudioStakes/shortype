@@ -1,4 +1,7 @@
-import type { ShortcutTrainingSessionDeps, ShortcutTrainingState } from '@/models/shortcut-training-session'
+import type {
+  ShortcutTrainingSessionDeps,
+  ShortcutTrainingState,
+} from '@/models/shortcut-training-session'
 
 export const createShortcutTrainingSessionEffects = (
   state: ShortcutTrainingState,

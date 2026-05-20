@@ -13,8 +13,8 @@ const modal = modalStore()
 provide(ModalKey, modal)
 const { modalState } = modal
 
-const isUnsupportedBrowser = navigator.userAgent.indexOf('Chrome') === -1
-const isUnsupportedOs = navigator.userAgent.indexOf('Mac') === -1
+const isUnsupportedBrowser = !navigator.userAgent.includes('Chrome')
+const isUnsupportedOs = !navigator.userAgent.includes('Mac')
 const isUnsupported = ref(isUnsupportedBrowser || isUnsupportedOs)
 const proceed = () => {
   isUnsupported.value = false

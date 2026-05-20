@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 
 import Button from '@/components/Button.vue'
 import CategoryCard from '@/components/CategoryCard.vue'
@@ -13,19 +13,24 @@ const emit = defineEmits(['select-tool-and-categories', 'reset-tool'])
 
 const categoriesWithRate = categoriesWithMasteredRate(props.tool)
 const targetCategories = categoriesWithRate.map((category) => category.name)
+const targetCategorySet = new Set(targetCategories)
 const selectedCategories = ref(new Set(props.categories))
 
-const hasSelectedCategory = computed(() =>
-  targetCategories.some((categoryName) =>
-    selectedCategories.value.has(categoryName)
-  )
-)
+const hasSelectedCategory = () => {
+  for (const categoryName of targetCategorySet) {
+    if (selectedCategories.value.has(categoryName)) return true
+  }
 
-const isSelectedAllCategories = computed(() =>
-  targetCategories.every((categoryName) =>
-    selectedCategories.value.has(categoryName)
-  )
-)
+  return false
+}
+
+const isSelectedAllCategories = () => {
+  for (const categoryName of targetCategorySet) {
+    if (!selectedCategories.value.has(categoryName)) return false
+  }
+
+  return true
+}
 
 const toggleCategory = (categoryName: string) => {
   selectedCategories.value.has(categoryName)
@@ -68,7 +73,7 @@ const rejectAllCategories = () => {
     <div class="flex justify-around w-10/12 pb-1">
       <Button
         :name="'すべて選ぶ'"
-        :is-disabled="isSelectedAllCategories"
+        :is-disabled="isSelectedAllCategories()"
         @click="selectAllCategories()"
       >
         <template #icon>
@@ -82,7 +87,7 @@ const rejectAllCategories = () => {
       </Button>
       <Button
         :name="'すべての選択を外す'"
-        :is-disabled="!hasSelectedCategory"
+        :is-disabled="!hasSelectedCategory()"
         @click="rejectAllCategories()"
       >
         <template #icon>
@@ -107,7 +112,7 @@ const rejectAllCategories = () => {
     <Button
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 my-4"
       :name="'選んだカテゴリーの練習をはじめる'"
-      :is-disabled="!hasSelectedCategory"
+      :is-disabled="!hasSelectedCategory()"
       @click="emit('select-tool-and-categories', [...selectedCategories])"
     />
   </div>
