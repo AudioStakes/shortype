@@ -106,21 +106,8 @@ const defaultSessionDeps: ShortcutTrainingSessionDeps = {
 export const createShortcutTrainingSession = (
   state: ShortcutTrainingState,
   deps: ShortcutTrainingSessionDeps = defaultSessionDeps,
+  catalogSummary: ShortcutCatalogSummary,
 ) => {
-  const catalogSummary: ShortcutCatalogSummary = {
-    tools: shortcutCatalog.tools().map((tool) => ({
-      name: tool,
-      shortcuts: shortcutCatalog.where({ tool }),
-      categories: shortcutCatalog.categoriesOf(tool).map((categoryName) => ({
-        name: categoryName,
-        shortcuts: shortcutCatalog.where({
-          tool,
-          categories: [categoryName],
-        }),
-      })),
-    })),
-  }
-
   const correctKeyCombinations = () =>
     new KeyCombinations(
       state.shortcut.keyCombinations.map(

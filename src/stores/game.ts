@@ -5,6 +5,7 @@ import {
   createShortcutTrainingState,
   type ShortcutTrainingState,
 } from '@/models/shortcut-training-session'
+import { createShortcutCatalogSummary } from '@/models/shortcut-catalog-summary'
 import {
   createGameSessionBootstrap,
   createGameSessionDeps,
@@ -18,6 +19,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
   const session = createShortcutTrainingSession(
     state as unknown as ShortcutTrainingState,
     createGameSessionDeps(),
+    createShortcutCatalogSummary(),
   )
 
   const removedShortcutExists = computed(() => session.removedShortcutExists())
