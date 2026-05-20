@@ -36,6 +36,10 @@ const LocalStorage = {
       LocalStorage.LATEST_SCHEMA_VERSION
     )
   },
+
+  remove(key: keyof typeof LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE) {
+    localStorage.removeItem(key)
+  },
 }
 
 export default LocalStorage

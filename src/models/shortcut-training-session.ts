@@ -1,0 +1,493 @@
+import { Shortcut, KeyCombinable } from '@/types/interfaces'
+import KeyCombination from '@/models/key-combination'
+import KeyCombinations from '@/models/key-combinations'
+import Keyboard from '@/utils/keyboard'
+import LocalStorage from '@/utils/local-storage'
+import sample from '@/utils/sample'
+import shortcutCatalog from '@/models/shortcut-catalog'
+import toggleFullscreen from '@/utils/toggle-fullscreen'
+import { weight, weightedSampleKey } from '@/utils/weighted-sample'
+import {
+  ANSWERED_HISTORY_KEY,
+  REMOVED_IDS_KEY,
+  SELECTED_CATEGORIES_KEY,
+  SELECTED_TOOL_KEY,
+} from '@/constants/local-storage-keys'
+
+export type ShortcutTrainingState = {
+  tool: string
+  categories: Set<string>
+  shortcuts: Shortcut[]
+  shortcut: Shortcut
+
+  isListeningKeyboardEvent: boolean
+  isCorrectKeyPressed: boolean
+  isWrongKeyPressed: boolean
+  isRemoveKeyPressed: boolean
+  isSelectToolsKeyPressed: boolean
+  isShowCorrectKeyPressed: boolean
+  isMarkedSelfAsCorrect: boolean
+  isMarkedSelfAsWrong: boolean
+  isShakingKeyCombinationView: boolean
+  isFullscreenMode: boolean
+
+  pressedKeyCombination: KeyCombination
+  removedIdSet: Set<string>
+  answeredHistoryMap: Map<string, boolean[]>
+}
+
+export const createShortcutTrainingState = ({
+  tool,
+  categories,
+  shortcuts,
+  shortcut,
+  removedIds,
+  answeredHistory,
+}: {
+  tool: string
+  categories: string[]
+  shortcuts: Shortcut[]
+  shortcut: Shortcut
+  removedIds: string[]
+  answeredHistory: Record<string, boolean[]>
+}): ShortcutTrainingState => ({
+  tool,
+  categories: new Set(categories),
+  shortcuts,
+  shortcut,
+
+  isListeningKeyboardEvent: true,
+  isCorrectKeyPressed: false,
+  isWrongKeyPressed: false,
+  isRemoveKeyPressed: false,
+  isSelectToolsKeyPressed: false,
+  isShowCorrectKeyPressed: false,
+  isMarkedSelfAsCorrect: false,
+  isMarkedSelfAsWrong: false,
+  isShakingKeyCombinationView: false,
+  isFullscreenMode:
+    !!document.fullscreenElement && document.fullscreenElement !== null,
+
+  pressedKeyCombination: new KeyCombination(),
+  removedIdSet: new Set<string>(removedIds),
+  answeredHistoryMap: new Map<string, boolean[]>(
+    Object.entries(answeredHistory)
+  ),
+})
+
+const TimeIntervalToRestartTyping =
+  import.meta.env.MODE === 'test' ? 0 : 1000
+
+export const createShortcutTrainingSession = (state: ShortcutTrainingState) => {
+  const correctKeyCombinations = () =>
+    new KeyCombinations(
+      state.shortcut.keyCombinations.map(
+        (keyCombination) => new KeyCombination(keyCombination)
+      )
+    )
+
+  const shortcutsIds = () => state.shortcuts.map((shortcut) => shortcut.id)
+
+  const availableIds = () =>
+    shortcutsIds().filter((id) => !state.removedIdSet.has(id))
+
+  const answeredIds = () => Array.from(state.answeredHistoryMap.keys())
+
+  const noAnsweredAvailableIds = () =>
+    availableIds().filter((id) => !answeredIds().includes(id))
+
+  const idToWeightMap = () => {
+    const idToWeightMap = new Map<string, number>()
+
+    for (const [id, results] of state.answeredHistoryMap.entries()) {
+      if (shortcutsIds().includes(id)) {
+        idToWeightMap.set(id, weight(results))
+      }
+    }
+
+    return idToWeightMap
+  }
+
+  const availableIdToWeightMap = () => {
+    const availableIdToWeightMap = new Map<string, number>()
+
+    for (const [id, currentWeight] of idToWeightMap().entries()) {
+      if (availableIds().includes(id)) {
+        availableIdToWeightMap.set(id, currentWeight)
+      }
+    }
+
+    return availableIdToWeightMap
+  }
+
+  const countsOfEachStatus = () => {
+    const [masteredIds, unmasteredIds] = Array.from(idToWeightMap()).reduce<
+      [string[], string[]]
+    >(
+      ([masteredIds, unmasteredIds], [id, currentWeight]) =>
+        currentWeight <= 0.6
+          ? [[...masteredIds, id], unmasteredIds]
+          : [masteredIds, [...unmasteredIds, id]],
+      [[], []]
+    )
+
+    const noAnsweredIds = shortcutsIds().filter(
+      (id) => !answeredIds().includes(id)
+    )
+
+    return {
+      mastered: {
+        included: masteredIds.filter((id) => availableIds().includes(id)).length,
+        removed: masteredIds.filter((id) => !availableIds().includes(id)).length,
+      },
+      unmastered: {
+        included: unmasteredIds.filter((id) => availableIds().includes(id))
+          .length,
+        removed: unmasteredIds.filter((id) => !availableIds().includes(id))
+          .length,
+      },
+      noAnswered: {
+        included: noAnsweredIds.filter((id) => availableIds().includes(id))
+          .length,
+        removed: noAnsweredIds.filter((id) => !availableIds().includes(id))
+          .length,
+      },
+    }
+  }
+
+  const wordsOfDescriptionFilledByCorrectKeys = () =>
+    Keyboard.splitByKeyDescription(state.shortcut.keysDescription).map(
+      (word) => Keyboard.keyOfKeyDescription(word) ?? word
+    )
+
+  const wordsOfDescriptionFilledByPressedKeys = () => {
+    const pressedKeys = state.pressedKeyCombination.keys()
+
+    return Keyboard.splitByKeyDescription(state.shortcut.keysDescription)
+      .map((word) => Keyboard.keyOfKeyDescription(word) ?? word)
+      .map((word) => {
+        if (Keyboard.isKey(word) && !Keyboard.isUndetectableKey(word)) {
+          return pressedKeys.shift() ?? ''
+        }
+
+        return word
+      })
+  }
+
+  const needsFullscreenMode = () =>
+    correctKeyCombinations().hasOnlyAvailableInFullscreen() &&
+    !state.isFullscreenMode
+
+  const removedShortcutExists = () => state.removedIdSet.size > 0
+  const isRemovedAll = () =>
+    state.shortcuts.every((shortcut) => state.removedIdSet.has(shortcut.id))
+
+  const nextShortcut = () => {
+    if (noAnsweredAvailableIds().length === 0) {
+      const nextId = weightedSampleKey(availableIdToWeightMap())
+
+      return state.shortcuts.find((shortcut) => shortcut.id === nextId) as Shortcut
+    }
+
+    if (noAnsweredAvailableIds().length === 1) {
+      return state.shortcuts.find(
+        (shortcut) => shortcut.id === noAnsweredAvailableIds()[0]
+      ) as Shortcut
+    }
+
+    const noAnsweredAvailableShortcuts = state.shortcuts
+      .filter((shortcut) => noAnsweredAvailableIds().includes(shortcut.id))
+      .filter((shortcut) => shortcut.id !== state.shortcut.id)
+
+    return sample(noAnsweredAvailableShortcuts)
+  }
+
+  const resetTypingState = () => {
+    state.isRemoveKeyPressed = false
+    state.isCorrectKeyPressed = false
+    state.isWrongKeyPressed = false
+    state.isSelectToolsKeyPressed = false
+    state.isShowCorrectKeyPressed = false
+    state.isMarkedSelfAsCorrect = false
+    state.isMarkedSelfAsWrong = false
+    state.pressedKeyCombination.reset()
+  }
+
+  const saveResult = (id: string, result: boolean) => {
+    if (state.answeredHistoryMap.has(id)) {
+      state.answeredHistoryMap.get(id)?.push(result)
+    } else {
+      state.answeredHistoryMap.set(id, [result])
+    }
+
+    LocalStorage.set(
+      ANSWERED_HISTORY_KEY,
+      Object.fromEntries(state.answeredHistoryMap)
+    )
+  }
+
+  const respondToSelectToolsKey = () => {
+    resetTypingState()
+    state.isListeningKeyboardEvent = false
+    state.isSelectToolsKeyPressed = true
+  }
+
+  const respondToShowCorrectKey = () => {
+    resetTypingState()
+    state.isShowCorrectKeyPressed = true
+  }
+
+  const respondToRemoveKey = () => {
+    state.isListeningKeyboardEvent = false
+    state.isRemoveKeyPressed = true
+    state.removedIdSet.add(state.shortcut.id)
+    LocalStorage.set(REMOVED_IDS_KEY, [...state.removedIdSet])
+
+    setTimeout(() => {
+      state.shortcut = nextShortcut()
+      resetTypingState()
+      state.isListeningKeyboardEvent = true
+    }, TimeIntervalToRestartTyping)
+  }
+
+  const respondToCorrectKey = () => {
+    state.isListeningKeyboardEvent = false
+    state.isCorrectKeyPressed = true
+
+    if (!state.isWrongKeyPressed) saveResult(state.shortcut.id, true)
+
+    setTimeout(() => {
+      state.shortcut = nextShortcut()
+      resetTypingState()
+      state.isListeningKeyboardEvent = true
+    }, TimeIntervalToRestartTyping)
+  }
+
+  const respondToWrongKey = () => {
+    state.isListeningKeyboardEvent = false
+    state.isWrongKeyPressed = true
+    state.isShakingKeyCombinationView = true
+    saveResult(state.shortcut.id, false)
+
+    setTimeout(() => {
+      state.isListeningKeyboardEvent = true
+      state.isShakingKeyCombinationView = false
+      state.pressedKeyCombination.reset()
+    }, TimeIntervalToRestartTyping)
+  }
+
+  const respondToMarkSelfAsCorrectKey = () => {
+    state.isListeningKeyboardEvent = false
+    state.isMarkedSelfAsCorrect = true
+    saveResult(state.shortcut.id, true)
+
+    setTimeout(() => {
+      state.shortcut = nextShortcut()
+      resetTypingState()
+      state.isListeningKeyboardEvent = true
+    }, TimeIntervalToRestartTyping)
+  }
+
+  const respondToMarkSelfAsWrongKey = () => {
+    state.isListeningKeyboardEvent = false
+    state.isMarkedSelfAsWrong = true
+    saveResult(state.shortcut.id, false)
+
+    setTimeout(() => {
+      state.shortcut = nextShortcut()
+      resetTypingState()
+      state.isListeningKeyboardEvent = true
+    }, TimeIntervalToRestartTyping)
+  }
+
+  const judge = () => {
+    if (!state.pressedKeyCombination.hasPressedSomeKey()) return
+    if (
+      state.pressedKeyCombination.isModifierKey() &&
+      !correctKeyCombinations().hasOnlyModifierKeys()
+    ) {
+      return
+    }
+
+    if (
+      state.pressedKeyCombination.isOnlyEnterKey() &&
+      !correctKeyCombinations().hasOnlyEnterKey()
+    ) {
+      state.shortcut = nextShortcut()
+      resetTypingState()
+      return
+    }
+
+    if (state.pressedKeyCombination.isRemoveKey()) {
+      respondToRemoveKey()
+      return
+    }
+
+    if (state.pressedKeyCombination.isSelectToolsKey()) {
+      respondToSelectToolsKey()
+      return
+    }
+
+    if (state.pressedKeyCombination.isToggleFullscreenKey()) {
+      toggleFullscreen()
+      return
+    }
+
+    if (state.shortcut.isAvailable && !needsFullscreenMode()) {
+      if (correctKeyCombinations().has(state.pressedKeyCombination)) {
+        respondToCorrectKey()
+      } else if (
+        !state.isWrongKeyPressed &&
+        !state.pressedKeyCombination.isModifierKey()
+      ) {
+        respondToWrongKey()
+      }
+    } else {
+      if (
+        !state.isShowCorrectKeyPressed &&
+        state.pressedKeyCombination.isShowCorrectKey()
+      ) {
+        respondToShowCorrectKey()
+      } else if (
+        state.isShowCorrectKeyPressed &&
+        state.pressedKeyCombination.isMarkedSelfAsCorrectKey()
+      ) {
+        respondToMarkSelfAsCorrectKey()
+      } else if (
+        state.isShowCorrectKeyPressed &&
+        state.pressedKeyCombination.isMarkedSelfAsWrongKey()
+      ) {
+        respondToMarkSelfAsWrongKey()
+      }
+    }
+  }
+
+  const keyDown = (keyCombinable: KeyCombinable) => {
+    if (isRemovedAll() || !state.isListeningKeyboardEvent) return
+
+    state.pressedKeyCombination.keyDown(keyCombinable)
+    judge()
+  }
+
+  const keyUp = (key: string) => {
+    if (isRemovedAll() || !state.isListeningKeyboardEvent) return
+
+    state.pressedKeyCombination.keyUp(key)
+  }
+
+  const restoreRemovedShortcuts = () => {
+    if (
+      confirm(
+        'すべてのショートカットキーが出題されるようになります。\nよろしいですか？'
+      )
+    ) {
+      LocalStorage.remove(REMOVED_IDS_KEY)
+      state.removedIdSet = new Set<string>()
+      resetTypingState()
+      state.shortcut = state.shortcuts[0]
+    }
+  }
+
+  const selectToolAndCategories = (tool: string, categories: string[]) => {
+    state.tool = tool
+    LocalStorage.set(SELECTED_TOOL_KEY, tool)
+
+    state.categories = new Set(categories)
+    LocalStorage.set(SELECTED_CATEGORIES_KEY, categories)
+
+    state.shortcuts = shortcutCatalog.where({
+      tool,
+      categories,
+    })
+
+    state.shortcut =
+      state.shortcuts.find((shortcut) => !state.removedIdSet.has(shortcut.id)) ??
+      state.shortcuts[0]
+
+    exitSelectionOfToolAndCategories()
+  }
+
+  const exitSelectionOfToolAndCategories = () => {
+    resetTypingState()
+    state.isListeningKeyboardEvent = true
+  }
+
+  const masteredRateOfEachTool = () =>
+    shortcutCatalog.tools().map((tool) => {
+      const shortcuts = shortcutCatalog.where({ tool })
+      const countOfShortcut = shortcuts.filter(
+        (shortcut) => !state.removedIdSet.has(shortcut.id)
+      ).length
+      const masteredIds = [...state.answeredHistoryMap]
+        .map(([id, results]): [string, number] => [id, weight(results)])
+        .filter(([, currentWeight]) => currentWeight <= 0.6)
+        .map(([id]) => id)
+      const countOfMastered = shortcuts.filter(
+        (shortcut) =>
+          masteredIds.includes(shortcut.id) &&
+          !state.removedIdSet.has(shortcut.id)
+      ).length
+
+      return {
+        name: tool,
+        masteredRate: Math.floor((countOfMastered / countOfShortcut) * 100),
+      }
+    })
+
+  const categoriesWithMasteredRate = (tool: string) => {
+    const shortcutsOfTool = shortcutCatalog.where({ tool })
+    const masteredIds = [...state.answeredHistoryMap]
+      .map(([id, results]): [string, number] => [id, weight(results)])
+      .filter(([, currentWeight]) => currentWeight <= 0.6)
+      .map(([id]) => id)
+
+    return shortcutCatalog.categoriesOf(tool).map((categoryName) => {
+      const shortcutsOfCategory = shortcutsOfTool.filter(
+        (shortcut) =>
+          shortcut.category === categoryName &&
+          !state.removedIdSet.has(shortcut.id)
+      )
+      const masteredShortcutsOfCategory = shortcutsOfCategory.filter((shortcut) =>
+        masteredIds.includes(shortcut.id)
+      )
+
+      return {
+        name: categoryName,
+        masteredRate: Math.floor(
+          (masteredShortcutsOfCategory.length / shortcutsOfCategory.length) * 100
+        ),
+      }
+    })
+  }
+
+  const onFullscreenchange = () => {
+    state.isFullscreenMode = !!document.fullscreenElement
+    state.pressedKeyCombination.reset()
+  }
+
+  return {
+    correctKeyCombinations,
+    availableIds,
+    answeredIds,
+    noAnsweredAvailableIds,
+    idToWeightMap,
+    availableIdToWeightMap,
+    countsOfEachStatus,
+    wordsOfDescriptionFilledByCorrectKeys,
+    wordsOfDescriptionFilledByPressedKeys,
+    needsFullscreenMode,
+    removedShortcutExists,
+    isRemovedAll,
+    keyDown,
+    keyUp,
+    judge,
+    restoreRemovedShortcuts,
+    selectToolAndCategories,
+    masteredRateOfEachTool,
+    exitSelectionOfToolAndCategories,
+    onFullscreenchange,
+    categoriesWithMasteredRate,
+  }
+}
+
+export default createShortcutTrainingSession
