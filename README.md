@@ -4,7 +4,7 @@
 
 # Shortype
 
-Shortcut key training app.
+Shortcut key training app built with Preact + Vite.
 
 ## URL
 
@@ -28,23 +28,35 @@ https://shortype.vercel.app/
 ### Install dependencies
 
 ```bash
-$ npm install
+npm install
 ```
 
 ### Run development server
 
 ```bash
-$ npm run dev
+npm run dev
+```
+
+### Typecheck and lint
+
+```bash
+npm run check
 ```
 
 ### Run tests
 
 ```bash
-$ npm test
+npm test
 ```
 
-### Lint
+### Build for production
 
 ```bash
-$ npm run lint
+npm run build
 ```
+
+## GitHub Pages
+
+- Vite is configured with `base: '/shortype/'`.
+- Production builds are emitted to `dist/`.
+- For branch-based GitHub Pages without Actions, copy the contents of `dist/` into `docs/` or publish `dist/` to a `gh-pages` branch.

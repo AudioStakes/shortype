@@ -1,22 +1,25 @@
-import { onBeforeUnmount } from 'vue'
+import { useEffect } from 'preact/hooks'
 
 export default function useKeyboardEventListener(
   type: 'keyup' | 'keydown',
   listener: (e: KeyboardEvent) => void,
 ) {
-  const preventedListener = (e: KeyboardEvent) => {
-    preventEvent(e)
+  useEffect(() => {
+    const preventedListener = (e: KeyboardEvent) => {
+      preventEvent(e)
 
-    if (e.repeat) return
+      if (e.repeat) return
 
-    listener(e)
-  }
+      listener(e)
+    }
 
-  window.addEventListener(type, preventedListener, { capture: true })
+    const options = { capture: true } as const
 
-  onBeforeUnmount(() => {
-    window.removeEventListener(type, preventedListener)
-  })
+    window.addEventListener(type, preventedListener, options)
+    return () => {
+      window.removeEventListener(type, preventedListener, options)
+    }
+  }, [type, listener])
 }
 
 const preventEvent = (e: KeyboardEvent) => {

@@ -1,6 +1,6 @@
-import type { InjectionKey } from 'vue'
+import { createContext } from 'preact'
 
 import type { ModalStore } from '@/stores/modal'
 
-const ModalKey: InjectionKey<ModalStore> = Symbol('modalStateStore')
+const ModalKey = createContext<ModalStore | undefined>(undefined)
 export default ModalKey

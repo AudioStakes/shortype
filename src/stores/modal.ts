@@ -1,29 +1,31 @@
-import { reactive, readonly } from 'vue'
-
-const createModalStore = () => {
-  const modalState = reactive({
+const createModalStore = (onChange: () => void = () => {}) => {
+  const modalState = {
     isAboutModalVisible: false,
     isToolsAndCategoriesModalVisible: false,
-  })
+  }
 
   const showAboutModal = () => {
     modalState.isAboutModalVisible = true
+    onChange()
   }
 
   const hideAboutModal = () => {
     modalState.isAboutModalVisible = false
+    onChange()
   }
 
   const showToolsAndCategoriesModal = () => {
     modalState.isToolsAndCategoriesModalVisible = true
+    onChange()
   }
 
   const hideToolsAndCategoriesModal = () => {
     modalState.isToolsAndCategoriesModalVisible = false
+    onChange()
   }
 
   return {
-    modalState: readonly(modalState),
+    modalState,
 
     showAboutModal,
     hideAboutModal,

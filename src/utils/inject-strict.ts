@@ -1,10 +1,16 @@
-import { type InjectionKey, inject } from 'vue'
+import type { Context } from 'preact'
+import { useContext } from 'preact/hooks'
 
-// https://logaretm.com/blog/type-safe-provide-inject/
-export function injectStrict<T>(key: InjectionKey<T>, fallback?: T) {
-  const resolved = inject(key, fallback)
-  if (!resolved) {
-    throw new Error(`Could not resolve ${key.description}`)
+// Keep this small helper so the component code stays close to the Vue version.
+export function injectStrict<T>(
+  context: Context<T | undefined>,
+  name?: string,
+) {
+  const resolved = useContext(context)
+
+  if (resolved === undefined) {
+    throw new Error(`Could not resolve ${name ?? 'context'}`)
   }
+
   return resolved
 }

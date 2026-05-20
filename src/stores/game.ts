@@ -1,5 +1,3 @@
-import { computed, reactive, readonly } from 'vue'
-
 import shortcutCatalog from '@/models/shortcut-catalog'
 import { createShortcutCatalogSummary } from '@/models/shortcut-catalog-summary'
 import {
@@ -14,7 +12,10 @@ import {
 import { loadGameSessionStorage } from '@/stores/game-session-storage'
 import type { Shortcut } from '@/types/interfaces'
 
-const createGameStore = (shortcuts?: Shortcut[]) => {
+const createGameStore = (
+  shortcuts?: readonly Shortcut[],
+  onChange: () => void = () => {},
+) => {
   const { selectedTool, selectedCategories, removedIds, answeredHistory } =
     loadGameSessionStorage()
   const selectedShortcuts = shortcutCatalog.searchShortcuts({
@@ -28,56 +29,71 @@ const createGameStore = (shortcuts?: Shortcut[]) => {
     removedIds,
     answeredHistory,
     isFullscreenMode: !!document.fullscreenElement,
-    shortcuts,
+    shortcuts: shortcuts ? [...shortcuts] : undefined,
   })
-  const state = reactive<ShortcutTrainingState>(
-    createShortcutTrainingState(bootstrap),
-  )
+  const state: ShortcutTrainingState = createShortcutTrainingState(bootstrap)
+
+  const notify = () => onChange()
+  const deps = createGameSessionDeps()
+  deps.scheduleRestartTyping = (callback) => {
+    setTimeout(
+      () => {
+        callback()
+        notify()
+      },
+      import.meta.env.MODE === 'test' ? 0 : 1000,
+    )
+  }
 
   const trainingSession = createShortcutTrainingSession(
     state,
     createShortcutCatalogSummary(),
-    createGameSessionDeps(),
+    deps,
   )
 
-  const removedShortcutExists = computed(() =>
-    trainingSession.removedShortcutExists(),
-  )
-  const isRemovedAll = computed(() => trainingSession.isRemovedAll())
-  const wordsOfDescriptionFilledByCorrectKeys = computed(() =>
-    trainingSession.wordsOfDescriptionFilledByCorrectKeys(),
-  )
-  const wordsOfDescriptionFilledByPressedKeys = computed(() =>
-    trainingSession.wordsOfDescriptionFilledByPressedKeys(),
-  )
-  const needsFullscreenMode = computed(() =>
-    trainingSession.needsFullscreenMode(),
-  )
-  const countsOfEachStatus = computed(() =>
-    trainingSession.countsOfEachStatus(),
-  )
+  const wrap =
+    <A extends unknown[], R>(fn: (...args: A) => R) =>
+    (...args: A) => {
+      const result = fn(...args)
+      notify()
+      return result
+    }
+
   const masteredRateOfEachTool = trainingSession.masteredRateOfEachTool
   const categoriesWithMasteredRate = trainingSession.categoriesWithMasteredRate
 
   return {
-    state: readonly(state),
+    state,
 
-    removedShortcutExists,
-    isRemovedAll,
-    wordsOfDescriptionFilledByCorrectKeys,
-    wordsOfDescriptionFilledByPressedKeys,
-    needsFullscreenMode,
-    countsOfEachStatus,
+    get removedShortcutExists() {
+      return trainingSession.removedShortcutExists()
+    },
+    get isRemovedAll() {
+      return trainingSession.isRemovedAll()
+    },
+    get wordsOfDescriptionFilledByCorrectKeys() {
+      return trainingSession.wordsOfDescriptionFilledByCorrectKeys()
+    },
+    get wordsOfDescriptionFilledByPressedKeys() {
+      return trainingSession.wordsOfDescriptionFilledByPressedKeys()
+    },
+    get needsFullscreenMode() {
+      return trainingSession.needsFullscreenMode()
+    },
+    get countsOfEachStatus() {
+      return trainingSession.countsOfEachStatus()
+    },
 
-    keyDown: trainingSession.keyDown,
-    keyUp: trainingSession.keyUp,
-    judge: trainingSession.judge,
-    restoreRemovedShortcuts: trainingSession.restoreRemovedShortcuts,
-    selectToolAndCategories: trainingSession.selectToolAndCategories,
+    keyDown: wrap(trainingSession.keyDown),
+    keyUp: wrap(trainingSession.keyUp),
+    judge: wrap(trainingSession.judge),
+    restoreRemovedShortcuts: wrap(trainingSession.restoreRemovedShortcuts),
+    selectToolAndCategories: wrap(trainingSession.selectToolAndCategories),
     masteredRateOfEachTool,
-    exitSelectionOfToolAndCategories:
+    exitSelectionOfToolAndCategories: wrap(
       trainingSession.exitSelectionOfToolAndCategories,
-    onFullscreenchange: trainingSession.onFullscreenchange,
+    ),
+    onFullscreenchange: wrap(trainingSession.onFullscreenchange),
     categoriesWithMasteredRate,
   }
 }

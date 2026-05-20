@@ -24,11 +24,11 @@
   },
   "overrides": [
     {
-      "includes": ["**/*.vue"],
+      "includes": ["src/components/IconGlyph.tsx"],
       "linter": {
         "rules": {
-          "style": {
-            "useImportType": "off"
+          "a11y": {
+            "noSvgWithoutTitle": "off"
           }
         }
       }

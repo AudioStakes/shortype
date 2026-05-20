@@ -1,49 +1,38 @@
-<script setup lang="ts">
 import imageOfPieChartAndTable from '@/assets/pie-chart-and-table.png'
 import imageOfRemovingShortcutKey from '@/assets/removing-shortcut-key.png'
 import imageOfToolSelectButton from '@/assets/tool-select-button.png'
-import IconGlyph from '@/components/IconGlyph.vue'
+import IconGlyph from '@/components/IconGlyph'
 import ModalKey from '@/stores/modal-key'
 import { injectStrict } from '@/utils/inject-strict'
 
-const { hideAboutModal } = injectStrict(ModalKey)
-defineProps<{ isShow: boolean }>()
-</script>
+type Props = {
+  isShow: boolean
+}
 
-<template>
-  <div data-testid="modal">
-    <transition
-      enter-active-class="duration-200 ease-out"
-      enter-from-class="transform opacity-0"
-      enter-to-class="opacity-1"
-      leave-active-class="duration-200 ease-in"
-      leave-from-class="opacity-1"
-      leave-to-class="transform opacity-0"
-    >
-      <div
-        v-if="isShow"
+export default function About({ isShow }: Props) {
+  const { hideAboutModal } = injectStrict(ModalKey, 'ModalKey')
+
+  if (!isShow) {
+    return <div data-testid="modal" />
+  }
+
+  return (
+    <div data-testid="modal">
+      <button
+        type="button"
         class="z-10 absolute w-screen h-screen bg-black opacity-30 top-0"
-        @click="hideAboutModal()"
+        aria-label="Close about modal"
+        onClick={hideAboutModal}
       />
-    </transition>
-
-    <transition
-      enter-active-class="duration-300 ease-out"
-      enter-from-class="transform opacity-0 translate-y-0.5"
-      enter-to-class="opacity-1"
-      leave-active-class="duration-300 ease-in"
-      leave-from-class="opacity-1"
-      leave-to-class="transform opacity-0 translate-y-0.5"
-    >
-      <div
-        v-if="isShow"
-        class="z-10 p-5 h-4/5 w-4/5 max-w-[45rem] overflow-y-auto flex flex-col bg-white border border-gray-300 rounded-lg top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 absolute"
-      >
-        <IconGlyph
-          name="x-mark"
-          class="self-end h-6 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg transition duration-200 hover:ease-out"
-          @click="hideAboutModal()"
-        />
+      <div class="z-10 p-5 h-4/5 w-4/5 max-w-[45rem] overflow-y-auto flex flex-col bg-white border border-gray-300 rounded-lg top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 absolute">
+        <button
+          type="button"
+          class="self-end rounded-lg transition duration-200 hover:ease-out hover:bg-gray-200 hover:text-gray-900"
+          aria-label="Close about modal"
+          onClick={hideAboutModal}
+        >
+          <IconGlyph name="x-mark" class="h-6 text-gray-400" />
+        </button>
 
         <div class="w-full flex flex-col space-y-4 text-left">
           <h1 class="text-3xl font-bold text-center">Shortype について</h1>
@@ -77,7 +66,7 @@ defineProps<{ isShow: boolean }>()
           </p>
           <img
             class="object-scale-down h-16"
-            :src="imageOfToolSelectButton"
+            src={imageOfToolSelectButton}
             alt="ツールを選ぶボタンの画像"
           />
           <p class="text-sm">
@@ -92,7 +81,7 @@ defineProps<{ isShow: boolean }>()
           </p>
           <img
             class="object-scale-down h-60"
-            :src="imageOfPieChartAndTable"
+            src={imageOfPieChartAndTable}
             alt="練習の正答率を示す円グラフと表の画像"
           />
           <p>右の表は、円グラフをマウスでホバーすると表示されます。</p>
@@ -105,8 +94,7 @@ defineProps<{ isShow: boolean }>()
           <p class="text-sm">
             ※
             出題頻度の調整は、未回答のショートカットキーがなくなった後に開始されます。それまで、未回答のショートカットキーが最優先で出題されます。
-            <br />
-            ※ 正解判定の結果はブラウザの localStorage に保存されます。
+            <br />※ 正解判定の結果はブラウザの localStorage に保存されます。
           </p>
           <h2 class="text-lg font-bold">
             身につけたいショートカットキーに絞って練習できる
@@ -120,7 +108,7 @@ defineProps<{ isShow: boolean }>()
           </p>
           <img
             class="object-scale-down h-60"
-            :src="imageOfRemovingShortcutKey"
+            src={imageOfRemovingShortcutKey}
             alt="次から出題しない設定を示す画像"
           />
           <p>
@@ -128,6 +116,6 @@ defineProps<{ isShow: boolean }>()
           </p>
         </div>
       </div>
-    </transition>
-  </div>
-</template>
+    </div>
+  )
+}

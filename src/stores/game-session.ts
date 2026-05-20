@@ -38,10 +38,13 @@ export const createGameSessionBootstrap = ({
     (shortcut) => !removedIds.has(shortcut.id),
   )
   const availableShortcuts = shortcuts ?? availableSelectedShortcuts
+  const availableShortcutsForInitialQuestion = availableShortcuts.filter(
+    (shortcut) => !removedIds.has(shortcut.id),
+  )
   const initialShortcut =
     import.meta.env.MODE === 'test'
-      ? availableShortcuts[0]
-      : sample(availableShortcuts)
+      ? availableShortcutsForInitialQuestion[0]
+      : sample(availableShortcutsForInitialQuestion)
 
   return {
     tool,

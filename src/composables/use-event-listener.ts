@@ -1,13 +1,14 @@
-import { onBeforeUnmount } from 'vue'
+import { useEffect } from 'preact/hooks'
 
 export default function useEventListener(
   type: string,
   listener: (e: Event) => void,
-  options?: object,
+  options?: AddEventListenerOptions,
 ) {
-  window.addEventListener(type, listener, options)
-
-  onBeforeUnmount(() => {
-    window.removeEventListener(type, listener)
-  })
+  useEffect(() => {
+    window.addEventListener(type, listener, options)
+    return () => {
+      window.removeEventListener(type, listener)
+    }
+  }, [type, listener, options])
 }
