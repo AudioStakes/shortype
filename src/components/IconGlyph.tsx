@@ -1,3 +1,4 @@
+// biome-ignore-all lint/a11y/noSvgWithoutTitle: decorative icons are hidden from assistive tech
 import type { SVGAttributes } from 'preact'
 
 type IconName =
@@ -23,8 +24,7 @@ type Props = SVGAttributes<SVGSVGElement> & {
 export default function IconGlyph({ name, ...rest }: Props) {
   const common = {
     ...rest,
-    role: 'img' as const,
-    'aria-label': name,
+    'aria-hidden': true as const,
   }
 
   switch (name) {
