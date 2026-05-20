@@ -26,11 +26,11 @@ const weightedSampleIndex = (weights: number[]) => {
  * [false] -> 5,
  * [false, false] -> 9
  */
-export function weight(results: boolean[]) {
-  const laterResults = results.slice(-2) // Last 2 results
+export function calculateWeight(results: boolean[]) {
+  const recentResults = results.slice(-2) // Last 2 results
 
   const initialWeight = 1
-  const weight = laterResults.reduce(
+  const weight = recentResults.reduce(
     (previousWeight, result) => previousWeight + (result ? -0.49 : 4),
     initialWeight,
   )

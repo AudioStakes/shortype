@@ -4,17 +4,17 @@ import { provide, ref } from 'vue'
 import About from '@/components/About.vue'
 import Footer from '@/components/Footer.vue'
 import Header from '@/components/Header.vue'
-import modalStore from '@/stores/modal'
+import createModalStore from '@/stores/modal'
 import ModalKey from '@/stores/modal-key'
 import GameView from '@/views/GameView.vue'
 import Unsupported from '@/views/Unsupported.vue'
 
-const modal = modalStore()
+const modal = createModalStore()
 provide(ModalKey, modal)
 const { modalState } = modal
 
-const isUnsupportedBrowser = navigator.userAgent.indexOf('Chrome') === -1
-const isUnsupportedOs = navigator.userAgent.indexOf('Mac') === -1
+const isUnsupportedBrowser = !navigator.userAgent.includes('Chrome')
+const isUnsupportedOs = !navigator.userAgent.includes('Mac')
 const isUnsupported = ref(isUnsupportedBrowser || isUnsupportedOs)
 const proceed = () => {
   isUnsupported.value = false
@@ -35,9 +35,8 @@ const proceed = () => {
       />
       <GameView
         v-else
-        :is-show-tool-modal="modalState.isShowToolsAndCategoriesModal"
       />
-      <About :is-show="modalState.isShowAboutModal" />
+      <About :is-show="modalState.isAboutModalVisible" />
     </main>
     <Footer />
   </div>

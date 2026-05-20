@@ -10,7 +10,7 @@ import ShortcutsShow from '@/components/ShortcutsShow.vue'
 import ToolsAndCategoriesModal from '@/components/ToolsAndCategoriesModal.vue'
 import useEventListener from '@/composables/use-event-listener'
 import useKeyboardEventListener from '@/composables/use-keyboard-event-listener'
-import gameStore from '@/stores/game'
+import createGameStore from '@/stores/game'
 import GameKey from '@/stores/game-key'
 import {
   NavigatorExtend,
@@ -23,16 +23,13 @@ import lockKeyboard from '@/utils/lock-keyboard'
 const props = withDefaults(
   defineProps<{
     shortcuts?: Shortcut[] | undefined
-    isShowToolModal?: boolean
   }>(),
   {
     shortcuts: undefined,
-    isShowToolModal: false,
   }
 )
-const emit = defineEmits(['hide-modal'])
 
-const game = gameStore(props.shortcuts)
+const game = createGameStore(props.shortcuts)
 provide(GameKey, game)
 const { keyDown, keyUp, isRemovedAll, onFullscreenchange } = game
 
@@ -72,10 +69,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
       <ShortcutsShow />
       <RestoreButton />
     </div>
-    <ToolsAndCategoriesModal
-      :is-show="isShowToolModal"
-      @hide-modal="emit('hide-modal')"
-    />
+    <ToolsAndCategoriesModal />
   </div>
   <div v-else>
     <span>出題できるショートカットキーがありません。</span>

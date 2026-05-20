@@ -1,6 +1,25 @@
 import { KEY_COMBINATIONS_ONLY_AVAILABLE_IN_FULL_SCREEN_MODE } from '@/constants/key-combinations'
 import type { KeyCombinable } from '@/types/interfaces'
 
+const MODIFIER_KEY_SET = new Set(['Alt', 'Shift', 'Meta', 'Control'])
+const NON_KEY_SET = new Set([
+  'Alt',
+  'Shift',
+  'Meta',
+  'Control',
+  undefined,
+  null,
+])
+
+const signatureOf = (keyCombinable: KeyCombinable) =>
+  `${keyCombinable.altKey}-${keyCombinable.ctrlKey}-${keyCombinable.metaKey}-${keyCombinable.shiftKey}-${keyCombinable.key ?? ''}`
+
+const FULL_SCREEN_ONLY_SIGNATURE_SET = new Set(
+  KEY_COMBINATIONS_ONLY_AVAILABLE_IN_FULL_SCREEN_MODE.map((keyCombination) =>
+    signatureOf(keyCombination),
+  ),
+)
+
 export default class KeyCombination {
   static defaultValue = {
     altKey: false,
@@ -38,7 +57,7 @@ export default class KeyCombination {
     return (
       keyCombinable.key !== undefined &&
       keyCombinable.key !== null &&
-      ['Alt', 'Shift', 'Meta', 'Control'].includes(keyCombinable.key)
+      MODIFIER_KEY_SET.has(keyCombinable.key)
     )
   }
 
@@ -47,17 +66,8 @@ export default class KeyCombination {
     return altKey || ctrlKey || metaKey || shiftKey
   }
 
-  static keyCombinationsOnlyAvailableInFullscreen =
-    KEY_COMBINATIONS_ONLY_AVAILABLE_IN_FULL_SCREEN_MODE.map(
-      (keyCombinationOnlyAvailableInFullscreen) =>
-        new KeyCombination(keyCombinationOnlyAvailableInFullscreen),
-    )
-
   static isOnlyAvailableInFullscreen(keyCombinable: KeyCombinable) {
-    return KeyCombination.keyCombinationsOnlyAvailableInFullscreen.some(
-      (keyCombinationOnlyAvailableInFullscreen) =>
-        keyCombinationOnlyAvailableInFullscreen.is(keyCombinable),
-    )
+    return FULL_SCREEN_ONLY_SIGNATURE_SET.has(signatureOf(keyCombinable))
   }
 
   static extractKeys(keyCombinable: KeyCombinable) {
@@ -67,18 +77,14 @@ export default class KeyCombination {
     if (keyCombinable.altKey) keys.push('Alt')
     if (keyCombinable.shiftKey) keys.push('Shift')
     if (keyCombinable.ctrlKey) keys.push('Control')
-    if (
-      !['Alt', 'Shift', 'Meta', 'Control', undefined, null].includes(
-        keyCombinable.key,
-      )
-    )
+    if (!NON_KEY_SET.has(keyCombinable.key))
       keys.push(keyCombinable.key as string)
 
     return keys
   }
 
   constructor(
-    private keyCombinable: KeyCombinable = KeyCombination.defaultValue,
+    public keyCombinable: KeyCombinable = KeyCombination.defaultValue,
   ) {}
 
   keyDown(keyCombinable: KeyCombinable) {

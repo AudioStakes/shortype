@@ -15,11 +15,11 @@ const emit = defineEmits(['select-tool'])
     </div>
 
     <ToolCard
-      v-for="(app, index) in masteredRateOfEachTool()"
+      v-for="(toolSummary, index) in masteredRateOfEachTool()"
       :key="index"
-      :app="app.name"
-      :mastered-rate="app.masteredRate"
-      @click="emit('select-tool', app.name)"
+      :tool-name="toolSummary.name"
+      :mastered-rate="toolSummary.masteredRate"
+      @click="emit('select-tool', toolSummary.name)"
     />
   </div>
 </template>

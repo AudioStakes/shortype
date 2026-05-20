@@ -1,6 +1,6 @@
 import * as fs from 'node:fs'
 
-import { createShortcut } from '@/../data/create-shortcuts'
+import { createShortcut } from '@/../data/create-shortcut'
 import { parseCsv } from '@/../data/parse-csv'
 import chrome from '@/constants/shortcuts/chrome.json'
 import mac from '@/constants/shortcuts/mac.json'
