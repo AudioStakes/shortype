@@ -1,11 +1,3 @@
-import userEvent from '@testing-library/user-event'
-import {
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-  within,
-} from '@testing-library/vue'
 import { nextTick } from 'vue'
 
 import { ANSWERED_HISTORY_KEY } from '@/constants/local-storage-keys'
@@ -16,14 +8,19 @@ import LocalStorage from '@/utils/local-storage'
 import GameView from '@/views/GameView.vue'
 
 import {
+  click,
+  render,
+  waitFor,
+  waitForElementToBeRemoved,
+  within,
+} from './dom-helpers'
+import {
   availableShortcuts,
   shortcutsOnlyAvailableInFullscreen,
   shortcutWithMultipleKeyCombinations,
   shortcutWithNonKeyActions,
   unsupportedShortcuts,
 } from './data/shortcuts'
-
-const user = userEvent.setup()
 
 const localStorageMock = globalThis.localStorage
 
@@ -256,7 +253,7 @@ test('restore removed shortcut keys when the restore button is clicked', async (
   getByText('ウィンドウを最小化する')
 
   window.confirm = vi.fn(() => true)
-  await user.click(screen.getByText('出題しないリストを空にする'))
+  await click(getByText('出題しないリストを空にする'))
   document.body.focus()
 
   getByText('最後のタブに移動する')
@@ -355,9 +352,9 @@ test('switch a tool when the tool on the modal is selected', async () => {
 
   getByText('ツールを選んでください')
 
-  await user.click(screen.getByText('Terminal (macOS)'))
-  await user.click(screen.getByText('すべて選ぶ'))
-  await user.click(screen.getByText('選んだカテゴリーの練習をはじめる'))
+  await click(getByText('Terminal (macOS)'))
+  await click(getByText('すべて選ぶ'))
+  await click(getByText('選んだカテゴリーの練習をはじめる'))
   document.body.focus()
 
   expect(queryByText(/Google Chrome/)).toBeNull()
@@ -374,13 +371,13 @@ test('select a category when the category on the modal is clicked', async () => 
 
   getByText('ツールを選んでください')
 
-  await user.click(within(getByTestId('modal')).getByText('Google Chrome'))
+  await click(within(getByTestId('modal')).getByText('Google Chrome'))
 
   getByText('カテゴリーを選んでください')
 
-  await user.click(screen.getByText('すべての選択を外す'))
-  await user.click(screen.getByText('アドレスバーのショートカット'))
-  await user.click(screen.getByText('選んだカテゴリーの練習をはじめる'))
+  await click(getByText('すべての選択を外す'))
+  await click(getByText('アドレスバーのショートカット'))
+  await click(getByText('選んだカテゴリーの練習をはじめる'))
   document.body.focus()
 
   expect(queryByText(/タブとウィンドウのショートカット/)).toBeNull()
@@ -394,9 +391,9 @@ test('save a selected tool to localStorage when the tool is selected and start t
   expect(queryByText(/Terminal/)).toBeNull()
 
   await pressKey('t')
-  await user.click(screen.getByText('Terminal (macOS)'))
-  await user.click(screen.getByText('すべて選ぶ'))
-  await user.click(screen.getByText('選んだカテゴリーの練習をはじめる'))
+  await click(getByText('Terminal (macOS)'))
+  await click(getByText('すべて選ぶ'))
+  await click(getByText('選んだカテゴリーの練習をはじめる'))
   document.body.focus()
 
   expect(queryByText(/Google Chrome/)).toBeNull()
@@ -415,10 +412,10 @@ test('save selected categories to localStorage when categories is selected and s
   expect(queryByText(/アドレスバーのショートカット/)).toBeNull()
 
   await pressKey('t')
-  await user.click(within(getByTestId('modal')).getByText('Google Chrome'))
-  await user.click(screen.getByText('すべての選択を外す'))
-  await user.click(screen.getByText('アドレスバーのショートカット'))
-  await user.click(screen.getByText('選んだカテゴリーの練習をはじめる'))
+  await click(within(getByTestId('modal')).getByText('Google Chrome'))
+  await click(getByText('すべての選択を外す'))
+  await click(getByText('アドレスバーのショートカット'))
+  await click(getByText('選んだカテゴリーの練習をはじめる'))
   document.body.focus()
 
   getByText(/アドレスバーのショートカット/)

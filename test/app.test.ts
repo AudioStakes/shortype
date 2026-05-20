@@ -1,9 +1,5 @@
-import userEvent from '@testing-library/user-event'
-import { render, screen } from '@testing-library/vue'
-
 import App from '@/App.vue'
-
-const user = userEvent.setup()
+import { click, render } from './dom-helpers'
 
 test('show an unsupported message when a client is unsupported', async () => {
   const userAgentWithFireFoxAndMac =
@@ -12,13 +8,13 @@ test('show an unsupported message when a client is unsupported', async () => {
     value: userAgentWithFireFoxAndMac,
   })
 
-  const { container } = render(App)
+  const { container, getByText } = render(App)
 
   expect(container.textContent).toContain(
     'サポートされている ブラウザ をご使用ください',
   )
 
-  await user.click(screen.getByText('閉じる'))
+  await click(getByText('閉じる'))
 
   expect(container.textContent).not.toContain(
     'サポートされている ブラウザ をご使用ください',
@@ -42,7 +38,7 @@ test("doesn't show an unsupported message when a client is unsupported", async (
 test('show the modal to select a tool when the tool button on the header is pressed', async () => {
   const { getByText } = render(App)
 
-  await user.click(screen.getByText('ツールを選ぶ'))
+  await click(getByText('ツールを選ぶ'))
 
   getByText('ツールを選んでください')
 })
@@ -52,13 +48,13 @@ test('switch a tool when the tool on the modal is selected', async () => {
 
   getByText(/Google Chrome/)
 
-  await user.click(screen.getByText('ツールを選ぶ'))
+  await click(getByText('ツールを選ぶ'))
 
   getByText('ツールを選んでください')
 
-  await user.click(screen.getByText('Terminal (macOS)'))
-  await user.click(screen.getByText('すべて選ぶ'))
-  await user.click(screen.getByText('選んだカテゴリーの練習をはじめる'))
+  await click(getByText('Terminal (macOS)'))
+  await click(getByText('すべて選ぶ'))
+  await click(getByText('選んだカテゴリーの練習をはじめる'))
   document.body.focus()
 
   expect(queryAllByText(/Google Chrome/)).toEqual([])
@@ -68,7 +64,7 @@ test('switch a tool when the tool on the modal is selected', async () => {
 test('show the modal about Shortype when the About link is clicked', async () => {
   const { getByText } = render(App)
 
-  await user.click(screen.getByText('About'))
+  await click(getByText('About'))
 
   getByText('Shortype について')
 })

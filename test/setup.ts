@@ -1,3 +1,7 @@
+import { afterEach } from 'vitest'
+
+import { cleanup } from './dom-helpers'
+
 const storageState: Record<string, string> = {}
 
 const localStorageMock = {
@@ -31,4 +35,8 @@ Object.defineProperty(navigator, 'userAgent', {
   configurable: true,
   value:
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
+})
+
+afterEach(() => {
+  cleanup()
 })
