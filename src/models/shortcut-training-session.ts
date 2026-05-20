@@ -335,7 +335,9 @@ export const createShortcutTrainingSession = (
     state.shortcut =
       state.shortcuts.find(
         (shortcut) => !state.removedIdSet.has(shortcut.id),
-      ) ?? state.shortcuts[0] ?? createEmptyShortcut()
+      ) ??
+      state.shortcuts[0] ??
+      createEmptyShortcut()
 
     exitSelectionOfToolAndCategories()
   }

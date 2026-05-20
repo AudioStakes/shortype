@@ -2,8 +2,6 @@ import * as fs from 'node:fs'
 import * as path from 'node:path'
 
 import type { ShortcutDescription } from '@/types/interfaces'
-
-import { createShortcut } from './create-shortcut'
 import { createShortcutsFromRecords } from './create-shortcuts-core'
 import { parseCsv } from './parse-csv'
 
