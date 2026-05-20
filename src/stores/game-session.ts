@@ -4,6 +4,19 @@ import sample from '@/utils/sample'
 import toggleFullscreen from '@/utils/toggle-fullscreen'
 import { weightedSampleKey } from '@/utils/weighted-sample'
 
+const createEmptyShortcut = (): Shortcut => ({
+  id: '',
+  app: '',
+  os: '',
+  category: '',
+  action: '',
+  keysDescription: '',
+  keyCombinations: [],
+  isAvailable: false,
+  unavailableReason: null,
+  needsFillInBlankMode: false,
+})
+
 export type GameSessionBootstrap = {
   tool: string
   categories: string[]
@@ -46,7 +59,7 @@ export const createGameSessionBootstrap = ({
     tool,
     categories,
     shortcuts: shortcuts ?? selectedShortcuts,
-    shortcut: initialShortcut,
+    shortcut: initialShortcut ?? createEmptyShortcut(),
     removedIds,
     answeredHistory,
     isFullscreenMode,

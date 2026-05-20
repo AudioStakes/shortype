@@ -15,6 +15,19 @@ import sample from '@/utils/sample'
 import toggleFullscreen from '@/utils/toggle-fullscreen'
 import { weightedSampleKey } from '@/utils/weighted-sample'
 
+const createEmptyShortcut = (): Shortcut => ({
+  id: '',
+  app: '',
+  os: '',
+  category: '',
+  action: '',
+  keysDescription: '',
+  keyCombinations: [],
+  isAvailable: false,
+  unavailableReason: null,
+  needsFillInBlankMode: false,
+})
+
 export type ShortcutTrainingState = {
   tool: string
   categories: Set<string>
@@ -187,12 +200,19 @@ export const createShortcutTrainingSession = (
     if (unansweredAvailableIdList.length === 0) {
       const nextId = deps.weightedSampleKey(availableIdToWeightMap())
 
-      return (shortcutByIdMap.get(nextId) ?? state.shortcuts[0]) as Shortcut
+      return (
+        shortcutByIdMap.get(nextId) ??
+        state.shortcuts[0] ??
+        createEmptyShortcut()
+      )
     }
 
     if (unansweredAvailableIdList.length === 1) {
-      return (shortcutByIdMap.get(unansweredAvailableIdList[0]) ??
-        state.shortcuts[0]) as Shortcut
+      return (
+        shortcutByIdMap.get(unansweredAvailableIdList[0]) ??
+        state.shortcuts[0] ??
+        createEmptyShortcut()
+      )
     }
 
     const unansweredAvailableShortcuts = state.shortcuts
@@ -222,16 +242,21 @@ export const createShortcutTrainingSession = (
 
   const judge = () => {
     if (!state.pressedKeyCombination.hasPressedSomeKey()) return
+    const currentCorrectKeyCombinations = correctKeyCombinations()
+    const isFullscreenOnlyShortcut =
+      currentCorrectKeyCombinations.hasOnlyAvailableInFullscreen() &&
+      !state.isFullscreenMode
+
     if (
       state.pressedKeyCombination.isModifierKey() &&
-      !correctKeyCombinations().hasOnlyModifierKeys()
+      !currentCorrectKeyCombinations.hasOnlyModifierKeys()
     ) {
       return
     }
 
     if (
       state.pressedKeyCombination.isOnlyEnterKey() &&
-      !correctKeyCombinations().hasOnlyEnterKey()
+      !currentCorrectKeyCombinations.hasOnlyEnterKey()
     ) {
       state.shortcut = nextShortcut()
       resetTypingState()
@@ -253,8 +278,8 @@ export const createShortcutTrainingSession = (
       return
     }
 
-    if (state.shortcut.isAvailable && !needsFullscreenMode()) {
-      if (correctKeyCombinations().has(state.pressedKeyCombination)) {
+    if (state.shortcut.isAvailable && !isFullscreenOnlyShortcut) {
+      if (currentCorrectKeyCombinations.has(state.pressedKeyCombination)) {
         effects.respondToCorrectKey()
       } else if (
         !state.isWrongKeyPressed &&
@@ -310,7 +335,7 @@ export const createShortcutTrainingSession = (
     state.shortcut =
       state.shortcuts.find(
         (shortcut) => !state.removedIdSet.has(shortcut.id),
-      ) ?? state.shortcuts[0]
+      ) ?? state.shortcuts[0] ?? createEmptyShortcut()
 
     exitSelectionOfToolAndCategories()
   }

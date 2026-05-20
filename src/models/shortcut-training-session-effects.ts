@@ -2,6 +2,20 @@ import type {
   ShortcutTrainingSessionDeps,
   ShortcutTrainingState,
 } from '@/models/shortcut-training-session'
+import type { Shortcut } from '@/types/interfaces'
+
+const createEmptyShortcut = (): Shortcut => ({
+  id: '',
+  app: '',
+  os: '',
+  category: '',
+  action: '',
+  keysDescription: '',
+  keyCombinations: [],
+  isAvailable: false,
+  unavailableReason: null,
+  needsFillInBlankMode: false,
+})
 
 export const createShortcutTrainingSessionEffects = (
   state: ShortcutTrainingState,
@@ -108,7 +122,7 @@ export const createShortcutTrainingSessionEffects = (
       deps.persistRemovedIds(new Set())
       state.removedIdSet = new Set<string>()
       resetTypingState()
-      state.shortcut = state.shortcuts[0]
+      state.shortcut = state.shortcuts[0] ?? createEmptyShortcut()
     }
   }
 

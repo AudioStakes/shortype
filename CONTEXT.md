@@ -21,7 +21,7 @@ Shortype is a shortcut key training app.
 
 ## Vocabulary Rules
 
-- Prefer **app** over **tool** when talking about the training target.
+- Prefer **tool** over **app** when talking about the training target.
 - Prefer **removed shortcut** or **do not ask list** over raw storage key names.
 - Prefer **training session** over the Vue store name when talking about behavior and rules.
 - Prefer **mastered rate** over implementation details like weights.

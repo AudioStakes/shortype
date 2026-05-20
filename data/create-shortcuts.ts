@@ -1,40 +1,11 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
-import { DENY_LIST_OF_KEY_COMBINATION } from '@/constants/key-combinations'
-import {
-  ALT_DESCRIPTION_REGEXP,
-  CTRL_DESCRIPTION_REGEXP,
-  DENY_LIST_OF_KEY_DESCRIPTION_REGEXP,
-  FUNCTION_KEY_DESCRIPTION_REGEXP,
-  KEY_DESCRIPTION_EXCLUDING_MODIFIER_REGEXP,
-  META_DESCRIPTION_REGEXP,
-  MODIFIER_KEY_DESCRIPTION_REGEXP,
-  SHIFT_DESCRIPTION_REGEXP,
-  UNDETECTABLE_KEY_DESCRIPTION_REGEXP,
-} from '@/constants/key-description-regexp'
-import KEY_DESCRIPTION_TO_KEY_MAP from '@/constants/key-description-to-key-map'
-import {
-  MODIFIED_KEY_REGEXP,
-  UNDETECTABLE_KEY_REGEXP,
-} from '@/constants/key-regexp'
-import {
-  HAS_MOUSE_ACTIONS_REGEXP,
-  HAS_MULTIPLE_ANSWERS_REGEXP,
-  HAS_OTHER_ACTIONS_REGEXP,
-  HAS_RANGED_ANSWERS_REGEXP,
-  IS_DEPEND_ON_DEVICE_REGEXP,
-  NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP,
-} from '@/constants/shortcut-description-regexp'
-import KeyCombination from '@/models/key-combination'
-import type { Shortcut, ShortcutDescription } from '@/types/interfaces'
+import type { ShortcutDescription } from '@/types/interfaces'
 
+import { createShortcut } from './create-shortcut'
 import { createShortcutsFromRecords } from './create-shortcuts-core'
 import { parseCsv } from './parse-csv'
-
-const deniedKeyCombinations = DENY_LIST_OF_KEY_COMBINATION.map(
-  (deniedKeyCombination) => new KeyCombination(deniedKeyCombination),
-)
 
 export default async function createShortcuts(csvPath: string) {
   const csvRawData = fs.readFileSync(csvPath)
@@ -47,103 +18,5 @@ export default async function createShortcuts(csvPath: string) {
     `${__dirname}/../src/constants/shortcuts/${filename}.json`,
     json,
     'utf8',
-  )
-}
-
-export const createShortcut = (shortcutRaw: ShortcutDescription) => {
-  const shortcut: Shortcut = {
-    id: shortcutRaw.id,
-    app: shortcutRaw.app,
-    os: shortcutRaw.os,
-    category: shortcutRaw.category,
-    action: shortcutRaw.action,
-    keysDescription: shortcutRaw.keysDescription,
-    keyCombinations: extractKeyCombinations(shortcutRaw.keysDescription),
-    isAvailable: false,
-    unavailableReason: null,
-    needsFillInBlankMode: false,
-  }
-
-  if (NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP.test(shortcut.keysDescription)) {
-    shortcut.unavailableReason = 'needsCustomizedModifierKey'
-  } else if (IS_DEPEND_ON_DEVICE_REGEXP.test(shortcut.keysDescription)) {
-    shortcut.unavailableReason = 'isDependOnDevice'
-  } else if (
-    shortcut.keyCombinations.every((keyCombination) =>
-      KeyCombination.isDefaultValue(keyCombination),
-    )
-  ) {
-    shortcut.unavailableReason = 'hasOnlyNonKeyAction'
-  } else if (HAS_RANGED_ANSWERS_REGEXP.test(shortcut.keysDescription)) {
-    shortcut.unavailableReason = 'hasRangedAnswers'
-  } else if (
-    deniedKeyCombinations.some((deniedKeyCombination) =>
-      shortcut.keyCombinations.some((keyCombination) =>
-        deniedKeyCombination.is(keyCombination),
-      ),
-    )
-  ) {
-    shortcut.unavailableReason = 'hasDeniedKeyCombination'
-  } else if (
-    shortcut.keyCombinations.some((keyCombination) =>
-      MODIFIED_KEY_REGEXP.test(keyCombination.key as string),
-    )
-  ) {
-    shortcut.unavailableReason = 'hasModifiedKey'
-  } else {
-    shortcut.isAvailable = true
-  }
-
-  shortcut.needsFillInBlankMode = needsFillInBlankMode(shortcut.keysDescription)
-
-  return shortcut
-}
-
-const extractKeyCombinations = (shortcutDescriptions: string) => {
-  return shortcutDescriptions
-    .replaceAll(DENY_LIST_OF_KEY_DESCRIPTION_REGEXP, '')
-    .replaceAll(UNDETECTABLE_KEY_DESCRIPTION_REGEXP, '')
-    .split(HAS_MULTIPLE_ANSWERS_REGEXP)
-    .filter(
-      (shortcutDescription) =>
-        !FUNCTION_KEY_DESCRIPTION_REGEXP.test(shortcutDescription),
-    )
-    .map((shortcutDescription) => {
-      return {
-        altKey: ALT_DESCRIPTION_REGEXP.test(shortcutDescription),
-        ctrlKey: CTRL_DESCRIPTION_REGEXP.test(shortcutDescription),
-        metaKey: META_DESCRIPTION_REGEXP.test(shortcutDescription),
-        shiftKey: SHIFT_DESCRIPTION_REGEXP.test(shortcutDescription),
-        key: extractKey(shortcutDescription),
-      }
-    })
-}
-
-const extractKey = (shortcutDescription: string) => {
-  const matched = shortcutDescription
-    .replaceAll(MODIFIER_KEY_DESCRIPTION_REGEXP, '')
-    .replaceAll(DENY_LIST_OF_KEY_DESCRIPTION_REGEXP, '')
-    .replaceAll(UNDETECTABLE_KEY_DESCRIPTION_REGEXP, '')
-    .match(KEY_DESCRIPTION_EXCLUDING_MODIFIER_REGEXP)
-
-  if (matched) {
-    let matchedKey = matched[0] as string
-
-    if (UNDETECTABLE_KEY_REGEXP.test(matchedKey)) return null
-
-    matchedKey = KEY_DESCRIPTION_TO_KEY_MAP.get(matchedKey) ?? matchedKey
-    matchedKey = matchedKey.length === 1 ? matchedKey.toLowerCase() : matchedKey
-
-    return matchedKey
-  } else {
-    return null
-  }
-}
-
-const needsFillInBlankMode = (description: string) => {
-  return (
-    HAS_MOUSE_ACTIONS_REGEXP.test(description) ||
-    HAS_OTHER_ACTIONS_REGEXP.test(description) ||
-    UNDETECTABLE_KEY_DESCRIPTION_REGEXP.test(description)
   )
 }
