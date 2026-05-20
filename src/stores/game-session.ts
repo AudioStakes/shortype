@@ -13,8 +13,8 @@ export type GameSessionBootstrap = {
   categories: string[]
   shortcuts: Shortcut[]
   shortcut: Shortcut
-  removedIds: string[]
-  answeredHistory: Record<string, boolean[]>
+  removedIds: Set<string>
+  answeredHistory: Map<string, boolean[]>
   isFullscreenMode: boolean
 }
 
@@ -28,7 +28,7 @@ export const createGameSessionBootstrap = (
     categories: selectedCategories,
   })
   const selectedAvailableShortcuts = selectedShortcuts.filter(
-    (shortcut) => !removedIds.includes(shortcut.id),
+    (shortcut) => !removedIds.has(shortcut.id),
   )
   const availableShortcuts = shortcuts ?? selectedAvailableShortcuts
   const shortcut =

@@ -18,8 +18,8 @@ const gameStore = (shortcuts?: Shortcut[]) => {
 
   const session = createShortcutTrainingSession(
     state as unknown as ShortcutTrainingState,
-    createGameSessionDeps(),
     createShortcutCatalogSummary(),
+    createGameSessionDeps(),
   )
 
   const removedShortcutExists = computed(() => session.removedShortcutExists())

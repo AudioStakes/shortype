@@ -9,26 +9,27 @@ import LocalStorage from '@/utils/local-storage'
 export type GameSessionStorageSnapshot = {
   selectedTool: string
   selectedCategories: string[]
-  removedIds: string[]
-  answeredHistory: Record<string, boolean[]>
+  removedIds: Set<string>
+  answeredHistory: Map<string, boolean[]>
 }
 
 export const loadGameSessionStorage = (): GameSessionStorageSnapshot => ({
   selectedTool: LocalStorage.get(SELECTED_TOOL_KEY) as string,
   selectedCategories: LocalStorage.get(SELECTED_CATEGORIES_KEY) as string[],
-  removedIds: [...(LocalStorage.get(REMOVED_IDS_KEY) as string[])],
-  answeredHistory: LocalStorage.get(ANSWERED_HISTORY_KEY) as Record<
-    string,
-    boolean[]
-  >,
+  removedIds: new Set(LocalStorage.get(REMOVED_IDS_KEY) as string[]),
+  answeredHistory: new Map(
+    Object.entries(
+      LocalStorage.get(ANSWERED_HISTORY_KEY) as Record<string, boolean[]>,
+    ),
+  ),
 })
 
 export const createGameSessionStoragePersistence = () => ({
-  persistAnsweredHistory: (answeredHistory: Record<string, boolean[]>) => {
-    LocalStorage.set(ANSWERED_HISTORY_KEY, answeredHistory)
+  persistAnsweredHistory: (answeredHistory: Map<string, boolean[]>) => {
+    LocalStorage.set(ANSWERED_HISTORY_KEY, Object.fromEntries(answeredHistory))
   },
-  persistRemovedIds: (removedIds: string[]) => {
-    LocalStorage.set(REMOVED_IDS_KEY, removedIds)
+  persistRemovedIds: (removedIds: Set<string>) => {
+    LocalStorage.set(REMOVED_IDS_KEY, [...removedIds])
   },
   persistSelectedTool: (tool: string) => {
     LocalStorage.set(SELECTED_TOOL_KEY, tool)

@@ -42,8 +42,8 @@ export type ShortcutTrainingSessionDeps = {
   weightedSampleKey: typeof weightedSampleKey
   scheduleRestartTyping: (callback: () => void) => void
   toggleFullscreen: () => void
-  persistAnsweredHistory: (answeredHistory: Record<string, boolean[]>) => void
-  persistRemovedIds: (removedIds: string[]) => void
+  persistAnsweredHistory: (answeredHistory: Map<string, boolean[]>) => void
+  persistRemovedIds: (removedIds: Set<string>) => void
   persistSelectedTool: (tool: string) => void
   persistSelectedCategories: (categories: string[]) => void
 }
@@ -61,8 +61,8 @@ export const createShortcutTrainingState = ({
   categories: string[]
   shortcuts: Shortcut[]
   shortcut: Shortcut
-  removedIds: string[]
-  answeredHistory: Record<string, boolean[]>
+  removedIds: Set<string>
+  answeredHistory: Map<string, boolean[]>
   isFullscreenMode: boolean
 }): ShortcutTrainingState => ({
   tool,
@@ -83,9 +83,7 @@ export const createShortcutTrainingState = ({
 
   pressedKeyCombination: new KeyCombination(),
   removedIdSet: new Set<string>(removedIds),
-  answeredHistoryMap: new Map<string, boolean[]>(
-    Object.entries(answeredHistory),
-  ),
+  answeredHistoryMap: new Map<string, boolean[]>(answeredHistory),
 })
 
 const defaultSessionDeps: ShortcutTrainingSessionDeps = {
@@ -105,8 +103,8 @@ const defaultSessionDeps: ShortcutTrainingSessionDeps = {
 
 export const createShortcutTrainingSession = (
   state: ShortcutTrainingState,
-  deps: ShortcutTrainingSessionDeps = defaultSessionDeps,
   catalogSummary: ShortcutCatalogSummary,
+  deps: ShortcutTrainingSessionDeps = defaultSessionDeps,
 ) => {
   const correctKeyCombinations = () =>
     new KeyCombinations(
@@ -218,7 +216,7 @@ export const createShortcutTrainingSession = (
       state.answeredHistoryMap.set(id, [result])
     }
 
-    deps.persistAnsweredHistory(Object.fromEntries(state.answeredHistoryMap))
+    deps.persistAnsweredHistory(state.answeredHistoryMap)
   }
 
   const respondToSelectToolsKey = () => {
@@ -236,7 +234,7 @@ export const createShortcutTrainingSession = (
     state.isListeningKeyboardEvent = false
     state.isRemoveKeyPressed = true
     state.removedIdSet.add(state.shortcut.id)
-    deps.persistRemovedIds([...state.removedIdSet])
+    deps.persistRemovedIds(state.removedIdSet)
 
     deps.scheduleRestartTyping(() => {
       state.shortcut = nextShortcut()
@@ -376,7 +374,7 @@ export const createShortcutTrainingSession = (
         'すべてのショートカットキーが出題されるようになります。\nよろしいですか？',
       )
     ) {
-      deps.persistRemovedIds([])
+      deps.persistRemovedIds(new Set())
       state.removedIdSet = new Set<string>()
       resetTypingState()
       state.shortcut = state.shortcuts[0]
