@@ -1,4 +1,3 @@
-import shortcutCatalog from '@/models/shortcut-catalog'
 import {
   getCountsOfEachStatus,
   getMasteredIds,
@@ -9,6 +8,17 @@ export type ShortcutTrainingSessionSnapshot = {
   shortcuts: Shortcut[]
   removedIds: Set<string>
   answeredHistory: Map<string, boolean[]>
+}
+
+export type ShortcutCatalogSummary = {
+  tools: Array<{
+    name: string
+    shortcuts: Shortcut[]
+    categories: Array<{
+      name: string
+      shortcuts: Shortcut[]
+    }>
+  }>
 }
 
 type StatusCounts = {
@@ -34,6 +44,7 @@ export type ShortcutTrainingSessionSummary = {
 
 export const createShortcutTrainingSessionSummary = (
   snapshot: ShortcutTrainingSessionSnapshot,
+  catalog: ShortcutCatalogSummary,
 ): ShortcutTrainingSessionSummary => {
   const countsOfEachStatus = () =>
     getCountsOfEachStatus({
@@ -45,8 +56,7 @@ export const createShortcutTrainingSessionSummary = (
   const masteredIds = () => getMasteredIds(snapshot)
 
   const masteredRateOfEachTool = () =>
-    shortcutCatalog.tools().map((tool) => {
-      const shortcuts = shortcutCatalog.where({ tool })
+    catalog.tools.map(({ name, shortcuts }) => {
       const countOfShortcut = shortcuts.filter(
         (shortcut) => !snapshot.removedIds.has(shortcut.id),
       ).length
@@ -57,7 +67,7 @@ export const createShortcutTrainingSessionSummary = (
       ).length
 
       return {
-        name: tool,
+        name,
         masteredRate:
           countOfShortcut === 0
             ? 0
@@ -66,13 +76,19 @@ export const createShortcutTrainingSessionSummary = (
     })
 
   const categoriesWithMasteredRate = (tool: string) => {
-    const shortcutsOfTool = shortcutCatalog.where({ tool })
     const masteredIdsOfTool = masteredIds()
+    const toolGroup = catalog.tools.find(({ name }) => name === tool)
 
-    return shortcutCatalog.categoriesOf(tool).map((categoryName) => {
-      const shortcutsOfCategory = shortcutsOfTool.filter(
+    if (!toolGroup) {
+      return []
+    }
+
+    const shortcutIdsOfTool = new Set(toolGroup.shortcuts.map(({ id }) => id))
+
+    return toolGroup.categories.map((category) => {
+      const shortcutsOfCategory = category.shortcuts.filter(
         (shortcut) =>
-          shortcut.category === categoryName &&
+          shortcutIdsOfTool.has(shortcut.id) &&
           !snapshot.removedIds.has(shortcut.id),
       )
       const masteredShortcutsOfCategory = shortcutsOfCategory.filter(
@@ -80,7 +96,7 @@ export const createShortcutTrainingSessionSummary = (
       )
 
       return {
-        name: categoryName,
+        name: category.name,
         masteredRate:
           shortcutsOfCategory.length === 0
             ? 0

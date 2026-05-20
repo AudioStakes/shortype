@@ -5,7 +5,9 @@ import {
   getAvailableIdToWeightMap,
   getCountsOfEachStatus,
 } from '@/models/shortcut-training-session-status'
-import createShortcutTrainingSessionSummary from '@/models/shortcut-training-session-summary'
+import createShortcutTrainingSessionSummary, {
+  type ShortcutCatalogSummary,
+} from '@/models/shortcut-training-session-summary'
 import type { KeyCombinable, Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
 import sample from '@/utils/sample'
@@ -105,6 +107,20 @@ export const createShortcutTrainingSession = (
   state: ShortcutTrainingState,
   deps: ShortcutTrainingSessionDeps = defaultSessionDeps,
 ) => {
+  const catalogSummary: ShortcutCatalogSummary = {
+    tools: shortcutCatalog.tools().map((tool) => ({
+      name: tool,
+      shortcuts: shortcutCatalog.where({ tool }),
+      categories: shortcutCatalog.categoriesOf(tool).map((categoryName) => ({
+        name: categoryName,
+        shortcuts: shortcutCatalog.where({
+          tool,
+          categories: [categoryName],
+        }),
+      })),
+    })),
+  }
+
   const correctKeyCombinations = () =>
     new KeyCombinations(
       state.shortcut.keyCombinations.map(
@@ -139,11 +155,14 @@ export const createShortcutTrainingSession = (
   }
 
   const createSummary = () =>
-    createShortcutTrainingSessionSummary({
-      shortcuts: state.shortcuts,
-      removedIds: new Set(state.removedIdSet),
-      answeredHistory: new Map(state.answeredHistoryMap),
-    })
+    createShortcutTrainingSessionSummary(
+      {
+        shortcuts: state.shortcuts,
+        removedIds: new Set(state.removedIdSet),
+        answeredHistory: new Map(state.answeredHistoryMap),
+      },
+      catalogSummary,
+    )
 
   const wordsOfDescriptionFilledByCorrectKeys = () =>
     Keyboard.splitByKeyDescription(state.shortcut.keysDescription).map(
