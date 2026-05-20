@@ -8,6 +8,7 @@ import {
 import createShortcutTrainingSessionSummary, {
   type ShortcutCatalogSummary,
 } from '@/models/shortcut-training-session-summary'
+import { createShortcutTrainingSessionEffects } from '@/models/shortcut-training-session-effects'
 import type { KeyCombinable, Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
 import sample from '@/utils/sample'
@@ -209,89 +210,12 @@ export const createShortcutTrainingSession = (
     state.pressedKeyCombination.reset()
   }
 
-  const saveResult = (id: string, result: boolean) => {
-    if (state.answeredHistoryMap.has(id)) {
-      state.answeredHistoryMap.get(id)?.push(result)
-    } else {
-      state.answeredHistoryMap.set(id, [result])
-    }
-
-    deps.persistAnsweredHistory(state.answeredHistoryMap)
-  }
-
-  const respondToSelectToolsKey = () => {
-    resetTypingState()
-    state.isListeningKeyboardEvent = false
-    state.isSelectToolsKeyPressed = true
-  }
-
-  const respondToShowCorrectKey = () => {
-    resetTypingState()
-    state.isShowCorrectKeyPressed = true
-  }
-
-  const respondToRemoveKey = () => {
-    state.isListeningKeyboardEvent = false
-    state.isRemoveKeyPressed = true
-    state.removedIdSet.add(state.shortcut.id)
-    deps.persistRemovedIds(state.removedIdSet)
-
-    deps.scheduleRestartTyping(() => {
-      state.shortcut = nextShortcut()
-      resetTypingState()
-      state.isListeningKeyboardEvent = true
-    })
-  }
-
-  const respondToCorrectKey = () => {
-    state.isListeningKeyboardEvent = false
-    state.isCorrectKeyPressed = true
-
-    if (!state.isWrongKeyPressed) saveResult(state.shortcut.id, true)
-
-    deps.scheduleRestartTyping(() => {
-      state.shortcut = nextShortcut()
-      resetTypingState()
-      state.isListeningKeyboardEvent = true
-    })
-  }
-
-  const respondToWrongKey = () => {
-    state.isListeningKeyboardEvent = false
-    state.isWrongKeyPressed = true
-    state.isShakingKeyCombinationView = true
-    saveResult(state.shortcut.id, false)
-
-    deps.scheduleRestartTyping(() => {
-      state.isListeningKeyboardEvent = true
-      state.isShakingKeyCombinationView = false
-      state.pressedKeyCombination.reset()
-    })
-  }
-
-  const respondToMarkSelfAsCorrectKey = () => {
-    state.isListeningKeyboardEvent = false
-    state.isMarkedSelfAsCorrect = true
-    saveResult(state.shortcut.id, true)
-
-    deps.scheduleRestartTyping(() => {
-      state.shortcut = nextShortcut()
-      resetTypingState()
-      state.isListeningKeyboardEvent = true
-    })
-  }
-
-  const respondToMarkSelfAsWrongKey = () => {
-    state.isListeningKeyboardEvent = false
-    state.isMarkedSelfAsWrong = true
-    saveResult(state.shortcut.id, false)
-
-    deps.scheduleRestartTyping(() => {
-      state.shortcut = nextShortcut()
-      resetTypingState()
-      state.isListeningKeyboardEvent = true
-    })
-  }
+  const effects = createShortcutTrainingSessionEffects(
+    state,
+    deps,
+    nextShortcut,
+    resetTypingState,
+  )
 
   const judge = () => {
     if (!state.pressedKeyCombination.hasPressedSomeKey()) return
@@ -312,45 +236,45 @@ export const createShortcutTrainingSession = (
     }
 
     if (state.pressedKeyCombination.isRemoveKey()) {
-      respondToRemoveKey()
+      effects.respondToRemoveKey()
       return
     }
 
     if (state.pressedKeyCombination.isSelectToolsKey()) {
-      respondToSelectToolsKey()
+      effects.respondToSelectToolsKey()
       return
     }
 
     if (state.pressedKeyCombination.isToggleFullscreenKey()) {
-      deps.toggleFullscreen()
+      effects.toggleFullscreen()
       return
     }
 
     if (state.shortcut.isAvailable && !needsFullscreenMode()) {
       if (correctKeyCombinations().has(state.pressedKeyCombination)) {
-        respondToCorrectKey()
+        effects.respondToCorrectKey()
       } else if (
         !state.isWrongKeyPressed &&
         !state.pressedKeyCombination.isModifierKey()
       ) {
-        respondToWrongKey()
+        effects.respondToWrongKey()
       }
     } else {
       if (
         !state.isShowCorrectKeyPressed &&
         state.pressedKeyCombination.isShowCorrectKey()
       ) {
-        respondToShowCorrectKey()
+        effects.respondToShowCorrectKey()
       } else if (
         state.isShowCorrectKeyPressed &&
         state.pressedKeyCombination.isMarkedSelfAsCorrectKey()
       ) {
-        respondToMarkSelfAsCorrectKey()
+        effects.respondToMarkSelfAsCorrectKey()
       } else if (
         state.isShowCorrectKeyPressed &&
         state.pressedKeyCombination.isMarkedSelfAsWrongKey()
       ) {
-        respondToMarkSelfAsWrongKey()
+        effects.respondToMarkSelfAsWrongKey()
       }
     }
   }
@@ -369,24 +293,11 @@ export const createShortcutTrainingSession = (
   }
 
   const restoreRemovedShortcuts = () => {
-    if (
-      confirm(
-        'すべてのショートカットキーが出題されるようになります。\nよろしいですか？',
-      )
-    ) {
-      deps.persistRemovedIds(new Set())
-      state.removedIdSet = new Set<string>()
-      resetTypingState()
-      state.shortcut = state.shortcuts[0]
-    }
+    effects.restoreRemovedShortcuts()
   }
 
   const selectToolAndCategories = (tool: string, categories: string[]) => {
-    state.tool = tool
-    deps.persistSelectedTool(tool)
-
-    state.categories = new Set(categories)
-    deps.persistSelectedCategories(categories)
+    effects.selectToolAndCategories(tool, categories)
 
     state.shortcuts = shortcutCatalog.where({
       tool,
