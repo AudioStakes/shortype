@@ -1,6 +1,5 @@
-import { parse } from 'csv-parse/sync'
-import * as fs from 'fs'
-import * as path from 'path'
+import * as fs from 'node:fs'
+import * as path from 'node:path'
 
 import { DENY_LIST_OF_KEY_COMBINATION } from '@/constants/key-combinations'
 import {
@@ -28,18 +27,19 @@ import {
   NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP,
 } from '@/constants/shortcut-description-regexp'
 import KeyCombination from '@/models/key-combination'
-import { Shortcut, ShortcutDescription } from '@/types/interfaces'
+import type { Shortcut, ShortcutDescription } from '@/types/interfaces'
+import { parseCsv } from './parse-csv'
 
 const deniedKeyCombinations = DENY_LIST_OF_KEY_COMBINATION.map(
-  (deniedKeyCombination) => new KeyCombination(deniedKeyCombination)
+  (deniedKeyCombination) => new KeyCombination(deniedKeyCombination),
 )
 
 export default async function createShortcuts(csvPath: string) {
   const csvRawData = fs.readFileSync(csvPath)
   const filename = path.basename(csvPath, '.csv')
-  const records = parse(csvRawData, { columns: true })
+  const records = parseCsv(csvRawData) as unknown as ShortcutDescription[]
 
-  const shortcuts = []
+  const shortcuts: Shortcut[] = []
   for (const record of records) {
     const shortcut = createShortcut(record)
 
@@ -50,7 +50,7 @@ export default async function createShortcuts(csvPath: string) {
   fs.writeFileSync(
     `${__dirname}/../src/constants/shortcuts/${filename}.json`,
     json,
-    'utf8'
+    'utf8',
   )
 }
 
@@ -74,7 +74,7 @@ export const createShortcut = (shortcutRaw: ShortcutDescription) => {
     shortcut.unavailableReason = 'isDependOnDevice'
   } else if (
     shortcut.keyCombinations.every((keyCombination) =>
-      KeyCombination.isDefaultValue(keyCombination)
+      KeyCombination.isDefaultValue(keyCombination),
     )
   ) {
     shortcut.unavailableReason = 'hasOnlyNonKeyAction'
@@ -83,20 +83,14 @@ export const createShortcut = (shortcutRaw: ShortcutDescription) => {
   } else if (
     deniedKeyCombinations.some((deniedKeyCombination) =>
       shortcut.keyCombinations.some((keyCombination) =>
-        deniedKeyCombination.is(keyCombination)
-      )
+        deniedKeyCombination.is(keyCombination),
+      ),
     )
   ) {
     shortcut.unavailableReason = 'hasDeniedKeyCombination'
   } else if (
-    shortcut.keyCombinations.some((keyCombination) => {
-      !keyCombination.key
-    })
-  ) {
-    shortcut.unavailableReason = 'noMatchedKeyExists'
-  } else if (
     shortcut.keyCombinations.some((keyCombination) =>
-      MODIFIED_KEY_REGEXP.test(keyCombination.key as string)
+      MODIFIED_KEY_REGEXP.test(keyCombination.key as string),
     )
   ) {
     shortcut.unavailableReason = 'hasModifiedKey'
@@ -116,7 +110,7 @@ const extractKeyCombinations = (shortcutDescriptions: string) => {
     .split(HAS_MULTIPLE_ANSWERS_REGEXP)
     .filter(
       (shortcutDescription) =>
-        !FUNCTION_KEY_DESCRIPTION_REGEXP.test(shortcutDescription)
+        !FUNCTION_KEY_DESCRIPTION_REGEXP.test(shortcutDescription),
     )
     .map((shortcutDescription) => {
       return {

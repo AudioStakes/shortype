@@ -32,7 +32,7 @@ export function weight(results: boolean[]) {
   const initialWeight = 1
   const weight = laterResults.reduce(
     (previousWeight, result) => previousWeight + (result ? -0.49 : 4),
-    initialWeight
+    initialWeight,
   )
 
   return weight

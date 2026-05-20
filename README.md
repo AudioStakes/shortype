@@ -28,23 +28,23 @@ https://shortype.vercel.app/
 ### Install dependencies
 
 ```bash
-$ yarn install
+$ npm install
 ```
 
 ### Run development server
 
 ```bash
-$ yarn dev
+$ npm run dev
 ```
 
 ### Run tests
 
 ```bash
-$ yarn test
+$ npm test
 ```
 
 ### Lint
 
 ```bash
-$ yarn lint
+$ npm run lint
 ```

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { CheckCircleIcon, CheckIcon } from '@heroicons/vue/solid'
-
+import IconGlyph from '@/components/IconGlyph.vue'
 import KeyList from '@/components/KeyList.vue'
 import RequestFullScreenOrSelfScoring from '@/components/RequestFullScreenOrSelfScoring.vue'
 import RequestSelfScoring from '@/components/RequestSelfScoring.vue'
@@ -22,27 +21,27 @@ const { state, needsFullscreenMode } = injectStrict(GameKey)
         v-if="state.isCorrectKeyPressed && !state.isWrongKeyPressed"
         data-testid="correct-key-pressed"
       >
-        <CheckCircleIcon />
+        <IconGlyph name="check-circle" />
       </div>
       <div
         v-else-if="state.isCorrectKeyPressed && state.isWrongKeyPressed"
         data-testid="wrong-key-pressed"
       >
-        <CheckIcon />
+        <IconGlyph name="check" />
       </div>
       <div
         v-else-if="state.isMarkedSelfAsCorrect"
         class="-translate-x-20"
         data-testid="marked-self-as-correct"
       >
-        <CheckCircleIcon />
+        <IconGlyph name="check-circle" />
       </div>
       <div
         v-else-if="state.isMarkedSelfAsWrong"
         class="translate-x-20 text-gray-500"
         data-testid="marked-self-as-wrong"
       >
-        <CheckIcon />
+        <IconGlyph name="check" />
       </div>
     </div>
     <RequestSelfScoring v-if="!state.shortcut.isAvailable"></RequestSelfScoring>

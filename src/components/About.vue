@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { XIcon } from '@heroicons/vue/solid'
-
 import imageOfPieChartAndTable from '@/assets/pie-chart-and-table.png'
 import imageOfRemovingShortcutKey from '@/assets/removing-shortcut-key.png'
 import imageOfToolSelectButton from '@/assets/tool-select-button.png'
+import IconGlyph from '@/components/IconGlyph.vue'
 import ModalKey from '@/stores/modal-key'
 import { injectStrict } from '@/utils/inject-strict'
 
@@ -40,7 +39,8 @@ defineProps<{ isShow: boolean }>()
         v-if="isShow"
         class="z-10 p-5 h-4/5 w-4/5 max-w-[45rem] overflow-y-auto flex flex-col bg-white border border-gray-300 rounded-lg top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 absolute"
       >
-        <XIcon
+        <IconGlyph
+          name="x-mark"
           class="self-end h-6 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg transition duration-200 hover:ease-out"
           @click="hideAboutModal()"
         />
@@ -75,7 +75,11 @@ defineProps<{ isShow: boolean }>()
             ツールの選択は「T
             キーを押す」もしくは「『ツールを選ぶ』ボタン」から行えます。
           </p>
-          <img class="object-scale-down h-16" :src="imageOfToolSelectButton" />
+          <img
+            class="object-scale-down h-16"
+            :src="imageOfToolSelectButton"
+            alt="ツールを選ぶボタンの画像"
+          />
           <p class="text-sm">
             ※
             正解判定できないショートカットキーは「自己採点」という形で出題しています。
@@ -86,7 +90,11 @@ defineProps<{ isShow: boolean }>()
           <p>
             回答するたびに正解判定の結果がブラウザに保存され、その正答率をもとに「身についたかどうか」がショートカットキー単位で判定されます。全体としてどれくらい身についているか、円グラフと表で確認できます。
           </p>
-          <img class="object-scale-down h-60" :src="imageOfPieChartAndTable" />
+          <img
+            class="object-scale-down h-60"
+            :src="imageOfPieChartAndTable"
+            alt="練習の正答率を示す円グラフと表の画像"
+          />
           <p>右の表は、円グラフをマウスでホバーすると表示されます。</p>
           <p>
             「身についたかどうか」は、出題頻度の調整にも使われます。身についていないショートカットキーは出題頻度が自動的に高まります。
@@ -113,6 +121,7 @@ defineProps<{ isShow: boolean }>()
           <img
             class="object-scale-down h-60"
             :src="imageOfRemovingShortcutKey"
+            alt="次から出題しない設定を示す画像"
           />
           <p>
             これにより、身につけたいショートカットキーに絞って練習できるようになります。

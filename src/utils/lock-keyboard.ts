@@ -1,4 +1,4 @@
-import { NavigatorExtend } from '@/types/interfaces'
+import type { NavigatorExtend } from '@/types/interfaces'
 
 export default function lockKeyboard() {
   const navigatorExtend = navigator as NavigatorExtend

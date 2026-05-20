@@ -1,19 +1,21 @@
 /// <reference types="vitest" />
 
+import { fileURLToPath, URL } from 'node:url'
+import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
 import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  plugins: [vue()],
+  plugins: [tailwindcss(), vue()],
   test: {
     globals: true,
     environment: 'happy-dom',
+    setupFiles: ['./test/setup.ts'],
   },
 })

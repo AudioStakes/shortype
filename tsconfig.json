@@ -3,14 +3,15 @@
     "target": "esnext",
     "useDefineForClassFields": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "ignoreDeprecations": "6.0",
     "lib": ["esnext", "dom"],
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals", "node"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
@@ -24,11 +25,5 @@
     "test/*.test.ts",
     "data/*.ts"
   ],
-  "references": [{ "path": "./tsconfig.node.json" }],
-  "ts-node": {
-    "compilerOptions": {
-      "module": "commonjs"
-    },
-    "require": ["tsconfig-paths/register"]
-  }
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
