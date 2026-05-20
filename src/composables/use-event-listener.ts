@@ -3,7 +3,7 @@ import { onBeforeUnmount } from 'vue'
 export default function useEventListener(
   type: string,
   listener: (e: Event) => void,
-  options?: object
+  options?: object,
 ) {
   window.addEventListener(type, listener, options)
 

@@ -408,7 +408,7 @@ const KEY_REGEXP = new RegExp(
     '|' +
     MISSING_KEY_REGEXP.source +
     ')$',
-  'i'
+  'i',
 )
 export default KEY_REGEXP
 

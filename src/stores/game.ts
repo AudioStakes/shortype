@@ -27,7 +27,7 @@ const selectedShortcuts = shortcutStorage.where({
 const removedIds = [...LocalStorage.get(REMOVED_IDS_KEY)]
 
 const selectedAvailableShortcuts = selectedShortcuts.filter(
-  (shortcut) => !removedIds.includes(shortcut.id)
+  (shortcut) => !removedIds.includes(shortcut.id),
 )
 
 const TimeIntervalToRestartTyping = import.meta.env.MODE === 'test' ? 0 : 1000
@@ -57,7 +57,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     pressedKeyCombination: new KeyCombination(),
     removedIdSet: new Set<string>(removedIds),
     answeredHistoryMap: new Map<string, boolean[]>(
-      Object.entries(LocalStorage.get(ANSWERED_HISTORY_KEY))
+      Object.entries(LocalStorage.get(ANSWERED_HISTORY_KEY)),
     ),
   })
 
@@ -65,17 +65,17 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     () =>
       new KeyCombinations(
         state.shortcut.keyCombinations.map(
-          (keyCombination) => new KeyCombination(keyCombination)
-        )
-      )
+          (keyCombination) => new KeyCombination(keyCombination),
+        ),
+      ),
   )
 
   const shortcutsIds = computed(() =>
-    state.shortcuts.map((shortcut) => shortcut.id)
+    state.shortcuts.map((shortcut) => shortcut.id),
   )
 
   const availableIds = computed(() =>
-    shortcutsIds.value.filter((id) => !state.removedIdSet.has(id))
+    shortcutsIds.value.filter((id) => !state.removedIdSet.has(id)),
   )
 
   const answeredIds = computed(() => {
@@ -118,11 +118,11 @@ const gameStore = (shortcuts?: Shortcut[]) => {
         weight <= 0.6
           ? [[...masteredIds, id], unmasteredIds]
           : [masteredIds, [...unmasteredIds, id]],
-      [[], []]
+      [[], []],
     )
 
     const noAnsweredIds = shortcutsIds.value.filter(
-      (id) => !answeredIds.value.includes(id)
+      (id) => !answeredIds.value.includes(id),
     )
 
     return {
@@ -149,8 +149,8 @@ const gameStore = (shortcuts?: Shortcut[]) => {
 
   const wordsOfDescriptionFilledByCorrectKeys = computed(() =>
     Keyboard.splitByKeyDescription(state.shortcut.keysDescription).map(
-      (word) => Keyboard.keyOfKeyDescription(word) ?? word
-    )
+      (word) => Keyboard.keyOfKeyDescription(word) ?? word,
+    ),
   )
 
   const wordsOfDescriptionFilledByPressedKeys = computed(() => {
@@ -176,7 +176,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
 
   const removedShortcutExists = computed(() => state.removedIdSet.size > 0)
   const isRemovedAll = computed(() =>
-    state.shortcuts.every((shortcut) => state.removedIdSet.has(shortcut.id))
+    state.shortcuts.every((shortcut) => state.removedIdSet.has(shortcut.id)),
   )
 
   const keyDown = (keyCombinable: KeyCombinable) => {
@@ -221,7 +221,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     if (state.shortcut.isAvailable && !needsFullscreenMode.value) {
       if (
         correctKeyCombinations.value.has(
-          state.pressedKeyCombination as KeyCombination
+          state.pressedKeyCombination as KeyCombination,
         )
       ) {
         respondToCorrectKey()
@@ -256,16 +256,16 @@ const gameStore = (shortcuts?: Shortcut[]) => {
       const nextId = weightedSampleKey(availableIdToWeightMap.value)
 
       return state.shortcuts.find(
-        (shortcut) => shortcut.id === nextId
+        (shortcut) => shortcut.id === nextId,
       ) as Shortcut
     } else if (noAnsweredAvailableIds.value.length === 1) {
       return state.shortcuts.find(
-        (shortcut) => shortcut.id === noAnsweredAvailableIds.value[0]
+        (shortcut) => shortcut.id === noAnsweredAvailableIds.value[0],
       ) as Shortcut
     } else {
       const noAnsweredAvailableShortcuts = state.shortcuts
         .filter((shortcut) =>
-          noAnsweredAvailableIds.value.includes(shortcut.id)
+          noAnsweredAvailableIds.value.includes(shortcut.id),
         )
         .filter((shortcut) => shortcut.id !== state.shortcut.id)
 
@@ -355,7 +355,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
 
     LocalStorage.set(
       ANSWERED_HISTORY_KEY,
-      Object.fromEntries(state.answeredHistoryMap)
+      Object.fromEntries(state.answeredHistoryMap),
     )
   }
 
@@ -373,7 +373,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
   const restoreRemovedShortcuts = () => {
     if (
       confirm(
-        'すべてのショートカットキーが出題されるようになります。\nよろしいですか？'
+        'すべてのショートカットキーが出題されるようになります。\nよろしいですか？',
       )
     ) {
       localStorage.removeItem('removedIds')
@@ -412,20 +412,20 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     masteredRate: number
   }[] => {
     const masteredIds = [...state.answeredHistoryMap]
-      .map(([id, results]) => [id, weight(results)])
-      .filter(([, weight]) => weight <= 0.6)
+      .map(([id, results]) => [id, weight(results)] as const)
+      .filter(([, resultWeight]) => resultWeight <= 0.6)
       .map(([id]) => id)
 
     const masteredRateOfEachTool: { name: string; masteredRate: number }[] = []
 
     TOOL_TO_SHORTCUTS_MAP.forEach((shortcuts, name) => {
       const countOfShortcut = shortcuts.filter(
-        (shortcut) => !state.removedIdSet.has(shortcut.id)
+        (shortcut) => !state.removedIdSet.has(shortcut.id),
       ).length
       const countOfMastered = shortcuts.filter(
         (shortcut) =>
           masteredIds.includes(shortcut.id) &&
-          !state.removedIdSet.has(shortcut.id)
+          !state.removedIdSet.has(shortcut.id),
       ).length
 
       masteredRateOfEachTool.push({
@@ -438,35 +438,35 @@ const gameStore = (shortcuts?: Shortcut[]) => {
   }
 
   const categoriesWithMasteredRate = (
-    tool: string
+    tool: string,
   ): {
     name: string
     masteredRate: number
   }[] => {
     const shortcutsOfTool = shortcutStorage.where({ tool })
     const categoriesOfTool = new Set(
-      shortcutsOfTool.map((shortcut) => shortcut.category)
+      shortcutsOfTool.map((shortcut) => shortcut.category),
     )
     const masteredIds = [...state.answeredHistoryMap]
-      .map(([id, results]) => [id, weight(results)])
-      .filter(([, weight]) => weight <= 0.6)
+      .map(([id, results]) => [id, weight(results)] as const)
+      .filter(([, resultWeight]) => resultWeight <= 0.6)
       .map(([id]) => id)
 
     return Object.values([...categoriesOfTool]).map((categoryName) => {
       const shortcutsOfCategory = shortcutsOfTool.filter(
         (shortcut) =>
           shortcut.category === categoryName &&
-          !state.removedIdSet.has(shortcut.id)
+          !state.removedIdSet.has(shortcut.id),
       )
       const masteredShortcutsOfCategory = shortcutsOfCategory.filter(
-        (shortcut) => masteredIds.includes(shortcut.id)
+        (shortcut) => masteredIds.includes(shortcut.id),
       )
 
       return {
         name: categoryName,
         masteredRate: Math.floor(
           (masteredShortcutsOfCategory.length / shortcutsOfCategory.length) *
-            100
+            100,
         ),
       }
     })

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ArrowLeftIcon } from '@heroicons/vue/outline'
-import { CheckCircleIcon } from '@heroicons/vue/solid'
+import { ArrowLeftIcon } from '@heroicons/vue/24/outline'
+import { CheckCircleIcon } from '@heroicons/vue/24/solid'
 import { computed } from '@vue/reactivity'
 import { ref } from 'vue'
 

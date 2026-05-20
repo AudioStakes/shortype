@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { XCircleIcon } from '@heroicons/vue/outline'
+import { XCircleIcon } from '@heroicons/vue/24/outline'
 
 import GameKey from '@/stores/game-key'
 import { injectStrict } from '@/utils/inject-strict'

@@ -2,7 +2,7 @@ import { onBeforeUnmount } from 'vue'
 
 export default function useKeyboardEventListener(
   type: 'keyup' | 'keydown',
-  listener: (e: KeyboardEvent) => void
+  listener: (e: KeyboardEvent) => void,
 ) {
   const preventedListener = (e: KeyboardEvent) => {
     preventEvent(e)

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { InformationCircleIcon } from '@heroicons/vue/outline'
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/vue/solid'
+import { InformationCircleIcon } from '@heroicons/vue/24/outline'
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/vue/24/solid'
 
 const props =
   defineProps<{ isUnsupportedBrowser: boolean; isUnsupportedOs: boolean }>()

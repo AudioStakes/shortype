@@ -50,13 +50,13 @@ export default class KeyCombination {
   static keyCombinationsOnlyAvailableInFullscreen =
     KEY_COMBINATIONS_ONLY_AVAILABLE_IN_FULL_SCREEN_MODE.map(
       (keyCombinationOnlyAvailableInFullscreen) =>
-        new KeyCombination(keyCombinationOnlyAvailableInFullscreen)
+        new KeyCombination(keyCombinationOnlyAvailableInFullscreen),
     )
 
   static isOnlyAvailableInFullscreen(keyCombinable: KeyCombinable) {
     return KeyCombination.keyCombinationsOnlyAvailableInFullscreen.some(
       (keyCombinationOnlyAvailableInFullscreen) =>
-        keyCombinationOnlyAvailableInFullscreen.is(keyCombinable)
+        keyCombinationOnlyAvailableInFullscreen.is(keyCombinable),
     )
   }
 
@@ -69,7 +69,7 @@ export default class KeyCombination {
     if (keyCombinable.ctrlKey) keys.push('Control')
     if (
       !['Alt', 'Shift', 'Meta', 'Control', undefined, null].includes(
-        keyCombinable.key
+        keyCombinable.key,
       )
     )
       keys.push(keyCombinable.key as string)
@@ -78,7 +78,7 @@ export default class KeyCombination {
   }
 
   constructor(
-    private keyCombinable: KeyCombinable = KeyCombination.defaultValue
+    private keyCombinable: KeyCombinable = KeyCombination.defaultValue,
   ) {}
 
   keyDown(keyCombinable: KeyCombinable) {

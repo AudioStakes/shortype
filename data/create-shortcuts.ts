@@ -31,15 +31,15 @@ import KeyCombination from '@/models/key-combination'
 import { Shortcut, ShortcutDescription } from '@/types/interfaces'
 
 const deniedKeyCombinations = DENY_LIST_OF_KEY_COMBINATION.map(
-  (deniedKeyCombination) => new KeyCombination(deniedKeyCombination)
+  (deniedKeyCombination) => new KeyCombination(deniedKeyCombination),
 )
 
 export default async function createShortcuts(csvPath: string) {
   const csvRawData = fs.readFileSync(csvPath)
   const filename = path.basename(csvPath, '.csv')
-  const records = parse(csvRawData, { columns: true })
+  const records = parse(csvRawData, { columns: true }) as ShortcutDescription[]
 
-  const shortcuts = []
+  const shortcuts: Shortcut[] = []
   for (const record of records) {
     const shortcut = createShortcut(record)
 
@@ -50,7 +50,7 @@ export default async function createShortcuts(csvPath: string) {
   fs.writeFileSync(
     `${__dirname}/../src/constants/shortcuts/${filename}.json`,
     json,
-    'utf8'
+    'utf8',
   )
 }
 
@@ -74,7 +74,7 @@ export const createShortcut = (shortcutRaw: ShortcutDescription) => {
     shortcut.unavailableReason = 'isDependOnDevice'
   } else if (
     shortcut.keyCombinations.every((keyCombination) =>
-      KeyCombination.isDefaultValue(keyCombination)
+      KeyCombination.isDefaultValue(keyCombination),
     )
   ) {
     shortcut.unavailableReason = 'hasOnlyNonKeyAction'
@@ -83,8 +83,8 @@ export const createShortcut = (shortcutRaw: ShortcutDescription) => {
   } else if (
     deniedKeyCombinations.some((deniedKeyCombination) =>
       shortcut.keyCombinations.some((keyCombination) =>
-        deniedKeyCombination.is(keyCombination)
-      )
+        deniedKeyCombination.is(keyCombination),
+      ),
     )
   ) {
     shortcut.unavailableReason = 'hasDeniedKeyCombination'
@@ -96,7 +96,7 @@ export const createShortcut = (shortcutRaw: ShortcutDescription) => {
     shortcut.unavailableReason = 'noMatchedKeyExists'
   } else if (
     shortcut.keyCombinations.some((keyCombination) =>
-      MODIFIED_KEY_REGEXP.test(keyCombination.key as string)
+      MODIFIED_KEY_REGEXP.test(keyCombination.key as string),
     )
   ) {
     shortcut.unavailableReason = 'hasModifiedKey'
@@ -116,7 +116,7 @@ const extractKeyCombinations = (shortcutDescriptions: string) => {
     .split(HAS_MULTIPLE_ANSWERS_REGEXP)
     .filter(
       (shortcutDescription) =>
-        !FUNCTION_KEY_DESCRIPTION_REGEXP.test(shortcutDescription)
+        !FUNCTION_KEY_DESCRIPTION_REGEXP.test(shortcutDescription),
     )
     .map((shortcutDescription) => {
       return {

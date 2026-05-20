@@ -23,7 +23,7 @@ export default class LocalStorage {
 
   static set<T>(
     key: keyof typeof LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE,
-    value: T
+    value: T,
   ) {
     const json = JSON.stringify(value)
     localStorage.setItem(key, json)

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CheckCircleIcon, CheckIcon } from '@heroicons/vue/solid'
+import { CheckCircleIcon, CheckIcon } from '@heroicons/vue/24/solid'
 
 import KeyList from '@/components/KeyList.vue'
 import RequestFullScreenOrSelfScoring from '@/components/RequestFullScreenOrSelfScoring.vue'

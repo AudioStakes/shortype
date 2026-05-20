@@ -5,25 +5,25 @@ export default class KeyCombinations {
 
   hasOnlyModifierKeys() {
     return this.keyCombinations.some((keyCombination) =>
-      keyCombination.isOnlyModifierKeys()
+      keyCombination.isOnlyModifierKeys(),
     )
   }
 
   hasOnlyEnterKey() {
     return this.keyCombinations.some((keyCombination) =>
-      keyCombination.isOnlyEnterKey()
+      keyCombination.isOnlyEnterKey(),
     )
   }
 
   hasOnlyAvailableInFullscreen() {
     return this.keyCombinations.some((keyCombination) =>
-      keyCombination.isOnlyAvailableInFullscreen()
+      keyCombination.isOnlyAvailableInFullscreen(),
     )
   }
 
   has(otherKeyCombination: KeyCombination) {
     return this.keyCombinations.some((keyCombination) =>
-      keyCombination.is(otherKeyCombination)
+      keyCombination.is(otherKeyCombination),
     )
   }
 }

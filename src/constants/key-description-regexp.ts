@@ -62,7 +62,7 @@ const keyDescriptionExcludingModifier = [
   '[0-9A-Za-z,]',
 ]
 export const KEY_DESCRIPTION_EXCLUDING_MODIFIER_REGEXP = new RegExp(
-  keyDescriptionExcludingModifier.join('|')
+  keyDescriptionExcludingModifier.join('|'),
 )
 
 const undetectableKeyDescriptions = [
@@ -78,7 +78,7 @@ const undetectableKeyDescriptions = [
 ]
 export const UNDETECTABLE_KEY_DESCRIPTION_REGEXP = new RegExp(
   undetectableKeyDescriptions.join('|'),
-  'g'
+  'g',
 )
 
 export const FUNCTION_KEY_DESCRIPTION_REGEXP = /Fn|fn/
@@ -96,13 +96,13 @@ export const MODIFIER_KEY_DESCRIPTION_REGEXP = new RegExp(
     META_DESCRIPTION_REGEXP.source +
     '|' +
     SHIFT_DESCRIPTION_REGEXP.source,
-  'g'
+  'g',
 )
 
 const KEY_DESCRIPTION_REGEXP = new RegExp(
   MODIFIER_KEY_DESCRIPTION_REGEXP.source +
     '|' +
-    KEY_DESCRIPTION_EXCLUDING_MODIFIER_REGEXP.source
+    KEY_DESCRIPTION_EXCLUDING_MODIFIER_REGEXP.source,
 )
 
 export const DENY_LIST_OF_KEY_DESCRIPTION_REGEXP =
@@ -113,5 +113,5 @@ export const KEY_DESCRIPTION_INCLUDING_DENY_LIST_REGEXP = new RegExp(
     DENY_LIST_OF_KEY_DESCRIPTION_REGEXP.source +
     '|' +
     KEY_DESCRIPTION_REGEXP.source +
-    ')'
+    ')',
 )

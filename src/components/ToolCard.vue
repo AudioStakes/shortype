@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChevronRightIcon } from '@heroicons/vue/outline'
+import { ChevronRightIcon } from '@heroicons/vue/24/outline'
 
 import PieChartOfMasteredRate from '@/components/PieChartOfMasteredRate.vue'
 
