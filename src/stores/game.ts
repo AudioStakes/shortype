@@ -6,14 +6,30 @@ import {
   type ShortcutTrainingState,
 } from '@/models/shortcut-training-session'
 import { createShortcutCatalogSummary } from '@/models/shortcut-catalog-summary'
+import shortcutCatalog from '@/models/shortcut-catalog'
 import {
   createGameSessionBootstrap,
   createGameSessionDeps,
 } from '@/stores/game-session'
+import { loadGameSessionStorage } from '@/stores/game-session-storage'
 import type { Shortcut } from '@/types/interfaces'
 
 const gameStore = (shortcuts?: Shortcut[]) => {
-  const bootstrap = createGameSessionBootstrap(shortcuts)
+  const { selectedTool, selectedCategories, removedIds, answeredHistory } =
+    loadGameSessionStorage()
+  const selectedShortcuts = shortcutCatalog.where({
+    tool: selectedTool,
+    categories: selectedCategories,
+  })
+  const bootstrap = createGameSessionBootstrap({
+    tool: selectedTool,
+    categories: selectedCategories,
+    selectedShortcuts,
+    removedIds,
+    answeredHistory,
+    isFullscreenMode: !!document.fullscreenElement,
+    shortcuts,
+  })
   const state = reactive(createShortcutTrainingState(bootstrap))
 
   const session = createShortcutTrainingSession(

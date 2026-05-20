@@ -1,8 +1,4 @@
-import shortcutCatalog from '@/models/shortcut-catalog'
-import {
-  createGameSessionStoragePersistence,
-  loadGameSessionStorage,
-} from '@/stores/game-session-storage'
+import { createGameSessionStoragePersistence } from '@/stores/game-session-storage'
 import type { Shortcut } from '@/types/interfaces'
 import sample from '@/utils/sample'
 import toggleFullscreen from '@/utils/toggle-fullscreen'
@@ -18,15 +14,25 @@ export type GameSessionBootstrap = {
   isFullscreenMode: boolean
 }
 
-export const createGameSessionBootstrap = (
-  shortcuts?: Shortcut[],
-): GameSessionBootstrap => {
-  const { selectedTool, selectedCategories, removedIds, answeredHistory } =
-    loadGameSessionStorage()
-  const selectedShortcuts = shortcutCatalog.where({
-    tool: selectedTool,
-    categories: selectedCategories,
-  })
+export type GameSessionBootstrapInput = {
+  tool: string
+  categories: string[]
+  selectedShortcuts: Shortcut[]
+  removedIds: Set<string>
+  answeredHistory: Map<string, boolean[]>
+  isFullscreenMode: boolean
+  shortcuts?: Shortcut[]
+}
+
+export const createGameSessionBootstrap = ({
+  tool,
+  categories,
+  selectedShortcuts,
+  removedIds,
+  answeredHistory,
+  isFullscreenMode,
+  shortcuts,
+}: GameSessionBootstrapInput): GameSessionBootstrap => {
   const selectedAvailableShortcuts = selectedShortcuts.filter(
     (shortcut) => !removedIds.has(shortcut.id),
   )
@@ -37,13 +43,13 @@ export const createGameSessionBootstrap = (
       : sample(availableShortcuts)
 
   return {
-    tool: selectedTool,
-    categories: selectedCategories,
+    tool,
+    categories,
     shortcuts: shortcuts ?? selectedShortcuts,
     shortcut,
     removedIds,
     answeredHistory,
-    isFullscreenMode: !!document.fullscreenElement,
+    isFullscreenMode,
   }
 }
 
