@@ -1,5 +1,5 @@
 import { KEY_COMBINATIONS_ONLY_AVAILABLE_IN_FULL_SCREEN_MODE } from '@/constants/key-combinations'
-import { KeyCombinable } from '@/types/interfaces'
+import type { KeyCombinable } from '@/types/interfaces'
 
 export default class KeyCombination {
   static defaultValue = {

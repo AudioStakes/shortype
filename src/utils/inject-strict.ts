@@ -1,4 +1,4 @@
-import { inject, InjectionKey } from 'vue'
+import { type InjectionKey, inject } from 'vue'
 
 // https://logaretm.com/blog/type-safe-provide-inject/
 export function injectStrict<T>(key: InjectionKey<T>, fallback?: T) {

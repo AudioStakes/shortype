@@ -10,7 +10,7 @@ import KEY_TO_ICON_ANNOTATION_MAP from '@/constants/key-to-icon-annotation-map'
 import KEY_TO_SYMBOL_MAP from '@/constants/key-to-symbol-map'
 import SYMBOLIC_KEY_TO_ANNOTATION_MAP from '@/constants/symbolic-key-to-annotation-map'
 import UNDEFINED_CODE_TO_KEY_MAP from '@/constants/undefined-code-to-key-map'
-import { NavigatorKeyboard } from '@/types/interfaces'
+import type { NavigatorKeyboard } from '@/types/interfaces'
 
 export default class Keyboard {
   static isKey(word: string) {

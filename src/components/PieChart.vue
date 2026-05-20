@@ -191,10 +191,12 @@ const statuses = computed(() => {
     <svg
       class="origin-center -rotate-90 fill-transparent stroke-[3]"
       data-testid="pie-chart"
+      role="img"
       viewBox="0 0 64 64"
       @mouseleave="hideCircleDescription"
       @mouseover="showCircleDescription"
     >
+      <title>ショートカットの習熟度を示す円グラフ</title>
       <circle
         v-for="(status, index) in statuses"
         :key="index"
@@ -221,13 +223,7 @@ const statuses = computed(() => {
           {{ rateOf(countsOfEachStatus.mastered.included) }}
         </tspan>
         <tspan
-          :x="
-            `${
-              rateOf(countsOfEachStatus.mastered.included).toString().length *
-                2.5 +
-              60
-            }` + '%'
-          "
+          :x="`${rateOf(countsOfEachStatus.mastered.included).toString().length * 2.5 + 60}%`"
           y="54%"
           class="text-[0.25rem]"
         >

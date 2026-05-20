@@ -9,7 +9,7 @@ import {
 import TOOL_TO_SHORTCUTS_MAP from '@/constants/tool-to-shortcuts-map'
 import KeyCombination from '@/models/key-combination'
 import KeyCombinations from '@/models/key-combinations'
-import { KeyCombinable, Shortcut } from '@/types/interfaces'
+import type { KeyCombinable, Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
 import LocalStorage from '@/utils/local-storage'
 import sample from '@/utils/sample'

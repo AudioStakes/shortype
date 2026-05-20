@@ -7,6 +7,7 @@ defineProps<{ name: string; masteredRate: number; isSelected: boolean }>()
 
 <template>
   <button
+    type="button"
     class="flex justify-between items-center w-10/12 h-20 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 transition duration-200 hover:ease-out"
   >
     <div class="mx-2 flex space-x-3 text-left">

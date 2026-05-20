@@ -43,7 +43,10 @@ const getByTestIdIn = (root: Element, testId: string) => {
   return found as HTMLElement
 }
 
-export const render = (component: unknown, options: any = {}) => {
+export const render = (
+  component: unknown,
+  options: Record<string, unknown> = {},
+) => {
   const wrapper = mount(component as never, {
     attachTo: document.body,
     ...options,
@@ -60,7 +63,7 @@ export const render = (component: unknown, options: any = {}) => {
     queryAllByText: (matcher: TextMatcher) => queryAllByTextIn(root, matcher),
     getByTestId: (testId: string) => getByTestIdIn(root, testId),
     queryByTestId: (testId: string) =>
-      (root.querySelector(`[data-testid="${testId}"]`) as HTMLElement | null),
+      root.querySelector(`[data-testid="${testId}"]`) as HTMLElement | null,
     unmount: () => wrapper.unmount(),
   }
 }
@@ -71,7 +74,7 @@ export const within = (root: Element) => ({
   queryAllByText: (matcher: TextMatcher) => queryAllByTextIn(root, matcher),
   getByTestId: (testId: string) => getByTestIdIn(root, testId),
   queryByTestId: (testId: string) =>
-    (root.querySelector(`[data-testid="${testId}"]`) as HTMLElement | null),
+    root.querySelector(`[data-testid="${testId}"]`) as HTMLElement | null,
 })
 
 export const click = async (element: Element) => {

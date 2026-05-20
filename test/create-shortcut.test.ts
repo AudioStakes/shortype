@@ -1,4 +1,4 @@
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 
 import { createShortcut } from '@/../data/create-shortcuts'
 import { parseCsv } from '@/../data/parse-csv'

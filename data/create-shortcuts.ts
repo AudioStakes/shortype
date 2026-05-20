@@ -1,5 +1,5 @@
-import * as fs from 'fs'
-import * as path from 'path'
+import * as fs from 'node:fs'
+import * as path from 'node:path'
 
 import { DENY_LIST_OF_KEY_COMBINATION } from '@/constants/key-combinations'
 import {
@@ -27,7 +27,7 @@ import {
   NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP,
 } from '@/constants/shortcut-description-regexp'
 import KeyCombination from '@/models/key-combination'
-import { Shortcut, ShortcutDescription } from '@/types/interfaces'
+import type { Shortcut, ShortcutDescription } from '@/types/interfaces'
 import { parseCsv } from './parse-csv'
 
 const deniedKeyCombinations = DENY_LIST_OF_KEY_COMBINATION.map(
@@ -88,12 +88,6 @@ export const createShortcut = (shortcutRaw: ShortcutDescription) => {
     )
   ) {
     shortcut.unavailableReason = 'hasDeniedKeyCombination'
-  } else if (
-    shortcut.keyCombinations.some((keyCombination) => {
-      !keyCombination.key
-    })
-  ) {
-    shortcut.unavailableReason = 'noMatchedKeyExists'
   } else if (
     shortcut.keyCombinations.some((keyCombination) =>
       MODIFIED_KEY_REGEXP.test(keyCombination.key as string),

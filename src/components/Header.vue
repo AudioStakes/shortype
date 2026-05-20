@@ -21,10 +21,11 @@ const { showAboutModal, showToolsAndCategoriesModal } = injectStrict(ModalKey)
         About
       </a>
       <button
+        type="button"
         class="border rounded-full px-4 py-2 bg-white hover:bg-gray-300 transition duration-200 hover:ease-out"
         @click="showToolsAndCategoriesModal()"
       >
-        <span class="mx-2 font-bold text-[14px]" href="#">ツールを選ぶ</span>
+        <span class="mx-2 font-bold text-[14px]">ツールを選ぶ</span>
         <kbd
           class="h-6 bg-white text-[12px] rounded border-[1px] border-gray-300 shadow-3d-sm px-2 py-1 relative -top-px"
           >T

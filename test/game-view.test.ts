@@ -8,19 +8,19 @@ import LocalStorage from '@/utils/local-storage'
 import GameView from '@/views/GameView.vue'
 
 import {
-  click,
-  render,
-  waitFor,
-  waitForElementToBeRemoved,
-  within,
-} from './dom-helpers'
-import {
   availableShortcuts,
   shortcutsOnlyAvailableInFullscreen,
   shortcutWithMultipleKeyCombinations,
   shortcutWithNonKeyActions,
   unsupportedShortcuts,
 } from './data/shortcuts'
+import {
+  click,
+  render,
+  waitFor,
+  waitForElementToBeRemoved,
+  within,
+} from './dom-helpers'
 
 const localStorageMock = globalThis.localStorage
 
@@ -327,11 +327,15 @@ test('show an unanswered shortcut key as the highest priority', async () => {
 test('show the current mastered ratio', async () => {
   const { getByText, container } = renderGameView()
 
-  expect(container.querySelector('svg')?.textContent?.trim()).toEqual('0 %')
+  expect(container.querySelector('svg > text')?.textContent?.trim()).toEqual(
+    '0 %',
+  )
   getByText('最後のタブに移動する')
   await pressChord(['Meta', '9'])
 
-  expect(container.querySelector('svg')?.textContent?.trim()).toEqual('50 %')
+  expect(container.querySelector('svg > text')?.textContent?.trim()).toEqual(
+    '50 %',
+  )
 })
 
 test('show the modal to select a tool when the tool key is pressed', async () => {

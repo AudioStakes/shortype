@@ -1,4 +1,4 @@
-import KeyCombination from '@/models/key-combination'
+import type KeyCombination from '@/models/key-combination'
 
 export default class KeyCombinations {
   constructor(private readonly keyCombinations: KeyCombination[]) {}

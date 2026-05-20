@@ -12,9 +12,7 @@ if (props.isUnsupportedOs) {
   notSupportedKinds.push('OS')
 }
 
-const emit = defineEmits<{
-  (e: 'proceed'): void
-}>()
+const emit = defineEmits<(e: 'proceed') => void>()
 
 const proceed = () => {
   emit('proceed')
@@ -82,6 +80,7 @@ const proceed = () => {
         </div>
       </div>
       <button
+        type="button"
         class="bg-gray-200 hover:bg-gray-300 my-4 py-2 px-4 rounded w-fit mx-auto"
         @click="proceed"
       >

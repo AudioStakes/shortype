@@ -18,15 +18,21 @@ defineProps<{ iconName: string }>()
     v-else-if="iconName === 'KeyboardBacklightUp'"
     class="h-10 w-10"
     :src="KeyboardBackLightUpImg"
+    alt=""
+    aria-hidden="true"
   />
   <img
     v-else-if="iconName === 'KeyboardBacklightDown'"
     class="h-10 w-10"
     :src="KeyboardBackLightDownImg"
+    alt=""
+    aria-hidden="true"
   />
   <img
     v-else-if="iconName === 'MissionControl'"
     class="h-10 w-10"
     :src="MissionControlImg"
+    alt=""
+    aria-hidden="true"
   />
 </template>

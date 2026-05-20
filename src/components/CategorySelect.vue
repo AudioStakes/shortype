@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed } from '@vue/reactivity'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 import Button from '@/components/Button.vue'
 import CategoryCard from '@/components/CategoryCard.vue'
@@ -35,15 +34,15 @@ const toggleCategory = (categoryName: string) => {
 }
 
 const selectAllCategories = () => {
-  targetCategories.forEach((categoryName) =>
+  for (const categoryName of targetCategories) {
     selectedCategories.value.add(categoryName)
-  )
+  }
 }
 
 const rejectAllCategories = () => {
-  targetCategories.forEach((categoryName) =>
+  for (const categoryName of targetCategories) {
     selectedCategories.value.delete(categoryName)
-  )
+  }
 }
 </script>
 

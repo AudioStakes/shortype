@@ -11,8 +11,10 @@ const circleAttributes = {
 <template>
   <svg
     class="origin-center -rotate-90 fill-transparent stroke-[3]"
+    role="img"
     viewBox="0 0 48 48"
   >
+    <title>身についた割合 {{ masteredRate }}%</title>
     <circle
       class="stroke-green-300"
       v-bind="circleAttributes"

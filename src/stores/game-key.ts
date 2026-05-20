@@ -1,6 +1,6 @@
-import { InjectionKey } from 'vue'
+import type { InjectionKey } from 'vue'
 
-import { GameStore } from '@/stores/game'
+import type { GameStore } from '@/stores/game'
 
 const GameKey: InjectionKey<GameStore> = Symbol('gameStore')
 export default GameKey
