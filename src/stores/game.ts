@@ -10,11 +10,14 @@ import shortcutCatalog from '@/models/shortcut-catalog'
 import {
   createShortcutTrainingSession,
   createShortcutTrainingState,
+  type ShortcutTrainingSessionDeps,
   type ShortcutTrainingState,
 } from '@/models/shortcut-training-session'
 import type { Shortcut } from '@/types/interfaces'
 import LocalStorage from '@/utils/local-storage'
 import sample from '@/utils/sample'
+import { weightedSampleKey } from '@/utils/weighted-sample'
+import toggleFullscreen from '@/utils/toggle-fullscreen'
 
 const selectedTool = LocalStorage.get(SELECTED_TOOL_KEY)
 const selectedCategories = LocalStorage.get(SELECTED_CATEGORIES_KEY)
@@ -42,6 +45,28 @@ const createInitialShortcut = (
   return sample(availableShortcuts)
 }
 
+const createTrainingSessionDeps = (): ShortcutTrainingSessionDeps => ({
+  isFullscreenMode: () => !!document.fullscreenElement,
+  sample,
+  weightedSampleKey,
+  scheduleRestartTyping: (callback) => {
+    setTimeout(callback, import.meta.env.MODE === 'test' ? 0 : 1000)
+  },
+  toggleFullscreen,
+  persistAnsweredHistory: (answeredHistory) => {
+    LocalStorage.set(ANSWERED_HISTORY_KEY, answeredHistory)
+  },
+  persistRemovedIds: (removedIds) => {
+    LocalStorage.set(REMOVED_IDS_KEY, removedIds)
+  },
+  persistSelectedTool: (tool) => {
+    LocalStorage.set(SELECTED_TOOL_KEY, tool)
+  },
+  persistSelectedCategories: (categories) => {
+    LocalStorage.set(SELECTED_CATEGORIES_KEY, categories)
+  },
+})
+
 const gameStore = (shortcuts?: Shortcut[]) => {
   const state = reactive(
     createShortcutTrainingState({
@@ -51,10 +76,14 @@ const gameStore = (shortcuts?: Shortcut[]) => {
       shortcut: createInitialShortcut(shortcuts, selectedAvailableShortcuts),
       removedIds,
       answeredHistory: LocalStorage.get(ANSWERED_HISTORY_KEY),
+      isFullscreenMode: !!document.fullscreenElement,
     }),
-  ) as unknown as ShortcutTrainingState
+  )
 
-  const session = createShortcutTrainingSession(state)
+  const session = createShortcutTrainingSession(
+    state as unknown as ShortcutTrainingState,
+    createTrainingSessionDeps(),
+  )
 
   const removedShortcutExists = computed(() => session.removedShortcutExists())
   const isRemovedAll = computed(() => session.isRemovedAll())
