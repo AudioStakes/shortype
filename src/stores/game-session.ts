@@ -33,11 +33,11 @@ export const createGameSessionBootstrap = ({
   isFullscreenMode,
   shortcuts,
 }: GameSessionBootstrapInput): GameSessionBootstrap => {
-  const selectedAvailableShortcuts = selectedShortcuts.filter(
+  const availableSelectedShortcuts = selectedShortcuts.filter(
     (shortcut) => !removedIds.has(shortcut.id),
   )
-  const availableShortcuts = shortcuts ?? selectedAvailableShortcuts
-  const shortcut =
+  const availableShortcuts = shortcuts ?? availableSelectedShortcuts
+  const initialShortcut =
     import.meta.env.MODE === 'test'
       ? availableShortcuts[0]
       : sample(availableShortcuts)
@@ -46,7 +46,7 @@ export const createGameSessionBootstrap = ({
     tool,
     categories,
     shortcuts: shortcuts ?? selectedShortcuts,
-    shortcut,
+    shortcut: initialShortcut,
     removedIds,
     answeredHistory,
     isFullscreenMode,

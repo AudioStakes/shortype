@@ -14,7 +14,7 @@ import {
 import { loadGameSessionStorage } from '@/stores/game-session-storage'
 import type { Shortcut } from '@/types/interfaces'
 
-const gameStore = (shortcuts?: Shortcut[]) => {
+const createGameStore = (shortcuts?: Shortcut[]) => {
   const { selectedTool, selectedCategories, removedIds, answeredHistory } =
     loadGameSessionStorage()
   const selectedShortcuts = shortcutCatalog.searchShortcuts({
@@ -32,24 +32,30 @@ const gameStore = (shortcuts?: Shortcut[]) => {
   })
   const state = reactive(createShortcutTrainingState(bootstrap))
 
-  const session = createShortcutTrainingSession(
+  const trainingSession = createShortcutTrainingSession(
     state as unknown as ShortcutTrainingState,
     createShortcutCatalogSummary(),
     createGameSessionDeps(),
   )
 
-  const removedShortcutExists = computed(() => session.removedShortcutExists())
-  const isRemovedAll = computed(() => session.isRemovedAll())
+  const removedShortcutExists = computed(() =>
+    trainingSession.removedShortcutExists(),
+  )
+  const isRemovedAll = computed(() => trainingSession.isRemovedAll())
   const wordsOfDescriptionFilledByCorrectKeys = computed(() =>
-    session.wordsOfDescriptionFilledByCorrectKeys(),
+    trainingSession.wordsOfDescriptionFilledByCorrectKeys(),
   )
   const wordsOfDescriptionFilledByPressedKeys = computed(() =>
-    session.wordsOfDescriptionFilledByPressedKeys(),
+    trainingSession.wordsOfDescriptionFilledByPressedKeys(),
   )
-  const needsFullscreenMode = computed(() => session.needsFullscreenMode())
-  const countsOfEachStatus = computed(() => session.countsOfEachStatus())
-  const masteredRateOfEachTool = session.masteredRateOfEachTool
-  const categoriesWithMasteredRate = session.categoriesWithMasteredRate
+  const needsFullscreenMode = computed(() =>
+    trainingSession.needsFullscreenMode(),
+  )
+  const countsOfEachStatus = computed(() =>
+    trainingSession.countsOfEachStatus(),
+  )
+  const masteredRateOfEachTool = trainingSession.masteredRateOfEachTool
+  const categoriesWithMasteredRate = trainingSession.categoriesWithMasteredRate
 
   return {
     state: readonly(state),
@@ -61,17 +67,18 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     needsFullscreenMode,
     countsOfEachStatus,
 
-    keyDown: session.keyDown,
-    keyUp: session.keyUp,
-    judge: session.judge,
-    restoreRemovedShortcuts: session.restoreRemovedShortcuts,
-    selectToolAndCategories: session.selectToolAndCategories,
+    keyDown: trainingSession.keyDown,
+    keyUp: trainingSession.keyUp,
+    judge: trainingSession.judge,
+    restoreRemovedShortcuts: trainingSession.restoreRemovedShortcuts,
+    selectToolAndCategories: trainingSession.selectToolAndCategories,
     masteredRateOfEachTool,
-    exitSelectionOfToolAndCategories: session.exitSelectionOfToolAndCategories,
-    onFullscreenchange: session.onFullscreenchange,
+    exitSelectionOfToolAndCategories:
+      trainingSession.exitSelectionOfToolAndCategories,
+    onFullscreenchange: trainingSession.onFullscreenchange,
     categoriesWithMasteredRate,
   }
 }
 
-export default gameStore
-export type GameStore = ReturnType<typeof gameStore>
+export default createGameStore
+export type GameStore = ReturnType<typeof createGameStore>

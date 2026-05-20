@@ -12,20 +12,20 @@ const props = defineProps<{ tool: string; categories: string[] }>()
 const emit = defineEmits(['select-tool-and-categories', 'reset-tool'])
 
 const categoriesWithRate = categoriesWithMasteredRate(props.tool)
-const targetCategories = categoriesWithRate.map((category) => category.name)
-const targetCategorySet = new Set(targetCategories)
+const selectableCategories = categoriesWithRate.map((category) => category.name)
+const selectableCategorySet = new Set(selectableCategories)
 const selectedCategories = ref(new Set(props.categories))
 
-const hasSelectedCategory = () => {
-  for (const categoryName of targetCategorySet) {
+const hasAnySelectedCategory = () => {
+  for (const categoryName of selectableCategorySet) {
     if (selectedCategories.value.has(categoryName)) return true
   }
 
   return false
 }
 
-const isSelectedAllCategories = () => {
-  for (const categoryName of targetCategorySet) {
+const areAllCategoriesSelected = () => {
+  for (const categoryName of selectableCategorySet) {
     if (!selectedCategories.value.has(categoryName)) return false
   }
 
@@ -39,13 +39,13 @@ const toggleCategory = (categoryName: string) => {
 }
 
 const selectAllCategories = () => {
-  for (const categoryName of targetCategories) {
+  for (const categoryName of selectableCategories) {
     selectedCategories.value.add(categoryName)
   }
 }
 
-const rejectAllCategories = () => {
-  for (const categoryName of targetCategories) {
+const deselectAllCategories = () => {
+  for (const categoryName of selectableCategories) {
     selectedCategories.value.delete(categoryName)
   }
 }
@@ -73,7 +73,7 @@ const rejectAllCategories = () => {
     <div class="flex justify-around w-10/12 pb-1">
       <Button
         :name="'すべて選ぶ'"
-        :is-disabled="isSelectedAllCategories()"
+        :is-disabled="areAllCategoriesSelected()"
         @click="selectAllCategories()"
       >
         <template #icon>
@@ -87,8 +87,8 @@ const rejectAllCategories = () => {
       </Button>
       <Button
         :name="'すべての選択を外す'"
-        :is-disabled="!hasSelectedCategory()"
-        @click="rejectAllCategories()"
+        :is-disabled="!hasAnySelectedCategory()"
+        @click="deselectAllCategories()"
       >
         <template #icon>
           <div class="self-center h-5 w-5 rounded-full border-2 border-gray-300" />
@@ -112,7 +112,7 @@ const rejectAllCategories = () => {
     <Button
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 my-4"
       :name="'選んだカテゴリーの練習をはじめる'"
-      :is-disabled="!hasSelectedCategory()"
+      :is-disabled="!hasAnySelectedCategory()"
       @click="emit('select-tool-and-categories', [...selectedCategories])"
     />
   </div>

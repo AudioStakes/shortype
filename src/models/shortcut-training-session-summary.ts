@@ -30,7 +30,7 @@ export type ShortcutTrainingSessionSummary = {
   countsOfEachStatus: () => {
     mastered: StatusCounts
     unmastered: StatusCounts
-    noAnswered: StatusCounts
+    unanswered: StatusCounts
   }
   masteredRateOfEachTool: () => Array<{
     name: string
@@ -46,8 +46,10 @@ export const createShortcutTrainingSessionSummary = (
   snapshot: ShortcutTrainingSessionSnapshot,
   catalog: ShortcutCatalogSummary,
 ): ShortcutTrainingSessionSummary => {
-  const toolGroupMap = new Map(
-    catalog.tools.map((toolGroup) => [toolGroup.name, toolGroup] as const),
+  const toolByNameMap = new Map(
+    catalog.tools.map(
+      (toolSummary) => [toolSummary.name, toolSummary] as const,
+    ),
   )
   const masteredIdSet = new Set(getMasteredIds(snapshot))
 
@@ -60,54 +62,54 @@ export const createShortcutTrainingSessionSummary = (
 
   const masteredRateOfEachTool = () => {
     return catalog.tools.map(({ name, shortcuts }) => {
-      let countOfShortcut = 0
-      let countOfMastered = 0
+      let shortcutCount = 0
+      let masteredCount = 0
 
       for (const shortcut of shortcuts) {
         if (snapshot.removedIds.has(shortcut.id)) {
           continue
         }
 
-        countOfShortcut += 1
+        shortcutCount += 1
 
         if (masteredIdSet.has(shortcut.id)) {
-          countOfMastered += 1
+          masteredCount += 1
         }
       }
 
       return {
         name,
         masteredRate:
-          countOfShortcut === 0
+          shortcutCount === 0
             ? 0
-            : Math.floor((countOfMastered / countOfShortcut) * 100),
+            : Math.floor((masteredCount / shortcutCount) * 100),
       }
     })
   }
 
   const categoriesWithMasteredRate = (tool: string) => {
-    const toolGroup = toolGroupMap.get(tool)
+    const toolSummary = toolByNameMap.get(tool)
 
-    if (!toolGroup) {
+    if (!toolSummary) {
       return []
     }
 
-    return toolGroup.categories.map((category) => {
-      const shortcutsOfCategory = category.shortcuts.filter(
+    return toolSummary.categories.map((category) => {
+      const availableShortcutsOfCategory = category.shortcuts.filter(
         (shortcut) => !snapshot.removedIds.has(shortcut.id),
       )
-      const masteredShortcutsOfCategory = shortcutsOfCategory.filter(
+      const masteredShortcutsOfCategory = availableShortcutsOfCategory.filter(
         (shortcut) => masteredIdSet.has(shortcut.id),
       )
 
       return {
         name: category.name,
         masteredRate:
-          shortcutsOfCategory.length === 0
+          availableShortcutsOfCategory.length === 0
             ? 0
             : Math.floor(
                 (masteredShortcutsOfCategory.length /
-                  shortcutsOfCategory.length) *
+                  availableShortcutsOfCategory.length) *
                   100,
               ),
       }

@@ -11,7 +11,6 @@ import { injectStrict } from '@/utils/inject-strict'
 
 const { state, selectToolAndCategories } = injectStrict(GameKey)
 const { modalState, hideToolsAndCategoriesModal } = injectStrict(ModalKey)
-defineProps<{ isShow: boolean }>()
 
 const tool = ref('')
 
@@ -25,7 +24,8 @@ const select = (categories: string[]) => {
   <Modal
     ref="modal"
     :is-show="
-      state.isSelectToolsKeyPressed || modalState.isShowToolsAndCategoriesModal
+      state.isSelectToolsKeyPressed ||
+      modalState.isToolsAndCategoriesModalVisible
     "
   >
     <ModalContent :is-show="tool === ''" :is-enter-from-right="true">
@@ -37,6 +37,7 @@ const select = (categories: string[]) => {
         :categories="[...state.categories]"
         @select-tool-and-categories="(categories) => select(categories)"
         @reset-tool="tool = ''"
-      /> </ModalContent
-  ></Modal>
+      />
+    </ModalContent>
+  </Modal>
 </template>

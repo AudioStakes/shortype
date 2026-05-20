@@ -114,14 +114,14 @@ export const createShortcutTrainingSession = (
       ),
     )
 
-  const shortcutsIds = () => state.shortcuts.map((shortcut) => shortcut.id)
+  const shortcutIds = () => state.shortcuts.map((shortcut) => shortcut.id)
 
   const availableIds = () =>
-    shortcutsIds().filter((id) => !state.removedIdSet.has(id))
+    shortcutIds().filter((id) => !state.removedIdSet.has(id))
 
   const answeredIdSet = () => new Set(state.answeredHistoryMap.keys())
 
-  const noAnsweredAvailableIds = () =>
+  const unansweredAvailableIds = () =>
     availableIds().filter((id) => !answeredIdSet().has(id))
 
   const availableIdToWeightMap = () => {
@@ -178,28 +178,28 @@ export const createShortcutTrainingSession = (
     state.shortcuts.every((shortcut) => state.removedIdSet.has(shortcut.id))
 
   const nextShortcut = () => {
-    const noAnsweredAvailableIdList = noAnsweredAvailableIds()
-    const noAnsweredAvailableIdSet = new Set(noAnsweredAvailableIdList)
+    const unansweredAvailableIdList = unansweredAvailableIds()
+    const unansweredAvailableIdSet = new Set(unansweredAvailableIdList)
     const shortcutByIdMap = new Map(
       state.shortcuts.map((shortcut) => [shortcut.id, shortcut] as const),
     )
 
-    if (noAnsweredAvailableIdList.length === 0) {
+    if (unansweredAvailableIdList.length === 0) {
       const nextId = deps.weightedSampleKey(availableIdToWeightMap())
 
       return (shortcutByIdMap.get(nextId) ?? state.shortcuts[0]) as Shortcut
     }
 
-    if (noAnsweredAvailableIdList.length === 1) {
-      return (shortcutByIdMap.get(noAnsweredAvailableIdList[0]) ??
+    if (unansweredAvailableIdList.length === 1) {
+      return (shortcutByIdMap.get(unansweredAvailableIdList[0]) ??
         state.shortcuts[0]) as Shortcut
     }
 
-    const noAnsweredAvailableShortcuts = state.shortcuts
-      .filter((shortcut) => noAnsweredAvailableIdSet.has(shortcut.id))
+    const unansweredAvailableShortcuts = state.shortcuts
+      .filter((shortcut) => unansweredAvailableIdSet.has(shortcut.id))
       .filter((shortcut) => shortcut.id !== state.shortcut.id)
 
-    return deps.sample(noAnsweredAvailableShortcuts)
+    return deps.sample(unansweredAvailableShortcuts)
   }
 
   const resetTypingState = () => {
@@ -332,7 +332,7 @@ export const createShortcutTrainingSession = (
   return {
     correctKeyCombinations,
     availableIds,
-    noAnsweredAvailableIds,
+    unansweredAvailableIds,
     availableIdToWeightMap,
     countsOfEachStatus,
     masteredRateOfEachTool,

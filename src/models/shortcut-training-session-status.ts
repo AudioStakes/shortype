@@ -1,5 +1,5 @@
 import type { Shortcut } from '@/types/interfaces'
-import { weight } from '@/utils/weighted-sample'
+import { calculateWeight } from '@/utils/weighted-sample'
 
 export type ShortcutTrainingSessionStatusSnapshot = {
   shortcuts: Shortcut[]
@@ -14,7 +14,7 @@ type StatusCounts = {
 
 const MASTERED_WEIGHT_THRESHOLD = 0.6
 
-const shortcutsIds = (shortcuts: Shortcut[]) =>
+const shortcutIds = (shortcuts: Shortcut[]) =>
   shortcuts.map((shortcut) => shortcut.id)
 
 export const getIdToWeightMap = ({
@@ -22,11 +22,11 @@ export const getIdToWeightMap = ({
   answeredHistory,
 }: ShortcutTrainingSessionStatusSnapshot) => {
   const idToWeightMap = new Map<string, number>()
-  const shortcutIdSet = new Set(shortcutsIds(shortcuts))
+  const shortcutIdSet = new Set(shortcutIds(shortcuts))
 
   for (const [id, results] of answeredHistory.entries()) {
     if (shortcutIdSet.has(id)) {
-      idToWeightMap.set(id, weight(results))
+      idToWeightMap.set(id, calculateWeight(results))
     }
   }
 
@@ -58,13 +58,13 @@ export const getMasteredIds = (
 export const getCountsOfEachStatus = (
   snapshot: ShortcutTrainingSessionStatusSnapshot,
 ) => {
-  const shortcutsIdList = shortcutsIds(snapshot.shortcuts)
-  const availableIds = shortcutsIdList.filter(
+  const shortcutIdList = shortcutIds(snapshot.shortcuts)
+  const availableIds = shortcutIdList.filter(
     (id) => !snapshot.removedIds.has(id),
   )
   const availableIdSet = new Set(availableIds)
   const answeredIdSet = new Set(snapshot.answeredHistory.keys())
-  const noAnsweredIds = shortcutsIdList.filter((id) => !answeredIdSet.has(id))
+  const unansweredIds = shortcutIdList.filter((id) => !answeredIdSet.has(id))
   const idToWeightMap = getIdToWeightMap(snapshot)
 
   const count = (ids: Iterable<string>) => {
@@ -96,10 +96,10 @@ export const getCountsOfEachStatus = (
   return {
     mastered: count(masteredIds),
     unmastered: count(unmasteredIds),
-    noAnswered: count(noAnsweredIds),
+    unanswered: count(unansweredIds),
   } satisfies {
     mastered: StatusCounts
     unmastered: StatusCounts
-    noAnswered: StatusCounts
+    unanswered: StatusCounts
   }
 }

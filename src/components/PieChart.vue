@@ -57,7 +57,7 @@ const styleOfEachStatus = {
       strokeColor: 'stroke-gray-700',
     },
   },
-  noAnswered: {
+  unanswered: {
     name: '未回答',
     included: {
       bgColor: 'bg-gray-300',
@@ -84,7 +84,7 @@ const rateOf = (
   return Math.floor((count / totalCount) * 100)
 }
 
-const statusOrder = ['mastered', 'unmastered', 'noAnswered'] as const
+const statusOrder = ['mastered', 'unmastered', 'unanswered'] as const
 const statuses = computed(() => {
   let sumOfPreviousCounts = 0
 

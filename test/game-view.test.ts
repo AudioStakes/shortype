@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 
 import { ANSWERED_HISTORY_KEY } from '@/constants/local-storage-keys'
-import modalStore from '@/stores/modal'
+import createModalStore from '@/stores/modal'
 import ModalKey from '@/stores/modal-key'
 import Keyboard from '@/utils/keyboard'
 import LocalStorage from '@/utils/local-storage'
@@ -122,7 +122,7 @@ const renderGameView = (props: object = { shortcuts: availableShortcuts }) => {
     props,
     global: {
       provide: {
-        [ModalKey as symbol]: modalStore(),
+        [ModalKey as symbol]: createModalStore(),
       },
     },
   })

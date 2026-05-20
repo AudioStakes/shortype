@@ -37,7 +37,7 @@ describe('shortcut-training-session-status', () => {
         included: 1,
         removed: 1,
       },
-      noAnswered: {
+      unanswered: {
         included: 0,
         removed: 0,
       },

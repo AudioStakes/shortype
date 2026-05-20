@@ -1,25 +1,25 @@
 import { reactive, readonly } from 'vue'
 
-const modalStore = () => {
+const createModalStore = () => {
   const modalState = reactive({
-    isShowAboutModal: false,
-    isShowToolsAndCategoriesModal: false,
+    isAboutModalVisible: false,
+    isToolsAndCategoriesModalVisible: false,
   })
 
   const showAboutModal = () => {
-    modalState.isShowAboutModal = true
+    modalState.isAboutModalVisible = true
   }
 
   const hideAboutModal = () => {
-    modalState.isShowAboutModal = false
+    modalState.isAboutModalVisible = false
   }
 
   const showToolsAndCategoriesModal = () => {
-    modalState.isShowToolsAndCategoriesModal = true
+    modalState.isToolsAndCategoriesModalVisible = true
   }
 
   const hideToolsAndCategoriesModal = () => {
-    modalState.isShowToolsAndCategoriesModal = false
+    modalState.isToolsAndCategoriesModalVisible = false
   }
 
   return {
@@ -33,5 +33,5 @@ const modalStore = () => {
   }
 }
 
-export default modalStore
-export type ModalStore = ReturnType<typeof modalStore>
+export default createModalStore
+export type ModalStore = ReturnType<typeof createModalStore>
