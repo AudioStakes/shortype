@@ -14,10 +14,13 @@ export type GameSessionStorageSnapshot = {
 }
 
 export const loadGameSessionStorage = (): GameSessionStorageSnapshot => ({
-  selectedTool: LocalStorage.get(SELECTED_TOOL_KEY),
-  selectedCategories: LocalStorage.get(SELECTED_CATEGORIES_KEY),
-  removedIds: [...LocalStorage.get(REMOVED_IDS_KEY)],
-  answeredHistory: LocalStorage.get(ANSWERED_HISTORY_KEY),
+  selectedTool: LocalStorage.get(SELECTED_TOOL_KEY) as string,
+  selectedCategories: LocalStorage.get(SELECTED_CATEGORIES_KEY) as string[],
+  removedIds: [...(LocalStorage.get(REMOVED_IDS_KEY) as string[])],
+  answeredHistory: LocalStorage.get(ANSWERED_HISTORY_KEY) as Record<
+    string,
+    boolean[]
+  >,
 })
 
 export const createGameSessionStoragePersistence = () => ({
