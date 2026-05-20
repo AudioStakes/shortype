@@ -1,3 +1,4 @@
+import { createEmptyShortcut } from '@/models/empty-shortcut'
 import KeyCombination from '@/models/key-combination'
 import KeyCombinations from '@/models/key-combinations'
 import shortcutCatalog from '@/models/shortcut-catalog'
@@ -14,19 +15,6 @@ import Keyboard from '@/utils/keyboard'
 import sample from '@/utils/sample'
 import toggleFullscreen from '@/utils/toggle-fullscreen'
 import { weightedSampleKey } from '@/utils/weighted-sample'
-
-const createEmptyShortcut = (): Shortcut => ({
-  id: '',
-  app: '',
-  os: '',
-  category: '',
-  action: '',
-  keysDescription: '',
-  keyCombinations: [],
-  isAvailable: false,
-  unavailableReason: null,
-  needsFillInBlankMode: false,
-})
 
 export type ShortcutTrainingState = {
   tool: string
@@ -120,12 +108,24 @@ export const createShortcutTrainingSession = (
   catalogSummary: ShortcutCatalogSummary,
   deps: ShortcutTrainingSessionDeps = defaultSessionDeps,
 ) => {
-  const correctKeyCombinations = () =>
-    new KeyCombinations(
-      state.shortcut.keyCombinations.map(
-        (keyCombination) => new KeyCombination(keyCombination),
-      ),
-    )
+  let cachedShortcutId: string | undefined
+  let cachedCorrectKeyCombinations: KeyCombinations | undefined
+
+  const correctKeyCombinations = () => {
+    if (
+      cachedShortcutId !== state.shortcut.id ||
+      !cachedCorrectKeyCombinations
+    ) {
+      cachedShortcutId = state.shortcut.id
+      cachedCorrectKeyCombinations = new KeyCombinations(
+        state.shortcut.keyCombinations.map(
+          (keyCombination) => new KeyCombination(keyCombination),
+        ),
+      )
+    }
+
+    return cachedCorrectKeyCombinations
+  }
 
   const shortcutIds = () => state.shortcuts.map((shortcut) => shortcut.id)
 

@@ -28,7 +28,6 @@ const props = withDefaults(
     shortcuts: undefined,
   }
 )
-const emit = defineEmits(['hide-modal'])
 
 const game = createGameStore(props.shortcuts)
 provide(GameKey, game)
@@ -70,9 +69,7 @@ useKeyboardEventListener('keyup', handleKeyUp)
       <ShortcutsShow />
       <RestoreButton />
     </div>
-    <ToolsAndCategoriesModal
-      @hide-modal="emit('hide-modal')"
-    />
+    <ToolsAndCategoriesModal />
   </div>
   <div v-else>
     <span>出題できるショートカットキーがありません。</span>

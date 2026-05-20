@@ -30,10 +30,12 @@ const createGameStore = (shortcuts?: Shortcut[]) => {
     isFullscreenMode: !!document.fullscreenElement,
     shortcuts,
   })
-  const state = reactive(createShortcutTrainingState(bootstrap))
+  const state = reactive<ShortcutTrainingState>(
+    createShortcutTrainingState(bootstrap),
+  )
 
   const trainingSession = createShortcutTrainingSession(
-    state as unknown as ShortcutTrainingState,
+    state,
     createShortcutCatalogSummary(),
     createGameSessionDeps(),
   )

@@ -1,21 +1,8 @@
+import { createEmptyShortcut } from '@/models/empty-shortcut'
 import type {
   ShortcutTrainingSessionDeps,
   ShortcutTrainingState,
 } from '@/models/shortcut-training-session'
-import type { Shortcut } from '@/types/interfaces'
-
-const createEmptyShortcut = (): Shortcut => ({
-  id: '',
-  app: '',
-  os: '',
-  category: '',
-  action: '',
-  keysDescription: '',
-  keyCombinations: [],
-  isAvailable: false,
-  unavailableReason: null,
-  needsFillInBlankMode: false,
-})
 
 export const createShortcutTrainingSessionEffects = (
   state: ShortcutTrainingState,

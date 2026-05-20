@@ -84,7 +84,7 @@ export default class KeyCombination {
   }
 
   constructor(
-    private keyCombinable: KeyCombinable = KeyCombination.defaultValue,
+    public keyCombinable: KeyCombinable = KeyCombination.defaultValue,
   ) {}
 
   keyDown(keyCombinable: KeyCombinable) {
