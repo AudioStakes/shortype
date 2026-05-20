@@ -14,7 +14,7 @@ defineProps<{ keyName: string }>()
   </KeyWithAnnotation>
   <kbd
     v-else
-    class="grid h-20 w-20 bg-white rounded-lg border-[1px] border-gray-300 shadow-3d text-center text-3xl"
+    class="flex h-20 w-20 flex-col items-center justify-center bg-white rounded-lg border-[1px] border-gray-300 shadow-3d text-center text-3xl leading-none"
     :data-testid="keyName"
     :class="{
       'text-2xl': 4 < keyName.length && keyName.length <= 6,
@@ -22,8 +22,6 @@ defineProps<{ keyName: string }>()
       'text-sm': 8 < keyName.length,
     }"
   >
-    <div class="my-auto">
-      {{ formatKeyName(keyName) }}
-    </div>
+    {{ formatKeyName(keyName) }}
   </kbd>
 </template>
