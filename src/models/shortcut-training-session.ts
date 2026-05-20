@@ -435,55 +435,6 @@ export const createShortcutTrainingSession = (
     state.isListeningKeyboardEvent = true
   }
 
-  const masteredRateOfEachTool = () =>
-    shortcutCatalog.tools().map((tool) => {
-      const shortcuts = shortcutCatalog.where({ tool })
-      const countOfShortcut = shortcuts.filter(
-        (shortcut) => !state.removedIdSet.has(shortcut.id),
-      ).length
-      const masteredIds = [...state.answeredHistoryMap]
-        .map(([id, results]): [string, number] => [id, weight(results)])
-        .filter(([, currentWeight]) => currentWeight <= 0.6)
-        .map(([id]) => id)
-      const countOfMastered = shortcuts.filter(
-        (shortcut) =>
-          masteredIds.includes(shortcut.id) &&
-          !state.removedIdSet.has(shortcut.id),
-      ).length
-
-      return {
-        name: tool,
-        masteredRate: Math.floor((countOfMastered / countOfShortcut) * 100),
-      }
-    })
-
-  const categoriesWithMasteredRate = (tool: string) => {
-    const shortcutsOfTool = shortcutCatalog.where({ tool })
-    const masteredIds = [...state.answeredHistoryMap]
-      .map(([id, results]): [string, number] => [id, weight(results)])
-      .filter(([, currentWeight]) => currentWeight <= 0.6)
-      .map(([id]) => id)
-
-    return shortcutCatalog.categoriesOf(tool).map((categoryName) => {
-      const shortcutsOfCategory = shortcutsOfTool.filter(
-        (shortcut) =>
-          shortcut.category === categoryName &&
-          !state.removedIdSet.has(shortcut.id),
-      )
-      const masteredShortcutsOfCategory = shortcutsOfCategory.filter(
-        (shortcut) => masteredIds.includes(shortcut.id),
-      )
-
-      return {
-        name: categoryName,
-        masteredRate: Math.floor(
-          (masteredShortcutsOfCategory.length / shortcutsOfCategory.length) *
-            100,
-        ),
-      }
-    })
-  }
-
   const onFullscreenchange = () => {
     state.isFullscreenMode = deps.isFullscreenMode()
     state.pressedKeyCombination.reset()
@@ -507,10 +458,8 @@ export const createShortcutTrainingSession = (
     judge,
     restoreRemovedShortcuts,
     selectToolAndCategories,
-    masteredRateOfEachTool,
     exitSelectionOfToolAndCategories,
     onFullscreenchange,
-    categoriesWithMasteredRate,
   }
 }
 

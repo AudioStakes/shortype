@@ -13,6 +13,7 @@ import {
   type ShortcutTrainingSessionDeps,
   type ShortcutTrainingState,
 } from '@/models/shortcut-training-session'
+import createShortcutTrainingSessionSummary from '@/models/shortcut-training-session-summary'
 import type { Shortcut } from '@/types/interfaces'
 import LocalStorage from '@/utils/local-storage'
 import sample from '@/utils/sample'
@@ -67,6 +68,20 @@ const createTrainingSessionDeps = (): ShortcutTrainingSessionDeps => ({
   },
 })
 
+type TrainingSessionSummarySource = Pick<
+  ShortcutTrainingState,
+  'tool' | 'categories' | 'shortcuts' | 'removedIdSet' | 'answeredHistoryMap'
+>
+
+const createTrainingSessionSummary = (state: TrainingSessionSummarySource) =>
+  createShortcutTrainingSessionSummary({
+    tool: state.tool,
+    categories: [...state.categories],
+    shortcuts: state.shortcuts,
+    removedIds: new Set(state.removedIdSet),
+    answeredHistory: new Map(state.answeredHistoryMap),
+  })
+
 const gameStore = (shortcuts?: Shortcut[]) => {
   const state = reactive(
     createShortcutTrainingState({
@@ -84,6 +99,7 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     state as unknown as ShortcutTrainingState,
     createTrainingSessionDeps(),
   )
+  const sessionSummary = computed(() => createTrainingSessionSummary(state))
 
   const removedShortcutExists = computed(() => session.removedShortcutExists())
   const isRemovedAll = computed(() => session.isRemovedAll())
@@ -95,6 +111,10 @@ const gameStore = (shortcuts?: Shortcut[]) => {
   )
   const needsFullscreenMode = computed(() => session.needsFullscreenMode())
   const countsOfEachStatus = computed(() => session.countsOfEachStatus())
+  const masteredRateOfEachTool = () =>
+    sessionSummary.value.masteredRateOfEachTool()
+  const categoriesWithMasteredRate = (tool: string) =>
+    sessionSummary.value.categoriesWithMasteredRate(tool)
 
   return {
     state: readonly(state),
@@ -111,10 +131,10 @@ const gameStore = (shortcuts?: Shortcut[]) => {
     judge: session.judge,
     restoreRemovedShortcuts: session.restoreRemovedShortcuts,
     selectToolAndCategories: session.selectToolAndCategories,
-    masteredRateOfEachTool: session.masteredRateOfEachTool,
+    masteredRateOfEachTool,
     exitSelectionOfToolAndCategories: session.exitSelectionOfToolAndCategories,
     onFullscreenchange: session.onFullscreenchange,
-    categoriesWithMasteredRate: session.categoriesWithMasteredRate,
+    categoriesWithMasteredRate,
   }
 }
 
