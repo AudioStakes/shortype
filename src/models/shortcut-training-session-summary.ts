@@ -3,8 +3,6 @@ import type { Shortcut } from '@/types/interfaces'
 import { weight } from '@/utils/weighted-sample'
 
 export type ShortcutTrainingSessionSnapshot = {
-  tool: string
-  categories: string[]
   shortcuts: Shortcut[]
   removedIds: Set<string>
   answeredHistory: Map<string, boolean[]>
