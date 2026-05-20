@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ChevronRightIcon } from '@heroicons/vue/24/outline'
-
+import IconGlyph from '@/components/IconGlyph.vue'
 import PieChartOfMasteredRate from '@/components/PieChartOfMasteredRate.vue'
 
 defineProps<{ app: string; masteredRate: number }>()
@@ -14,7 +13,7 @@ defineProps<{ app: string; masteredRate: number }>()
 
     <div class="flex h-20">
       <PieChartOfMasteredRate :mastered-rate="masteredRate" />
-      <ChevronRightIcon class="h-8 my-auto text-gray-500" />
+      <IconGlyph name="chevron-right" class="h-8 my-auto text-gray-500" />
     </div>
   </button>
 </template>

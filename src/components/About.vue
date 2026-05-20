@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { XMarkIcon } from '@heroicons/vue/24/solid'
-
+import IconGlyph from '@/components/IconGlyph.vue'
 import imageOfPieChartAndTable from '@/assets/pie-chart-and-table.png'
 import imageOfRemovingShortcutKey from '@/assets/removing-shortcut-key.png'
 import imageOfToolSelectButton from '@/assets/tool-select-button.png'
@@ -40,7 +39,8 @@ defineProps<{ isShow: boolean }>()
         v-if="isShow"
         class="z-10 p-5 h-4/5 w-4/5 max-w-[45rem] overflow-y-auto flex flex-col bg-white border border-gray-300 rounded-lg top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 absolute"
       >
-        <XMarkIcon
+        <IconGlyph
+          name="x-mark"
           class="self-end h-6 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg transition duration-200 hover:ease-out"
           @click="hideAboutModal()"
         />

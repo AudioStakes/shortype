@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { CheckCircleIcon } from '@heroicons/vue/24/solid'
-
+import IconGlyph from '@/components/IconGlyph.vue'
 import PieChartOfMasteredRate from '@/components/PieChartOfMasteredRate.vue'
 
 defineProps<{ name: string; masteredRate: number; isSelected: boolean }>()
@@ -12,9 +11,10 @@ defineProps<{ name: string; masteredRate: number; isSelected: boolean }>()
   >
     <div class="mx-2 flex space-x-3 text-left">
       <div class="flex h-8 w-8 justify-center self-center">
-        <CheckCircleIcon
+        <IconGlyph
           v-if="isSelected"
           class="text-green-400 inline-block"
+          name="check-circle"
         />
 
         <div

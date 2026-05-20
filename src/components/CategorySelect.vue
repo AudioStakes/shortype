@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ArrowLeftIcon } from '@heroicons/vue/24/outline'
-import { CheckCircleIcon } from '@heroicons/vue/24/solid'
 import { computed } from '@vue/reactivity'
 import { ref } from 'vue'
 
 import Button from '@/components/Button.vue'
 import CategoryCard from '@/components/CategoryCard.vue'
+import IconGlyph from '@/components/IconGlyph.vue'
 import GameKey from '@/stores/game-key'
 import { injectStrict } from '@/utils/inject-strict'
 
@@ -55,7 +54,7 @@ const rejectAllCategories = () => {
       @click="emit('reset-tool')"
     >
       <div class="w-4 h-4">
-        <ArrowLeftIcon />
+        <IconGlyph name="arrow-left" />
       </div>
       <h2 class="my-auto text-sm">ツールを選ぶ</h2>
     </div>
@@ -75,8 +74,12 @@ const rejectAllCategories = () => {
       >
         <template #icon>
           <div class="flex h-6 w-6 justify-center">
-            <CheckCircleIcon class="text-green-400 inline-block" /></div
-        ></template>
+            <IconGlyph
+              name="check-circle"
+              class="text-green-400 inline-block"
+            />
+          </div>
+        </template>
       </Button>
       <Button
         :name="'すべての選択を外す'"
@@ -84,9 +87,8 @@ const rejectAllCategories = () => {
         @click="rejectAllCategories()"
       >
         <template #icon>
-          <div
-            class="self-center h-5 w-5 rounded-full border-2 border-gray-300"
-        /></template>
+          <div class="self-center h-5 w-5 rounded-full border-2 border-gray-300" />
+        </template>
       </Button>
     </div>
 
@@ -108,7 +110,6 @@ const rejectAllCategories = () => {
       :name="'選んだカテゴリーの練習をはじめる'"
       :is-disabled="!hasSelectedCategory"
       @click="emit('select-tool-and-categories', [...selectedCategories])"
-    >
-    </Button>
+    />
   </div>
 </template>

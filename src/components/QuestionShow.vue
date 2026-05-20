@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { XCircleIcon } from '@heroicons/vue/24/outline'
-
+import IconGlyph from '@/components/IconGlyph.vue'
 import GameKey from '@/stores/game-key'
 import { injectStrict } from '@/utils/inject-strict'
 
@@ -27,7 +26,7 @@ const { state } = injectStrict(GameKey)
       class="h-16 w-16 text-gray-500 absolute self-center translate-y-3"
       data-testid="wrong-key-pressed"
     >
-      <XCircleIcon />
+      <IconGlyph name="x-circle" />
     </div>
   </div>
 </template>

@@ -1,4 +1,3 @@
-import { parse } from 'csv-parse/sync'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -29,6 +28,7 @@ import {
 } from '@/constants/shortcut-description-regexp'
 import KeyCombination from '@/models/key-combination'
 import { Shortcut, ShortcutDescription } from '@/types/interfaces'
+import { parseCsv } from './parse-csv'
 
 const deniedKeyCombinations = DENY_LIST_OF_KEY_COMBINATION.map(
   (deniedKeyCombination) => new KeyCombination(deniedKeyCombination),
@@ -37,7 +37,7 @@ const deniedKeyCombinations = DENY_LIST_OF_KEY_COMBINATION.map(
 export default async function createShortcuts(csvPath: string) {
   const csvRawData = fs.readFileSync(csvPath)
   const filename = path.basename(csvPath, '.csv')
-  const records = parse(csvRawData, { columns: true }) as ShortcutDescription[]
+  const records = parseCsv(csvRawData) as unknown as ShortcutDescription[]
 
   const shortcuts: Shortcut[] = []
   for (const record of records) {

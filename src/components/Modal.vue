@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { XMarkIcon } from '@heroicons/vue/24/solid'
-
+import IconGlyph from '@/components/IconGlyph.vue'
 import GameKey from '@/stores/game-key'
 import ModalKey from '@/stores/modal-key'
 import { injectStrict } from '@/utils/inject-strict'
@@ -46,7 +45,8 @@ const hide = () => {
         v-if="isShow"
         class="z-10 p-5 w-4/5 max-w-[45rem] min-h-fit max-h-fit flex flex-col bg-white border border-gray-300 rounded-lg top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 absolute"
       >
-        <XMarkIcon
+        <IconGlyph
+          name="x-mark"
           class="self-end h-6 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg transition duration-200 hover:ease-out"
           @click="hide()"
         />

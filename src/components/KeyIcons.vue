@@ -1,27 +1,19 @@
 <script setup lang="ts">
-import {
-  BrightnessDownIcon,
-  BrightnessUpIcon,
-  PlayerEjectIcon,
-  PowerIcon,
-  Volume2Icon,
-  VolumeIcon,
-} from 'vue-tabler-icons'
-
 import KeyboardBackLightDownImg from '@/assets/key-icons/keyboard-backlight-down.png'
 import KeyboardBackLightUpImg from '@/assets/key-icons/keyboard-backlight-up.png'
 import MissionControlImg from '@/assets/key-icons/mission-control.png'
+import IconGlyph from '@/components/IconGlyph.vue'
 
 defineProps<{ iconName: string }>()
 </script>
 
 <template>
-  <BrightnessDownIcon v-if="iconName === 'BrightnessDown'" />
-  <BrightnessUpIcon v-else-if="iconName === 'BrightnessUp'" />
-  <PlayerEjectIcon v-else-if="iconName === 'PlayerEject'" />
-  <PowerIcon v-else-if="iconName === 'Power'" />
-  <VolumeIcon v-else-if="iconName === 'VolumeUp'" />
-  <Volume2Icon v-else-if="iconName === 'VolumeDown'" />
+  <IconGlyph v-if="iconName === 'BrightnessDown'" name="brightness-down" />
+  <IconGlyph v-else-if="iconName === 'BrightnessUp'" name="brightness-up" />
+  <IconGlyph v-else-if="iconName === 'PlayerEject'" name="player-eject" />
+  <IconGlyph v-else-if="iconName === 'Power'" name="power" />
+  <IconGlyph v-else-if="iconName === 'VolumeUp'" name="volume-up" />
+  <IconGlyph v-else-if="iconName === 'VolumeDown'" name="volume-down" />
   <img
     v-else-if="iconName === 'KeyboardBacklightUp'"
     class="h-10 w-10"
