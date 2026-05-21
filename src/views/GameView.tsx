@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'preact/hooks'
+import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
 
 import CorrectAnswer from '@/components/CorrectAnswer'
 import KeyCombinationForm from '@/components/KeyCombinationForm'
@@ -41,18 +41,24 @@ export default function GameView({ shortcuts }: Props) {
     }
   }, [keyboard])
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    const { altKey, metaKey, shiftKey, ctrlKey } = e
-    const key = keyboard.key(e) as string
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      const { altKey, metaKey, shiftKey, ctrlKey } = e
+      const key = keyboard.key(e) as string
 
-    game.keyDown({ altKey, metaKey, shiftKey, ctrlKey, key })
-  }
+      game.keyDown({ altKey, metaKey, shiftKey, ctrlKey, key })
+    },
+    [game, keyboard],
+  )
 
-  const handleKeyUp = (e: KeyboardEvent) => {
-    const key = keyboard.key(e) as string
+  const handleKeyUp = useCallback(
+    (e: KeyboardEvent) => {
+      const key = keyboard.key(e) as string
 
-    game.keyUp(key)
-  }
+      game.keyUp(key)
+    },
+    [game, keyboard],
+  )
 
   useEventListener('fullscreenchange', game.onFullscreenchange)
   useKeyboardEventListener('keydown', handleKeyDown)

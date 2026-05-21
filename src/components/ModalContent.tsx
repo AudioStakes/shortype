@@ -19,8 +19,8 @@ export default function ModalContent({
     <div
       class={
         isEnterFromRight
-          ? 'duration-200 ease-in transform opacity-0 -translate-x-6'
-          : 'duration-200 ease-in transform opacity-0 translate-x-6'
+          ? 'duration-200 ease-in transform opacity-100 translate-x-0'
+          : 'duration-200 ease-in transform opacity-100 translate-x-0'
       }
     >
       {children}

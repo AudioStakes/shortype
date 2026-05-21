@@ -8,7 +8,7 @@ export default function useEventListener(
   useEffect(() => {
     window.addEventListener(type, listener, options)
     return () => {
-      window.removeEventListener(type, listener)
+      window.removeEventListener(type, listener, options)
     }
   }, [type, listener, options])
 }
