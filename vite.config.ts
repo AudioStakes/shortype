@@ -13,7 +13,10 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  plugins: [tailwindcss(), process.env.VITEST ? undefined : preact()].filter(
+  plugins: [
+    tailwindcss(),
+    process.env.VITEST ? undefined : preact(),
+  ].filter(
     Boolean,
   ) as PluginOption[],
   test: {
