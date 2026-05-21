@@ -5,7 +5,8 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "strict": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -21,7 +22,6 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
     "test/*.test.ts",
     "data/*.ts"
   ],

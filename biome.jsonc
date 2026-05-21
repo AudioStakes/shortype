@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.4.15/schema.json",
   "files": {
-    "includes": ["**", "!**/dist"]
+    "includes": ["**", "!**/dist", "!vendor"]
   },
   "formatter": {
     "enabled": true,
@@ -21,17 +21,5 @@
     "rules": {
       "recommended": true
     }
-  },
-  "overrides": [
-    {
-      "includes": ["**/*.vue"],
-      "linter": {
-        "rules": {
-          "style": {
-            "useImportType": "off"
-          }
-        }
-      }
-    }
-  ]
+  }
 }

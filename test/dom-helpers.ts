@@ -1,9 +1,9 @@
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { nextTick } from 'vue'
+import { type ComponentChildren, render as preactRender } from 'preact'
+import { act } from 'preact/test-utils'
 
 type TextMatcher = string | RegExp
 
-const mountedWrappers: VueWrapper[] = []
+const mountedContainers: HTMLElement[] = []
 
 const normalize = (text: string) => text.replace(/\s+/g, ' ').trim()
 
@@ -15,8 +15,13 @@ const matchesText = (text: string, matcher: TextMatcher) => {
     : matcher.test(normalized)
 }
 
+const rootElements = (root: Element) => [
+  root,
+  ...Array.from(root.querySelectorAll('*')),
+]
+
 const queryAllByTextIn = (root: Element, matcher: TextMatcher) =>
-  Array.from(root.querySelectorAll('*')).filter((element) =>
+  rootElements(root).filter((element) =>
     matchesText(element.textContent ?? '', matcher),
   ) as HTMLElement[]
 
@@ -43,18 +48,15 @@ const getByTestIdIn = (root: Element, testId: string) => {
   return found as HTMLElement
 }
 
-export const render = (
-  component: unknown,
-  options: Record<string, unknown> = {},
-) => {
-  const wrapper = mount(component as never, {
-    attachTo: document.body,
-    ...options,
-  }) as VueWrapper
+export const render = (component: ComponentChildren) => {
+  const container = document.createElement('div')
+  document.body.appendChild(container)
+  act(() => {
+    preactRender(component, container)
+  })
+  mountedContainers.push(container)
 
-  mountedWrappers.push(wrapper)
-
-  const root = wrapper.element as HTMLElement
+  const root = (container.firstElementChild ?? container) as HTMLElement
 
   return {
     container: root,
@@ -64,7 +66,10 @@ export const render = (
     getByTestId: (testId: string) => getByTestIdIn(root, testId),
     queryByTestId: (testId: string) =>
       root.querySelector(`[data-testid="${testId}"]`) as HTMLElement | null,
-    unmount: () => wrapper.unmount(),
+    unmount: () => {
+      preactRender(null, container)
+      container.remove()
+    },
   }
 }
 
@@ -78,10 +83,12 @@ export const within = (root: Element) => ({
 })
 
 export const click = async (element: Element) => {
-  ;(element as HTMLElement).dispatchEvent(
-    new MouseEvent('click', { bubbles: true, cancelable: true }),
-  )
-  await nextTick()
+  act(() => {
+    ;(element as HTMLElement).dispatchEvent(
+      new MouseEvent('click', { bubbles: true, cancelable: true }),
+    )
+  })
+  await Promise.resolve()
 }
 
 export const waitFor = async (assertion: () => unknown, timeoutMs = 1000) => {
@@ -115,7 +122,12 @@ export const waitForElementToBeRemoved = async (
 }
 
 export const cleanup = () => {
-  while (mountedWrappers.length > 0) {
-    mountedWrappers.pop()?.unmount()
+  while (mountedContainers.length > 0) {
+    const container = mountedContainers.pop()
+    if (!container) continue
+    act(() => {
+      preactRender(null, container)
+    })
+    container.remove()
   }
 }

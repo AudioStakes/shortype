@@ -1,0 +1,20 @@
+{
+  "name": "zimmerframe",
+  "version": "1.1.4",
+  "description": "A tool for walking ASTs",
+  "type": "module",
+  "main": "./src/walk.cjs",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./src/walk.js",
+      "require": "./src/walk.cjs"
+    }
+  },
+  "types": "./types/index.d.ts",
+  "files": [
+    "src",
+    "types"
+  ],
+  "license": "MIT"
+}

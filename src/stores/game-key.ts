@@ -1,6 +1,6 @@
-import type { InjectionKey } from 'vue'
+import { createContext } from 'preact'
 
 import type { GameStore } from '@/stores/game'
 
-const GameKey: InjectionKey<GameStore> = Symbol('shortcutTrainingSessionStore')
+const GameKey = createContext<GameStore | undefined>(undefined)
 export default GameKey
