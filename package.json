@@ -10,6 +10,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
+    "postinstall": "node scripts/patch-preact-preset-vite.mjs",
     "test": "vitest run",
     "lint": "biome lint . && tsc --noEmit",
     "check": "biome check . && tsc --noEmit",
