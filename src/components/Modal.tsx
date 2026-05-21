@@ -10,7 +10,7 @@ type Props = {
 
 export default function Modal({ isShow, onClose, children }: Props) {
   if (!isShow) {
-    return <div data-testid="modal" />
+    return null
   }
 
   return (

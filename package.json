@@ -10,13 +10,17 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "postinstall": "node scripts/patch-preact-preset-vite.mjs",
     "test": "vitest run",
     "lint": "biome lint . && tsc --noEmit",
     "check": "biome check . && tsc --noEmit",
     "check:fix": "biome check --write .",
     "format": "biome format --write .",
     "format:check": "biome format ."
+  },
+  "overrides": {
+    "@preact/preset-vite": {
+      "zimmerframe": "$zimmerframe"
+    }
   },
   "dependencies": {
     "preact": "^10.29.2"

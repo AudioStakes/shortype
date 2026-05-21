@@ -13,7 +13,7 @@ export default function About({ isShow }: Props) {
   const { hideAboutModal } = injectStrict(ModalKey, 'ModalKey')
 
   if (!isShow) {
-    return <div data-testid="modal" />
+    return null
   }
 
   return (
