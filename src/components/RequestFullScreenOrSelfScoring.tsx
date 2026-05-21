@@ -12,7 +12,9 @@ export default function RequestFullScreenOrSelfScoring() {
         <span class="text-sm sm:text-base">正解判定できるようにするため、</span>
         <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
           <Key keyName="f" class="w-11 h-11 sm:w-12 sm:h-12" />
-          <span class="text-base sm:text-lg font-bold">で全画面モードを ON</span>
+          <span class="text-base sm:text-lg font-bold">
+            で全画面モードを ON
+          </span>
           <span class="text-sm sm:text-base">にしてください</span>
         </div>
       </div>

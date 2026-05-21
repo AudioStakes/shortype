@@ -25,7 +25,9 @@ export default function PieChartOfMasteredRate({ masteredRate }: Props) {
         <circle
           class="stroke-gray-200"
           {...circleAttributes}
-          style={{ strokeDasharray: `0 ${masteredRate} ${100 - masteredRate} 0` }}
+          style={{
+            strokeDasharray: `0 ${masteredRate} ${100 - masteredRate} 0`,
+          }}
         />
       </svg>
       <div class="pointer-events-none absolute inset-0 flex items-center justify-center">

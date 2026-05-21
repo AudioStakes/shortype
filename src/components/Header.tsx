@@ -11,7 +11,9 @@ export default function Header() {
     <header class="w-full flex flex-col gap-3 self-center px-4 py-3 bg-gray-200 sm:flex-row sm:items-center sm:justify-between sm:px-10">
       <div class="flex flex-col gap-0.5 sm:flex-row sm:items-center">
         <span class="text-2xl font-bold sm:mx-2 sm:text-3xl">Shortype</span>
-        <span class="text-sm sm:m-2 sm:text-base">ショートカットキークイズ</span>
+        <span class="text-sm sm:m-2 sm:text-base">
+          ショートカットキークイズ
+        </span>
       </div>
       <nav class="flex flex-col gap-2 sm:flex-row sm:items-center">
         <button
