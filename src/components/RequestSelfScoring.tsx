@@ -8,12 +8,14 @@ export default function RequestSelfScoring() {
 
   return !state.isShowCorrectKeyPressed ? (
     <div>
-      <div class="flex flex-col px-3">
-        <span class="text-base">正解判定に未対応のため、</span>
-        <div class="flex space-x-4 justify-center items-center py-3">
-          <Key keyName="c" class="w-14 h-14" />
-          <span class="text-xl font-bold">で正解を確認 & 自己採点</span>
-          <span class="text-base">をお願いします</span>
+      <div class="flex flex-col gap-2 px-2 text-center">
+        <span class="text-sm sm:text-base">正解判定に未対応のため、</span>
+        <div class="flex flex-wrap justify-center items-center gap-x-3 gap-y-1 py-2">
+          <Key keyName="c" class="w-12 h-12 sm:w-14 sm:h-14" />
+          <span class="text-base sm:text-xl font-bold">
+            で正解を確認 &amp; 自己採点
+          </span>
+          <span class="text-sm sm:text-base">をお願いします</span>
         </div>
       </div>
     </div>

@@ -67,12 +67,12 @@ export default function GameView({ shortcuts }: Props) {
   return (
     <GameKey.Provider value={game}>
       {!game.isRemovedAll ? (
-        <div class="flex-1 flex flex-col">
+        <div class="flex-1 flex flex-col items-center overflow-x-hidden px-4">
           <PieChart />
           <QuestionShow />
           <CorrectAnswer />
           <KeyCombinationForm />
-          <div class="my-auto">
+          <div class="my-auto w-full">
             <ShortcutsShow />
             <RestoreButton />
           </div>

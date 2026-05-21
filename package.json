@@ -27,11 +27,11 @@
     "@tailwindcss/vite": "^4.3.0",
     "@types/node": "^24.3.1",
     "happy-dom": "^20.9.0",
-    "zimmerframe": "file:vendor/zimmerframe",
     "tailwindcss": "^4.3.0",
     "tsx": "^4.22.3",
     "typescript": "^6.0.3",
     "vite": "^8.0.13",
-    "vitest": "^4.1.6"
+    "vitest": "^4.1.6",
+    "zimmerframe": "file:vendor/zimmerframe"
   }
 }

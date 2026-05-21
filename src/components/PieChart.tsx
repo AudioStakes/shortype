@@ -85,7 +85,7 @@ export default function PieChart() {
   const masteredRate = rateOf(countsOfEachStatus.mastered.included)
 
   return (
-    <div class="h-48 w-48 mx-auto flex justify-center">
+    <div class="relative h-48 w-48 mx-auto flex justify-center">
       {isShowCircleDescription ? (
         <div class="w-64 flex flex-col text-left bg-white absolute z-10 left-1/2 translate-x-[5rem] top-[10%] border border-gray-300 rounded-lg p-2">
           <table class="border-separate" style={{ borderSpacing: '0 0.25rem' }}>
@@ -130,7 +130,7 @@ export default function PieChart() {
       ) : null}
 
       <svg
-        class="origin-center -rotate-90 fill-transparent stroke-[3]"
+        class="h-full w-full origin-center -rotate-90 fill-transparent stroke-[3]"
         data-testid="pie-chart"
         role="img"
         viewBox="0 0 64 64"
@@ -145,30 +145,16 @@ export default function PieChart() {
             class={status.strokeColor}
           />
         ))}
-
-        <text
-          textAnchor="middle"
-          dominantBaseline="central"
-          class="origin-center rotate-90 fill-slate-700"
-        >
-          <tspan
-            x={masteredRate === 100 ? '49%' : '50%'}
-            y="50%"
-            class={`text-[0.8rem] font-semibold ${
-              masteredRate === 100 ? 'tracking-tighter' : ''
-            }`}
-          >
-            {masteredRate}
-          </tspan>
-          <tspan
-            x={`${masteredRate.toString().length * 2.5 + 60}%`}
-            y="54%"
-            class="text-[0.25rem]"
-          >
-            %
-          </tspan>
-        </text>
       </svg>
+      <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <span
+          class={`translate-y-[0.04em] text-2xl font-semibold leading-none text-slate-700 ${
+            masteredRate === 100 ? 'tracking-tighter' : ''
+          }`}
+        >
+          {masteredRate}%
+        </span>
+      </div>
     </div>
   )
 }

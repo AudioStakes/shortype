@@ -12,7 +12,7 @@ export default function KeyCombinationForm() {
 
   return (
     <div
-      class="h-44 w-fit min-w-[30rem] mx-auto p-4 flex flex-col justify-center content-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50"
+      class="min-h-44 h-auto w-full max-w-[30rem] mx-auto p-3 sm:p-4 flex flex-col justify-center content-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50"
       data-testid="pressed-key-combination"
     >
       <div class="h-16 w-16 absolute self-center -translate-y-14 text-green-500">
