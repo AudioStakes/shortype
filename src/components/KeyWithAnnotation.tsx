@@ -36,7 +36,7 @@ export default function KeyWithAnnotation({
 
   return (
     <kbd
-      class={`flex h-20 w-20 flex-col items-center justify-center gap-1 bg-white rounded-lg border-[1px] border-gray-300 shadow-3d text-center text-3xl leading-none ${
+      class={`ui-keycap-frame h-20 w-20 gap-1 text-3xl ${
         maxLength > 9 ? 'w-[6rem]' : ''
       } ${lineLength > 2 ? 'w-[6.5rem] h-[6rem]' : ''} ${className ?? ''}`}
       data-testid={keyName}

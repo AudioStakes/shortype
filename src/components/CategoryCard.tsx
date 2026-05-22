@@ -17,11 +17,7 @@ export default function CategoryCard({
   ...rest
 }: Props) {
   return (
-    <button
-      type="button"
-      class={`flex justify-between items-center w-10/12 h-20 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 transition duration-200 hover:ease-out ${className ?? ''}`}
-      {...rest}
-    >
+    <button type="button" class={`ui-card ${className ?? ''}`} {...rest}>
       <div class="mx-2 flex space-x-3 text-left">
         <div class="flex h-8 w-8 justify-center self-center">
           {isSelected ? (
