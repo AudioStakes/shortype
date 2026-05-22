@@ -43,6 +43,8 @@ export default defineConfig({
         body {
           margin: 0;
           line-height: inherit;
+          min-block-size: 100dvh;
+          background: rgb(248 250 252);
         }
 
         :where(button, input, select, optgroup, textarea) {
@@ -61,11 +63,6 @@ export default defineConfig({
           height: auto;
         }
 
-        body {
-          min-block-size: 100dvh;
-          background: rgb(248 250 252);
-        }
-
         :where(h1, h2, h3, h4, h5, h6) {
           text-wrap: balance;
         }
@@ -77,6 +74,16 @@ export default defineConfig({
         :where(button, a[href], input, select, textarea, summary):focus-visible {
           outline: 3px solid rgb(37 99 235);
           outline-offset: 3px;
+        }
+
+        @keyframes fadeOut {
+          from {
+            opacity: 1;
+          }
+
+          to {
+            opacity: 0;
+          }
         }
 
         @media (prefers-reduced-motion: reduce) {

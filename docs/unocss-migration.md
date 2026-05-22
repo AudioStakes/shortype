@@ -7,7 +7,7 @@ Shortype now uses UnoCSS instead of Tailwind for utility-style authoring.
 - The app already relies heavily on utility classes, so UnoCSS fits the existing component style.
 - UnoCSS generates only the utilities that are actually used, which keeps shipped CSS smaller.
 - The Vite setup is simpler because there is no Tailwind-specific plugin to maintain.
-- Custom utilities such as the `shadow-3d` helpers and motion keyframes still live in `src/index.css`, so project-specific styles remain easy to find.
+- Custom utilities, shortcuts, and motion keyframes now live in `uno.config.ts`, so project-specific styles stay in one place.
 
 ## Practical benefits
 
@@ -17,5 +17,5 @@ Shortype now uses UnoCSS instead of Tailwind for utility-style authoring.
 
 ## Notes
 
-- The current setup uses `presetWind3`, so the utility syntax stays close to the Tailwind-style classes already used in the codebase.
+- The current setup uses `presetMini()`, so the utility syntax stays compact while still matching the existing class-driven markup style.
 - The migration keeps the existing design language intact while reducing CSS payload and dependency surface.

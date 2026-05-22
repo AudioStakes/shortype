@@ -30,7 +30,6 @@
     "@preact/preset-vite": "^2.10.5",
     "@types/node": "^24.3.1",
     "happy-dom": "^20.9.0",
-    "playwright": "^1.60.0",
     "tsx": "^4.22.3",
     "typescript": "^6.0.3",
     "unocss": "^66.7.0",

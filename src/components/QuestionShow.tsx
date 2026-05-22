@@ -15,9 +15,7 @@ export default function QuestionShow() {
         </div>
       </div>
       <h2
-        class={`mx-auto w-full break-words px-4 text-2xl font-bold sm:text-3xl ${
-          state.isRemoveKeyPressed ? '[animation:fadeOut_1000ms]' : ''
-        }`}
+        class={`mx-auto w-full break-words px-4 text-2xl font-bold sm:text-3xl ${state.isRemoveKeyPressed ? '[animation:fadeOut_1000ms_forwards]' : ''}`}
       >
         {state.shortcut.action}
       </h2>

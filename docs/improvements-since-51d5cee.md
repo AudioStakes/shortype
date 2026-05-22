@@ -79,7 +79,7 @@
 
 - `src/main.tsx` から `virtual:uno.css` を読み込み、必要なユーティリティだけを生成するようにした
 - `vite.config.ts` の Tailwind 専用プラグインを外し、UnoCSS の Vite プラグインに置き換えた
-- `src/index.css` は独自ユーティリティやアニメーション定義だけを残し、役割がはっきりした
+- 独自ユーティリティやアニメーション定義は `uno.config.ts` の shortcuts / preflights に集約し、役割がはっきりした
 
 実際の production build でも、CSS bundle は `23.43 kB` から `17.80 kB` に下がり、gzip も `5.41 kB` から `3.62 kB` まで小さくなりました。
 
