@@ -4,7 +4,7 @@
 
 # Shortype
 
-Shortcut key training app built with Preact + Vite.
+Shortcut key training app built with Preact + Vite + UnoCSS.
 
 ## URL
 
@@ -16,6 +16,11 @@ https://shortype.vercel.app/
 - All shortcut keys from the official documentation are available
 - Automatically increases the frequency of unmastered shortcut keys
 - Focus on the shortcut keys you want to master by excluding non-interesting shortcut keys
+- Styling is generated on demand with UnoCSS, so the shipped CSS stays smaller and the utility workflow stays simple
+
+## Styling Notes
+
+For the migration summary and the practical benefits of the UnoCSS switch, see [docs/unocss-migration.md](docs/unocss-migration.md).
 
 ## Available apps for training
 
