@@ -20,11 +20,11 @@ export default function About({ isShow }: Props) {
     <div data-testid="modal">
       <button
         type="button"
-        class="z-10 absolute w-screen h-screen bg-black opacity-30 top-0"
+        class="z-10 absolute inset-0 h-screen w-screen bg-black opacity-30 top-0"
         aria-label="Close about modal"
         onClick={hideAboutModal}
       />
-      <div class="z-10 p-5 h-4/5 w-4/5 max-w-[45rem] overflow-y-auto flex flex-col bg-white border border-gray-300 rounded-lg top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 absolute">
+      <div class="z-10 flex max-h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-w-[45rem] -translate-x-1/2 -translate-y-1/2 flex-col overflow-y-auto rounded-lg border border-gray-300 bg-white p-4 top-1/2 left-1/2 absolute sm:w-4/5 sm:p-5">
         <button
           type="button"
           class="self-end rounded-lg transition duration-200 hover:ease-out hover:bg-gray-200 hover:text-gray-900"
@@ -65,7 +65,7 @@ export default function About({ isShow }: Props) {
             キーを押す」もしくは「『ツールを選ぶ』ボタン」から行えます。
           </p>
           <img
-            class="object-scale-down h-16"
+            class="h-14 object-scale-down sm:h-16"
             src={imageOfToolSelectButton}
             alt="ツールを選ぶボタンの画像"
           />
@@ -80,7 +80,7 @@ export default function About({ isShow }: Props) {
             回答するたびに正解判定の結果がブラウザに保存され、その正答率をもとに「身についたかどうか」がショートカットキー単位で判定されます。全体としてどれくらい身についているか、円グラフと表で確認できます。
           </p>
           <img
-            class="object-scale-down h-60"
+            class="h-44 object-scale-down sm:h-60"
             src={imageOfPieChartAndTable}
             alt="練習の正答率を示す円グラフと表の画像"
           />
@@ -107,7 +107,7 @@ export default function About({ isShow }: Props) {
             キーを押して「次から出題しない」と設定できます。
           </p>
           <img
-            class="object-scale-down h-60"
+            class="h-44 object-scale-down sm:h-60"
             src={imageOfRemovingShortcutKey}
             alt="次から出題しない設定を示す画像"
           />
