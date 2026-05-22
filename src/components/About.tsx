@@ -17,17 +17,17 @@ export default function About({ isShow }: Props) {
   }
 
   return (
-    <div data-testid="modal">
+    <div class="overlay-shell" data-testid="modal">
       <button
         type="button"
-        class="z-10 absolute inset-0 h-screen w-screen bg-black opacity-30 top-0"
+        class="overlay-backdrop"
         aria-label="Close about modal"
         onClick={hideAboutModal}
       />
-      <div class="z-10 flex max-h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-w-[45rem] -translate-x-1/2 -translate-y-1/2 flex-col overflow-y-auto rounded-lg border border-gray-300 bg-white p-4 top-1/2 left-1/2 absolute sm:w-4/5 sm:p-5">
+      <div class="overlay-panel flex max-w-[45rem] flex-col rounded-lg border border-gray-300 bg-white p-4 sm:p-5">
         <button
           type="button"
-          class="self-end rounded-lg transition duration-200 hover:ease-out hover:bg-gray-200 hover:text-gray-900"
+          class="ui-close-button self-end"
           aria-label="Close about modal"
           onClick={hideAboutModal}
         >

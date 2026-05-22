@@ -17,14 +17,14 @@ export default function Unsupported({
   if (isUnsupportedOs) notSupportedKinds.push('OS')
 
   return (
-    <div class="w-screen h-screen absolute top-0">
+    <div class="overlay-shell">
       <button
         type="button"
-        class="w-screen h-screen bg-black opacity-30"
+        class="overlay-backdrop"
         aria-label="Close unsupported browser notice"
         onClick={onProceed}
       />
-      <div class="z-10 flex max-h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-w-[50rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 overflow-y-auto rounded-lg border-4 border-gray-500 bg-white p-4 top-1/2 left-1/2 absolute sm:w-3/4">
+      <div class="overlay-panel flex max-w-[50rem] flex-col items-center gap-2 rounded-lg border-4 border-gray-500 bg-white p-4">
         <div class="flex flex-col">
           <IconGlyph
             name="information-circle"
@@ -39,7 +39,7 @@ export default function Unsupported({
           </div>
           <div>
             <ul>
-              <li class="flex my-0.5">
+              <li class="my-0.5 flex">
                 <div class="h-6 w-6 min-h-[1.4rem] min-w-[1.4rem] mx-2">
                   <IconGlyph
                     name={isUnsupportedBrowser ? 'x-circle' : 'check-circle'}
@@ -57,7 +57,7 @@ export default function Unsupported({
                   をご使用ください
                 </div>
               </li>
-              <li class="flex my-0.5">
+              <li class="my-0.5 flex">
                 <div class="h-6 w-6 min-h-[1.4rem] min-w-[1.4rem] mx-2">
                   <IconGlyph
                     name={isUnsupportedOs ? 'x-circle' : 'check-circle'}
@@ -77,7 +77,7 @@ export default function Unsupported({
         </div>
         <button
           type="button"
-          class="mx-auto my-3 w-fit rounded bg-gray-200 px-4 py-2 hover:bg-gray-300"
+          class="mx-auto my-3 inline-flex w-fit items-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-1.5 text-gray-700 transition duration-200 hover:bg-gray-300 hover:ease-out"
           onClick={onProceed}
         >
           閉じる
