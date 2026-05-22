@@ -23,8 +23,42 @@ export default defineConfig({
   preflights: [
     {
       getCSS: () => `
+        *,
+        ::before,
+        ::after {
+          box-sizing: border-box;
+          border-width: 0;
+          border-style: solid;
+        }
+
+        html {
+          line-height: 1.5;
+          -webkit-text-size-adjust: 100%;
+        }
+
         :root {
           color-scheme: light;
+        }
+
+        body {
+          margin: 0;
+          line-height: inherit;
+        }
+
+        :where(button, input, select, optgroup, textarea) {
+          font: inherit;
+          color: inherit;
+          letter-spacing: inherit;
+        }
+
+        :where(img, svg, video, canvas, audio, iframe, embed, object) {
+          display: block;
+          vertical-align: middle;
+        }
+
+        :where(img, video) {
+          max-width: 100%;
+          height: auto;
         }
 
         body {
