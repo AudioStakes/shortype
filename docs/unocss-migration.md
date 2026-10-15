@@ -17,5 +17,7 @@ Shortype now uses UnoCSS instead of Tailwind for utility-style authoring.
 
 ## Notes
 
-- The current setup uses `presetMini()`, so the utility syntax stays compact while still matching the existing class-driven markup style.
+- The setup uses `presetWind3()` to preserve existing Tailwind-style utilities, including `space-x-*`, `space-y-*`, `sr-only`, and `object-scale-down`.
+- UnoCSS does not include a browser reset by default. The project preflight in `uno.config.ts` resets document spacing, lists, links, controls, media, and tables so browser defaults do not change the layout.
+- The removal animation retains its fade and horizontal movement. Reduced-motion preferences disable animation and transitions.
 - The migration keeps the existing design language intact while reducing CSS payload and dependency surface.

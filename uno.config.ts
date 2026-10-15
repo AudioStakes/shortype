@@ -1,7 +1,7 @@
-import { defineConfig, presetMini } from 'unocss'
+import { defineConfig, presetWind3 } from 'unocss'
 
 export default defineConfig({
-  presets: [presetMini()],
+  presets: [presetWind3()],
   shortcuts: {
     'overlay-shell': 'fixed inset-0 z-50 flex items-center justify-center p-4',
     'overlay-backdrop': 'absolute inset-0 bg-black/35',
@@ -47,10 +47,45 @@ export default defineConfig({
           background: rgb(248 250 252);
         }
 
+        :where(h1, h2, h3, h4, h5, h6, p, blockquote, figure, dl, dd, pre) {
+          margin: 0;
+        }
+
+        :where(h1, h2, h3, h4, h5, h6) {
+          font-size: inherit;
+          font-weight: inherit;
+        }
+
+        :where(ol, ul, menu) {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+        }
+
+        a {
+          color: inherit;
+          text-decoration: inherit;
+        }
+
+        :where(code, kbd, samp, pre) {
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+          font-size: 1em;
+        }
+
+        table {
+          border-collapse: collapse;
+          border-color: inherit;
+          text-indent: 0;
+        }
+
         :where(button, input, select, optgroup, textarea) {
           font: inherit;
           color: inherit;
           letter-spacing: inherit;
+          margin: 0;
+          padding: 0;
+          border-radius: 0;
+          background-color: transparent;
         }
 
         :where(img, svg, video, canvas, audio, iframe, embed, object) {
@@ -83,15 +118,15 @@ export default defineConfig({
 
           to {
             opacity: 0;
+            transform: translateX(2%);
           }
         }
 
         @media (prefers-reduced-motion: reduce) {
           :where(*, *::before, *::after) {
-            animation-duration: 0s;
-            animation-iteration-count: 1;
-            scroll-behavior: auto;
-            transition-duration: 0s;
+            animation: none !important;
+            scroll-behavior: auto !important;
+            transition-duration: 0s !important;
           }
         }
       `,
