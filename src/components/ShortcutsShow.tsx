@@ -1,28 +1,18 @@
 export default function ShortcutsShow() {
   return (
-    <ul class="flex flex-wrap justify-center items-center gap-x-8 gap-y-2 text-sm py-3 px-2">
-      <div class="flex justify-center items-center gap-2 whitespace-nowrap">
-        <kbd class="bg-white rounded border-[1px] border-gray-300 shadow-3d px-2 py-1">
-          Enter
-        </kbd>
+    <ul class="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 px-2 py-3 text-sm">
+      <li class="flex whitespace-nowrap justify-center gap-2">
+        <kbd class="ui-keycap-chip">Enter</kbd>
         <span>スキップ</span>
-      </div>
-      <div class="flex justify-center items-center gap-2 whitespace-nowrap">
-        <div>
-          <kbd class="bg-white rounded border-[1px] border-gray-300 shadow-3d px-2 py-1">
-            R
-          </kbd>
-        </div>
+      </li>
+      <li class="flex whitespace-nowrap justify-center gap-2">
+        <kbd class="ui-keycap-chip">R</kbd>
         <span>次から出題しない</span>
-      </div>
-      <div class="flex justify-center items-center gap-2 whitespace-nowrap">
-        <div>
-          <kbd class="bg-white rounded border-[1px] border-gray-300 shadow-3d px-2 py-1">
-            F
-          </kbd>
-        </div>
+      </li>
+      <li class="flex whitespace-nowrap justify-center gap-2">
+        <kbd class="ui-keycap-chip">F</kbd>
         <span>全画面モードを ON / OFF</span>
-      </div>
+      </li>
     </ul>
   )
 }

@@ -22,7 +22,7 @@ export default function Key({ keyName, class: className }: Props) {
 
   return (
     <kbd
-      class={`flex h-20 w-20 flex-col items-center justify-center bg-white rounded-lg border-[1px] border-gray-300 shadow-3d text-center leading-none ${getSizeClass(keyName)} ${
+      class={`ui-keycap-frame h-20 w-20 ${getSizeClass(keyName)} ${
         className ?? ''
       }`}
       data-testid={keyName}

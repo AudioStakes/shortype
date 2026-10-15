@@ -14,17 +14,17 @@ export default function Modal({ isShow, onClose, children }: Props) {
   }
 
   return (
-    <div data-testid="modal">
+    <div class="overlay-shell" data-testid="modal">
       <button
         type="button"
-        class="z-10 absolute w-screen h-screen bg-black opacity-30 top-0"
+        class="overlay-backdrop"
         aria-label="Close modal"
         onClick={onClose}
       />
-      <div class="z-10 p-5 w-4/5 max-w-[45rem] min-h-fit max-h-fit flex flex-col bg-white border border-gray-300 rounded-lg top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 absolute">
+      <div class="overlay-panel flex max-w-[45rem] flex-col rounded-lg border border-gray-300 bg-white p-5 shadow-2xl">
         <button
           type="button"
-          class="self-end rounded-lg transition duration-200 hover:ease-out hover:bg-gray-200 hover:text-gray-900"
+          class="ui-close-button self-end"
           aria-label="Close modal"
           onClick={onClose}
         >

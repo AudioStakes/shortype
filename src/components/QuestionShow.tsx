@@ -6,7 +6,7 @@ export default function QuestionShow() {
   const { state } = injectStrict(GameKey, 'GameKey')
 
   return (
-    <div class="min-h-[4rem] h-fit w-full max-w-[54rem] flex flex-col space-y-2 text-center">
+    <div class="flex h-fit min-h-[4rem] w-full max-w-[54rem] flex-col space-y-2 text-center">
       <div class="flex flex-col text-base">
         <span>{state.shortcut.app}</span>
         <div>
@@ -15,9 +15,7 @@ export default function QuestionShow() {
         </div>
       </div>
       <h2
-        class={`w-full px-4 text-2xl sm:text-3xl break-words font-bold mx-auto ${
-          state.isRemoveKeyPressed ? 'animate-[fadeOut_1000ms]' : ''
-        }`}
+        class={`mx-auto w-full break-words px-4 text-2xl font-bold sm:text-3xl ${state.isRemoveKeyPressed ? '[animation:fadeOut_1000ms_forwards]' : ''}`}
       >
         {state.shortcut.action}
       </h2>

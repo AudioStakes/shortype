@@ -1,4 +1,4 @@
-import '@/index.css'
+import 'virtual:uno.css'
 
 import { render } from 'preact'
 

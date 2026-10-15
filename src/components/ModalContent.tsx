@@ -40,7 +40,7 @@ export default function ModalContent({
 
   return (
     <div
-      class={`transition-all duration-200 ease-in transform ${
+      class={`transform transition-[opacity,transform] duration-200 ease-in ${
         isEntered ? 'opacity-100 translate-x-0' : `opacity-0 ${enterFromSide}`
       }`}
     >

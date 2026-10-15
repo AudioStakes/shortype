@@ -72,7 +72,7 @@ export default function GameView({ shortcuts }: Props) {
           <QuestionShow />
           <CorrectAnswer />
           <KeyCombinationForm />
-          <div class="my-auto w-full">
+          <div class="my-4 w-full sm:my-auto">
             <ShortcutsShow />
             <RestoreButton />
           </div>

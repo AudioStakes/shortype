@@ -23,9 +23,9 @@ export default function App() {
 
   return (
     <ModalKey.Provider value={modal}>
-      <div class="font-sans antialiased text-slate-700 h-screen flex flex-col text-center">
+      <div class="font-sans antialiased text-slate-700 min-h-dvh flex flex-col text-center">
         <Header />
-        <main class="flex-auto flex flex-col justify-center">
+        <main class="flex-1 flex flex-col justify-start sm:justify-center">
           {isUnsupported ? (
             <Unsupported
               isUnsupportedBrowser={isUnsupportedBrowser}
