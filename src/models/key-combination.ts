@@ -11,6 +11,9 @@ const NON_KEY_SET = new Set([
   null,
 ])
 
+const normalizeShiftedKey = ({ key, shiftKey }: KeyCombinable) =>
+  shiftKey && key === ':' ? ';' : key
+
 const signatureOf = (keyCombinable: KeyCombinable) =>
   `${keyCombinable.altKey}-${keyCombinable.ctrlKey}-${keyCombinable.metaKey}-${keyCombinable.shiftKey}-${keyCombinable.key ?? ''}`
 
@@ -206,7 +209,7 @@ export default class KeyCombination {
         this.keyCombinable.ctrlKey === other.ctrlKey &&
         this.keyCombinable.metaKey === other.metaKey &&
         this.keyCombinable.shiftKey === other.shiftKey &&
-        this.keyCombinable.key === other.key
+        normalizeShiftedKey(this.keyCombinable) === normalizeShiftedKey(other)
       )
     }
   }

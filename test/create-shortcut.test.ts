@@ -7,6 +7,32 @@ import mac from '@/constants/shortcuts/mac.json'
 import terminal from '@/constants/shortcuts/terminal.json'
 import type { ShortcutDescription } from '@/types/interfaces'
 
+test.each([
+  ['Right', 'ArrowRight'],
+  ['Left', 'ArrowLeft'],
+  ['Down', 'ArrowDown'],
+  ['Up', 'ArrowUp'],
+])('parse an English %s arrow description', (direction, expectedKey) => {
+  const shortcut = createShortcut({
+    id: 'english-arrow',
+    app: 'Example',
+    os: 'macOS',
+    category: 'Navigation',
+    action: 'Move',
+    keysDescription: `Command + ${direction} arrow`,
+  })
+
+  expect(shortcut.keyCombinations).toEqual([
+    {
+      altKey: false,
+      ctrlKey: false,
+      metaKey: true,
+      shiftKey: false,
+      key: expectedKey,
+    },
+  ])
+})
+
 test('Google Chrome', () => {
   const csvRawData = fs.readFileSync(
     `${__dirname}/../data/shortcuts/chrome.csv`,

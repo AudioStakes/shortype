@@ -19,6 +19,7 @@ export default function ToolsAndCategoriesModal() {
 
   const select = (categories: string[]) => {
     selectToolAndCategories(tool, categories)
+    setTool('')
     hideToolsAndCategoriesModal()
   }
 

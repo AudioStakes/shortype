@@ -51,7 +51,12 @@ export const createShortcutTrainingSessionSummary = (
       (toolSummary) => [toolSummary.name, toolSummary] as const,
     ),
   )
-  const masteredIdSet = new Set(getMasteredIds(snapshot))
+  const masteredIdSet = new Set(
+    getMasteredIds({
+      ...snapshot,
+      shortcuts: catalog.tools.flatMap((tool) => tool.shortcuts),
+    }),
+  )
 
   const countsOfEachStatus = () =>
     getCountsOfEachStatus({

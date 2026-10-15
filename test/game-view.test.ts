@@ -210,6 +210,48 @@ test('skip a question when an Enter key is pressed', async () => {
   getByText('ウィンドウを最小化する')
 })
 
+test('Tab navigation does not record an incorrect answer', () => {
+  const { queryByTestId } = renderGameView()
+  const event = new KeyboardEvent('keydown', {
+    key: 'Tab',
+    code: 'Tab',
+    cancelable: true,
+  })
+  window.dispatchEvent(event)
+  expect(event.defaultPrevented).toBe(false)
+  expect(queryByTestId('wrong-key-pressed')).toBeNull()
+  expect(localStorage.getItem(ANSWERED_HISTORY_KEY)).toBeNull()
+})
+
+test('real Tab questions remain answerable without blocking focus navigation', () => {
+  renderGameView([
+    {
+      ...availableShortcuts[0],
+      keysDescription: 'tab',
+      needsFillInBlankMode: false,
+      keyCombinations: [
+        {
+          altKey: false,
+          ctrlKey: false,
+          metaKey: false,
+          shiftKey: false,
+          key: 'Tab',
+        },
+      ],
+    },
+  ])
+  const event = new KeyboardEvent('keydown', {
+    key: 'Tab',
+    code: 'Tab',
+    cancelable: true,
+  })
+  window.dispatchEvent(event)
+  expect(event.defaultPrevented).toBe(false)
+  expect(
+    JSON.parse(localStorage.getItem(ANSWERED_HISTORY_KEY) ?? '{}'),
+  ).toEqual({ '1': [true] })
+})
+
 test('remove a question when an R key is pressed', async () => {
   const { getByText } = renderGameView()
 
