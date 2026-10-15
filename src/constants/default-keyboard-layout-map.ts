@@ -39,7 +39,7 @@ const DEFAULT_KEYBOARD_LAYOUT_MAP: ReadonlyMap<string, string> = new Map([
   ['KeyJ', 'j'],
   ['KeyK', 'k'],
   ['KeyL', 'l'],
-  ['Semicolon', ':'],
+  ['Semicolon', ';'],
   ['Quote', "'"],
   ['IntlBackslash', '\\'],
   ['KeyZ', 'z'],

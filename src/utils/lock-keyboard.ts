@@ -1,8 +1,10 @@
 import type { NavigatorExtend } from '@/types/interfaces'
 
-export default function lockKeyboard() {
+export default async function lockKeyboard() {
   const navigatorExtend = navigator as NavigatorExtend
-  if ('keyboard' in navigatorExtend && 'lock' in navigatorExtend.keyboard) {
-    navigatorExtend.keyboard.lock()
+  try {
+    await navigatorExtend.keyboard?.lock?.()
+  } catch {
+    // Keyboard lock is optional; unsupported shortcuts still allow self scoring.
   }
 }

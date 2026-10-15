@@ -6,9 +6,9 @@ type Props = {
 
 export default function KeyList({ keys }: Props) {
   return (
-    <div class="flex justify-center align-center">
+    <div class="flex max-w-full flex-wrap justify-center items-center gap-y-2">
       {keys.map((keyName, index) => (
-        <div key={`${keyName}-${index}`} class="flex">
+        <div key={`${keyName}-${index}`} class="flex shrink-0">
           {index > 0 ? <span class="mx-4 my-auto">+</span> : null}
           <Key keyName={keyName} />
         </div>

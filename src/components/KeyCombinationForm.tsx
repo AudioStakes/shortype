@@ -15,6 +15,13 @@ export default function KeyCombinationForm() {
       class="min-h-44 h-auto w-full max-w-[30rem] mx-auto p-3 sm:p-4 flex flex-col justify-center content-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50"
       data-testid="pressed-key-combination"
     >
+      <span class="sr-only" role="status">
+        {state.isCorrectKeyPressed || state.isMarkedSelfAsCorrect
+          ? '正解です'
+          : state.isWrongKeyPressed || state.isMarkedSelfAsWrong
+            ? '不正解です。正解を確認してください'
+            : ''}
+      </span>
       <div class="h-16 w-16 absolute self-center -translate-y-14 text-green-500">
         {state.isCorrectKeyPressed && !state.isWrongKeyPressed ? (
           <div data-testid="correct-key-pressed">

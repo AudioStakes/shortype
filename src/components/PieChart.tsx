@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'preact/hooks'
+import { useId, useMemo, useState } from 'preact/hooks'
 
 import GameKey from '@/stores/game-key'
 import { injectStrict } from '@/utils/inject-strict'
@@ -8,7 +8,10 @@ const RADIUS = CIRCUMFERENCE / Math.PI / 2
 
 export default function PieChart() {
   const { countsOfEachStatus } = injectStrict(GameKey, 'GameKey')
-  const [isShowCircleDescription, setIsShowCircleDescription] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
+  const [isPinned, setIsPinned] = useState(false)
+  const isShowCircleDescription = isHovered || isPinned
+  const descriptionId = useId()
 
   const styleOfEachStatus = {
     mastered: {
@@ -85,9 +88,21 @@ export default function PieChart() {
   const masteredRate = rateOf(countsOfEachStatus.mastered.included)
 
   return (
-    <div class="relative h-48 w-48 mx-auto flex justify-center">
+    <div
+      class="relative h-48 w-48 mx-auto flex justify-center shrink-0"
+      onPointerEnter={(event) => {
+        if (event.pointerType === 'mouse') setIsHovered(true)
+      }}
+      onPointerLeave={(event) => {
+        if (event.pointerType === 'mouse') setIsHovered(false)
+      }}
+    >
       {isShowCircleDescription ? (
-        <div class="w-64 flex flex-col text-left bg-white absolute z-10 left-1/2 translate-x-[5rem] top-[10%] border border-gray-300 rounded-lg p-2">
+        <section
+          id={descriptionId}
+          aria-label="習熟度の詳細"
+          class="w-64 max-w-[calc(100vw-2rem)] flex flex-col text-left bg-white absolute z-10 left-1/2 -translate-x-1/2 top-full border border-gray-300 rounded-lg p-2"
+        >
           <table class="border-separate" style={{ borderSpacing: '0 0.25rem' }}>
             <thead class="text-sm">
               <tr>
@@ -122,39 +137,56 @@ export default function PieChart() {
             </tbody>
           </table>
 
-          <ul class="list-none text-sm mt-2">
-            <li class="mx-2 break-all" />※
-            上記は「出題しない」ショートカットキーを含みません
-          </ul>
-        </div>
+          <p class="text-sm mt-2">
+            ※ 上記は「出題しない」ショートカットキーを含みません
+          </p>
+        </section>
       ) : null}
 
-      <svg
-        class="h-full w-full origin-center -rotate-90 fill-transparent stroke-[3]"
-        data-testid="pie-chart"
-        role="img"
-        viewBox="0 0 64 64"
-        onMouseEnter={() => setIsShowCircleDescription(true)}
-        onMouseLeave={() => setIsShowCircleDescription(false)}
+      <button
+        type="button"
+        class="relative h-full w-full rounded-full"
+        aria-label={`習熟度 ${masteredRate}% の詳細`}
+        aria-expanded={isShowCircleDescription}
+        aria-controls={descriptionId}
+        onClick={() => {
+          setIsPinned((value) => !value)
+          if (isPinned) setIsHovered(false)
+        }}
+        onBlur={() => setIsPinned(false)}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape') {
+            setIsPinned(false)
+            setIsHovered(false)
+            event.stopPropagation()
+          }
+        }}
       >
-        <title>ショートカットの習熟度を示す円グラフ</title>
-        {statuses.map((status, index) => (
-          <circle
-            key={index}
-            {...status.attributes}
-            class={status.strokeColor}
-          />
-        ))}
-      </svg>
-      <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <span
-          class={`translate-y-[0.04em] text-2xl font-semibold leading-none text-slate-700 ${
-            masteredRate === 100 ? 'tracking-tighter' : ''
-          }`}
+        <svg
+          class="h-full w-full origin-center -rotate-90 fill-transparent stroke-[3]"
+          data-testid="pie-chart"
+          role="img"
+          viewBox="0 0 64 64"
         >
-          {masteredRate}%
-        </span>
-      </div>
+          <title>ショートカットの習熟度を示す円グラフ</title>
+          {statuses.map((status, index) => (
+            <circle
+              key={index}
+              {...status.attributes}
+              class={status.strokeColor}
+            />
+          ))}
+        </svg>
+        <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <span
+            class={`translate-y-[0.04em] text-2xl font-semibold leading-none text-slate-700 ${
+              masteredRate === 100 ? 'tracking-tighter' : ''
+            }`}
+          >
+            {masteredRate}%
+          </span>
+        </div>
+      </button>
     </div>
   )
 }

@@ -2,10 +2,12 @@ import { h } from 'preact'
 import { describe, expect, test, vi } from 'vitest'
 
 import About from '@/components/About'
+import CategoryCard from '@/components/CategoryCard'
 import Key from '@/components/Key'
 import Modal from '@/components/Modal'
 import ModalContent from '@/components/ModalContent'
 import useEventListener from '@/composables/use-event-listener'
+import useKeyboardEventListener from '@/composables/use-keyboard-event-listener'
 import ModalKey from '@/stores/modal-key'
 
 import { render, waitFor } from './dom-helpers'
@@ -16,7 +18,131 @@ function EventListenerHarness({ onEvent }: { onEvent: (e: Event) => void }) {
   return null
 }
 
+function KeyboardListenerHarness({
+  onKey,
+  type = 'keydown',
+  enabled = true,
+}: {
+  onKey: (event: KeyboardEvent) => void
+  type?: 'keydown' | 'keyup'
+  enabled?: boolean
+}) {
+  useKeyboardEventListener(type, onKey, enabled)
+  return h(
+    'div',
+    null,
+    h('button', { type: 'button' }, 'action'),
+    h('input', null),
+  )
+}
+
 describe('component regressions', () => {
+  test('Modal opens natively, focuses its close control, handles cancellation, and restores focus', () => {
+    const trigger = document.createElement('button')
+    document.body.append(trigger)
+    trigger.focus()
+    const onClose = vi.fn()
+    const rendered = render(
+      h(Modal, {
+        children: h('span', null, 'dialog content'),
+        isShow: true,
+        onClose,
+        label: 'Test dialog',
+      }),
+    )
+    const dialog = rendered.container as HTMLDialogElement
+    expect(dialog.open).toBe(true)
+    expect(dialog.getAttribute('aria-label')).toBe('Test dialog')
+    expect(document.activeElement).toBe(
+      dialog.querySelector('.ui-close-button'),
+    )
+    const cancel = new Event('cancel', { cancelable: true })
+    dialog.dispatchEvent(cancel)
+    expect(cancel.defaultPrevented).toBe(true)
+    expect(onClose).toHaveBeenCalledOnce()
+    rendered.unmount()
+    expect(document.activeElement).toBe(trigger)
+    trigger.remove()
+  })
+
+  test('category controls expose their selected state', () => {
+    const { container } = render(
+      h(CategoryCard, {
+        name: 'Navigation',
+        masteredRate: 0,
+        isSelected: true,
+      }),
+    )
+    expect(container.getAttribute('aria-pressed')).toBe('true')
+  })
+
+  test.each([
+    'Enter',
+    ' ',
+    'Escape',
+  ])('keyboard controls retain native %s behavior', (key) => {
+    const onKey = vi.fn()
+    const { container } = render(h(KeyboardListenerHarness, { onKey }))
+    const event = new KeyboardEvent('keydown', {
+      key,
+      bubbles: true,
+      cancelable: true,
+    })
+    container.querySelector('button')?.dispatchEvent(event)
+    expect(event.defaultPrevented).toBe(false)
+    expect(onKey).not.toHaveBeenCalled()
+  })
+
+  test('Tab reaches the training listener without blocking focus navigation', () => {
+    const onKey = vi.fn()
+    const { container } = render(h(KeyboardListenerHarness, { onKey }))
+    const event = new KeyboardEvent('keydown', {
+      key: 'Tab',
+      bubbles: true,
+      cancelable: true,
+    })
+    container.querySelector('button')?.dispatchEvent(event)
+    expect(event.defaultPrevented).toBe(false)
+    expect(onKey).toHaveBeenCalledWith(event)
+  })
+
+  test('text fields retain their keyboard events', () => {
+    const onKey = vi.fn()
+    const { container } = render(h(KeyboardListenerHarness, { onKey }))
+    const event = new KeyboardEvent('keydown', {
+      key: 'r',
+      bubbles: true,
+      cancelable: true,
+    })
+    container.querySelector('input')?.dispatchEvent(event)
+    expect(event.defaultPrevented).toBe(false)
+    expect(onKey).not.toHaveBeenCalled()
+  })
+
+  test('disabled game listeners leave keyboard events untouched', () => {
+    const onKey = vi.fn()
+    render(h(KeyboardListenerHarness, { onKey, enabled: false }))
+    const event = new KeyboardEvent('keydown', { key: 'r', cancelable: true })
+    window.dispatchEvent(event)
+    expect(event.defaultPrevented).toBe(false)
+    expect(onKey).not.toHaveBeenCalled()
+  })
+
+  test('key releases clear game input while allowing native control behavior', () => {
+    const onKey = vi.fn()
+    const { container } = render(
+      h(KeyboardListenerHarness, { onKey, type: 'keyup' }),
+    )
+    const event = new KeyboardEvent('keyup', {
+      key: 'Meta',
+      bubbles: true,
+      cancelable: true,
+    })
+    container.querySelector('button')?.dispatchEvent(event)
+    expect(event.defaultPrevented).toBe(false)
+    expect(onKey).toHaveBeenCalledWith(event)
+  })
+
   test('Modal does not render a placeholder when hidden', () => {
     const { queryByTestId } = render(
       h(Modal, {

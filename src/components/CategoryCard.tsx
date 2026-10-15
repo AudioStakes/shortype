@@ -17,7 +17,12 @@ export default function CategoryCard({
   ...rest
 }: Props) {
   return (
-    <button type="button" class={`ui-card ${className ?? ''}`} {...rest}>
+    <button
+      type="button"
+      class={`ui-card ${className ?? ''}`}
+      aria-pressed={isSelected}
+      {...rest}
+    >
       <div class="mx-2 flex space-x-3 text-left">
         <div class="flex h-8 w-8 justify-center self-center">
           {isSelected ? (

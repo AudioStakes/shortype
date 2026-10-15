@@ -1,6 +1,6 @@
 // 最初にマッチした文字列が返されるため、文字数の降順で並べる
 const keyDescriptionExcludingModifier = [
-  '[Right|Left|Down|Up] arrow',
+  '(?:Right|Left|Down|Up) arrow',
   'スラッシュ \\(\\/\\)',
   'プラス記号 \\(\\+\\)',
   'Mission Control',

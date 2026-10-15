@@ -60,8 +60,14 @@ npm test
 npm run build
 ```
 
+Production builds target the site root used by Vercel and are emitted to `dist/`.
+
 ## GitHub Pages
 
-- Vite is configured with `base: '/shortype/'`.
-- Production builds are emitted to `dist/`.
-- For branch-based GitHub Pages without Actions, copy the contents of `dist/` into `docs/` or publish `dist/` to a `gh-pages` branch.
+Override Vite's base path when publishing under the repository path:
+
+```bash
+npm run build -- --base=/shortype/
+```
+
+For branch-based GitHub Pages without Actions, copy the contents of `dist/` into `docs/` or publish `dist/` to a `gh-pages` branch.
