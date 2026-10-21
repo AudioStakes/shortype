@@ -129,11 +129,20 @@ describe('quality policy loading', () => {
     expect(() => checkQualityPolicy(undefined, git)).not.toThrow()
     vi.stubEnv('QUALITY_BASE_REF', '')
     vi.stubEnv('CI', '')
-    expect(() => checkQualityPolicy()).not.toThrow()
+    git.mockReturnValueOnce('abc123').mockReturnValueOnce('')
+    expect(() => checkQualityPolicy(undefined, git)).not.toThrow()
+    expect(git).toHaveBeenNthCalledWith(3, [
+      'merge-base',
+      'HEAD',
+      'origin/main',
+    ])
     vi.stubEnv('CI', 'true')
-    expect(() => checkQualityPolicy()).toThrow('QUALITY_BASE_REF')
+    expect(() => checkQualityPolicy(undefined, git)).toThrow('QUALITY_BASE_REF')
     vi.stubEnv('QUALITY_BASE_REF', 'main;echo unsafe')
-    expect(() => checkQualityPolicy()).toThrow('Invalid policy comparison ref')
+    expect(() => checkQualityPolicy(undefined, git)).toThrow(
+      'Invalid policy comparison ref',
+    )
+    expect(git).toHaveBeenCalledTimes(4)
   })
 })
 
