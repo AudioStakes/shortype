@@ -158,12 +158,15 @@ describe('component regressions', () => {
   test('About does not render a placeholder when hidden', () => {
     const modalStore = {
       hideAboutModal: vi.fn(),
+      hidePrivacyModal: vi.fn(),
       hideToolsAndCategoriesModal: vi.fn(),
       modalState: {
         isAboutModalVisible: false,
+        isPrivacyModalVisible: false,
         isToolsAndCategoriesModalVisible: false,
       },
       showAboutModal: vi.fn(),
+      showPrivacyModal: vi.fn(),
       showToolsAndCategoriesModal: vi.fn(),
     }
 

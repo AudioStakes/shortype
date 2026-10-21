@@ -36,6 +36,7 @@ export default function GameView({ shortcuts }: Props) {
   const { modalState } = injectStrict(ModalKey, 'ModalKey')
   const isModalVisible =
     modalState.isAboutModalVisible ||
+    modalState.isPrivacyModalVisible ||
     modalState.isToolsAndCategoriesModalVisible ||
     game.state.isSelectToolsKeyPressed
 

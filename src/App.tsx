@@ -3,6 +3,7 @@ import { useMemo, useState } from 'preact/hooks'
 import About from '@/components/About'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
+import Privacy from '@/components/Privacy'
 import createModalStore from '@/stores/modal'
 import ModalKey from '@/stores/modal-key'
 import GameView from '@/views/GameView'
@@ -36,6 +37,7 @@ export default function App() {
             <GameView />
           )}
           <About isShow={modal.modalState.isAboutModalVisible} />
+          <Privacy isShow={modal.modalState.isPrivacyModalVisible} />
         </main>
         <Footer />
       </div>

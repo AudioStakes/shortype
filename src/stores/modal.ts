@@ -1,6 +1,7 @@
 const createModalStore = (onChange: () => void = () => {}) => {
   const modalState = {
     isAboutModalVisible: false,
+    isPrivacyModalVisible: false,
     isToolsAndCategoriesModalVisible: false,
   }
 
@@ -11,6 +12,16 @@ const createModalStore = (onChange: () => void = () => {}) => {
 
   const hideAboutModal = () => {
     modalState.isAboutModalVisible = false
+    onChange()
+  }
+
+  const showPrivacyModal = () => {
+    modalState.isPrivacyModalVisible = true
+    onChange()
+  }
+
+  const hidePrivacyModal = () => {
+    modalState.isPrivacyModalVisible = false
     onChange()
   }
 
@@ -29,6 +40,9 @@ const createModalStore = (onChange: () => void = () => {}) => {
 
     showAboutModal,
     hideAboutModal,
+
+    showPrivacyModal,
+    hidePrivacyModal,
 
     showToolsAndCategoriesModal,
     hideToolsAndCategoriesModal,

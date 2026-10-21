@@ -1,6 +1,10 @@
 import githubMark from '@/assets/GitHub-Mark-32px.png'
+import ModalKey from '@/stores/modal-key'
+import { injectStrict } from '@/utils/inject-strict'
 
 export default function Footer() {
+  const { showPrivacyModal } = injectStrict(ModalKey, 'ModalKey')
+
   return (
     <footer class="flex justify-center items-center space-x-2 text-xs py-2 bg-gray-100">
       <a
@@ -12,6 +16,14 @@ export default function Footer() {
         <img src={githubMark} alt="" aria-hidden="true" />
       </a>
       <span>© 2022 Daisuke Sato</span>
+      <button
+        type="button"
+        class="rounded px-1 underline underline-offset-2"
+        aria-haspopup="dialog"
+        onClick={showPrivacyModal}
+      >
+        プライバシー
+      </button>
     </footer>
   )
 }

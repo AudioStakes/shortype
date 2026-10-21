@@ -62,6 +62,21 @@ npm run build
 
 Production builds target the site root used by Vercel and are emitted to `dist/`.
 
+## Privacy and analytics
+
+The footer's 「プライバシー」 dialog explains browser-local training data and
+Cloudflare Web Analytics. Answer history, excluded shortcut IDs, and selected
+tool/category preferences stay in localStorage; neither these records nor typed
+shortcut keys are sent to analytics.
+
+The manual Cloudflare beacon in `src/utils/web-analytics.ts` loads once after page
+load, only on `https://shortype.vercel.app`. Local development, Vercel previews,
+and alternate hosts do not send analytics. The site token is a public identifier,
+not an API credential. Avoid adding a second beacon through hosting settings.
+
+Cloudflare collects aggregate usage and performance data without analytics
+cookies or browser storage. See its [RUM data and privacy documentation](https://developers.cloudflare.com/speed/observatory/rum-beacon/).
+
 ## GitHub Pages
 
 Override Vite's base path when publishing under the repository path:

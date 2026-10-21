@@ -30,6 +30,13 @@ test('show an unsupported message when a client is unsupported', async () => {
   expect(container.textContent).not.toContain(
     'サポートされている ブラウザをご使用ください',
   )
+
+  await click(getByText('プライバシー'))
+  expect(
+    container.querySelector<HTMLDialogElement>(
+      'dialog[aria-label="プライバシー"]',
+    )?.open,
+  ).toBe(true)
 })
 
 test("doesn't show an unsupported message when a client is unsupported", async () => {
@@ -99,6 +106,58 @@ test('About pauses game shortcuts until its dialog is closed', async () => {
   expect(container.querySelector('h2[aria-live]')?.textContent).toBe(
     initialQuestion,
   )
+})
+
+test('Privacy explains data use, pauses shortcuts, and restores focus on close', async () => {
+  const { container, getByText } = render(h(App, {}))
+  const trigger = getByText('プライバシー')
+  trigger.focus()
+  await click(trigger)
+
+  const dialog = container.querySelector<HTMLDialogElement>(
+    'dialog[aria-label="プライバシー"]',
+  )
+  if (!dialog) throw new Error('Missing privacy dialog')
+  expect(dialog.open).toBe(true)
+  expect(document.activeElement?.getAttribute('aria-label')).toBe(
+    'プライバシーを閉じる',
+  )
+  expect(dialog.textContent).toContain('ブラウザに保存する学習データ')
+  expect(dialog.textContent).toContain('アクセス解析')
+  expect(Array.from(dialog.querySelectorAll('a'), (link) => link.href)).toEqual(
+    [
+      'https://www.cloudflare.com/web-analytics/',
+      'https://developers.cloudflare.com/speed/observatory/rum-beacon/',
+      'https://www.cloudflare.com/privacypolicy/',
+    ],
+  )
+
+  const event = new KeyboardEvent('keydown', {
+    key: 'r',
+    code: 'KeyR',
+    cancelable: true,
+  })
+  window.dispatchEvent(event)
+  expect(event.defaultPrevented).toBe(false)
+  expect(localStorage.getItem(REMOVED_IDS_KEY)).toBeNull()
+  expect(localStorage.getItem(ANSWERED_HISTORY_KEY)).toBeNull()
+
+  dialog.dispatchEvent(new Event('cancel', { cancelable: true }))
+  await waitFor(() => {
+    expect(dialog.isConnected).toBe(false)
+    expect(document.activeElement).toBe(trigger)
+  })
+
+  window.dispatchEvent(
+    new KeyboardEvent('keydown', {
+      key: 'r',
+      code: 'KeyR',
+      cancelable: true,
+    }),
+  )
+  await waitFor(() => {
+    expect(localStorage.getItem(REMOVED_IDS_KEY)).not.toBeNull()
+  })
 })
 
 test('the header can switch tools after every current shortcut is removed', async () => {
