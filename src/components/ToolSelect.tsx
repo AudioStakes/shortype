@@ -1,13 +1,13 @@
 import ToolCard from '@/components/ToolCard'
 import GameKey from '@/stores/game-key'
-import { injectStrict } from '@/utils/inject-strict'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 type Props = {
   onSelectTool: (tool: string) => void
 }
 
 export default function ToolSelect({ onSelectTool }: Props) {
-  const { masteredRateOfEachTool } = injectStrict(GameKey, 'GameKey')
+  const { masteredRateOfEachTool } = useStrictContext(GameKey, 'GameKey')
 
   return (
     <div class="w-full h-fit flex flex-col items-center gap-6 bg-white">

@@ -1,12 +1,12 @@
 import TOOL_TO_SHORTCUTS_MAP from '@/constants/tool-to-shortcuts-map'
 import type { Shortcut } from '@/types/interfaces'
 
-export type ShortcutCatalogCategoryGroup = {
+type ShortcutCatalogCategoryGroup = {
   name: string
   shortcuts: Shortcut[]
 }
 
-export type ShortcutCatalogToolGroup = {
+type ShortcutCatalogToolGroup = {
   name: string
   shortcuts: Shortcut[]
   categories: ShortcutCatalogCategoryGroup[]
@@ -46,7 +46,7 @@ const TOOL_GROUP_MAP = new Map(
 const getToolGroup = (tool: string): ShortcutCatalogToolGroup | undefined =>
   TOOL_GROUP_MAP.get(tool)
 
-export type ShortcutCatalog = {
+type ShortcutCatalog = {
   searchShortcuts: (args: { tool: string; categories?: string[] }) => Shortcut[]
   listTools: () => string[]
   listCategoriesOf: (tool: string) => string[]

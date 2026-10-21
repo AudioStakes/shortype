@@ -1,3 +1,5 @@
+import type { Shortcut } from '@/types/interfaces'
+
 export const availableShortcuts = [
   {
     action: '最後のタブに移動する',
@@ -5,6 +7,7 @@ export const availableShortcuts = [
     category: 'タブとウィンドウのショートカット',
     id: '1',
     isAvailable: true,
+    needsFillInBlankMode: false,
     keyCombinations: [
       {
         altKey: false,
@@ -24,6 +27,7 @@ export const availableShortcuts = [
     category: 'タブとウィンドウのショートカット',
     id: '2',
     isAvailable: true,
+    needsFillInBlankMode: false,
     keyCombinations: [
       {
         altKey: false,
@@ -37,7 +41,7 @@ export const availableShortcuts = [
     keysDescription: '⌘+m',
     unavailableReason: null,
   },
-] as const
+] satisfies Shortcut[]
 
 export const unsupportedShortcuts = [
   {
@@ -55,7 +59,7 @@ export const unsupportedShortcuts = [
         shiftKey: false,
       },
     ],
-    needFillInBlankMode: false,
+    needsFillInBlankMode: false,
     os: 'macOS',
     keysDescription: '⌘+option+右矢印',
     unavailableReason: 'hasDeniedKeyCombination',
@@ -75,12 +79,12 @@ export const unsupportedShortcuts = [
         shiftKey: false,
       },
     ],
-    needFillInBlankMode: false,
+    needsFillInBlankMode: false,
     os: 'macOS',
     keysDescription: '⌘+option+左矢印',
     unavailableReason: 'hasDeniedKeyCombination',
   },
-] as const
+] satisfies Shortcut[]
 
 export const shortcutWithMultipleKeyCombinations = [
   {
@@ -89,6 +93,7 @@ export const shortcutWithMultipleKeyCombinations = [
     category: 'タブとウィンドウのショートカット',
     id: '16',
     isAvailable: true,
+    needsFillInBlankMode: false,
     keyCombinations: [
       {
         altKey: false,
@@ -109,7 +114,7 @@ export const shortcutWithMultipleKeyCombinations = [
     keysDescription: '⌘+右矢印または ⌘+左矢印',
     unavailableReason: null,
   },
-] as const
+] satisfies Shortcut[]
 
 export const shortcutWithNonKeyActions = [
   {
@@ -132,7 +137,7 @@ export const shortcutWithNonKeyActions = [
     keysDescription: '⌘+リンクをクリック',
     unavailableReason: null,
   },
-] as const
+] satisfies Shortcut[]
 
 export const shortcutsOnlyAvailableInFullscreen = [
   {
@@ -150,7 +155,7 @@ export const shortcutsOnlyAvailableInFullscreen = [
         shiftKey: false,
       },
     ],
-    needFillInBlankMode: false,
+    needsFillInBlankMode: false,
     os: 'macOS',
     keysDescription: '⌘+n',
     unavailableReason: null,
@@ -170,7 +175,7 @@ export const shortcutsOnlyAvailableInFullscreen = [
         shiftKey: true,
       },
     ],
-    needFillInBlankMode: false,
+    needsFillInBlankMode: false,
     os: 'macOS',
     keysDescription: '⌘+shift+n',
     unavailableReason: null,

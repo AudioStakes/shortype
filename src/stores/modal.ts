@@ -1,4 +1,4 @@
-const createModalStore = (onChange: () => void = () => {}) => {
+const createModalStore = (onChange: () => void = () => undefined) => {
   const modalState = {
     isAboutModalVisible: false,
     isPrivacyModalVisible: false,

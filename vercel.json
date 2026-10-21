@@ -1,0 +1,5 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "npm install --global npm@11.19.1 && npm ci --include=dev --no-audit --no-fund",
+  "buildCommand": "node --version && npm --version && npm run build"
+}

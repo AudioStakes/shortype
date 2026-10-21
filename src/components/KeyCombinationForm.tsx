@@ -3,12 +3,12 @@ import KeyList from '@/components/KeyList'
 import RequestFullScreenOrSelfScoring from '@/components/RequestFullScreenOrSelfScoring'
 import RequestSelfScoring from '@/components/RequestSelfScoring'
 import GameKey from '@/stores/game-key'
-import { injectStrict } from '@/utils/inject-strict'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 import ShortcutDescription from './ShortcutDescription'
 
 export default function KeyCombinationForm() {
-  const { state, needsFullscreenMode } = injectStrict(GameKey, 'GameKey')
+  const { state, needsFullscreenMode } = useStrictContext(GameKey, 'GameKey')
 
   return (
     <div
@@ -22,7 +22,7 @@ export default function KeyCombinationForm() {
             ? '不正解です。正解を確認してください'
             : ''}
       </span>
-      <div class="h-16 w-16 absolute self-center -translate-y-14 text-green-500">
+      <div class="h-16 w-16 absolute self-center -translate-y-14 text-green-700">
         {state.isCorrectKeyPressed && !state.isWrongKeyPressed ? (
           <div data-testid="correct-key-pressed">
             <IconGlyph name="check-circle" />

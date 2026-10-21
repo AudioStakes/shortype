@@ -1,8 +1,9 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "composite": true,
-    "module": "esnext",
-    "moduleResolution": "bundler"
+    "lib": ["esnext"],
+    "types": ["node"]
   },
-  "include": ["vite.config.ts"]
+  "include": ["data/**/*", "scripts/**/*", "*.config.*"],
+  "exclude": ["playwright.config.*"]
 }

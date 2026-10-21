@@ -1,4 +1,4 @@
-import { afterEach } from 'vitest'
+import { afterEach, beforeEach, vi } from 'vitest'
 
 import { cleanup } from './dom-helpers'
 
@@ -31,12 +31,13 @@ Object.defineProperty(globalThis, '__TEST_LOCAL_STORAGE__', {
   writable: true,
 })
 
-Object.defineProperty(navigator, 'userAgent', {
-  configurable: true,
-  value:
+beforeEach(() => {
+  localStorageMock.clear()
+  vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue(
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
+  )
 })
 
-afterEach(() => {
-  cleanup()
+afterEach(async () => {
+  await cleanup()
 })

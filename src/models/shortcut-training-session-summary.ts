@@ -4,7 +4,7 @@ import {
 } from '@/models/shortcut-training-session-status'
 import type { Shortcut } from '@/types/interfaces'
 
-export type ShortcutTrainingSessionSnapshot = {
+type ShortcutTrainingSessionSnapshot = {
   shortcuts: Shortcut[]
   removedIds: Set<string>
   answeredHistory: Map<string, boolean[]>
@@ -26,7 +26,7 @@ type StatusCounts = {
   removed: number
 }
 
-export type ShortcutTrainingSessionSummary = {
+type ShortcutTrainingSessionSummary = {
   countsOfEachStatus: () => {
     mastered: StatusCounts
     unmastered: StatusCounts
@@ -42,7 +42,7 @@ export type ShortcutTrainingSessionSummary = {
   }>
 }
 
-export const createShortcutTrainingSessionSummary = (
+const createShortcutTrainingSessionSummary = (
   snapshot: ShortcutTrainingSessionSnapshot,
   catalog: ShortcutCatalogSummary,
 ): ShortcutTrainingSessionSummary => {

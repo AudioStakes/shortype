@@ -1,13 +1,13 @@
 import Modal from '@/components/Modal'
 import ModalKey from '@/stores/modal-key'
-import { injectStrict } from '@/utils/inject-strict'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 type Props = {
   isShow: boolean
 }
 
 export default function Privacy({ isShow }: Props) {
-  const { hidePrivacyModal } = injectStrict(ModalKey, 'ModalKey')
+  const { hidePrivacyModal } = useStrictContext(ModalKey, 'ModalKey')
 
   return (
     <Modal

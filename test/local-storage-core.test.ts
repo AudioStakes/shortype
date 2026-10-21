@@ -147,3 +147,43 @@ describe('local-storage-core', () => {
     expect(localStorageCore.get(ANSWERED_HISTORY_KEY)).toEqual({})
   })
 })
+
+test('unavailable storage retains values and schema in memory until removed', () => {
+  const core = createLocalStorageCore()
+  expect(core.isLatestSchemaVersion()).toBe(false)
+  core.set(SELECTED_TOOL_KEY, 'Terminal (macOS)')
+  expect(core.isLatestSchemaVersion()).toBe(true)
+  expect(core.get(SELECTED_TOOL_KEY)).toBe('Terminal (macOS)')
+  core.remove(SELECTED_TOOL_KEY)
+  expect(core.get(SELECTED_TOOL_KEY)).toBe('Google Chrome')
+})
+
+test.each([
+  null,
+  true,
+  0.1,
+  '0',
+  {},
+  [],
+])('invalid schema versions are removed: %j', (version) => {
+  const storage = createStorage()
+  storage.setItem(SCHEMA_VERSION_KEY, JSON.stringify(version))
+  const core = createLocalStorageCore(storage)
+  expect(core.isLatestSchemaVersion()).toBe(false)
+  expect(storage.getItem(SCHEMA_VERSION_KEY)).toBeNull()
+})
+
+test.each([
+  null,
+  true,
+  1,
+  'history',
+  { example: [true], invalid: [false, null] },
+])('invalid answer-history shapes recover: %j', (value) => {
+  const storage = createStorage()
+  storage.setItem(SCHEMA_VERSION_KEY, JSON.stringify(LATEST_SCHEMA_VERSION))
+  storage.setItem(ANSWERED_HISTORY_KEY, JSON.stringify(value))
+  const core = createLocalStorageCore(storage)
+  expect(core.get(ANSWERED_HISTORY_KEY)).toEqual({})
+  expect(storage.getItem(ANSWERED_HISTORY_KEY)).toBeNull()
+})

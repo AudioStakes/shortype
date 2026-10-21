@@ -12,14 +12,10 @@ import useKeyboardEventListener from '@/composables/use-keyboard-event-listener'
 import createGameStore from '@/stores/game'
 import GameKey from '@/stores/game-key'
 import ModalKey from '@/stores/modal-key'
-import type {
-  NavigatorExtend,
-  NavigatorKeyboard,
-  Shortcut,
-} from '@/types/interfaces'
-import { injectStrict } from '@/utils/inject-strict'
+import type { NavigatorExtend, Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
 import lockKeyboard from '@/utils/lock-keyboard'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 type Props = {
   shortcuts?: readonly Shortcut[]
@@ -33,7 +29,7 @@ export default function GameView({ shortcuts }: Props) {
   )
 
   const keyboard = useMemo(() => new Keyboard(), [])
-  const { modalState } = injectStrict(ModalKey, 'ModalKey')
+  const { modalState } = useStrictContext(ModalKey, 'ModalKey')
   const isModalVisible =
     modalState.isAboutModalVisible ||
     modalState.isPrivacyModalVisible ||
@@ -42,17 +38,17 @@ export default function GameView({ shortcuts }: Props) {
 
   useEffect(() => {
     if ('keyboard' in navigator) {
-      void keyboard.setKeyboardLayoutMap(
-        (navigator as NavigatorExtend).keyboard as NavigatorKeyboard,
-      )
-      lockKeyboard()
+      keyboard
+        .setKeyboardLayoutMap((navigator as NavigatorExtend).keyboard)
+        .catch(() => undefined)
+      lockKeyboard().catch(() => undefined)
     }
   }, [keyboard])
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       const { altKey, metaKey, shiftKey, ctrlKey } = e
-      const key = keyboard.key(e) as string
+      const key = keyboard.key(e)
 
       if (
         key === 'Tab' &&
@@ -64,8 +60,9 @@ export default function GameView({ shortcuts }: Props) {
             combination.shiftKey === shiftKey &&
             combination.ctrlKey === ctrlKey,
         )
-      )
+      ) {
         return
+      }
 
       game.keyDown({ altKey, metaKey, shiftKey, ctrlKey, key })
     },
@@ -74,7 +71,7 @@ export default function GameView({ shortcuts }: Props) {
 
   const handleKeyUp = useCallback(
     (e: KeyboardEvent) => {
-      const key = keyboard.key(e) as string
+      const key = keyboard.key(e)
 
       game.keyUp(key)
     },
@@ -106,7 +103,7 @@ export default function GameView({ shortcuts }: Props) {
         ) : (
           <div>
             <span>出題できるショートカットキーがありません。</span>
-            <RestoreButton class="bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4" />
+            <RestoreButton class="bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4" />
           </div>
         )}
         <ToolsAndCategoriesModal />

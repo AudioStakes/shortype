@@ -1,13 +1,13 @@
-import { useId, useMemo, useState } from 'preact/hooks'
+import { useId, useState } from 'preact/hooks'
 
 import GameKey from '@/stores/game-key'
-import { injectStrict } from '@/utils/inject-strict'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 const CIRCUMFERENCE = 100
 const RADIUS = CIRCUMFERENCE / Math.PI / 2
 
 export default function PieChart() {
-  const { countsOfEachStatus } = injectStrict(GameKey, 'GameKey')
+  const { countsOfEachStatus } = useStrictContext(GameKey, 'GameKey')
   const [isHovered, setIsHovered] = useState(false)
   const [isPinned, setIsPinned] = useState(false)
   const isShowCircleDescription = isHovered || isPinned
@@ -62,28 +62,26 @@ export default function PieChart() {
     }`
   }
 
-  const statuses = useMemo(() => {
-    let sumOfPreviousCounts = 0
-    const statusOrder = ['mastered', 'unmastered', 'unanswered'] as const
+  let sumOfPreviousCounts = 0
+  const statusOrder = ['mastered', 'unmastered', 'unanswered'] as const
 
-    return statusOrder.map((status) => {
-      const count = countsOfEachStatus[status].included
-      const previousCounts = sumOfPreviousCounts
-      sumOfPreviousCounts += count
+  const statuses = statusOrder.map((status) => {
+    const count = countsOfEachStatus[status].included
+    const previousCounts = sumOfPreviousCounts
+    sumOfPreviousCounts += count
 
-      return {
-        strokeColor: styleOfEachStatus[status].included.strokeColor,
-        attributes: {
-          cx: '50%',
-          cy: '50%',
-          r: RADIUS,
-          style: {
-            strokeDasharray: strokeDashArray(previousCounts, count),
-          },
+    return {
+      strokeColor: styleOfEachStatus[status].included.strokeColor,
+      attributes: {
+        cx: '50%',
+        cy: '50%',
+        r: RADIUS,
+        style: {
+          strokeDasharray: strokeDashArray(previousCounts, count),
         },
-      }
-    })
-  }, [countsOfEachStatus])
+      },
+    }
+  })
 
   const masteredRate = rateOf(countsOfEachStatus.mastered.included)
 
@@ -91,10 +89,14 @@ export default function PieChart() {
     <div
       class="relative h-48 w-48 mx-auto flex justify-center shrink-0"
       onPointerEnter={(event) => {
-        if (event.pointerType === 'mouse') setIsHovered(true)
+        if (event.pointerType === 'mouse') {
+          setIsHovered(true)
+        }
       }}
       onPointerLeave={(event) => {
-        if (event.pointerType === 'mouse') setIsHovered(false)
+        if (event.pointerType === 'mouse') {
+          setIsHovered(false)
+        }
       }}
     >
       {isShowCircleDescription ? (
@@ -151,7 +153,9 @@ export default function PieChart() {
         aria-controls={descriptionId}
         onClick={() => {
           setIsPinned((value) => !value)
-          if (isPinned) setIsHovered(false)
+          if (isPinned) {
+            setIsHovered(false)
+          }
         }}
         onBlur={() => setIsPinned(false)}
         onKeyDown={(event) => {
@@ -169,9 +173,9 @@ export default function PieChart() {
           viewBox="0 0 64 64"
         >
           <title>ショートカットの習熟度を示す円グラフ</title>
-          {statuses.map((status, index) => (
+          {statuses.map((status) => (
             <circle
-              key={index}
+              key={status.strokeColor}
               {...status.attributes}
               class={status.strokeColor}
             />

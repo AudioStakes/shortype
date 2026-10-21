@@ -70,7 +70,9 @@ export default class Keyboard {
   async setKeyboardLayoutMap(keyboard?: Partial<NavigatorKeyboard>) {
     try {
       const keyboardMap = await keyboard?.getLayoutMap?.()
-      if (keyboardMap) this.keyboardMap = keyboardMap
+      if (keyboardMap) {
+        this.keyboardMap = keyboardMap
+      }
     } catch {
       // Retain the default layout when the browser denies layout access.
     }

@@ -51,7 +51,7 @@ export default class KeyCombination {
     return (
       (KeyCombination.isModifierKey(keyCombinable) ||
         keyCombinable.key === null ||
-        keyCombinable === undefined) &&
+        keyCombinable.key === undefined) &&
       KeyCombination.isModified(keyCombinable)
     )
   }
@@ -74,14 +74,23 @@ export default class KeyCombination {
   }
 
   static extractKeys(keyCombinable: KeyCombinable) {
-    const keys = []
+    const keys: string[] = []
 
-    if (keyCombinable.metaKey) keys.push('Meta')
-    if (keyCombinable.altKey) keys.push('Alt')
-    if (keyCombinable.shiftKey) keys.push('Shift')
-    if (keyCombinable.ctrlKey) keys.push('Control')
-    if (!NON_KEY_SET.has(keyCombinable.key))
+    if (keyCombinable.metaKey) {
+      keys.push('Meta')
+    }
+    if (keyCombinable.altKey) {
+      keys.push('Alt')
+    }
+    if (keyCombinable.shiftKey) {
+      keys.push('Shift')
+    }
+    if (keyCombinable.ctrlKey) {
+      keys.push('Control')
+    }
+    if (!NON_KEY_SET.has(keyCombinable.key)) {
       keys.push(keyCombinable.key as string)
+    }
 
     return keys
   }
@@ -95,11 +104,21 @@ export default class KeyCombination {
   }
 
   keyUp(key: string) {
-    if (key === 'Meta') this.keyCombinable.metaKey = false
-    if (key === 'Alt') this.keyCombinable.altKey = false
-    if (key === 'Shift') this.keyCombinable.shiftKey = false
-    if (key === 'Control') this.keyCombinable.ctrlKey = false
-    if (key === this.keyCombinable.key) this.keyCombinable.key = undefined
+    if (key === 'Meta') {
+      this.keyCombinable.metaKey = false
+    }
+    if (key === 'Alt') {
+      this.keyCombinable.altKey = false
+    }
+    if (key === 'Shift') {
+      this.keyCombinable.shiftKey = false
+    }
+    if (key === 'Control') {
+      this.keyCombinable.ctrlKey = false
+    }
+    if (key === this.keyCombinable.key) {
+      this.keyCombinable.key = undefined
+    }
   }
 
   reset() {

@@ -1,23 +1,17 @@
 import { describe, expect, test } from 'vitest'
-
 import {
   getAvailableIdToWeightMap,
   getCountsOfEachStatus,
   getMasteredIds,
 } from '@/models/shortcut-training-session-status'
+import { shortcutFixture } from './shortcut-fixture'
 
 const snapshot = {
   shortcuts: [
-    {
-      id: 'chrome-1',
-    },
-    {
-      id: 'chrome-2',
-    },
-    {
-      id: 'terminal-1',
-    },
-  ] as never,
+    shortcutFixture('chrome-1'),
+    shortcutFixture('chrome-2'),
+    shortcutFixture('terminal-1'),
+  ],
   removedIds: new Set(['chrome-2']),
   answeredHistory: new Map([
     ['chrome-1', [true]],

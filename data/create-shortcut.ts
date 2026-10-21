@@ -11,10 +11,7 @@ import {
   UNDETECTABLE_KEY_DESCRIPTION_REGEXP,
 } from '@/constants/key-description-regexp'
 import KEY_DESCRIPTION_TO_KEY_MAP from '@/constants/key-description-to-key-map'
-import {
-  MODIFIED_KEY_REGEXP,
-  UNDETECTABLE_KEY_REGEXP,
-} from '@/constants/key-regexp'
+import { MODIFIED_KEY_REGEXP } from '@/constants/key-regexp'
 import {
   HAS_MOUSE_ACTIONS_REGEXP,
   HAS_MULTIPLE_ANSWERS_REGEXP,
@@ -41,7 +38,7 @@ export const createShortcut = (shortcutRaw: ShortcutDescription) => {
     keyCombinations: extractKeyCombinations(shortcutRaw.keysDescription),
     isAvailable: false,
     unavailableReason: null,
-    needsFillInBlankMode: false,
+    needsFillInBlankMode: needsFillInBlankMode(shortcutRaw.keysDescription),
   }
 
   if (NEEDS_CUSTOMIZED_MODIFIER_KEY_REGEXP.test(shortcut.keysDescription)) {
@@ -74,8 +71,6 @@ export const createShortcut = (shortcutRaw: ShortcutDescription) => {
     shortcut.isAvailable = true
   }
 
-  shortcut.needsFillInBlankMode = needsFillInBlankMode(shortcut.keysDescription)
-
   return shortcut
 }
 
@@ -102,14 +97,10 @@ const extractKeyCombinations = (shortcutDescriptions: string) => {
 const extractKey = (shortcutDescription: string) => {
   const matched = shortcutDescription
     .replaceAll(MODIFIER_KEY_DESCRIPTION_REGEXP, '')
-    .replaceAll(DENY_LIST_OF_KEY_DESCRIPTION_REGEXP, '')
-    .replaceAll(UNDETECTABLE_KEY_DESCRIPTION_REGEXP, '')
     .match(KEY_DESCRIPTION_EXCLUDING_MODIFIER_REGEXP)
 
   if (matched) {
-    let matchedKey = matched[0] as string
-
-    if (UNDETECTABLE_KEY_REGEXP.test(matchedKey)) return null
+    let matchedKey = matched[0]
 
     matchedKey = KEY_DESCRIPTION_TO_KEY_MAP.get(matchedKey) ?? matchedKey
     matchedKey = matchedKey.length === 1 ? matchedKey.toLowerCase() : matchedKey

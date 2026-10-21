@@ -22,7 +22,9 @@ test.each(layouts)('grade punctuation with the %s layout', (layout) => {
   ]) {
     const shortcut = macShortcuts.find((entry) => entry.id === id)
     const expected = shortcut?.keyCombinations[0]
-    if (!expected) throw new Error(`Missing punctuation shortcut ${id}`)
+    if (!expected) {
+      throw new Error(`Missing punctuation shortcut ${id}`)
+    }
 
     const pressed = new KeyCombination({
       altKey: false,

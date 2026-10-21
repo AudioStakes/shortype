@@ -14,8 +14,12 @@ export default function Unsupported({
 }: Props) {
   const notSupportedKinds: string[] = []
 
-  if (isUnsupportedBrowser) notSupportedKinds.push('ブラウザ')
-  if (isUnsupportedOs) notSupportedKinds.push('OS')
+  if (isUnsupportedBrowser) {
+    notSupportedKinds.push('ブラウザ')
+  }
+  if (isUnsupportedOs) {
+    notSupportedKinds.push('OS')
+  }
 
   return (
     <Modal
@@ -46,8 +50,8 @@ export default function Unsupported({
                   name={isUnsupportedBrowser ? 'x-circle' : 'check-circle'}
                   class={
                     isUnsupportedBrowser
-                      ? 'text-red-400 inline-block'
-                      : 'text-green-400 inline-block'
+                      ? 'text-red-700 inline-block'
+                      : 'text-green-700 inline-block'
                   }
                 />
               </div>
@@ -64,8 +68,8 @@ export default function Unsupported({
                   name={isUnsupportedOs ? 'x-circle' : 'check-circle'}
                   class={
                     isUnsupportedOs
-                      ? 'text-red-400 inline-block'
-                      : 'text-green-400 inline-block'
+                      ? 'text-red-700 inline-block'
+                      : 'text-green-700 inline-block'
                   }
                 />
               </div>

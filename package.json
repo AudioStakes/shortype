@@ -1,40 +1,79 @@
 {
   "name": "my-shortcut-keys",
   "private": true,
+  "type": "module",
   "version": "1.0.0",
   "engines": {
     "node": "24.x"
   },
-  "packageManager": "npm@10.9.7",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview",
-    "test": "vitest run",
-    "lint": "biome lint . && tsc --noEmit",
-    "check": "biome check . && tsc --noEmit",
-    "check:fix": "biome check --write .",
-    "format": "biome format --write .",
-    "format:check": "biome format ."
+  "packageManager": "npm@11.19.1",
+  "allowScripts": {
+    "esbuild@0.28.2": true
   },
-  "overrides": {
-    "@preact/preset-vite": {
-      "zimmerframe": "$zimmerframe"
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.x",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": "11.19.1",
+      "onFail": "error"
     }
   },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run && node scripts/check-test-results.mjs",
+    "test:coverage": "vitest run --coverage && node scripts/check-test-results.mjs",
+    "test:shuffle:1": "vitest run --sequence.shuffle --sequence.seed=1 && node scripts/check-test-results.mjs",
+    "test:shuffle:42": "vitest run --sequence.shuffle --sequence.seed=42 && node scripts/check-test-results.mjs",
+    "test:mutation": "stryker run && node scripts/check-mutation-results.mjs",
+    "lint": "biome lint . --error-on-warnings && eslint . --max-warnings=0",
+    "check": "biome check . --error-on-warnings && eslint . --max-warnings=0 && npm run typecheck && npm run knip",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.node.json && tsc -p tsconfig.test.json && tsc -p tsconfig.e2e.json && npm run check:inventory",
+    "check:inventory": "tsx scripts/check-type-coverage.ts",
+    "check:runtime": "node scripts/check-runtime.mjs",
+    "knip": "knip --treat-config-hints-as-errors",
+    "check:policy": "node scripts/check-quality-policy.mjs && tsx scripts/check-effective-quality.ts",
+    "check:workflow": "node scripts/check-workflows.mjs",
+    "test:gates": "vitest run test/quality-gates.test.ts && node scripts/check-test-results.mjs",
+    "audit": "npm audit --include=dev --audit-level=low",
+    "validate": "node scripts/run-validation.mjs",
+    "test:e2e": "playwright test",
+    "postinstall": "node scripts/patch-unconfig.mjs",
+    "check:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "format:check": "biome format . --error-on-warnings"
+  },
+  "overrides": {
+    "unconfig": "7.5.0"
+  },
   "dependencies": {
-    "preact": "^10.29.2"
+    "preact": "10.29.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.15",
-    "@preact/preset-vite": "^2.10.5",
-    "@types/node": "^24.3.1",
-    "happy-dom": "^20.9.0",
-    "tsx": "^4.22.3",
-    "typescript": "^6.0.3",
-    "unocss": "^66.7.0",
-    "vite": "^8.0.13",
-    "vitest": "^4.1.6",
-    "zimmerframe": "file:vendor/zimmerframe"
+    "@axe-core/playwright": "4.14.0",
+    "@biomejs/biome": "2.4.15",
+    "@playwright/test": "1.64.1",
+    "@preact/preset-vite": "2.10.6",
+    "@stryker-mutator/core": "10.0.0",
+    "@stryker-mutator/vitest-runner": "10.0.0",
+    "@types/babel__core": "7.20.5",
+    "@types/node": "24.12.4",
+    "@vitest/coverage-v8": "4.1.12",
+    "@vitest/eslint-plugin": "1.6.27",
+    "eslint": "10.13.0",
+    "fast-check": "4.10.2",
+    "happy-dom": "20.9.0",
+    "knip": "6.42.1",
+    "tsx": "4.22.3",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.0",
+    "unocss": "66.7.0",
+    "vite": "8.3.5",
+    "vitest": "4.1.12"
   }
 }

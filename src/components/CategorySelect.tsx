@@ -4,7 +4,7 @@ import Button from '@/components/Button'
 import CategoryCard from '@/components/CategoryCard'
 import IconGlyph from '@/components/IconGlyph'
 import GameKey from '@/stores/game-key'
-import { injectStrict } from '@/utils/inject-strict'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 type Props = {
   tool: string
@@ -19,7 +19,7 @@ export default function CategorySelect({
   onSelectToolAndCategories,
   onResetTool,
 }: Props) {
-  const { categoriesWithMasteredRate } = injectStrict(GameKey, 'GameKey')
+  const { categoriesWithMasteredRate } = useStrictContext(GameKey, 'GameKey')
   const categoriesWithRate = useMemo(
     () => categoriesWithMasteredRate(tool),
     [tool, categoriesWithMasteredRate],
@@ -44,7 +44,11 @@ export default function CategorySelect({
 
   const toggleCategory = (categoryName: string) => {
     const next = new Set(selectedCategories)
-    next.has(categoryName) ? next.delete(categoryName) : next.add(categoryName)
+    if (next.has(categoryName)) {
+      next.delete(categoryName)
+    } else {
+      next.add(categoryName)
+    }
     setSelectedCategories(next)
   }
 
@@ -82,7 +86,7 @@ export default function CategorySelect({
         <h2 class="my-auto text-lg font-bold">カテゴリーを選んでください</h2>
       </div>
 
-      <div class="flex justify-around w-10/12 pb-1">
+      <div class="flex flex-wrap justify-around gap-2 w-10/12 pb-1">
         <Button
           name="すべて選ぶ"
           isDisabled={areAllCategoriesSelected()}
@@ -91,7 +95,7 @@ export default function CategorySelect({
             <div class="flex h-6 w-6 justify-center">
               <IconGlyph
                 name="check-circle"
-                class="text-green-400 inline-block"
+                class="text-green-700 inline-block"
               />
             </div>
           }
@@ -119,7 +123,7 @@ export default function CategorySelect({
       </div>
 
       <Button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 my-4"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 my-4"
         name="選んだカテゴリーの練習をはじめる"
         isDisabled={!hasAnySelectedCategory()}
         onClick={() => onSelectToolAndCategories([...selectedCategories])}

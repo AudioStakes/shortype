@@ -25,7 +25,8 @@ import {
 } from '@/stores/game-session-storage'
 
 describe('game-session-storage', () => {
-  const chromeCategory = shortcutCatalog.listCategoriesOf('Google Chrome')[0]
+  const chromeCategory =
+    shortcutCatalog.listCategoriesOf('Google Chrome')[0] ?? ''
 
   beforeEach(() => {
     getMock.mockReset()
@@ -34,9 +35,15 @@ describe('game-session-storage', () => {
 
   test('loads storage values into session-friendly collections', () => {
     getMock.mockImplementation((key: string) => {
-      if (key === SELECTED_TOOL_KEY) return 'Google Chrome'
-      if (key === SELECTED_CATEGORIES_KEY) return [chromeCategory]
-      if (key === REMOVED_IDS_KEY) return ['chrome-1']
+      if (key === SELECTED_TOOL_KEY) {
+        return 'Google Chrome'
+      }
+      if (key === SELECTED_CATEGORIES_KEY) {
+        return [chromeCategory]
+      }
+      if (key === REMOVED_IDS_KEY) {
+        return ['chrome-1']
+      }
       if (key === ANSWERED_HISTORY_KEY) {
         return {
           'chrome-1': [true, false],
@@ -56,10 +63,19 @@ describe('game-session-storage', () => {
 
   test('falls back to a usable tool when the saved tool no longer exists', () => {
     getMock.mockImplementation((key: string) => {
-      if (key === SELECTED_TOOL_KEY) return 'Removed tool'
-      if (key === SELECTED_CATEGORIES_KEY) return ['Removed category']
-      if (key === REMOVED_IDS_KEY) return []
-      if (key === ANSWERED_HISTORY_KEY) return {}
+      if (key === SELECTED_TOOL_KEY) {
+        return 'Removed tool'
+      }
+      if (key === SELECTED_CATEGORIES_KEY) {
+        return ['Removed category']
+      }
+      if (key === REMOVED_IDS_KEY) {
+        return []
+      }
+      if (key === ANSWERED_HISTORY_KEY) {
+        return {}
+      }
+      return undefined
     })
 
     const snapshot = loadGameSessionStorage()
@@ -79,10 +95,19 @@ describe('game-session-storage', () => {
     ['Removed category'],
   ])('drops categories that no longer exist: %j', (...categories) => {
     getMock.mockImplementation((key: string) => {
-      if (key === SELECTED_TOOL_KEY) return 'Google Chrome'
-      if (key === SELECTED_CATEGORIES_KEY) return categories
-      if (key === REMOVED_IDS_KEY) return []
-      if (key === ANSWERED_HISTORY_KEY) return {}
+      if (key === SELECTED_TOOL_KEY) {
+        return 'Google Chrome'
+      }
+      if (key === SELECTED_CATEGORIES_KEY) {
+        return categories
+      }
+      if (key === REMOVED_IDS_KEY) {
+        return []
+      }
+      if (key === ANSWERED_HISTORY_KEY) {
+        return {}
+      }
+      return undefined
     })
 
     const snapshot = loadGameSessionStorage()

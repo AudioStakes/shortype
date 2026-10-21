@@ -3,10 +3,10 @@ import ShortcutDescription from '@/components/ShortcutDescription'
 import { FUNCTION_KEY_DESCRIPTION_REGEXP } from '@/constants/key-description-regexp'
 import KeyCombination from '@/models/key-combination'
 import GameKey from '@/stores/game-key'
-import { injectStrict } from '@/utils/inject-strict'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 export default function CorrectAnswer() {
-  const { state } = injectStrict(GameKey, 'GameKey')
+  const { state } = useStrictContext(GameKey, 'GameKey')
 
   return (
     <div class="h-fit min-h-[9rem] w-full max-w-[54rem] flex flex-col justify-center content-center relative">
@@ -24,7 +24,7 @@ export default function CorrectAnswer() {
             <div class="flex max-w-full flex-wrap justify-center gap-y-4">
               {state.shortcut.keyCombinations.map((keyCombination, index) => (
                 <div
-                  key={index}
+                  key={KeyCombination.extractKeys(keyCombination).join('+')}
                   class="flex max-w-full flex-wrap items-center justify-center"
                 >
                   {index > 0 ? (

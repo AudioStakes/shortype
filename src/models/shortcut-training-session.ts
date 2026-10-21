@@ -89,14 +89,15 @@ export const createShortcutTrainingState = ({
 })
 
 const defaultSessionDeps: ShortcutTrainingSessionDeps = {
-  isFullscreenMode: () =>
-    !!document.fullscreenElement && document.fullscreenElement !== null,
+  isFullscreenMode: () => !!document.fullscreenElement,
   sample,
   weightedSampleKey,
   scheduleRestartTyping: (callback) => {
     setTimeout(callback, import.meta.env.MODE === 'test' ? 0 : 1000)
   },
-  toggleFullscreen,
+  toggleFullscreen: () => {
+    toggleFullscreen().catch(() => undefined)
+  },
   persistAnsweredHistory: () => undefined,
   persistRemovedIds: () => undefined,
   persistSelectedTool: () => undefined,
@@ -190,7 +191,7 @@ export const createShortcutTrainingSession = (
   const isRemovedAll = () =>
     state.shortcuts.every((shortcut) => state.removedIdSet.has(shortcut.id))
 
-  const nextShortcut = () => {
+  const nextShortcut = (): Shortcut => {
     const unansweredAvailableIdList = unansweredAvailableIds()
     const unansweredAvailableIdSet = new Set(unansweredAvailableIdList)
     const shortcutByIdMap = new Map(
@@ -201,15 +202,19 @@ export const createShortcutTrainingSession = (
       const nextId = deps.weightedSampleKey(availableIdToWeightMap())
 
       return (
-        shortcutByIdMap.get(nextId) ??
+        (nextId === undefined ? undefined : shortcutByIdMap.get(nextId)) ??
         state.shortcuts[0] ??
         createEmptyShortcut()
       )
     }
 
-    if (unansweredAvailableIdList.length === 1) {
+    const [onlyUnansweredId] = unansweredAvailableIdList
+    if (
+      unansweredAvailableIdList.length === 1 &&
+      onlyUnansweredId !== undefined
+    ) {
       return (
-        shortcutByIdMap.get(unansweredAvailableIdList[0]) ??
+        shortcutByIdMap.get(onlyUnansweredId) ??
         state.shortcuts[0] ??
         createEmptyShortcut()
       )
@@ -219,7 +224,11 @@ export const createShortcutTrainingSession = (
       .filter((shortcut) => unansweredAvailableIdSet.has(shortcut.id))
       .filter((shortcut) => shortcut.id !== state.shortcut.id)
 
-    return deps.sample(unansweredAvailableShortcuts)
+    return (
+      deps.sample(unansweredAvailableShortcuts) ??
+      state.shortcuts[0] ??
+      createEmptyShortcut()
+    )
   }
 
   const resetTypingState = () => {
@@ -241,7 +250,9 @@ export const createShortcutTrainingSession = (
   )
 
   const judge = () => {
-    if (!state.pressedKeyCombination.hasPressedSomeKey()) return
+    if (!state.pressedKeyCombination.hasPressedSomeKey()) {
+      return
+    }
     const currentCorrectKeyCombinations = correctKeyCombinations()
     const isFullscreenOnlyShortcut =
       currentCorrectKeyCombinations.hasOnlyAvailableInFullscreen() &&
@@ -308,14 +319,18 @@ export const createShortcutTrainingSession = (
   }
 
   const keyDown = (keyCombinable: KeyCombinable) => {
-    if (isRemovedAll() || !state.isListeningKeyboardEvent) return
+    if (isRemovedAll() || !state.isListeningKeyboardEvent) {
+      return
+    }
 
     state.pressedKeyCombination.keyDown(keyCombinable)
     judge()
   }
 
   const keyUp = (key: string) => {
-    if (isRemovedAll() || !state.isListeningKeyboardEvent) return
+    if (isRemovedAll() || !state.isListeningKeyboardEvent) {
+      return
+    }
 
     state.pressedKeyCombination.keyUp(key)
   }
@@ -378,5 +393,3 @@ export const createShortcutTrainingSession = (
     onFullscreenchange,
   }
 }
-
-export default createShortcutTrainingSession

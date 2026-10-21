@@ -143,6 +143,33 @@ describe('component regressions', () => {
     expect(onKey).toHaveBeenCalledWith(event)
   })
 
+  test.each([
+    'keydown',
+    'keyup',
+  ] as const)('open dialogs retain %s events even before listener cleanup', (type) => {
+    const onKey = vi.fn()
+    const { container } = render(
+      h(
+        'div',
+        null,
+        h(KeyboardListenerHarness, { onKey, type }),
+        h(Modal, {
+          isShow: true,
+          onClose: vi.fn(),
+          children: h('button', { type: 'button' }, 'dialog action'),
+        }),
+      ),
+    )
+    const event = new KeyboardEvent(type, {
+      key: 'r',
+      bubbles: true,
+      cancelable: true,
+    })
+    container.querySelector('dialog button')?.dispatchEvent(event)
+    expect(onKey).not.toHaveBeenCalled()
+    expect(event.defaultPrevented).toBe(false)
+  })
+
   test('Modal does not render a placeholder when hidden', () => {
     const { queryByTestId } = render(
       h(Modal, {

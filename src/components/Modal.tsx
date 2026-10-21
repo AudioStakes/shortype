@@ -26,7 +26,9 @@ export default function Modal({
 
   useLayoutEffect(() => {
     const dialog = dialogRef.current
-    if (!isShow || !dialog) return
+    if (!isShow || !dialog) {
+      return
+    }
 
     const previousFocus = document.activeElement
     dialog.showModal()
@@ -72,7 +74,7 @@ export default function Modal({
             aria-label={closeLabel}
             onClick={onClose}
           >
-            <IconGlyph name="x-mark" class="h-6 text-gray-400" />
+            <IconGlyph name="x-mark" class="h-6 text-gray-500" />
           </button>
         ) : null}
         {children}

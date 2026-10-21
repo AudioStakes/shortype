@@ -1,9 +1,9 @@
 import githubMark from '@/assets/GitHub-Mark-32px.png'
 import ModalKey from '@/stores/modal-key'
-import { injectStrict } from '@/utils/inject-strict'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 export default function Footer() {
-  const { showPrivacyModal } = injectStrict(ModalKey, 'ModalKey')
+  const { showPrivacyModal } = useStrictContext(ModalKey, 'ModalKey')
 
   return (
     <footer class="flex justify-center items-center space-x-2 text-xs py-2 bg-gray-100">

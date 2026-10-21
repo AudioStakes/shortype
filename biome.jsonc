@@ -1,7 +1,16 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.4.15/schema.json",
   "files": {
-    "includes": ["**", "!**/dist", "!vendor"]
+    "includes": [
+      "**",
+      "!!**/.stryker-tmp",
+      "!**/node_modules",
+      "!**/dist",
+      "!**/coverage",
+      "!**/playwright-report",
+      "!**/test-results",
+      "!**/reports"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -19,7 +28,52 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "complexity": {
+        // TypeScript requires brackets for properties from index signatures.
+        "useLiteralKeys": "off"
+      },
+      "correctness": {
+        "noChildrenProp": "error",
+        "noNestedComponentDefinitions": "error",
+        "noReactPropAssignments": "error",
+        "noRenderReturnValue": "error",
+        "useExhaustiveDependencies": "error",
+        "useHookAtTopLevel": "error",
+        "useJsxKeyInIterable": "error"
+      },
+      "nursery": {
+        "noDuplicatedSpreadProps": "error",
+        "noLeakedRender": "error"
+      },
+      "style": {
+        "useBlockStatements": "error",
+        "useExportType": "error",
+        "useImportType": "error"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "error",
+        "noConsole": "error",
+        "noEmptyBlockStatements": "error",
+        "noEvolvingTypes": "error",
+        // Vitest's plugin owns test selection rules, including parameterized tests.
+        "noFocusedTests": "off",
+        "noImportCycles": "error",
+        "noSkippedTests": "off",
+        "noUnusedExpressions": "error"
+      }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["data/**/*.ts", "scripts/**/*.{js,mjs,ts}"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
+    }
+  ]
 }

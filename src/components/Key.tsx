@@ -8,16 +8,22 @@ type Props = {
 }
 
 const getSizeClass = (keyName: string) => {
-  if (keyName.length > 8) return 'text-sm'
-  if (keyName.length > 6) return 'text-lg'
-  if (keyName.length > 4) return 'text-2xl'
+  if (keyName.length > 8) {
+    return 'text-sm'
+  }
+  if (keyName.length > 6) {
+    return 'text-lg'
+  }
+  if (keyName.length > 4) {
+    return 'text-2xl'
+  }
 
   return 'text-3xl'
 }
 
 export default function Key({ keyName, class: className }: Props) {
   if (Keyboard.hasSymbol(keyName) || Keyboard.hasIcon(keyName)) {
-    return <KeyWithAnnotation keyName={keyName} class={className} />
+    return <KeyWithAnnotation keyName={keyName} class={className ?? ''} />
   }
 
   return (

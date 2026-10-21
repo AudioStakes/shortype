@@ -33,7 +33,10 @@ For the migration summary and the practical benefits of the UnoCSS switch, see [
 ### Install dependencies
 
 ```bash
-npm install
+nvm install
+nvm use
+npm install --global npm@11.19.1
+npm ci
 ```
 
 ### Run development server
@@ -53,6 +56,15 @@ npm run check
 ```bash
 npm test
 ```
+
+### Run all required validation
+
+```bash
+npm exec -- playwright install chromium
+npm run validate
+```
+
+The same gates run for every pull request. See [the validation guide](docs/validation.md) for tool ownership, failure reports, coverage and mutation requirements, and the review process.
 
 ### Build for production
 

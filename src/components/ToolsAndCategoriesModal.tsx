@@ -6,12 +6,12 @@ import ModalContent from '@/components/ModalContent'
 import ToolSelect from '@/components/ToolSelect'
 import GameKey from '@/stores/game-key'
 import ModalKey from '@/stores/modal-key'
-import { injectStrict } from '@/utils/inject-strict'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 export default function ToolsAndCategoriesModal() {
   const { state, selectToolAndCategories, exitSelectionOfToolAndCategories } =
-    injectStrict(GameKey, 'GameKey')
-  const { modalState, hideToolsAndCategoriesModal } = injectStrict(
+    useStrictContext(GameKey, 'GameKey')
+  const { modalState, hideToolsAndCategoriesModal } = useStrictContext(
     ModalKey,
     'ModalKey',
   )

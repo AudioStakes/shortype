@@ -14,7 +14,7 @@ export default defineConfig({
     'ui-close-button':
       'rounded-lg p-1 transition-colors duration-200 hover:bg-gray-200 hover:text-gray-900',
     'ui-card':
-      'flex h-20 w-10/12 items-center justify-between rounded-lg border border-gray-200 bg-white shadow-md transition duration-200 hover:bg-gray-100 hover:ease-out',
+      'flex min-h-20 w-10/12 shrink-0 items-center justify-between gap-2 py-2 rounded-lg border border-gray-200 bg-white shadow-md transition duration-200 hover:bg-gray-100 hover:ease-out',
     'ui-keycap-frame':
       'flex flex-col items-center justify-center rounded-lg border border-gray-300 bg-white text-center leading-none shadow-3d',
     'ui-keycap-chip':

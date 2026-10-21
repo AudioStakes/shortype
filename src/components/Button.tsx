@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes, ComponentChildren } from 'preact'
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
+  class?: string
   name: string
   isDisabled?: boolean
   icon?: ComponentChildren

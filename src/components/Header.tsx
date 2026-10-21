@@ -1,8 +1,8 @@
 import ModalKey from '@/stores/modal-key'
-import { injectStrict } from '@/utils/inject-strict'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 export default function Header() {
-  const { showAboutModal, showToolsAndCategoriesModal } = injectStrict(
+  const { showAboutModal, showToolsAndCategoriesModal } = useStrictContext(
     ModalKey,
     'ModalKey',
   )
