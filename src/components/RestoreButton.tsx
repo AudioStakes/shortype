@@ -1,13 +1,13 @@
 import IconGlyph from '@/components/IconGlyph'
 import GameKey from '@/stores/game-key'
-import { injectStrict } from '@/utils/inject-strict'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 type Props = {
   class?: string
 }
 
 export default function RestoreButton({ class: className }: Props) {
-  const { removedShortcutExists, restoreRemovedShortcuts } = injectStrict(
+  const { removedShortcutExists, restoreRemovedShortcuts } = useStrictContext(
     GameKey,
     'GameKey',
   )

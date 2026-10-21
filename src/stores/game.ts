@@ -14,7 +14,7 @@ import type { Shortcut } from '@/types/interfaces'
 
 const createGameStore = (
   shortcuts?: readonly Shortcut[],
-  onChange: () => void = () => {},
+  onChange: () => void = () => undefined,
 ) => {
   const { selectedTool, selectedCategories, removedIds, answeredHistory } =
     loadGameSessionStorage()
@@ -29,7 +29,7 @@ const createGameStore = (
     removedIds,
     answeredHistory,
     isFullscreenMode: !!document.fullscreenElement,
-    shortcuts: shortcuts ? [...shortcuts] : undefined,
+    ...(shortcuts ? { shortcuts: [...shortcuts] } : {}),
   })
   const state: ShortcutTrainingState = createShortcutTrainingState(bootstrap)
 

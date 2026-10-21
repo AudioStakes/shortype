@@ -1,10 +1,10 @@
 import Key from '@/components/Key'
 import SelfScoring from '@/components/SelfScoring'
 import GameKey from '@/stores/game-key'
-import { injectStrict } from '@/utils/inject-strict'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 export default function RequestFullScreenOrSelfScoring() {
-  const { state, needsFullscreenMode } = injectStrict(GameKey, 'GameKey')
+  const { state, needsFullscreenMode } = useStrictContext(GameKey, 'GameKey')
 
   return !state.isShowCorrectKeyPressed && needsFullscreenMode ? (
     <div class="flex w-full max-w-full flex-col gap-3 px-2 text-center sm:px-6">

@@ -8,7 +8,14 @@ const BEACON_SOURCE = 'https://static.cloudflareinsights.com/beacon.min.js'
 const beaconSelector = `script[src="${BEACON_SOURCE}"]`
 
 function mockOrigin(origin: string) {
-  const addEventListener = vi.fn()
+  const addEventListener =
+    vi.fn<
+      (
+        type: string,
+        listener: () => void,
+        options: AddEventListenerOptions,
+      ) => void
+    >()
   vi.stubGlobal('window', { location: new URL(origin), addEventListener })
   return addEventListener
 }
@@ -46,7 +53,9 @@ describe('Cloudflare Web Analytics', () => {
     expect(scripts[0]?.type).toBe('module')
     expect(scripts[0]?.async).toBe(true)
     expect(scripts[0]?.fetchPriority).toBe('low')
-    expect(JSON.parse(scripts[0]?.dataset.cfBeacon ?? '{}')).toEqual({
+    expect(
+      JSON.parse(scripts[0]?.getAttribute('data-cf-beacon') ?? '{}'),
+    ).toEqual({
       token: 'c6b0115d98a3444ab831061d7b755800',
     })
   })
@@ -66,6 +75,9 @@ describe('Cloudflare Web Analytics', () => {
       },
     )
     const install = addEventListener.mock.calls[0]?.[1]
+    if (!install) {
+      throw new Error('Missing load listener')
+    }
     const existing = document.createElement('script')
     existing.src = BEACON_SOURCE
     document.body.append(existing)

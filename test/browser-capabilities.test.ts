@@ -25,7 +25,9 @@ describe('optional browser capabilities', () => {
     })
     expect(keyboard.keyboardLayoutMap()).toBe(defaultMap)
     const layout = new Map([['KeyQ', 'a']])
-    await keyboard.setKeyboardLayoutMap({ getLayoutMap: async () => layout })
+    await keyboard.setKeyboardLayoutMap({
+      getLayoutMap: () => Promise.resolve(layout),
+    })
     expect(keyboard.key({ code: 'KeyQ', key: 'q' })).toBe('a')
   })
 

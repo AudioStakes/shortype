@@ -396,8 +396,6 @@ const undetectableKeys = [
 ]
 export const UNDETECTABLE_KEY_REGEXP = new RegExp(undetectableKeys.join('|'))
 
-export const FUNCTION_KEY_REGEXP = /Fn/
-
 const KEY_REGEXP = new RegExp(
   '^(' +
     STANDARD_KEY_REGEXP.source +

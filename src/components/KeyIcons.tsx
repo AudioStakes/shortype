@@ -9,17 +9,24 @@ type Props = {
 }
 
 export default function KeyIcons({ iconName, class: className }: Props) {
-  if (iconName === 'BrightnessDown')
+  if (iconName === 'BrightnessDown') {
     return <IconGlyph name="brightness-down" class={className} />
-  if (iconName === 'BrightnessUp')
+  }
+  if (iconName === 'BrightnessUp') {
     return <IconGlyph name="brightness-up" class={className} />
-  if (iconName === 'PlayerEject')
+  }
+  if (iconName === 'PlayerEject') {
     return <IconGlyph name="player-eject" class={className} />
-  if (iconName === 'Power') return <IconGlyph name="power" class={className} />
-  if (iconName === 'VolumeUp')
+  }
+  if (iconName === 'Power') {
+    return <IconGlyph name="power" class={className} />
+  }
+  if (iconName === 'VolumeUp') {
     return <IconGlyph name="volume-up" class={className} />
-  if (iconName === 'VolumeDown')
+  }
+  if (iconName === 'VolumeDown') {
     return <IconGlyph name="volume-down" class={className} />
+  }
   if (iconName === 'KeyboardBacklightUp') {
     return (
       <img

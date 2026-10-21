@@ -1,4 +1,3 @@
-// biome-ignore-all lint/a11y/noSvgWithoutTitle: decorative icons are hidden from assistive tech
 import type { SVGAttributes } from 'preact'
 
 type IconName =
@@ -22,16 +21,12 @@ type Props = SVGAttributes<SVGSVGElement> & {
 }
 
 export default function IconGlyph({ name, ...rest }: Props) {
-  const common = {
-    ...rest,
-    'aria-hidden': true as const,
-  }
-
   switch (name) {
     case 'arrow-left':
       return (
         <svg
-          {...common}
+          {...rest}
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -46,7 +41,8 @@ export default function IconGlyph({ name, ...rest }: Props) {
     case 'arrow-path':
       return (
         <svg
-          {...common}
+          {...rest}
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -63,7 +59,8 @@ export default function IconGlyph({ name, ...rest }: Props) {
     case 'brightness-down':
       return (
         <svg
-          {...common}
+          {...rest}
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -86,7 +83,8 @@ export default function IconGlyph({ name, ...rest }: Props) {
     case 'brightness-up':
       return (
         <svg
-          {...common}
+          {...rest}
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -108,7 +106,8 @@ export default function IconGlyph({ name, ...rest }: Props) {
     case 'check':
       return (
         <svg
-          {...common}
+          {...rest}
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -121,7 +120,12 @@ export default function IconGlyph({ name, ...rest }: Props) {
       )
     case 'check-circle':
       return (
-        <svg {...common} viewBox="0 0 24 24" fill="currentColor">
+        <svg
+          {...rest}
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
           <circle cx="12" cy="12" r="10" />
           <path
             d="M9.2 12.7 11.2 14.7 15.3 9.9"
@@ -136,7 +140,8 @@ export default function IconGlyph({ name, ...rest }: Props) {
     case 'chevron-right':
       return (
         <svg
-          {...common}
+          {...rest}
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -150,7 +155,8 @@ export default function IconGlyph({ name, ...rest }: Props) {
     case 'information-circle':
       return (
         <svg
-          {...common}
+          {...rest}
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -166,7 +172,8 @@ export default function IconGlyph({ name, ...rest }: Props) {
     case 'player-eject':
       return (
         <svg
-          {...common}
+          {...rest}
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -181,7 +188,8 @@ export default function IconGlyph({ name, ...rest }: Props) {
     case 'power':
       return (
         <svg
-          {...common}
+          {...rest}
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -196,7 +204,8 @@ export default function IconGlyph({ name, ...rest }: Props) {
     case 'volume-up':
       return (
         <svg
-          {...common}
+          {...rest}
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -212,7 +221,8 @@ export default function IconGlyph({ name, ...rest }: Props) {
     case 'volume-down':
       return (
         <svg
-          {...common}
+          {...rest}
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -226,7 +236,12 @@ export default function IconGlyph({ name, ...rest }: Props) {
       )
     case 'x-circle':
       return (
-        <svg {...common} viewBox="0 0 24 24" fill="currentColor">
+        <svg
+          {...rest}
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
           <circle cx="12" cy="12" r="10" />
           <path
             d="M9 9l6 6M15 9l-6 6"
@@ -241,7 +256,8 @@ export default function IconGlyph({ name, ...rest }: Props) {
     case 'x-mark':
       return (
         <svg
-          {...common}
+          {...rest}
+          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -254,6 +270,4 @@ export default function IconGlyph({ name, ...rest }: Props) {
         </svg>
       )
   }
-
-  return null
 }

@@ -1,10 +1,10 @@
 export interface NavigatorExtend extends Navigator {
-  keyboard: NavigatorKeyboard
+  keyboard?: Partial<NavigatorKeyboard>
 }
 
 export interface NavigatorKeyboard {
   getLayoutMap(): Promise<Map<string, string>>
-  lock(): void
+  lock(): Promise<void>
 }
 
 export interface KeyCombinable {

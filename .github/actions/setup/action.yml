@@ -1,0 +1,19 @@
+name: Setup validation environment
+description: Install the repository's pinned Node and npm and locked dependencies
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version-file: .nvmrc
+        cache: npm
+    - name: Install declared npm
+      shell: bash
+      run: |
+        node -e "const fs = require('node:fs'); require('node:child_process').execFileSync('npm', ['install', '--global', JSON.parse(fs.readFileSync('package.json', 'utf8')).packageManager], { stdio: 'inherit' })"
+    - name: Install locked dependencies
+      shell: bash
+      run: npm ci --include=dev --no-audit --no-fund
+    - name: Verify runtime
+      shell: bash
+      run: npm run check:runtime

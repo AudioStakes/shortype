@@ -1,5 +1,5 @@
 import type { ComponentChildren } from 'preact'
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks'
 
 type Props = {
   isShow?: boolean
@@ -13,6 +13,14 @@ export default function ModalContent({
   children,
 }: Props) {
   const [isEntered, setIsEntered] = useState(false)
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    const content = contentRef.current
+    if (isShow && content?.closest('dialog')?.open) {
+      content.querySelector<HTMLButtonElement>('button:enabled')?.focus()
+    }
+  }, [isShow])
 
   useEffect(() => {
     if (!isShow) {
@@ -40,6 +48,7 @@ export default function ModalContent({
 
   return (
     <div
+      ref={contentRef}
       class={`transform transition-[opacity,transform] duration-200 ease-in ${
         isEntered ? 'opacity-100 translate-x-0' : `opacity-0 ${enterFromSide}`
       }`}

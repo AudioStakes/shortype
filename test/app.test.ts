@@ -14,10 +14,9 @@ beforeEach(() => localStorage.clear())
 test('show an unsupported message when a client is unsupported', async () => {
   const userAgentWithFireFoxAndMac =
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:97.0) Gecko/20100101 Firefox/97.0'
-  Object.defineProperty(navigator, 'userAgent', {
-    configurable: true,
-    value: userAgentWithFireFoxAndMac,
-  })
+  vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue(
+    userAgentWithFireFoxAndMac,
+  )
 
   const { container, getByText } = render(h(App, {}))
 
@@ -39,13 +38,12 @@ test('show an unsupported message when a client is unsupported', async () => {
   ).toBe(true)
 })
 
-test("doesn't show an unsupported message when a client is unsupported", async () => {
+test("doesn't show an unsupported message when a client is supported", () => {
   const userAgentWithChromeAndMac =
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
-  Object.defineProperty(navigator, 'userAgent', {
-    configurable: true,
-    value: userAgentWithChromeAndMac,
-  })
+  vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue(
+    userAgentWithChromeAndMac,
+  )
 
   const { container } = render(h(App, {}))
 
@@ -59,17 +57,17 @@ test('show the modal to select a tool when the tool button on the header is pres
 
   await click(getByText('ツールを選ぶ'))
 
-  getByText('ツールを選んでください')
+  expect(getByText('ツールを選んでください').isConnected).toBe(true)
 })
 
 test('switch a tool when the tool on the modal is selected', async () => {
   const { getByText, queryAllByText } = render(h(App, {}))
 
-  getByText(/Google Chrome/)
+  expect(getByText(/Google Chrome/).isConnected).toBe(true)
 
   await click(getByText('ツールを選ぶ'))
 
-  getByText('ツールを選んでください')
+  expect(getByText('ツールを選んでください').isConnected).toBe(true)
 
   await click(getByText('Terminal (macOS)'))
   await click(getByText('すべて選ぶ'))
@@ -80,7 +78,7 @@ test('switch a tool when the tool on the modal is selected', async () => {
   queryAllByText(/Terminal/)
 
   await click(getByText('ツールを選ぶ'))
-  getByText('ツールを選んでください')
+  expect(getByText('ツールを選んでください').isConnected).toBe(true)
 })
 
 test('show the modal about Shortype when the About link is clicked', async () => {
@@ -88,7 +86,7 @@ test('show the modal about Shortype when the About link is clicked', async () =>
 
   await click(getByText('About'))
 
-  getByText('Shortype について')
+  expect(getByText('Shortype について').isConnected).toBe(true)
 })
 
 test('About pauses game shortcuts until its dialog is closed', async () => {
@@ -117,7 +115,9 @@ test('Privacy explains data use, pauses shortcuts, and restores focus on close',
   const dialog = container.querySelector<HTMLDialogElement>(
     'dialog[aria-label="プライバシー"]',
   )
-  if (!dialog) throw new Error('Missing privacy dialog')
+  if (!dialog) {
+    throw new Error('Missing privacy dialog')
+  }
   expect(dialog.open).toBe(true)
   expect(document.activeElement?.getAttribute('aria-label')).toBe(
     'プライバシーを閉じる',
@@ -167,9 +167,11 @@ test('the header can switch tools after every current shortcut is removed', asyn
     JSON.stringify(chromeShortcuts.map(({ id }) => id)),
   )
   const { getByText } = render(h(App, {}))
-  getByText('出題できるショートカットキーがありません。')
+  expect(
+    getByText('出題できるショートカットキーがありません。').isConnected,
+  ).toBe(true)
   await click(getByText('ツールを選ぶ'))
-  getByText('ツールを選んでください')
+  expect(getByText('ツールを選んでください').isConnected).toBe(true)
 })
 
 test('mastery details can be toggled by their accessible chart control', async () => {
@@ -178,7 +180,9 @@ test('mastery details can be toggled by their accessible chart control', async (
     'button[aria-controls]',
   )
   expect(trigger).not.toBeNull()
-  if (!trigger) throw new Error('Missing mastery details button')
+  if (!trigger) {
+    throw new Error('Missing mastery details button')
+  }
   expect(trigger.getAttribute('aria-expanded')).toBe('false')
   await click(trigger)
   expect(trigger.getAttribute('aria-expanded')).toBe('true')
@@ -198,7 +202,9 @@ test('a chart click pins hovered details and Escape closes them', async () => {
   const trigger = container.querySelector<HTMLButtonElement>(
     'button[aria-controls]',
   )
-  if (!trigger?.parentElement) throw new Error('Missing mastery details button')
+  if (!trigger?.parentElement) {
+    throw new Error('Missing mastery details button')
+  }
   const chart = trigger.parentElement
   chart.dispatchEvent(
     new PointerEvent('pointerenter', { pointerType: 'mouse' }),

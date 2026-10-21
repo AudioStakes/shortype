@@ -4,6 +4,7 @@ import { act } from 'preact/test-utils'
 type TextMatcher = string | RegExp
 
 const mountedContainers: HTMLElement[] = []
+const pendingRenders: Promise<void>[] = []
 
 const normalize = (text: string) => text.replace(/\s+/g, ' ').trim()
 
@@ -22,7 +23,7 @@ const rootElements = (root: Element) => [
 
 const queryAllByTextIn = (root: Element, matcher: TextMatcher) =>
   rootElements(root).filter((element) =>
-    matchesText(element.textContent ?? '', matcher),
+    matchesText(element.textContent, matcher),
   ) as HTMLElement[]
 
 const getByTextIn = (root: Element, matcher: TextMatcher) => {
@@ -39,22 +40,24 @@ const queryByTextIn = (root: Element, matcher: TextMatcher) =>
   queryAllByTextIn(root, matcher)[0] ?? null
 
 const getByTestIdIn = (root: Element, testId: string) => {
-  const found = root.querySelector(`[data-testid="${testId}"]`)
+  const found = root.querySelector<HTMLElement>(`[data-testid="${testId}"]`)
 
   if (!found) {
     throw new Error(`Unable to find test id: ${testId}`)
   }
 
-  return found as HTMLElement
+  return found
 }
 
 export const render = (component: ComponentChildren) => {
   const container = document.createElement('div')
   document.body.appendChild(container)
-  act(() => {
-    preactRender(component, container)
-  })
   mountedContainers.push(container)
+  pendingRenders.push(
+    act(() => {
+      preactRender(component, container)
+    }),
+  )
 
   const root = (container.firstElementChild ?? container) as HTMLElement
 
@@ -65,7 +68,7 @@ export const render = (component: ComponentChildren) => {
     queryAllByText: (matcher: TextMatcher) => queryAllByTextIn(root, matcher),
     getByTestId: (testId: string) => getByTestIdIn(root, testId),
     queryByTestId: (testId: string) =>
-      root.querySelector(`[data-testid="${testId}"]`) as HTMLElement | null,
+      root.querySelector<HTMLElement>(`[data-testid="${testId}"]`),
     unmount: () => {
       preactRender(null, container)
       container.remove()
@@ -79,11 +82,11 @@ export const within = (root: Element) => ({
   queryAllByText: (matcher: TextMatcher) => queryAllByTextIn(root, matcher),
   getByTestId: (testId: string) => getByTestIdIn(root, testId),
   queryByTestId: (testId: string) =>
-    root.querySelector(`[data-testid="${testId}"]`) as HTMLElement | null,
+    root.querySelector<HTMLElement>(`[data-testid="${testId}"]`),
 })
 
 export const click = async (element: Element) => {
-  act(() => {
+  await act(() => {
     ;(element as HTMLElement).dispatchEvent(
       new MouseEvent('click', { bubbles: true, cancelable: true }),
     )
@@ -105,7 +108,9 @@ export const waitFor = async (assertion: () => unknown, timeoutMs = 1000) => {
     }
   }
 
-  throw lastError ?? new Error('waitFor timed out')
+  throw lastError instanceof Error
+    ? lastError
+    : new Error('waitFor timed out', { cause: lastError })
 }
 
 export const waitForElementToBeRemoved = async (
@@ -121,11 +126,14 @@ export const waitForElementToBeRemoved = async (
   }, timeoutMs)
 }
 
-export const cleanup = () => {
+export const cleanup = async () => {
+  await Promise.all(pendingRenders.splice(0))
   while (mountedContainers.length > 0) {
     const container = mountedContainers.pop()
-    if (!container) continue
-    act(() => {
+    if (!container) {
+      continue
+    }
+    await act(() => {
       preactRender(null, container)
     })
     container.remove()

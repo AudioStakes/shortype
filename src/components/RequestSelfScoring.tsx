@@ -1,10 +1,10 @@
 import Key from '@/components/Key'
 import SelfScoring from '@/components/SelfScoring'
 import GameKey from '@/stores/game-key'
-import { injectStrict } from '@/utils/inject-strict'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 export default function RequestSelfScoring() {
-  const { state } = injectStrict(GameKey, 'GameKey')
+  const { state } = useStrictContext(GameKey, 'GameKey')
 
   return !state.isShowCorrectKeyPressed ? (
     <div>

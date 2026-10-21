@@ -17,7 +17,7 @@ const MASTERED_WEIGHT_THRESHOLD = 0.6
 const shortcutIds = (shortcuts: Shortcut[]) =>
   shortcuts.map((shortcut) => shortcut.id)
 
-export const getIdToWeightMap = ({
+const getIdToWeightMap = ({
   shortcuts,
   answeredHistory,
 }: ShortcutTrainingSessionStatusSnapshot) => {

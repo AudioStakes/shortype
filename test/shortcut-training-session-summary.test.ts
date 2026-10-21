@@ -1,19 +1,13 @@
 import { describe, expect, test } from 'vitest'
-
 import createShortcutTrainingSessionSummary from '@/models/shortcut-training-session-summary'
+import { shortcutFixture } from './shortcut-fixture'
 
 const snapshot = {
   shortcuts: [
-    {
-      id: 'chrome-1',
-    },
-    {
-      id: 'chrome-2',
-    },
-    {
-      id: 'terminal-1',
-    },
-  ] as never,
+    shortcutFixture('chrome-1'),
+    shortcutFixture('chrome-2'),
+    shortcutFixture('terminal-1'),
+  ],
   removedIds: new Set<string>(),
   answeredHistory: new Map([
     ['chrome-1', [true]],
@@ -21,52 +15,27 @@ const snapshot = {
   ]),
 }
 
-const catalog = {
-  tools: [
+const chromeTool = {
+  name: 'Google Chrome',
+  shortcuts: [shortcutFixture('chrome-1'), shortcutFixture('chrome-2')],
+  categories: [
     {
-      name: 'Google Chrome',
-      shortcuts: [
-        {
-          id: 'chrome-1',
-        },
-        {
-          id: 'chrome-2',
-        },
-      ] as never,
-      categories: [
-        {
-          name: 'Tabs',
-          shortcuts: [
-            {
-              id: 'chrome-1',
-            },
-            {
-              id: 'chrome-2',
-            },
-          ] as never,
-        },
-      ],
-    },
-    {
-      name: 'Terminal (macOS)',
-      shortcuts: [
-        {
-          id: 'terminal-1',
-        },
-      ] as never,
-      categories: [
-        {
-          name: 'Shell',
-          shortcuts: [
-            {
-              id: 'terminal-1',
-            },
-          ] as never,
-        },
-      ],
+      name: 'Tabs',
+      shortcuts: [shortcutFixture('chrome-1'), shortcutFixture('chrome-2')],
     },
   ],
 }
+const terminalTool = {
+  name: 'Terminal (macOS)',
+  shortcuts: [shortcutFixture('terminal-1')],
+  categories: [
+    {
+      name: 'Shell',
+      shortcuts: [shortcutFixture('terminal-1')],
+    },
+  ],
+}
+const catalog = { tools: [chromeTool, terminalTool] }
 
 describe('shortcut-training-session-summary', () => {
   test('shows mastered rate by tool and category', () => {
@@ -95,7 +64,7 @@ describe('shortcut-training-session-summary', () => {
     const summary = createShortcutTrainingSessionSummary(
       {
         ...snapshot,
-        shortcuts: [{ id: 'chrome-1' }] as never,
+        shortcuts: [shortcutFixture('chrome-1')],
         answeredHistory: new Map([
           ['chrome-1', [true]],
           ['chrome-2', [true]],
@@ -105,13 +74,13 @@ describe('shortcut-training-session-summary', () => {
       {
         tools: [
           {
-            ...catalog.tools[0],
+            ...chromeTool,
             categories: [
-              { name: 'Tabs', shortcuts: [{ id: 'chrome-1' }] as never },
-              { name: 'Other', shortcuts: [{ id: 'chrome-2' }] as never },
+              { name: 'Tabs', shortcuts: [shortcutFixture('chrome-1')] },
+              { name: 'Other', shortcuts: [shortcutFixture('chrome-2')] },
             ],
           },
-          catalog.tools[1],
+          terminalTool,
         ],
       },
     )
@@ -130,4 +99,22 @@ describe('shortcut-training-session-summary', () => {
       unanswered: { included: 0, removed: 0 },
     })
   })
+})
+
+test('removed and empty categories have zero mastery and unknown tools have no categories', () => {
+  const summary = createShortcutTrainingSessionSummary(
+    {
+      ...snapshot,
+      removedIds: new Set(['chrome-1', 'chrome-2', 'terminal-1']),
+    },
+    catalog,
+  )
+  expect(summary.masteredRateOfEachTool()).toEqual([
+    { name: 'Google Chrome', masteredRate: 0 },
+    { name: 'Terminal (macOS)', masteredRate: 0 },
+  ])
+  expect(summary.categoriesWithMasteredRate('Google Chrome')).toEqual([
+    { name: 'Tabs', masteredRate: 0 },
+  ])
+  expect(summary.categoriesWithMasteredRate('missing')).toEqual([])
 })

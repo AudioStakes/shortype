@@ -1,9 +1,9 @@
 import IconGlyph from '@/components/IconGlyph'
 import GameKey from '@/stores/game-key'
-import { injectStrict } from '@/utils/inject-strict'
+import { useStrictContext } from '@/utils/use-strict-context'
 
 export default function QuestionShow() {
-  const { state } = injectStrict(GameKey, 'GameKey')
+  const { state } = useStrictContext(GameKey, 'GameKey')
 
   return (
     <div class="flex h-fit min-h-[4rem] w-full max-w-[54rem] flex-col space-y-2 text-center">

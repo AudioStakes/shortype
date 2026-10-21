@@ -1,0 +1,110 @@
+{
+  "coverage": {
+    "global": {
+      "lines": 95,
+      "statements": 95,
+      "functions": 95,
+      "branches": 90
+    },
+    "perFile": {
+      "lines": 90,
+      "statements": 90,
+      "functions": 90,
+      "branches": 85
+    },
+    "critical": {
+      "src/utils/local-storage-core.ts": {
+        "lines": 95,
+        "statements": 95,
+        "functions": 100,
+        "branches": 95
+      },
+      "src/utils/weighted-sample.ts": {
+        "lines": 95,
+        "statements": 95,
+        "functions": 100,
+        "branches": 95
+      },
+      "src/models/key-combination.ts": {
+        "lines": 95,
+        "statements": 95,
+        "functions": 100,
+        "branches": 95
+      },
+      "src/models/key-combinations.ts": {
+        "lines": 95,
+        "statements": 95,
+        "functions": 100,
+        "branches": 95
+      },
+      "src/models/shortcut-training-session-status.ts": {
+        "lines": 95,
+        "statements": 95,
+        "functions": 100,
+        "branches": 95
+      },
+      "data/parse-csv.ts": {
+        "lines": 95,
+        "statements": 95,
+        "functions": 100,
+        "branches": 95
+      },
+      "src/models/shortcut-training-session.ts": {
+        "lines": 95,
+        "statements": 95,
+        "functions": 95,
+        "branches": 90
+      },
+      "src/models/shortcut-training-session-effects.ts": {
+        "lines": 95,
+        "statements": 95,
+        "functions": 95,
+        "branches": 90
+      }
+    }
+  },
+  "mutation": {
+    "global": 90,
+    "perFile": 90,
+    "noCoverage": 0,
+    "errors": 0,
+    "totalMinimum": 1,
+    "targets": [
+      "src/utils/local-storage-core.ts",
+      "src/utils/weighted-sample.ts",
+      "src/models/key-combination.ts",
+      "src/models/key-combinations.ts",
+      "src/models/shortcut-training-session-status.ts",
+      "data/parse-csv.ts",
+      "src/models/shortcut-training-session.ts",
+      "src/models/shortcut-training-session-effects.ts",
+      "src/stores/game-session-storage.ts",
+      "data/create-shortcut.ts"
+    ]
+  },
+  "sources": ["src", "data", "scripts"],
+  "typeConfigs": [
+    "tsconfig.json",
+    "tsconfig.node.json",
+    "tsconfig.test.json",
+    "tsconfig.e2e.json"
+  ],
+  "requiredGates": [
+    "check:runtime",
+    "check:policy",
+    "test:gates",
+    "check:workflow",
+    "format:check",
+    "lint",
+    "typecheck",
+    "knip",
+    "test:coverage",
+    "test:shuffle:1",
+    "test:shuffle:42",
+    "build",
+    "test:e2e",
+    "test:mutation",
+    "audit"
+  ],
+  "exceptions": []
+}

@@ -1,8 +1,7 @@
 import type { Context } from 'preact'
 import { useContext } from 'preact/hooks'
 
-// Keep this small helper so the component code stays close to the Vue version.
-export function injectStrict<T>(
+export function useStrictContext<T>(
   context: Context<T | undefined>,
   name?: string,
 ) {

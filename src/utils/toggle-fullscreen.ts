@@ -1,9 +1,13 @@
 export default async function toggleFullscreen() {
   try {
     if (!document.fullscreenElement) {
-      await document.documentElement.requestFullscreen?.()
+      if (typeof document.documentElement.requestFullscreen === 'function') {
+        await document.documentElement.requestFullscreen()
+      }
     } else {
-      await document.exitFullscreen?.()
+      if (typeof document.exitFullscreen === 'function') {
+        await document.exitFullscreen()
+      }
     }
   } catch {
     // A denied fullscreen request leaves the self-scoring option available.

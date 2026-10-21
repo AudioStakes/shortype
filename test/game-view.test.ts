@@ -8,6 +8,7 @@ import createModalStore from '@/stores/modal'
 import ModalKey from '@/stores/modal-key'
 import type { Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
+import * as keyboardLock from '@/utils/lock-keyboard'
 import GameView from '@/views/GameView'
 
 import {
@@ -58,8 +59,12 @@ const keyFlagsByKey: Record<string, Partial<KeyboardEventInit>> = {
 }
 
 const normalizeKey = (key: string) => {
-  if (key.toLowerCase() === 'arrowleft') return 'ArrowLeft'
-  if (key.toLowerCase() === 'arrowright') return 'ArrowRight'
+  if (key.toLowerCase() === 'arrowleft') {
+    return 'ArrowLeft'
+  }
+  if (key.toLowerCase() === 'arrowright') {
+    return 'ArrowRight'
+  }
 
   return key.length === 1 ? key.toLowerCase() : key
 }
@@ -110,7 +115,7 @@ const pressChord = async (keys: string[]) => {
   await Promise.resolve()
 }
 
-beforeAll(() => {
+beforeEach(() => {
   vi.spyOn(Keyboard.prototype, 'key').mockImplementation(({ key }) => key) // テストでは key の値を指定しており、修飾キーの状態やキーボードレイアウトによる key の値の変化が生じないため
 })
 
@@ -118,15 +123,13 @@ beforeEach(() => {
   localStorageMock.clear()
 })
 
-const renderGameView = (
-  shortcuts: readonly unknown[] = availableShortcuts as unknown as readonly Shortcut[],
-) =>
+const renderGameView = (shortcuts: readonly Shortcut[] = availableShortcuts) =>
   render(
     h(
       ModalKey.Provider,
       { value: createModalStore() },
       h(GameView, {
-        shortcuts: shortcuts as readonly Shortcut[],
+        shortcuts,
       }),
     ),
   )
@@ -134,10 +137,10 @@ const renderGameView = (
 test('show a question', () => {
   const { getByText } = renderGameView()
 
-  getByText('Google Chrome')
-  getByText('タブとウィンドウのショートカット')
-  getByText('からの出題')
-  getByText('最後のタブに移動する')
+  expect(getByText('Google Chrome').isConnected).toBe(true)
+  expect(getByText('タブとウィンドウのショートカット').isConnected).toBe(true)
+  expect(getByText('からの出題').isConnected).toBe(true)
+  expect(getByText('最後のタブに移動する').isConnected).toBe(true)
 })
 
 test.each([
@@ -162,52 +165,54 @@ test.each([
   const pressedKeyCombination = getByTestId('pressed-key-combination')
 
   keys.forEach((key) => {
-    within(pressedKeyCombination).getByTestId(key)
+    expect(within(pressedKeyCombination).getByTestId(key).isConnected).toBe(
+      true,
+    )
   })
 })
 
 test('proceed to a next question when the correct key is pressed', async () => {
   const { getByText, getByTestId } = renderGameView()
 
-  getByText('最後のタブに移動する')
+  expect(getByText('最後のタブに移動する').isConnected).toBe(true)
 
   await pressChord(['Meta', '9'])
   await waitForElementToBeRemoved(getByTestId('correct-key-pressed'))
 
-  getByText('ウィンドウを最小化する')
+  expect(getByText('ウィンドウを最小化する').isConnected).toBe(true)
 })
 
 test('show a correct answer when a wrong key is pressed', async () => {
   const { getByText, getByTestId } = renderGameView()
 
-  getByText('最後のタブに移動する')
+  expect(getByText('最後のタブに移動する').isConnected).toBe(true)
 
   await pressChord(['Meta', 'A'])
 
-  getByTestId('correct-key-combination')
+  expect(getByTestId('correct-key-combination').isConnected).toBe(true)
 })
 
 test('proceed to a next question when the correct key is pressed after a wrong key', async () => {
   const { getByText, getByTestId } = renderGameView()
 
-  getByText('最後のタブに移動する')
+  expect(getByText('最後のタブに移動する').isConnected).toBe(true)
 
   await pressChord(['Meta', 'A'])
   await waitFor(() => getByText('正解を入力してみましょう'))
   await pressChord(['Meta', '9'])
   await waitForElementToBeRemoved(getByTestId('wrong-key-pressed'))
 
-  getByText('ウィンドウを最小化する')
+  expect(getByText('ウィンドウを最小化する').isConnected).toBe(true)
 })
 
 test('skip a question when an Enter key is pressed', async () => {
   const { getByText } = renderGameView()
 
-  getByText('最後のタブに移動する')
+  expect(getByText('最後のタブに移動する').isConnected).toBe(true)
 
   await pressKey('Enter')
 
-  getByText('ウィンドウを最小化する')
+  expect(getByText('ウィンドウを最小化する').isConnected).toBe(true)
 })
 
 test('Tab navigation does not record an incorrect answer', () => {
@@ -224,9 +229,13 @@ test('Tab navigation does not record an incorrect answer', () => {
 })
 
 test('real Tab questions remain answerable without blocking focus navigation', () => {
+  const firstShortcut = availableShortcuts[0]
+  if (!firstShortcut) {
+    throw new Error('Missing shortcut fixture')
+  }
   renderGameView([
     {
-      ...availableShortcuts[0],
+      ...firstShortcut,
       keysDescription: 'tab',
       needsFillInBlankMode: false,
       keyCombinations: [
@@ -255,62 +264,67 @@ test('real Tab questions remain answerable without blocking focus navigation', (
 test('remove a question when an R key is pressed', async () => {
   const { getByText } = renderGameView()
 
-  getByText('最後のタブに移動する')
+  expect(getByText('最後のタブに移動する').isConnected).toBe(true)
 
   await pressKey('r')
 
   await waitFor(() => getByText('ショートカットキーを入力してください...'))
 
-  getByText('ウィンドウを最小化する')
+  expect(getByText('ウィンドウを最小化する').isConnected).toBe(true)
 
   await pressKey('Enter')
 
-  getByText('ウィンドウを最小化する')
+  expect(getByText('ウィンドウを最小化する').isConnected).toBe(true)
 
   await pressKey('Enter')
 
-  getByText('ウィンドウを最小化する')
+  expect(getByText('ウィンドウを最小化する').isConnected).toBe(true)
 })
 
 test('removed shortcut keys are stored in localStorage', async () => {
   const firstRender = renderGameView()
 
-  firstRender.getByText('最後のタブに移動する')
+  expect(firstRender.getByText('最後のタブに移動する').isConnected).toBe(true)
 
   await pressKey('r')
   await waitFor(() =>
     firstRender.getByText('ショートカットキーを入力してください...'),
   )
 
-  firstRender.getByText('ウィンドウを最小化する')
+  expect(firstRender.getByText('ウィンドウを最小化する').isConnected).toBe(true)
 
   firstRender.unmount()
 
   const secondRender = renderGameView()
-  secondRender.getByText('ウィンドウを最小化する')
+  expect(secondRender.getByText('ウィンドウを最小化する').isConnected).toBe(
+    true,
+  )
 })
 
 test('restore removed shortcut keys when the restore button is clicked', async () => {
   const { getByText } = renderGameView()
 
-  getByText('最後のタブに移動する')
+  expect(getByText('最後のタブに移動する').isConnected).toBe(true)
 
   await pressKey('r')
   await waitFor(() => getByText('ショートカットキーを入力してください...'))
 
-  getByText('ウィンドウを最小化する')
+  expect(getByText('ウィンドウを最小化する').isConnected).toBe(true)
 
-  window.confirm = vi.fn(() => true)
+  vi.stubGlobal(
+    'confirm',
+    vi.fn(() => true),
+  )
   await click(getByText('出題しないリストを空にする'))
   document.body.focus()
 
-  getByText('最後のタブに移動する')
+  expect(getByText('最後のタブに移動する').isConnected).toBe(true)
 })
 
 test('save a record of answered correctly when the correct key is pressed', async () => {
   const { getByText } = renderGameView()
 
-  getByText('最後のタブに移動する')
+  expect(getByText('最後のタブに移動する').isConnected).toBe(true)
 
   await pressChord(['Meta', '9'])
 
@@ -322,7 +336,7 @@ test('save a record of answered correctly when the correct key is pressed', asyn
 test('save a record of answered incorrectly when the incorrect key is pressed', async () => {
   const { getByText } = renderGameView()
 
-  getByText('最後のタブに移動する')
+  expect(getByText('最後のタブに移動する').isConnected).toBe(true)
 
   await pressChord(['Meta', 'A'])
 
@@ -336,31 +350,31 @@ test('switch a tool when the modal flow is used', async () => {
     ...chromeShortcuts,
     ...terminalShortcuts,
     ...macShortcuts,
-  ] as readonly Shortcut[])
+  ])
 
-  getByText(/Google Chrome/)
+  expect(getByText(/Google Chrome/).isConnected).toBe(true)
   expect(queryByText(/Terminal/)).toBeNull()
 
   await pressKey('t')
-  getByText('ツールを選んでください')
+  expect(getByText('ツールを選んでください').isConnected).toBe(true)
 
   await click(getByText('Terminal (macOS)'))
   await waitFor(() => getByText('カテゴリーを選んでください'))
 
-  getByText('Terminal (macOS)')
+  expect(getByText('Terminal (macOS)').isConnected).toBe(true)
 })
 
 test('show the self-scoring prompt and store self evaluation for unsupported shortcuts', async () => {
   const { getByText, container } = renderGameView(unsupportedShortcuts)
 
-  getByText('開いている次のタブに移動する')
-  getByText('正解判定に未対応のため、')
+  expect(getByText('開いている次のタブに移動する').isConnected).toBe(true)
+  expect(getByText('正解判定に未対応のため、').isConnected).toBe(true)
   expect(container.textContent).toContain('正解を確認 & 自己採点')
 
   await pressKey('c')
 
-  getByText('正解した')
-  getByText('不正解だった')
+  expect(getByText('正解した').isConnected).toBe(true)
+  expect(getByText('不正解だった').isConnected).toBe(true)
 
   await pressKey('y')
 
@@ -372,7 +386,7 @@ test('show the self-scoring prompt and store self evaluation for unsupported sho
 test('store a wrong self score for unsupported shortcuts', async () => {
   const { getByText } = renderGameView(unsupportedShortcuts)
 
-  getByText('開いている次のタブに移動する')
+  expect(getByText('開いている次のタブに移動する').isConnected).toBe(true)
 
   await pressKey('c')
   await pressKey('n')
@@ -387,7 +401,9 @@ test('show multiple correct answers when a shortcut has multiple key combination
     shortcutWithMultipleKeyCombinations,
   )
 
-  getByText('キーボード フォーカスのあるタブを左右に移動する')
+  expect(
+    getByText('キーボード フォーカスのあるタブを左右に移動する').isConnected,
+  ).toBe(true)
 
   await pressChord(['Meta', 'A'])
 
@@ -405,7 +421,9 @@ test.each([
     shortcutWithMultipleKeyCombinations,
   )
 
-  getByText('キーボード フォーカスのあるタブを左右に移動する')
+  expect(
+    getByText('キーボード フォーカスのあるタブを左右に移動する').isConnected,
+  ).toBe(true)
 
   await pressChord(keyCombination)
   await waitForElementToBeRemoved(getByTestId('correct-key-pressed'))
@@ -414,7 +432,9 @@ test.each([
 test('show fill-in-blank content for shortcuts with non-key actions', () => {
   const { getByText, getByTestId } = renderGameView(shortcutWithNonKeyActions)
 
-  getByText('リンクを新しいバックグラウンド タブで開く')
+  expect(
+    getByText('リンクを新しいバックグラウンド タブで開く').isConnected,
+  ).toBe(true)
 
   const keyElement = within(getByTestId('pressed-key-combination')).queryByText(
     /⌘/,
@@ -432,7 +452,7 @@ test('show the message to request fullscreen mode when the shortcut key is only 
     shortcutsOnlyAvailableInFullscreen,
   )
 
-  getByText('新しいウィンドウを開く')
+  expect(getByText('新しいウィンドウを開く').isConnected).toBe(true)
 
   const pressedKeyCombination = getByTestId('pressed-key-combination')
 
@@ -475,4 +495,44 @@ test('keep keyboard listeners stable across gameplay updates', async () => {
 
   addSpy.mockRestore()
   removeSpy.mockRestore()
+})
+
+test('uses available keyboard capabilities and clears released modifier keys', async () => {
+  const getLayoutMap = vi.fn(() => Promise.resolve(new Map([['KeyQ', 'q']])))
+  const lock = vi.fn()
+  vi.stubGlobal('navigator', { keyboard: { getLayoutMap, lock } })
+  const { getByTestId } = renderGameView()
+  await waitFor(() => expect(getLayoutMap).toHaveBeenCalledOnce())
+  expect(lock).toHaveBeenCalledOnce()
+  await pressKey('Meta')
+  const pressed = getByTestId('pressed-key-combination')
+  expect(within(pressed).queryByTestId('Meta')).not.toBeNull()
+  dispatchKeyboardEvent('keyup', 'Meta')
+  await waitFor(() => expect(within(pressed).queryByTestId('Meta')).toBeNull())
+})
+
+test('training survives unexpected keyboard capability adapter rejections', async () => {
+  vi.stubGlobal('navigator', { keyboard: {} })
+  const layout = vi
+    .spyOn(Keyboard.prototype, 'setKeyboardLayoutMap')
+    .mockRejectedValue(new Error('Layout adapter unavailable'))
+  const lock = vi
+    .spyOn(keyboardLock, 'default')
+    .mockRejectedValue(new Error('Lock adapter unavailable'))
+  const { getByText } = renderGameView()
+  await waitFor(() => {
+    expect(layout).toHaveBeenCalledOnce()
+    expect(lock).toHaveBeenCalledOnce()
+  })
+  expect(getByText('最後のタブに移動する').isConnected).toBe(true)
+})
+
+test('fullscreen-only questions allow self scoring when fullscreen is unavailable', async () => {
+  const { container, getByText } = renderGameView(
+    shortcutsOnlyAvailableInFullscreen,
+  )
+  expect(container.textContent).toContain('で全画面モードを ON')
+  await pressKey('c')
+  expect(getByText('正解した').isConnected).toBe(true)
+  expect(container.textContent).not.toContain('で全画面モードを ON')
 })

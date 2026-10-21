@@ -47,7 +47,9 @@ export const createLocalStorageCore = (storage?: LocalStorageLike) => {
   const unsavedValues = new Map<string, string | null>()
 
   const readItem = (key: string) => {
-    if (unsavedValues.has(key)) return unsavedValues.get(key)
+    if (unsavedValues.has(key)) {
+      return unsavedValues.get(key)
+    }
 
     try {
       return storage?.getItem(key)
@@ -68,11 +70,15 @@ export const createLocalStorageCore = (storage?: LocalStorageLike) => {
 
   const readJson = (key: StorageKey) => {
     const json = readItem(key)
-    if (!json) return undefined
+    if (!json) {
+      return undefined
+    }
 
     try {
       const value: unknown = JSON.parse(json)
-      if (isValidStoredValue(key, value)) return value
+      if (isValidStoredValue(key, value)) {
+        return value
+      }
     } catch {
       // Invalid JSON uses the same recovery as an invalid stored shape.
     }
@@ -99,7 +105,9 @@ export const createLocalStorageCore = (storage?: LocalStorageLike) => {
 
     try {
       storage?.setItem(key, json)
-      if (storage) unsavedValues.delete(key)
+      if (storage) {
+        unsavedValues.delete(key)
+      }
     } catch {
       // Training remains usable when storage is disabled or full.
     }
