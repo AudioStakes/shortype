@@ -66,7 +66,7 @@ npm exec -- playwright install chromium
 npm run validate
 ```
 
-The same gates run for every pull request. See [the validation guide](docs/validation.md) for tool ownership, failure reports, coverage and mutation requirements, and the review process.
+Run these gates locally before handing off changes. Automatic GitHub Actions runs are disabled; opening or updating a pull request does not start CI. See [the validation guide](docs/validation.md) for tool ownership, failure reports, coverage and mutation requirements, and the review process.
 
 ### Build for production
 

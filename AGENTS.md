@@ -7,6 +7,7 @@
 - Prefer focused checks first; use the full suite when it is needed to validate the change scope.
 - If a check fails, fix it immediately and rerun the same check before moving on.
 - Before handing off or pushing, run `npm run validate` with the runtime declared in `.nvmrc` and `package.json`.
+- GitHub Actions is disabled at the user's request. Do not enable automatic PR/push workflows, require CI status checks, or request Copilot reviews without explicit authorization. Run validation locally and use Codex subagents for independent review.
 - Use established tools' native configuration and exit codes for validation. Keep application behavior tests; avoid custom validators, report parsers, and tests of validation tools themselves.
 - For validation configuration or dependency changes, read [the validation guide](docs/validation.md) and obtain independent review of scope and compatibility. Fix required findings before the full gate.
 
