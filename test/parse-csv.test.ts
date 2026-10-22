@@ -25,13 +25,23 @@ test('preserves delimiters, escaped quotes, line breaks and unicode inside quote
   ])
 })
 
-test('fills missing cells, ignores extra cells and skips only entirely empty rows', () => {
-  expect(parseCsv('a,b,c\nx\ny,z,\n,,\n , ,\n1,2,3,4\n')).toEqual([
+test('preserves explicit empty cells and skips only entirely empty rows', () => {
+  expect(parseCsv('a,b,c\nx,,\ny,z,\n,,\n , ,\n1,2,3\n')).toEqual([
     { a: 'x', b: '', c: '' },
     { a: 'y', b: 'z', c: '' },
     { a: ' ', b: ' ', c: '' },
     { a: '1', b: '2', c: '3' },
   ])
+})
+
+test.each([
+  ['unclosed quoted field', 'a,b\n1,"two\n3,four'],
+  ['extra column', 'a,b\n1,two,three'],
+  ['missing column', 'a,b\n1'],
+  ['quote inside an unquoted field', 'a,b\n1,t"wo'],
+  ['text after a closing quote', 'a,b\n1,"two"three'],
+])('rejects malformed CSV: %s', (_description, input) => {
+  expect(() => parseCsv(input)).toThrow()
 })
 
 test('keeps a trailing quoted cell without a terminal newline', () => {

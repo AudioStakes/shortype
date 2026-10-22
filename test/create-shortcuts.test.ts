@@ -71,6 +71,22 @@ test('read and validation errors stop before writing a JSON file', () => {
   expect(writeFile).not.toHaveBeenCalled()
 })
 
+test.each([
+  [
+    'unclosed quoted answer',
+    'example,Example,macOS,Tabs,Copy,"Command + c\nnext,Example,macOS,Tabs,Paste,Command + v',
+  ],
+  ['extra comma in an answer', 'example,Example,macOS,Tabs,Copy,Command,c'],
+  ['missing answer column', 'example,Example,macOS,Tabs,Copy'],
+])('does not write generated JSON for %s', (_description, row) => {
+  readFile.mockReturnValueOnce(
+    Buffer.from(`id,app,os,category,action,keysDescription\n${row}`),
+  )
+
+  expect(() => createShortcuts('/input/invalid.csv')).toThrow()
+  expect(writeFile).not.toHaveBeenCalled()
+})
+
 test('reports write failures to the invoking script', () => {
   writeFile.mockImplementationOnce(() => {
     throw new Error('Write failed')
