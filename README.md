@@ -13,7 +13,7 @@ https://shortype.vercel.app/
 ## Features
 
 - Just type the shortcut key to train
-- All shortcut keys from the official documentation are available
+- Practice shortcuts selected from the official Chrome, Terminal, and macOS documentation
 - Automatically increases the frequency of unmastered shortcut keys
 - Focus on the shortcut keys you want to master by excluding non-interesting shortcut keys
 - Styling is generated on demand with UnoCSS, so the shipped CSS stays smaller and the utility workflow stays simple
@@ -28,11 +28,23 @@ For the migration summary and the practical benefits of the UnoCSS switch, see [
 - Terminal (macOS)
 - macOS
 
+The catalog was reviewed on 2026-10-22 against the official [Chrome](https://support.google.com/chrome/answer/157179?hl=ja), [Terminal](https://support.apple.com/ja-jp/guide/terminal/trmlshtcts/mac), and [macOS](https://support.apple.com/ja-jp/102650) references. It contains 350 questions and retains hardware and OS version conditions in their descriptions. Questions with only Fn alternatives use self-scoring.
+
 ## Saved progress
 
 Answers and excluded questions synchronize between tabs. Browsers with Web Locks serialize simultaneous progress updates; browsers without it still save progress, but simultaneous writes are best effort. Reload all open Shortype tabs after an update so they use the same saving behavior.
 
-If browser storage fails, training continues in memory for the rest of that page session. Further progress is not saved until the page is reloaded, and closing or reloading the page loses unsaved progress.
+The latest two answers per question are retained for progress and practice frequency.
+
+If reading or saving progress fails, training continues in memory for the rest of that page session. Further progress is not saved until the page is reloaded, and closing or reloading the page loses unsaved progress.
+
+Incompatible saved schemas are reset before current-format data is saved. Renamed macOS settings categories are migrated when loading existing selections.
+
+## Keyboard behavior
+
+Browser-reserved combinations require fullscreen and a successful Keyboard Lock request for automatic scoring. Unrestricted alternatives remain usable. When no alternative can be scored automatically, press C to reveal the answer and use Y/N to self-score.
+
+Supported browsers refresh the keyboard layout when the window regains focus or the page becomes visible. After changing the OS input source while staying on the page, switch away and back to request a refresh. Physical keyboards, OS-reserved keys, IME, and VoiceOver still require manual verification.
 
 ## Usage
 
