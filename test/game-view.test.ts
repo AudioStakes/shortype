@@ -1,6 +1,11 @@
 import { h } from 'preact'
+import { act } from 'preact/test-utils'
 
-import { ANSWERED_HISTORY_KEY } from '@/constants/local-storage-keys'
+import {
+  ANSWERED_HISTORY_KEY,
+  REMOVED_IDS_KEY,
+  SCHEMA_VERSION_KEY,
+} from '@/constants/local-storage-keys'
 import chromeShortcuts from '@/constants/shortcuts/chrome.json'
 import macShortcuts from '@/constants/shortcuts/mac.json'
 import terminalShortcuts from '@/constants/shortcuts/terminal.json'
@@ -141,6 +146,32 @@ test('show a question', () => {
   expect(getByText('タブとウィンドウのショートカット').isConnected).toBe(true)
   expect(getByText('からの出題').isConnected).toBe(true)
   expect(getByText('最後のタブに移動する').isConnected).toBe(true)
+})
+
+test('refreshes progress written before effects attach and unsubscribes on unmount', async () => {
+  const addListener = vi.spyOn(window, 'addEventListener')
+  const removeListener = vi.spyOn(window, 'removeEventListener')
+  let view: ReturnType<typeof renderGameView> | undefined
+
+  await act(() => {
+    view = renderGameView()
+    localStorage.setItem(SCHEMA_VERSION_KEY, '0')
+    localStorage.setItem(
+      REMOVED_IDS_KEY,
+      JSON.stringify(availableShortcuts.map((shortcut) => shortcut.id)),
+    )
+  })
+
+  expect(
+    view?.getByText('出題できるショートカットキーがありません。').isConnected,
+  ).toBe(true)
+  const storageListener = addListener.mock.calls.find(
+    ([type]) => type === 'storage',
+  )?.[1]
+  expect(storageListener).toBeTypeOf('function')
+
+  view?.unmount()
+  expect(removeListener).toHaveBeenCalledWith('storage', storageListener)
 })
 
 test.each([

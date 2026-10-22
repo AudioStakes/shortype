@@ -187,3 +187,166 @@ test.each([
   expect(core.get(ANSWERED_HISTORY_KEY)).toEqual({})
   expect(storage.getItem(ANSWERED_HISTORY_KEY)).toBeNull()
 })
+
+describe('persisted storage access', () => {
+  test('reads durable values without a failed local write shadowing them', () => {
+    const storage = createStorage()
+    storage.setItem(SCHEMA_VERSION_KEY, '0')
+    storage.setItem(ANSWERED_HISTORY_KEY, JSON.stringify({ remote: [false] }))
+    const core = createLocalStorageCore({
+      ...storage,
+      setItem: () => {
+        throw new Error('Quota exceeded')
+      },
+    })
+
+    expect(core.set(ANSWERED_HISTORY_KEY, { local: [true] })).toBe(false)
+    expect(core.get(ANSWERED_HISTORY_KEY)).toEqual({ local: [true] })
+    expect(core.getPersisted(ANSWERED_HISTORY_KEY)).toEqual({ remote: [false] })
+  })
+
+  test.each([
+    '{',
+    '[]',
+    '{"invalid":[]}',
+    'null',
+  ])('defaults invalid durable JSON without deleting it: %s', (json) => {
+    const storage = createStorage()
+    storage.setItem(SCHEMA_VERSION_KEY, '0')
+    storage.setItem(ANSWERED_HISTORY_KEY, json)
+    const core = createLocalStorageCore(storage)
+
+    expect(core.getPersisted(ANSWERED_HISTORY_KEY)).toEqual({})
+    expect(storage.getItem(ANSWERED_HISTORY_KEY)).toBe(json)
+  })
+
+  test.each([
+    undefined,
+    '{',
+    '1',
+    'null',
+  ])('defaults incompatible or absent schema without cleanup: %s', (version) => {
+    const storage = createStorage()
+    if (version !== undefined) {
+      storage.setItem(SCHEMA_VERSION_KEY, version)
+    }
+    storage.setItem(ANSWERED_HISTORY_KEY, '{"id":[true]}')
+    const core = createLocalStorageCore(storage)
+
+    expect(core.getPersisted(ANSWERED_HISTORY_KEY)).toEqual({})
+    expect(storage.getItem(SCHEMA_VERSION_KEY)).toBe(version ?? null)
+  })
+
+  test('defaults missing values and reads schema itself', () => {
+    const storage = createStorage()
+    const core = createLocalStorageCore(storage)
+    expect(core.getPersisted(SCHEMA_VERSION_KEY)).toBe(-1)
+    storage.setItem(SCHEMA_VERSION_KEY, '0')
+    expect(core.getPersisted(SCHEMA_VERSION_KEY)).toBe(0)
+    expect(core.getPersisted(ANSWERED_HISTORY_KEY)).toEqual({})
+  })
+
+  test('throws when native storage cannot be read or does not exist', () => {
+    expect(() =>
+      createLocalStorageCore().getPersisted(ANSWERED_HISTORY_KEY),
+    ).toThrow()
+    const storage = createStorage()
+    const core = createLocalStorageCore({
+      ...storage,
+      getItem: () => {
+        throw new Error('Storage disabled')
+      },
+    })
+    expect(() => core.getPersisted(ANSWERED_HISTORY_KEY)).toThrow(
+      'Storage disabled',
+    )
+  })
+
+  test('reports durable value and schema writes separately', () => {
+    const storage = createStorage()
+    const core = createLocalStorageCore({
+      ...storage,
+      setItem: (key, value) => {
+        if (key === SCHEMA_VERSION_KEY) {
+          throw new Error('Schema write failed')
+        }
+        storage.setItem(key, value)
+      },
+    })
+    expect(core.set(ANSWERED_HISTORY_KEY, { id: [true] })).toBe(false)
+    expect(storage.getItem(ANSWERED_HISTORY_KEY)).toBe('{"id":[true]}')
+    expect(core.get(SCHEMA_VERSION_KEY)).toBe(0)
+    expect(createLocalStorageCore(storage).set(REMOVED_IDS_KEY, ['id'])).toBe(
+      true,
+    )
+    expect(createLocalStorageCore().set(REMOVED_IDS_KEY, ['id'])).toBe(false)
+  })
+
+  test('still writes the schema after the value write fails', () => {
+    const storage = createStorage()
+    const core = createLocalStorageCore({
+      ...storage,
+      setItem: (key, value) => {
+        if (key === ANSWERED_HISTORY_KEY) {
+          throw new Error('Value write failed')
+        }
+        storage.setItem(key, value)
+      },
+    })
+    expect(core.set(ANSWERED_HISTORY_KEY, { id: [true] })).toBe(false)
+    expect(storage.getItem(SCHEMA_VERSION_KEY)).toBe('0')
+    expect(core.get(ANSWERED_HISTORY_KEY)).toEqual({ id: [true] })
+  })
+
+  test('successful removal permits a later replacement from another tab', () => {
+    const storage = createStorage()
+    storage.setItem(SCHEMA_VERSION_KEY, '0')
+    storage.setItem(REMOVED_IDS_KEY, '["old"]')
+    const core = createLocalStorageCore(storage)
+    core.remove(REMOVED_IDS_KEY)
+    storage.setItem(REMOVED_IDS_KEY, '["new"]')
+    expect(core.get(REMOVED_IDS_KEY)).toEqual(['new'])
+  })
+
+  test('failed removal keeps its tombstone over an external replacement', () => {
+    const storage = createStorage()
+    storage.setItem(SCHEMA_VERSION_KEY, '0')
+    const core = createLocalStorageCore({
+      ...storage,
+      removeItem: () => {
+        throw new Error('Read only')
+      },
+    })
+    core.remove(REMOVED_IDS_KEY)
+    storage.setItem(REMOVED_IDS_KEY, '["new"]')
+    expect(core.get(REMOVED_IDS_KEY)).toEqual([])
+    expect(core.getPersisted(REMOVED_IDS_KEY)).toEqual(['new'])
+  })
+})
+
+test('read-only preference reads retain failed writes and never clean up corrupt data', () => {
+  const storage = createStorage()
+  const core = createLocalStorageCore({
+    ...storage,
+    setItem: () => {
+      throw new Error('Storage full')
+    },
+  })
+  core.set(SELECTED_TOOL_KEY, 'Terminal (macOS)')
+  expect(core.get(SELECTED_TOOL_KEY, { cleanup: false })).toBe(
+    'Terminal (macOS)',
+  )
+
+  const reader = createLocalStorageCore(storage)
+  storage.setItem(SCHEMA_VERSION_KEY, '{')
+  expect(reader.get(SELECTED_TOOL_KEY, { cleanup: false })).toBe(
+    'Google Chrome',
+  )
+  expect(storage.getItem(SCHEMA_VERSION_KEY)).toBe('{')
+  storage.setItem(SCHEMA_VERSION_KEY, '0')
+  storage.setItem(SELECTED_CATEGORIES_KEY, '{')
+  expect(reader.get(SELECTED_CATEGORIES_KEY, { cleanup: false })).toEqual(
+    LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE[SELECTED_CATEGORIES_KEY],
+  )
+  expect(storage.getItem(SELECTED_CATEGORIES_KEY)).toBe('{')
+})

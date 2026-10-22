@@ -28,6 +28,12 @@ For the migration summary and the practical benefits of the UnoCSS switch, see [
 - Terminal (macOS)
 - macOS
 
+## Saved progress
+
+Answers and excluded questions synchronize between tabs. Browsers with Web Locks serialize simultaneous progress updates; browsers without it still save progress, but simultaneous writes are best effort. Reload all open Shortype tabs after an update so they use the same saving behavior.
+
+If browser storage fails, training continues in memory for the rest of that page session. Further progress is not saved until the page is reloaded, and closing or reloading the page loses unsaved progress.
+
 ## Usage
 
 ### Install dependencies
