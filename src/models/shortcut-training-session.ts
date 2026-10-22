@@ -44,8 +44,9 @@ export type ShortcutTrainingSessionDeps = {
   weightedSampleKey: typeof weightedSampleKey
   scheduleRestartTyping: (callback: () => void) => void
   toggleFullscreen: () => void
-  persistAnsweredHistory: (answeredHistory: Map<string, boolean[]>) => void
-  persistRemovedIds: (removedIds: Set<string>) => void
+  appendAnswer: (id: string, result: boolean) => void
+  removeShortcut: (id: string) => void
+  restoreAllShortcuts: () => void
   persistSelectedTool: (tool: string) => void
   persistSelectedCategories: (categories: string[]) => void
 }
@@ -85,7 +86,9 @@ export const createShortcutTrainingState = ({
 
   pressedKeyCombination: new KeyCombination(),
   removedIdSet: new Set<string>(removedIds),
-  answeredHistoryMap: new Map<string, boolean[]>(answeredHistory),
+  answeredHistoryMap: new Map(
+    [...answeredHistory].map(([id, history]) => [id, [...history]]),
+  ),
 })
 
 const defaultSessionDeps: ShortcutTrainingSessionDeps = {
@@ -98,8 +101,9 @@ const defaultSessionDeps: ShortcutTrainingSessionDeps = {
   toggleFullscreen: () => {
     toggleFullscreen().catch(() => undefined)
   },
-  persistAnsweredHistory: () => undefined,
-  persistRemovedIds: () => undefined,
+  appendAnswer: () => undefined,
+  removeShortcut: () => undefined,
+  restoreAllShortcuts: () => undefined,
   persistSelectedTool: () => undefined,
   persistSelectedCategories: () => undefined,
 }
@@ -240,6 +244,27 @@ export const createShortcutTrainingSession = (
     state.isMarkedSelfAsCorrect = false
     state.isMarkedSelfAsWrong = false
     state.pressedKeyCombination.reset()
+  }
+
+  const applyProgress = ({
+    answeredHistory,
+    removedIds,
+  }: {
+    answeredHistory: Map<string, boolean[]>
+    removedIds: Set<string>
+  }) => {
+    const wasRemovedAll = isRemovedAll()
+    state.answeredHistoryMap = new Map(
+      [...answeredHistory].map(([id, history]) => [id, [...history]]),
+    )
+    state.removedIdSet = new Set(removedIds)
+
+    if ((state.shortcut.id === '' || wasRemovedAll) && !isRemovedAll()) {
+      const isSelectingTools = state.isSelectToolsKeyPressed
+      state.shortcut = nextShortcut()
+      resetTypingState()
+      state.isSelectToolsKeyPressed = isSelectingTools
+    }
   }
 
   const effects = createShortcutTrainingSessionEffects(
@@ -391,5 +416,6 @@ export const createShortcutTrainingSession = (
     selectToolAndCategories,
     exitSelectionOfToolAndCategories,
     onFullscreenchange,
+    applyProgress,
   }
 }

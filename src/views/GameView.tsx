@@ -28,6 +28,8 @@ export default function GameView({ shortcuts }: Props) {
     [shortcuts],
   )
 
+  useEffect(() => game.startProgressSync(), [game])
+
   const keyboard = useMemo(() => new Keyboard(), [])
   const { modalState } = useStrictContext(ModalKey, 'ModalKey')
   const isModalVisible =

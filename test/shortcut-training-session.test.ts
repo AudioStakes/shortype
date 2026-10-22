@@ -60,8 +60,9 @@ const setup = (shortcuts: Shortcut[] = [first, second]) => {
       callbacks.push(callback)
     }),
     toggleFullscreen: vi.fn(),
-    persistAnsweredHistory: vi.fn(),
-    persistRemovedIds: vi.fn(),
+    appendAnswer: vi.fn(),
+    removeShortcut: vi.fn(),
+    restoreAllShortcuts: vi.fn(),
     persistSelectedTool: vi.fn(),
     persistSelectedCategories: vi.fn(),
   } satisfies ShortcutTrainingSessionDeps
@@ -116,7 +117,7 @@ test('unanswered questions exclude removed ids and repeated current questions', 
 test('answer results persist once while listening is paused and resume after the scheduled transition', () => {
   const { state, session, deps, restart } = setup()
   session.judge()
-  expect(deps.persistAnsweredHistory).not.toHaveBeenCalled()
+  expect(deps.appendAnswer).not.toHaveBeenCalled()
   session.keyDown(press('Meta', { metaKey: true }))
   expect(state.isListeningKeyboardEvent).toBe(true)
   session.keyDown(press('m', { metaKey: true }))
@@ -126,7 +127,7 @@ test('answer results persist once while listening is paused and resume after the
   session.keyDown(press('x'))
   session.keyUp('m')
   expect(state.pressedKeyCombination.keyCombinable.key).toBe('m')
-  expect(deps.persistAnsweredHistory).toHaveBeenCalledTimes(1)
+  expect(deps.appendAnswer).toHaveBeenCalledExactlyOnceWith('first', true)
   restart()
   expect(state.shortcut).toBe(second)
   expect(state.isCorrectKeyPressed).toBe(false)
@@ -201,7 +202,7 @@ test('remove, select-tool and fullscreen commands perform their separate effects
   expect(state.removedIdSet).toEqual(new Set(['first']))
   expect(state.isRemoveKeyPressed).toBe(true)
   expect(state.isListeningKeyboardEvent).toBe(false)
-  expect(deps.persistRemovedIds).toHaveBeenCalledWith(new Set(['first']))
+  expect(deps.removeShortcut).toHaveBeenCalledExactlyOnceWith('first')
   restart()
   expect(state.shortcut).toBe(second)
   session.keyDown(press('t'))
@@ -330,7 +331,7 @@ test('restoration honors confirmation and safely restores an empty catalogue', (
   )
   session.restoreRemovedShortcuts()
   expect(state.removedIdSet).toEqual(new Set(['first']))
-  expect(deps.persistRemovedIds).not.toHaveBeenCalled()
+  expect(deps.restoreAllShortcuts).not.toHaveBeenCalled()
   vi.mocked(confirm).mockReturnValue(true)
   state.isShowCorrectKeyPressed = true
   state.pressedKeyCombination.keyDown(press('x'))
@@ -342,7 +343,7 @@ test('restoration honors confirmation and safely restores an empty catalogue', (
   expect(state.pressedKeyCombination.hasPressedSomeKey()).toBe(false)
   expect(state.removedIdSet.size).toBe(0)
   expect(state.shortcut).toBe(first)
-  expect(deps.persistRemovedIds).toHaveBeenCalledWith(new Set())
+  expect(deps.restoreAllShortcuts).toHaveBeenCalledOnce()
   const empty = setup([])
   empty.session.restoreRemovedShortcuts()
   expect(empty.state.shortcut).toEqual(createEmptyShortcut())
@@ -387,4 +388,85 @@ test('repeated correct answers append history and keyup releases an active key',
   session.keyDown(press('m', { metaKey: true }))
   restart()
   expect(state.answeredHistoryMap.get('first')).toEqual([true, true])
+})
+
+test('external progress refreshes summaries and keeps the issued question until advancing', () => {
+  const { state, session, deps } = setup()
+  const answeredHistory = new Map([
+    ['first', [false]],
+    ['second', [true]],
+  ])
+  const removedIds = new Set(['first'])
+
+  session.applyProgress({ answeredHistory, removedIds })
+
+  expect(state.shortcut).toBe(first)
+  expect(session.countsOfEachStatus()).toEqual({
+    mastered: { included: 1, removed: 0 },
+    unmastered: { included: 0, removed: 1 },
+    unanswered: { included: 0, removed: 0 },
+  })
+  expect(session.masteredRateOfEachTool()).toEqual([
+    { name: 'Google Chrome', masteredRate: 100 },
+  ])
+  expect(session.categoriesWithMasteredRate('Google Chrome')).toEqual([
+    { name: 'Tabs', masteredRate: 100 },
+  ])
+  expect(deps.appendAnswer).not.toHaveBeenCalled()
+  expect(deps.removeShortcut).not.toHaveBeenCalled()
+
+  session.keyDown(press('Enter'))
+  expect(state.shortcut).toBe(second)
+  session.keyDown(press('9', { metaKey: true }))
+  expect(state.answeredHistoryMap.get('second')).toEqual([true, true])
+  expect(answeredHistory.get('second')).toEqual([true])
+  state.removedIdSet.add('second')
+  expect(removedIds).toEqual(new Set(['first']))
+})
+
+test('external restoration recovers an available question from an all-excluded session', () => {
+  const { state, session } = setup()
+  session.applyProgress({
+    answeredHistory: new Map(),
+    removedIds: new Set(['first', 'second']),
+  })
+  expect(session.isRemovedAll()).toBe(true)
+  session.keyDown(press('m', { metaKey: true }))
+  expect(state.answeredHistoryMap.size).toBe(0)
+
+  session.applyProgress({
+    answeredHistory: new Map(),
+    removedIds: new Set(['first']),
+  })
+  expect(session.isRemovedAll()).toBe(false)
+  expect(state.shortcut).toBe(second)
+  session.keyDown(press('9', { metaKey: true }))
+  expect(state.answeredHistoryMap.get('second')).toEqual([true])
+
+  state.shortcut = createEmptyShortcut()
+  session.applyProgress({ answeredHistory: new Map(), removedIds: new Set() })
+  expect(state.shortcut).toBe(first)
+})
+
+test('restoring an excluded session resets prior feedback without closing tool selection', () => {
+  const { state, session, restart } = setup()
+  session.keyDown(press('x'))
+  restart()
+  expect(state.isWrongKeyPressed).toBe(true)
+  session.applyProgress({
+    answeredHistory: new Map([['first', [false]]]),
+    removedIds: new Set(['first', 'second']),
+  })
+  state.isSelectToolsKeyPressed = true
+  session.applyProgress({
+    answeredHistory: new Map([['first', [false]]]),
+    removedIds: new Set(['first']),
+  })
+
+  expect(state.shortcut).toBe(second)
+  expect(state.isWrongKeyPressed).toBe(false)
+  expect(state.isSelectToolsKeyPressed).toBe(true)
+  session.exitSelectionOfToolAndCategories()
+  session.keyDown(press('9', { metaKey: true }))
+  expect(state.answeredHistoryMap.get('second')).toEqual([true])
 })

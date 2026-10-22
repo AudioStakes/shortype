@@ -17,7 +17,7 @@ export const createShortcutTrainingSessionEffects = (
       state.answeredHistoryMap.set(id, [result])
     }
 
-    deps.persistAnsweredHistory(state.answeredHistoryMap)
+    deps.appendAnswer(id, result)
   }
 
   const restartTyping = (afterRestart: () => void) => {
@@ -43,7 +43,7 @@ export const createShortcutTrainingSessionEffects = (
     state.isListeningKeyboardEvent = false
     state.isRemoveKeyPressed = true
     state.removedIdSet.add(state.shortcut.id)
-    deps.persistRemovedIds(state.removedIdSet)
+    deps.removeShortcut(state.shortcut.id)
 
     restartTyping(() => {
       state.shortcut = nextShortcut()
@@ -106,7 +106,7 @@ export const createShortcutTrainingSessionEffects = (
         'すべてのショートカットキーが出題されるようになります。\nよろしいですか？',
       )
     ) {
-      deps.persistRemovedIds(new Set())
+      deps.restoreAllShortcuts()
       state.removedIdSet = new Set<string>()
       resetTypingState()
       state.shortcut = state.shortcuts[0] ?? createEmptyShortcut()

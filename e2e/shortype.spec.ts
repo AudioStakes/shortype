@@ -36,14 +36,20 @@ test.use({ storageState: storageState() })
 
 const pageErrors = new WeakMap<Page, string[]>()
 
-test.beforeEach(({ page }) => {
-  const errors: string[] = []
-  pageErrors.set(page, errors)
-  page.on('pageerror', (error) => errors.push(error.message))
+test.beforeEach(({ page, context }) => {
+  const trackErrors = (trackedPage: Page) => {
+    const errors: string[] = []
+    pageErrors.set(trackedPage, errors)
+    trackedPage.on('pageerror', (error) => errors.push(error.message))
+  }
+  trackErrors(page)
+  context.on('page', trackErrors)
 })
 
-test.afterEach(({ page }) => {
-  expect(pageErrors.get(page)).toEqual([])
+test.afterEach(({ context }) => {
+  for (const page of context.pages()) {
+    expect(pageErrors.get(page)).toEqual([])
+  }
 })
 
 async function proceedIfUnsupported(page: Page) {
@@ -57,12 +63,38 @@ async function proceedIfUnsupported(page: Page) {
   }
 }
 
-async function openGame(page: Page) {
+async function openGame(page: Page, questionAction = action) {
   await page.goto('/')
   await proceedIfUnsupported(page)
   await expect(
-    page.getByRole('heading', { name: action, exact: true }),
+    page.getByRole('heading', { name: questionAction, exact: true }),
   ).toBeVisible()
+}
+
+async function holdProgressWrites(page: Page) {
+  await page.evaluate(
+    () =>
+      new Promise<void>((acquired, reject) => {
+        navigator.locks
+          .request('shortype:training-progress', () => {
+            acquired()
+            return new Promise<void>((release) => {
+              window.addEventListener(
+                'release-training-progress',
+                () => release(),
+                {
+                  once: true,
+                },
+              )
+            })
+          })
+          .catch(reject)
+      }),
+  )
+  return () =>
+    page.evaluate(() => {
+      window.dispatchEvent(new Event('release-training-progress'))
+    })
 }
 
 async function openToolSelection(page: Page) {
@@ -359,14 +391,18 @@ test.describe('malformed persisted JSON', () => {
 
   test('recovers at schema 0 and saves the next answer', async ({ page }) => {
     await openGame(page)
-    expect(
-      await page.evaluate(() => localStorage.getItem('answeredHistory')),
-    ).toBeNull()
+    await expect(
+      page.getByRole('button', { name: '習熟度 0% の詳細', exact: true }),
+    ).toBeVisible()
+    await expect(page.getByTestId('pressed-key-combination')).toBeVisible()
     await page.keyboard.press('Meta+9')
     await expect(page.getByTestId('correct-key-pressed')).toBeVisible()
+    await expect
+      .poll(() => page.evaluate(() => localStorage.getItem('answeredHistory')))
+      .toBe('{"8":[true]}')
     expect(
-      await page.evaluate(() => localStorage.getItem('answeredHistory')),
-    ).toBe('{"8":[true]}')
+      await page.evaluate(() => localStorage.getItem('schemaVersion')),
+    ).toBe('0')
   })
 })
 
@@ -439,4 +475,169 @@ test.describe('all questions excluded', () => {
     ).toBeHidden()
     await expect(page.getByTestId('pressed-key-combination')).toBeVisible()
   })
+})
+
+test.describe('cross-tab answered history', () => {
+  test.use({
+    storageState: storageState({ answeredHistory: '{"8":[false]}' }),
+  })
+
+  test('simultaneous answers in two tabs persist exactly once and update live progress', async ({
+    page,
+    context,
+  }) => {
+    const otherPage = await context.newPage()
+    await openGame(page)
+    await openGame(otherPage)
+    for (const tab of [page, otherPage]) {
+      await expect(
+        tab.getByRole('button', { name: '習熟度 0% の詳細', exact: true }),
+      ).toBeVisible()
+    }
+
+    const releaseWrites = await holdProgressWrites(page)
+    try {
+      await Promise.all([
+        page.keyboard.press('Meta+9'),
+        otherPage.keyboard.press('Meta+9'),
+      ])
+      for (const tab of [page, otherPage]) {
+        await expect(tab.getByTestId('correct-key-pressed')).toBeVisible()
+      }
+      expect(
+        await page.evaluate(() => localStorage.getItem('answeredHistory')),
+      ).toBe('{"8":[false]}')
+    } finally {
+      await releaseWrites()
+    }
+
+    const history = '{"8":[false,true,true]}'
+    await expect
+      .poll(() => page.evaluate(() => localStorage.getItem('answeredHistory')))
+      .toBe(history)
+    for (const tab of [page, otherPage]) {
+      await expect(
+        tab.getByRole('button', { name: '習熟度 100% の詳細', exact: true }),
+      ).toBeVisible()
+      await tab.reload()
+      await proceedIfUnsupported(tab)
+      await expect(
+        tab.getByRole('button', { name: '習熟度 100% の詳細', exact: true }),
+      ).toBeVisible()
+      expect(
+        await tab.evaluate(() => localStorage.getItem('answeredHistory')),
+      ).toBe(history)
+    }
+  })
+})
+
+test.describe('cross-tab exclusions', () => {
+  test.use({
+    storageState: storageState({
+      removedIds: JSON.stringify(
+        shortcuts
+          .filter(({ id }) => id !== '1' && id !== '8')
+          .map(({ id }) => id),
+      ),
+    }),
+  })
+
+  test('two tabs preserve both exclusions and recover live after remote restoration', async ({
+    page,
+    context,
+  }) => {
+    const otherPage = await context.newPage()
+    await page.addInitScript(() => {
+      Math.random = () => 0
+    })
+    await otherPage.addInitScript(() => {
+      Math.random = () => 0.99
+    })
+    await openGame(page, restoredAction)
+    await openGame(otherPage)
+
+    const releaseWrites = await holdProgressWrites(page)
+    try {
+      await Promise.all([
+        page.keyboard.press('r'),
+        otherPage.keyboard.press('r'),
+      ])
+    } finally {
+      await releaseWrites()
+    }
+
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const stored: unknown = JSON.parse(
+            localStorage.getItem('removedIds') ?? 'null',
+          )
+          return Array.isArray(stored) ? stored.toSorted() : stored
+        }),
+      )
+      .toEqual(shortcuts.map(({ id }) => id).toSorted())
+    for (const tab of [page, otherPage]) {
+      await expect(
+        tab.getByText('出題できるショートカットキーがありません。'),
+      ).toBeVisible()
+    }
+
+    page.once('dialog', (dialog) => dialog.accept())
+    await page
+      .getByRole('button', { name: '出題しないリストを空にする' })
+      .click()
+    await expect
+      .poll(() => page.evaluate(() => localStorage.getItem('removedIds')))
+      .toBe('[]')
+    for (const tab of [page, otherPage]) {
+      await expect(
+        tab.getByText('出題できるショートカットキーがありません。'),
+      ).toBeHidden()
+      await expect(tab.getByTestId('pressed-key-combination')).toBeVisible()
+    }
+    await otherPage.reload()
+    await proceedIfUnsupported(otherPage)
+    await expect(otherPage.getByTestId('pressed-key-combination')).toBeVisible()
+    expect(
+      await otherPage.evaluate(() => localStorage.getItem('removedIds')),
+    ).toBe('[]')
+  })
+})
+
+test('remote restoration followed by another tab removal keeps restored questions included', async ({
+  page,
+  context,
+}) => {
+  const otherPage = await context.newPage()
+  await openGame(page)
+  await openGame(otherPage)
+  page.once('dialog', (dialog) => dialog.accept())
+  await page.getByRole('button', { name: '出題しないリストを空にする' }).click()
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem('removedIds')))
+    .toBe('[]')
+  await expect(
+    page.getByRole('heading', { name: restoredAction, exact: true }),
+  ).toBeVisible()
+  await expect(
+    otherPage.getByRole('heading', { name: action, exact: true }),
+  ).toBeVisible()
+
+  await otherPage.keyboard.press('r')
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem('removedIds')))
+    .toBe('["8"]')
+  await expect(
+    otherPage.getByRole('heading', { name: action, exact: true }),
+  ).toBeHidden()
+  await expect(otherPage.getByTestId('pressed-key-combination')).toBeVisible()
+  await page.reload()
+  await proceedIfUnsupported(page)
+  await expect(
+    page.getByRole('heading', { name: action, exact: true }),
+  ).toBeHidden()
+  await expect(page.getByTestId('pressed-key-combination')).toBeVisible()
+  expect(await page.evaluate(() => localStorage.getItem('removedIds'))).toBe(
+    '["8"]',
+  )
 })

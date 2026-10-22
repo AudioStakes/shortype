@@ -61,9 +61,15 @@ const createGameStore = (
 
   const masteredRateOfEachTool = trainingSession.masteredRateOfEachTool
   const categoriesWithMasteredRate = trainingSession.categoriesWithMasteredRate
+  const startProgressSync = () =>
+    deps.subscribeProgress((progress) => {
+      trainingSession.applyProgress(progress)
+      notify()
+    })
 
   return {
     state,
+    startProgressSync,
 
     get removedShortcutExists() {
       return trainingSession.removedShortcutExists()

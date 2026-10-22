@@ -63,12 +63,15 @@ export const createLocalStorageCore = (storage?: LocalStorageLike) => {
 
     try {
       storage?.removeItem(key)
+      if (storage) {
+        unsavedValues.delete(key)
+      }
     } catch {
       // Keep the removed value hidden for the rest of this session.
     }
   }
 
-  const readJson = (key: StorageKey) => {
+  const readJson = (key: StorageKey, cleanup: boolean) => {
     const json = readItem(key)
     if (!json) {
       return undefined
@@ -83,42 +86,75 @@ export const createLocalStorageCore = (storage?: LocalStorageLike) => {
       // Invalid JSON uses the same recovery as an invalid stored shape.
     }
 
-    remove(key)
+    if (cleanup) {
+      remove(key)
+    }
     return undefined
   }
 
-  const isLatestSchemaVersion = () =>
-    readJson(SCHEMA_VERSION_KEY) === LATEST_SCHEMA_VERSION
+  const isLatestSchemaVersion = (cleanup = true) =>
+    readJson(SCHEMA_VERSION_KEY, cleanup) === LATEST_SCHEMA_VERSION
 
-  const get = (key: StorageKey) => {
-    if (key !== SCHEMA_VERSION_KEY && !isLatestSchemaVersion()) {
+  const get = (key: StorageKey, { cleanup = true } = {}) => {
+    if (key !== SCHEMA_VERSION_KEY && !isLatestSchemaVersion(cleanup)) {
       return LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE[key]
     }
 
-    const value = readJson(key)
+    const value = readJson(key, cleanup)
     return value ?? LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE[key]
   }
 
-  const set = <T>(key: StorageKey, value: T) => {
+  const getPersisted = (key: StorageKey) => {
+    const readPersistedJson = (storedKey: StorageKey) => {
+      if (!storage) {
+        throw new Error('Storage is unavailable')
+      }
+      const json = storage.getItem(storedKey)
+      if (json === null) {
+        return undefined
+      }
+      try {
+        const value: unknown = JSON.parse(json)
+        return isValidStoredValue(storedKey, value) ? value : undefined
+      } catch {
+        return undefined
+      }
+    }
+
+    if (
+      key !== SCHEMA_VERSION_KEY &&
+      readPersistedJson(SCHEMA_VERSION_KEY) !== LATEST_SCHEMA_VERSION
+    ) {
+      return LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE[key]
+    }
+    return readPersistedJson(key) ?? LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE[key]
+  }
+
+  const set = <T>(key: StorageKey, value: T): boolean => {
     const json = JSON.stringify(value)
     unsavedValues.set(key, json)
+    let saved = false
 
     try {
       storage?.setItem(key, json)
       if (storage) {
         unsavedValues.delete(key)
+        saved = true
       }
     } catch {
       // Training remains usable when storage is disabled or full.
     }
 
     if (key !== SCHEMA_VERSION_KEY) {
-      set(SCHEMA_VERSION_KEY, LATEST_SCHEMA_VERSION)
+      const schemaSaved = set(SCHEMA_VERSION_KEY, LATEST_SCHEMA_VERSION)
+      return saved && schemaSaved
     }
+    return saved
   }
 
   return {
     get,
+    getPersisted,
     set,
     remove,
     isLatestSchemaVersion,

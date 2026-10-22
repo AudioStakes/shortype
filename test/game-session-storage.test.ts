@@ -8,6 +8,7 @@ const { getMock, setMock } = vi.hoisted(() => ({
 vi.mock('@/utils/local-storage', () => ({
   default: {
     get: getMock,
+    getPersisted: getMock,
     set: setMock,
   },
 }))
@@ -123,28 +124,52 @@ describe('game-session-storage', () => {
     ).toBeGreaterThan(0)
   })
 
-  test('persists session collections back to storage format', () => {
+  test('persists the session preferences without changing progress', () => {
     const persistence = createGameSessionStoragePersistence()
 
-    persistence.persistRemovedIds(new Set(['chrome-1', 'chrome-2']))
-    persistence.persistAnsweredHistory(new Map([['chrome-1', [true, false]]]))
     persistence.persistSelectedTool('Terminal (macOS)')
     persistence.persistSelectedCategories(['Shell'])
 
-    expect(setMock).toHaveBeenNthCalledWith(1, REMOVED_IDS_KEY, [
-      'chrome-1',
-      'chrome-2',
-    ])
-    expect(setMock).toHaveBeenNthCalledWith(2, ANSWERED_HISTORY_KEY, {
-      'chrome-1': [true, false],
-    })
     expect(setMock).toHaveBeenNthCalledWith(
-      3,
+      1,
       SELECTED_TOOL_KEY,
       'Terminal (macOS)',
     )
-    expect(setMock).toHaveBeenNthCalledWith(4, SELECTED_CATEGORIES_KEY, [
+    expect(setMock).toHaveBeenNthCalledWith(2, SELECTED_CATEGORIES_KEY, [
       'Shell',
     ])
   })
+})
+
+test('default persistence handles share memory progress across game remounts', async () => {
+  vi.resetModules()
+  getMock.mockImplementation((key: string) => {
+    if (key === SELECTED_TOOL_KEY) {
+      return 'Google Chrome'
+    }
+    if (key === SELECTED_CATEGORIES_KEY) {
+      return []
+    }
+    if (key === REMOVED_IDS_KEY) {
+      return []
+    }
+    return {}
+  })
+  setMock.mockReturnValue(false)
+  const isolatedStorage = await import('@/stores/game-session-storage')
+  const firstMount = isolatedStorage.createGameSessionStoragePersistence()
+  const unsubscribe = firstMount.subscribeProgress(() => undefined)
+  firstMount.appendAnswer('local', true)
+  unsubscribe()
+  const writes = setMock.mock.calls.length
+  const secondMount = isolatedStorage.createGameSessionStoragePersistence()
+  secondMount.appendAnswer('local', false)
+  secondMount.removeShortcut('local')
+  expect(isolatedStorage.loadGameSessionStorage()).toEqual({
+    selectedTool: 'Google Chrome',
+    selectedCategories: [],
+    answeredHistory: new Map([['local', [true, false]]]),
+    removedIds: new Set(['local']),
+  })
+  expect(setMock).toHaveBeenCalledTimes(writes)
 })
