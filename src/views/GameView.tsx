@@ -39,10 +39,28 @@ export default function GameView({ shortcuts }: Props) {
     game.state.isSelectToolsKeyPressed
 
   useEffect(() => {
-    if ('keyboard' in navigator) {
+    const controller = new AbortController()
+    const refreshLayout = () => {
       keyboard
-        .setKeyboardLayoutMap((navigator as NavigatorExtend).keyboard)
+        .setKeyboardLayoutMap(
+          (navigator as NavigatorExtend).keyboard,
+          controller.signal,
+        )
         .catch(() => undefined)
+    }
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        refreshLayout()
+      }
+    }
+
+    refreshLayout()
+    window.addEventListener('focus', refreshLayout)
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => {
+      controller.abort()
+      window.removeEventListener('focus', refreshLayout)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
     }
   }, [keyboard])
 

@@ -41,6 +41,7 @@ const setFullscreenElement = (element: Element | null) => {
 
 afterEach(() => {
   Reflect.deleteProperty(document, 'fullscreenElement')
+  Reflect.deleteProperty(document, 'visibilityState')
 })
 
 const modifierKeys = new Set(['Meta', 'Shift', 'Control', 'Alt'])
@@ -550,6 +551,49 @@ test('uses available keyboard capabilities and clears released modifier keys', a
   expect(within(pressed).queryByTestId('Meta')).not.toBeNull()
   dispatchKeyboardEvent('keyup', 'Meta')
   await waitFor(() => expect(within(pressed).queryByTestId('Meta')).toBeNull())
+})
+
+test('refreshes keyboard layout on focus and visibility, then cleans up its listeners', async () => {
+  vi.spyOn(Keyboard.prototype, 'key').mockRestore()
+  const getLayoutMap = vi
+    .fn()
+    .mockResolvedValueOnce(new Map([['KeyQ', 'x']]))
+    .mockResolvedValueOnce(new Map([['KeyQ', 'z']]))
+    .mockResolvedValueOnce(new Map([['KeyQ', '9']]))
+  vi.stubGlobal('navigator', { keyboard: { getLayoutMap } })
+  const view = renderGameView()
+  await waitFor(() => expect(getLayoutMap).toHaveBeenCalledOnce())
+
+  await act(async () => {
+    window.dispatchEvent(new Event('focus'))
+    await Promise.resolve()
+  })
+  expect(getLayoutMap).toHaveBeenCalledTimes(2)
+
+  Object.defineProperty(document, 'visibilityState', {
+    configurable: true,
+    value: 'hidden',
+  })
+  document.dispatchEvent(new Event('visibilitychange'))
+  expect(getLayoutMap).toHaveBeenCalledTimes(2)
+  Object.defineProperty(document, 'visibilityState', {
+    configurable: true,
+    value: 'visible',
+  })
+  await act(async () => {
+    document.dispatchEvent(new Event('visibilitychange'))
+    await Promise.resolve()
+  })
+  expect(getLayoutMap).toHaveBeenCalledTimes(3)
+
+  dispatchKeyboardEvent('keydown', 'q', { code: 'KeyQ', metaKey: true })
+  expect(
+    JSON.parse(localStorage.getItem(ANSWERED_HISTORY_KEY) ?? '{}'),
+  ).toEqual({ '1': [true] })
+  view.unmount()
+  window.dispatchEvent(new Event('focus'))
+  document.dispatchEvent(new Event('visibilitychange'))
+  expect(getLayoutMap).toHaveBeenCalledTimes(3)
 })
 
 test('training survives unexpected keyboard capability adapter rejections', async () => {

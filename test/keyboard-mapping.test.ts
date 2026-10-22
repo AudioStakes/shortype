@@ -83,3 +83,48 @@ test('do not equate unshifted colon and semicolon', () => {
 
   expect(semicolon.is({ ...semicolon.keyCombinable, key: ':' })).toBe(false)
 })
+
+test('the latest layout lookup wins when native requests finish out of order', async () => {
+  const keyboard = new Keyboard()
+  const older = Promise.withResolvers<Map<string, string>>()
+  const newer = Promise.withResolvers<Map<string, string>>()
+  const oldRequest = keyboard.setKeyboardLayoutMap({
+    getLayoutMap: () => older.promise,
+  })
+  const newRequest = keyboard.setKeyboardLayoutMap({
+    getLayoutMap: () => newer.promise,
+  })
+  newer.resolve(new Map([['KeyQ', 'a']]))
+  await newRequest
+  older.resolve(new Map([['KeyQ', 'z']]))
+  await oldRequest
+  expect(keyboard.key({ code: 'KeyQ', key: 'q' })).toBe('a')
+})
+
+test('a rejected refresh retains the last good layout and ignores an older pending result', async () => {
+  const keyboard = new Keyboard(new Map([['KeyQ', 'a']]))
+  const older = Promise.withResolvers<Map<string, string>>()
+  const oldRequest = keyboard.setKeyboardLayoutMap({
+    getLayoutMap: () => older.promise,
+  })
+  await keyboard.setKeyboardLayoutMap({
+    getLayoutMap: () => Promise.reject(new Error('Layout unavailable')),
+  })
+  older.resolve(new Map([['KeyQ', 'z']]))
+  await oldRequest
+  expect(keyboard.key({ code: 'KeyQ', key: 'q' })).toBe('a')
+})
+
+test('cleanup can abort a pending layout lookup without replacing the last good map', async () => {
+  const keyboard = new Keyboard(new Map([['KeyQ', 'a']]))
+  const pending = Promise.withResolvers<Map<string, string>>()
+  const controller = new AbortController()
+  const request = keyboard.setKeyboardLayoutMap(
+    { getLayoutMap: () => pending.promise },
+    controller.signal,
+  )
+  controller.abort()
+  pending.resolve(new Map([['KeyQ', 'z']]))
+  await request
+  expect(keyboard.key({ code: 'KeyQ', key: 'q' })).toBe('a')
+})
