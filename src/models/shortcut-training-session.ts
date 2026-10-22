@@ -113,6 +113,7 @@ export const createShortcutTrainingSession = (
   catalogSummary: ShortcutCatalogSummary,
   deps: ShortcutTrainingSessionDeps = defaultSessionDeps,
 ) => {
+  let typingGeneration = 0
   let cachedShortcutId: string | undefined
   let cachedCorrectKeyCombinations: KeyCombinations | undefined
 
@@ -236,6 +237,9 @@ export const createShortcutTrainingSession = (
   }
 
   const resetTypingState = () => {
+    typingGeneration += 1
+    state.isListeningKeyboardEvent = true
+    state.isShakingKeyCombinationView = false
     state.isRemoveKeyPressed = false
     state.isCorrectKeyPressed = false
     state.isWrongKeyPressed = false
@@ -264,12 +268,23 @@ export const createShortcutTrainingSession = (
       state.shortcut = nextShortcut()
       resetTypingState()
       state.isSelectToolsKeyPressed = isSelectingTools
+      state.isListeningKeyboardEvent = !isSelectingTools
     }
   }
 
   const effects = createShortcutTrainingSessionEffects(
     state,
-    deps,
+    {
+      ...deps,
+      scheduleRestartTyping: (callback) => {
+        const scheduledGeneration = typingGeneration
+        deps.scheduleRestartTyping(() => {
+          if (scheduledGeneration === typingGeneration) {
+            callback()
+          }
+        })
+      },
+    },
     nextShortcut,
     resetTypingState,
   )
