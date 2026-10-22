@@ -138,7 +138,13 @@ test.each([
     'macOS',
     '197',
     mac,
-    { altKey: false, ctrlKey: true, metaKey: true, shiftKey: false, key: 'Space' },
+    {
+      altKey: false,
+      ctrlKey: true,
+      metaKey: true,
+      shiftKey: false,
+      key: 'Space',
+    },
   ],
   [
     'Terminal',
