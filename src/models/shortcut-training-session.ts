@@ -330,8 +330,16 @@ export const createShortcutTrainingSession = (
     }
 
     if (state.shortcut.isAvailable && !isFullscreenOnlyShortcut) {
-      if (currentCorrectKeyCombinations.has(state.pressedKeyCombination)) {
-        effects.respondToCorrectKey()
+      const matchedCombination = currentCorrectKeyCombinations.find(
+        state.pressedKeyCombination,
+      )
+      if (matchedCombination) {
+        if (
+          state.isFullscreenMode ||
+          !matchedCombination.isOnlyAvailableInFullscreen()
+        ) {
+          effects.respondToCorrectKey()
+        }
       } else if (
         !state.isWrongKeyPressed &&
         !state.pressedKeyCombination.isModifierKey()

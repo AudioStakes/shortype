@@ -155,7 +155,7 @@ test('fullscreen classification uses all modifier flags and the key', () => {
 describe('KeyCombinations alternatives', () => {
   test('empty alternatives match nothing', () => {
     const alternatives = new KeyCombinations([])
-    expect(alternatives.has(new KeyCombination())).toBe(false)
+    expect(alternatives.find(new KeyCombination())).toBeUndefined()
     expect(alternatives.hasOnlyModifierKeys()).toBe(false)
     expect(alternatives.hasOnlyEnterKey()).toBe(false)
     expect(alternatives.hasOnlyAvailableInFullscreen()).toBe(false)
@@ -167,12 +167,23 @@ describe('KeyCombinations alternatives', () => {
       new KeyCombination(key({ key: 'Enter' })),
       new KeyCombination(key({ key: 'n', metaKey: true })),
     ])
-    expect(alternatives.has(new KeyCombination(key({ key: 'Enter' })))).toBe(
-      true,
-    )
-    expect(alternatives.has(new KeyCombination(key({ key: 'z' })))).toBe(false)
+    expect(
+      alternatives
+        .find(new KeyCombination(key({ key: 'Enter' })))
+        ?.isOnlyEnterKey(),
+    ).toBe(true)
+    expect(
+      alternatives.find(new KeyCombination(key({ key: 'z' }))),
+    ).toBeUndefined()
     expect(alternatives.hasOnlyModifierKeys()).toBe(true)
     expect(alternatives.hasOnlyEnterKey()).toBe(true)
+    expect(alternatives.hasOnlyAvailableInFullscreen()).toBe(false)
+  })
+  test('requires fullscreen only when every alternative needs it', () => {
+    const alternatives = new KeyCombinations([
+      new KeyCombination(key({ key: 'n', metaKey: true })),
+      new KeyCombination(key({ key: 't', metaKey: true })),
+    ])
     expect(alternatives.hasOnlyAvailableInFullscreen()).toBe(true)
   })
 })

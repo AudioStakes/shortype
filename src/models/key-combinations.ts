@@ -16,13 +16,16 @@ export default class KeyCombinations {
   }
 
   hasOnlyAvailableInFullscreen() {
-    return this.keyCombinations.some((keyCombination) =>
-      keyCombination.isOnlyAvailableInFullscreen(),
+    return (
+      this.keyCombinations.length > 0 &&
+      this.keyCombinations.every((keyCombination) =>
+        keyCombination.isOnlyAvailableInFullscreen(),
+      )
     )
   }
 
-  has(otherKeyCombination: KeyCombination) {
-    return this.keyCombinations.some((keyCombination) =>
+  find(otherKeyCombination: KeyCombination) {
+    return this.keyCombinations.find((keyCombination) =>
       keyCombination.is(otherKeyCombination),
     )
   }
