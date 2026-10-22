@@ -32,7 +32,7 @@ export default function CategoryCard({
               name="check-circle"
             />
           ) : (
-            <div class="self-center h-6 w-6 m-1 rounded-full border-2 border-gray-300" />
+            <div class="self-center h-6 w-6 m-1 rounded-full border-2 border-slate-500" />
           )}
         </div>
         <h3 class="my-auto min-w-0 break-words text-xl font-bold tracking-tight">
