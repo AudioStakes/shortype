@@ -1,21 +1,37 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import Keyboard from '@/utils/keyboard'
-import lockKeyboard from '@/utils/lock-keyboard'
+import { createKeyboardLock } from '@/utils/lock-keyboard'
 import toggleFullscreen from '@/utils/toggle-fullscreen'
 
 afterEach(() => vi.unstubAllGlobals())
 
 describe('optional browser capabilities', () => {
   test('keyboard lock reports whether the native request actually succeeded', async () => {
+    const onChange = vi.fn()
+    const keyboardLock = createKeyboardLock(onChange)
     vi.stubGlobal('navigator', {})
-    await expect(lockKeyboard()).resolves.toBe(false)
+    keyboardLock.request()
+    expect(onChange).toHaveBeenCalledExactlyOnceWith(false)
     const lock = vi.fn().mockRejectedValue(new Error('Permission denied'))
     vi.stubGlobal('navigator', { keyboard: { lock } })
-    await expect(lockKeyboard()).resolves.toBe(false)
+    onChange.mockClear()
+    keyboardLock.request()
+    await Promise.resolve()
+    expect(onChange).toHaveBeenCalledExactlyOnceWith(false)
     expect(lock).toHaveBeenCalledOnce()
+    onChange.mockClear()
     lock.mockResolvedValueOnce(undefined)
-    await expect(lockKeyboard()).resolves.toBe(true)
+    keyboardLock.request()
+    await Promise.resolve()
+    expect(onChange).toHaveBeenCalledExactlyOnceWith(true)
+    onChange.mockClear()
+    lock.mockImplementationOnce(() => {
+      throw new Error('Lock unavailable')
+    })
+    keyboardLock.request()
+    expect(onChange).toHaveBeenCalledExactlyOnceWith(false)
+    keyboardLock.release()
   })
 
   test('layout lookup retains the default map when unavailable or rejected', async () => {

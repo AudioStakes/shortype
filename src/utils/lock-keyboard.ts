@@ -1,18 +1,5 @@
 import type { NavigatorExtend } from '@/types/interfaces'
 
-export default async function lockKeyboard() {
-  try {
-    const keyboard = (navigator as NavigatorExtend).keyboard
-    if (typeof keyboard?.lock !== 'function') {
-      return false
-    }
-    await keyboard.lock()
-    return true
-  } catch {
-    return false
-  }
-}
-
 const unlockKeyboard = () => {
   try {
     const keyboard = (navigator as NavigatorExtend).keyboard
@@ -47,7 +34,19 @@ export const createKeyboardLock = (onChange: (acquired: boolean) => void) => {
         acquired = success
         onChange(success)
       }
-      void lockKeyboard().then(finishRequest, () => finishRequest(false))
+      try {
+        const keyboard = (navigator as NavigatorExtend).keyboard
+        if (typeof keyboard?.lock !== 'function') {
+          finishRequest(false)
+          return
+        }
+        void keyboard.lock().then(
+          () => finishRequest(true),
+          () => finishRequest(false),
+        )
+      } catch {
+        finishRequest(false)
+      }
     },
     release: () => {
       generation += 1
