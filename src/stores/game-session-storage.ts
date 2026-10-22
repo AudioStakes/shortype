@@ -291,12 +291,20 @@ export const loadGameSessionStorage = (): GameSessionStorageSnapshot => {
   const storedCategories = (pendingPreferences.get(SELECTED_CATEGORIES_KEY)
     ?.value ??
     LocalStorage.get(SELECTED_CATEGORIES_KEY, { cleanup: false })) as string[]
+  const migratedCategories =
+    selectedTool === 'macOS'
+      ? storedCategories.map((category) =>
+          category === 'システム環境設定のショートカット'
+            ? 'システム設定のショートカット'
+            : category,
+        )
+      : storedCategories
 
   return {
     selectedTool,
     selectedCategories:
       storedTool === selectedTool
-        ? storedCategories.filter((category) =>
+        ? [...new Set(migratedCategories)].filter((category) =>
             availableCategories.has(category),
           )
         : [],

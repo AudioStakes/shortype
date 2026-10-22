@@ -434,7 +434,7 @@
         "shiftKey": false
       }
     ],
-    "keysDescription": "control + command + スペースバー",
+    "keysDescription": "control + command + スペースバー または fn + E",
     "needsFillInBlankMode": false,
     "os": "macOS",
     "unavailableReason": null
@@ -580,7 +580,7 @@
     "unavailableReason": null
   },
   {
-    "action": "最前面の App の環境設定を開く",
+    "action": "最前面のアプリの設定を開く",
     "app": "macOS",
     "category": "基本的なショートカット",
     "id": "205",
@@ -600,7 +600,7 @@
     "unavailableReason": null
   },
   {
-    "action": "電源 ON またはスリープ解除。1.5 秒押すとスリープ。押し続けると強制的に電源OFF。",
+    "action": "電源を入れる／スリープ解除。Touch ID搭載キーボードでは画面ロック。Touch IDのない内蔵キーボードは1.5秒長押しでスリープ。長押しで強制終了。",
     "app": "macOS",
     "category": "スリープ、ログアウト、システム終了に関するショートカット",
     "id": "206",
@@ -620,7 +620,7 @@
     "unavailableReason": "hasOnlyNonKeyAction"
   },
   {
-    "action": "Mac をスリープ状態にする",
+    "action": "Macをスリープ状態にする（電源ボタンはTouch IDのない内蔵キーボード）",
     "app": "macOS",
     "category": "スリープ、ログアウト、システム終了に関するショートカット",
     "id": "207",
@@ -647,7 +647,7 @@
     "unavailableReason": null
   },
   {
-    "action": "ディスプレイをスリープ状態にする",
+    "action": "ディスプレイをスリープ状態にする（電源ボタンはTouch IDのない内蔵キーボード）",
     "app": "macOS",
     "category": "スリープ、ログアウト、システム終了に関するショートカット",
     "id": "208",
@@ -674,7 +674,7 @@
     "unavailableReason": null
   },
   {
-    "action": "再起動、スリープ、またはシステム終了を選択するダイアログを表示",
+    "action": "再起動／スリープ／システム終了を選ぶダイアログを開く（電源ボタンはTouch IDのない内蔵キーボード）",
     "app": "macOS",
     "category": "スリープ、ログアウト、システム終了に関するショートカット",
     "id": "209",
@@ -701,7 +701,7 @@
     "unavailableReason": null
   },
   {
-    "action": "Mac を強制的に再起動（確認メッセージなし）",
+    "action": "Macを強制再起動する（Touch IDのない内蔵キーボード、保存確認なし）",
     "app": "macOS",
     "category": "スリープ、ログアウト、システム終了に関するショートカット",
     "id": "210",
@@ -721,7 +721,7 @@
     "unavailableReason": null
   },
   {
-    "action": "すべての App を終了し、Mac を再起動（確認メッセージあり）",
+    "action": "すべてのAppを終了し、Macを再起動（メディア取り出しキー搭載キーボード、保存確認あり）",
     "app": "macOS",
     "category": "スリープ、ログアウト、システム終了に関するショートカット",
     "id": "211",
@@ -741,7 +741,7 @@
     "unavailableReason": null
   },
   {
-    "action": "すべての App を終了し、Mac をシステム終了（確認メッセージあり）",
+    "action": "すべてのAppを終了し、Macをシステム終了（電源ボタンはTouch IDのない内蔵キーボード、保存確認あり）",
     "app": "macOS",
     "category": "スリープ、ログアウト、システム終了に関するショートカット",
     "id": "212",
@@ -1810,7 +1810,7 @@
   {
     "action": "Mac が複数ディスプレイに接続している場合、ビデオミラーリングのオン／オフを切り替える",
     "app": "macOS",
-    "category": "システム環境設定のショートカット",
+    "category": "システム設定のショートカット",
     "id": "265",
     "isAvailable": true,
     "keyCombinations": [
@@ -1828,9 +1828,9 @@
     "unavailableReason": null
   },
   {
-    "action": "システム環境設定の「ディスプレイ」パネルを開く",
+    "action": "システム設定の「ディスプレイ」を開く",
     "app": "macOS",
-    "category": "システム環境設定のショートカット",
+    "category": "システム設定のショートカット",
     "id": "266",
     "isAvailable": true,
     "keyCombinations": [
@@ -1857,7 +1857,7 @@
   {
     "action": "外付けディスプレイの明るさを調節 (ディスプレイが対応している場合)",
     "app": "macOS",
-    "category": "システム環境設定のショートカット",
+    "category": "システム設定のショートカット",
     "id": "267",
     "isAvailable": true,
     "keyCombinations": [
@@ -1884,7 +1884,7 @@
   {
     "action": "ディスプレイの明るさを細かく調節",
     "app": "macOS",
-    "category": "システム環境設定のショートカット",
+    "category": "システム設定のショートカット",
     "id": "268",
     "isAvailable": true,
     "keyCombinations": [
@@ -1911,7 +1911,7 @@
   {
     "action": "外付けディスプレイの明るさを細かく調節 (ディスプレイが対応している場合)",
     "app": "macOS",
-    "category": "システム環境設定のショートカット",
+    "category": "システム設定のショートカット",
     "id": "269",
     "isAvailable": true,
     "keyCombinations": [
@@ -1936,9 +1936,9 @@
     "unavailableReason": null
   },
   {
-    "action": "システム環境設定の「Mission Control」パネルを開く",
+    "action": "システム設定の「Mission Control」を開く",
     "app": "macOS",
-    "category": "システム環境設定のショートカット",
+    "category": "システム設定のショートカット",
     "id": "270",
     "isAvailable": true,
     "keyCombinations": [
@@ -1958,7 +1958,7 @@
   {
     "action": "デスクトップを表示",
     "app": "macOS",
-    "category": "システム環境設定のショートカット",
+    "category": "システム設定のショートカット",
     "id": "271",
     "isAvailable": true,
     "keyCombinations": [
@@ -1970,7 +1970,7 @@
         "shiftKey": false
       }
     ],
-    "keysDescription": "command + Mission Control",
+    "keysDescription": "command + Mission Control または fn + H または fn + F11",
     "needsFillInBlankMode": true,
     "os": "macOS",
     "unavailableReason": null
@@ -1978,7 +1978,7 @@
   {
     "action": "最前面の App のウインドウをすべて表示",
     "app": "macOS",
-    "category": "システム環境設定のショートカット",
+    "category": "システム設定のショートカット",
     "id": "272",
     "isAvailable": false,
     "keyCombinations": [
@@ -1996,9 +1996,9 @@
     "unavailableReason": "hasDeniedKeyCombination"
   },
   {
-    "action": "システム環境設定の「サウンド」パネルを開く",
+    "action": "システム設定の「サウンド」を開く",
     "app": "macOS",
-    "category": "システム環境設定のショートカット",
+    "category": "システム設定のショートカット",
     "id": "273",
     "isAvailable": true,
     "keyCombinations": [
@@ -2025,7 +2025,7 @@
   {
     "action": "音量を細かく調節",
     "app": "macOS",
-    "category": "システム環境設定のショートカット",
+    "category": "システム設定のショートカット",
     "id": "274",
     "isAvailable": true,
     "keyCombinations": [
@@ -2050,9 +2050,9 @@
     "unavailableReason": null
   },
   {
-    "action": "システム環境設定の「キーボード」パネルを開く",
+    "action": "システム設定の「キーボード」を開く",
     "app": "macOS",
-    "category": "システム環境設定のショートカット",
+    "category": "システム設定のショートカット",
     "id": "275",
     "isAvailable": true,
     "keyCombinations": [
@@ -2079,7 +2079,7 @@
   {
     "action": "キーボードの明るさを細かく調節",
     "app": "macOS",
-    "category": "システム環境設定のショートカット",
+    "category": "システム設定のショートカット",
     "id": "276",
     "isAvailable": true,
     "keyCombinations": [
@@ -2491,7 +2491,7 @@
     "unavailableReason": null
   },
   {
-    "action": "挿入ポイントから、行または段落の末尾までの範囲にあるテキストを削除",
+    "action": "選択テキストまたは挿入位置から段落末尾までを切り取り、同じアプリ専用のクリップボードに入れる",
     "app": "macOS",
     "category": "テキスト操作のショートカット",
     "id": "296",
@@ -3416,5 +3416,137 @@
     "needsFillInBlankMode": false,
     "os": "macOS",
     "unavailableReason": "hasModifiedKey"
+  },
+  {
+    "action": "Finderで選択中の項目をまとめた新しいフォルダを作る",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "344",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "n",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "keysDescription": "control + command + N",
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "unavailableReason": null
+  },
+  {
+    "action": "Mission Controlを開く",
+    "app": "macOS",
+    "category": "システム設定のショートカット",
+    "id": "345",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "ArrowUp",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "keysDescription": "control + 上矢印",
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "unavailableReason": null
+  },
+  {
+    "action": "クイックノートを作る",
+    "app": "macOS",
+    "category": "基本的なショートカット",
+    "id": "346",
+    "isAvailable": false,
+    "keyCombinations": [],
+    "keysDescription": "fn + Q",
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "unavailableReason": "hasOnlyNonKeyAction"
+  },
+  {
+    "action": "Dockの表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "システム設定のショートカット",
+    "id": "347",
+    "isAvailable": false,
+    "keyCombinations": [],
+    "keysDescription": "fn + A",
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "unavailableReason": "hasOnlyNonKeyAction"
+  },
+  {
+    "action": "コントロールセンターの表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "システム設定のショートカット",
+    "id": "348",
+    "isAvailable": false,
+    "keyCombinations": [],
+    "keysDescription": "fn + C",
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "unavailableReason": "hasOnlyNonKeyAction"
+  },
+  {
+    "action": "音声入力を開始／停止する（キーボード設定で変更できる場合あり）",
+    "app": "macOS",
+    "category": "システム設定のショートカット",
+    "id": "349",
+    "isAvailable": false,
+    "keyCombinations": [],
+    "keysDescription": "fn + D",
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "unavailableReason": "hasOnlyNonKeyAction"
+  },
+  {
+    "action": "通知センターの表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "システム設定のショートカット",
+    "id": "350",
+    "isAvailable": false,
+    "keyCombinations": [],
+    "keysDescription": "fn + N",
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "unavailableReason": "hasOnlyNonKeyAction"
+  },
+  {
+    "action": "アプリ（macOS Tahoe 26以降）またはLaunchpad（旧バージョン）の表示／非表示を切り替える",
+    "app": "macOS",
+    "category": "システム設定のショートカット",
+    "id": "351",
+    "isAvailable": false,
+    "keyCombinations": [],
+    "keysDescription": "fn + shift + A",
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "unavailableReason": "hasOnlyNonKeyAction"
+  },
+  {
+    "action": "control + Kで切り取った内容を同じアプリ内に貼り付ける",
+    "app": "macOS",
+    "category": "テキスト操作のショートカット",
+    "id": "352",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": true,
+        "key": "y",
+        "metaKey": false,
+        "shiftKey": false
+      }
+    ],
+    "keysDescription": "control + Y",
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "unavailableReason": null
   }
 ]

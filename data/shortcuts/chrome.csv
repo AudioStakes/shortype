@@ -14,9 +14,9 @@ id,app,os,category,action,keysDescription
 13,Google Chrome,macOS,タブとウィンドウのショートカット,ウィンドウを最小化する,⌘+m
 14,Google Chrome,macOS,タブとウィンドウのショートカット,Google Chrome を隠す,⌘+h
 15,Google Chrome,macOS,タブとウィンドウのショートカット,Google Chrome を終了する,⌘+q
-16,Google Chrome,macOS,タブとウィンドウのショートカット,キーボード フォーカスのあるタブを左右に移動する,⌘+右矢印または ⌘+左矢印
+16,Google Chrome,macOS,タブとウィンドウのショートカット,キーボード フォーカスのあるタブを左右に移動する,control+shift+Page Up または control+shift+Page Down
 17,Google Chrome,macOS,Google Chrome 機能のショートカット,ブックマーク バーの表示と非表示を切り替える,⌘+shift+b
-18,Google Chrome,macOS,Google Chrome 機能のショートカット,ブックマーク マネージャを開く,⌘+option+b
+18,Google Chrome,macOS,Google Chrome 機能のショートカット,ブックマーク マネージャーを開く,⌘+option+b
 19,Google Chrome,macOS,Google Chrome 機能のショートカット,設定ページを新しいタブで開く,"⌘+,"
 20,Google Chrome,macOS,Google Chrome 機能のショートカット,履歴ページを新しいタブで開く,⌘+y
 21,Google Chrome,macOS,Google Chrome 機能のショートカット,ダウンロード ページを新しいタブで開く,⌘+shift+j
@@ -25,7 +25,7 @@ id,app,os,category,action,keysDescription
 24,Google Chrome,macOS,Google Chrome 機能のショートカット,検索バーでの検索内容に一致する前の部分に移動する,⌘+shift+g
 25,Google Chrome,macOS,Google Chrome 機能のショートカット,検索バーが開いているときに、選択したテキストを検索する,⌘+e
 26,Google Chrome,macOS,Google Chrome 機能のショートカット,デベロッパー ツールを開く,⌘+option+i または F12
-27,Google Chrome,macOS,Google Chrome 機能のショートカット,[閲覧履歴データを消去する] オプションを開く,⌘+shift+delete
+27,Google Chrome,macOS,Google Chrome 機能のショートカット,[閲覧履歴データの削除] オプションを開く,⌘+shift+delete
 28,Google Chrome,macOS,Google Chrome 機能のショートカット,別のユーザーでログインする、ゲストとしてブラウジングする、お支払い情報とパスワード情報にアクセスする,⌘+shift+m
 29,Google Chrome,macOS,Google Chrome 機能のショートカット,メインのメニューバーに移動する,control+F2
 30,Google Chrome,macOS,Google Chrome 機能のショートカット,フォーカスのないダイアログ（表示されている場合）とすべてのツールバーにフォーカスを順番に移動する,⌘+option+上矢印または⌘+option+下矢印
@@ -35,10 +35,10 @@ id,app,os,category,action,keysDescription
 34,Google Chrome,macOS,アドレスバーのショートカット,既定の検索エンジンで検索する,検索キーワードを入力+enter
 35,Google Chrome,macOS,アドレスバーのショートカット,別の検索エンジンで検索する,検索エンジン名を入力+tab
 36,Google Chrome,macOS,アドレスバーのショートカット,サイト名に www. と .com を追加して現在のタブで開く,サイト名を入力+control+enter
-37,Google Chrome,macOS,アドレスバーのショートカット,サイト名に www. と .com を追加して新しいタブで開く,サイト名を入力+control+shift+enter
+37,Google Chrome,macOS,アドレスバーのショートカット,サイト名に www. と .com を追加して新しいウィンドウで開く,サイト名を入力+control+shift+enter
 38,Google Chrome,macOS,アドレスバーのショートカット,ウェブサイトを新しいバックグラウンド タブで開く,ウェブアドレスを入力+⌘+enter
 39,Google Chrome,macOS,アドレスバーのショートカット,アドレスバーに移動する,⌘+l
-40,Google Chrome,macOS,アドレスバーのショートカット,アドレスバーから予測候補を削除する,"下矢印で選択+shift+fn+delete（ノートパソコンの場合は forward delete または fn+delete）"
+40,Google Chrome,macOS,アドレスバーのショートカット,アドレスバーから予測候補を削除する,下矢印で選択+shift+fn+delete（ノートパソコンの場合は forward delete または fn+delete）
 41,Google Chrome,macOS,アドレスバーのショートカット,アドレスバーにカーソルを移動する,control+F5
 42,Google Chrome,macOS,ウェブページのショートカット,現在のページを印刷するオプションを開く,⌘+p
 43,Google Chrome,macOS,ウェブページのショートカット,現在のページを保存するオプションを開く,⌘+s
@@ -77,3 +77,5 @@ id,app,os,category,action,keysDescription
 76,Google Chrome,macOS,マウスのショートカット,閲覧履歴を表示する,"戻る  を右クリック、または戻る  を長押し
 次へ  を右クリック、または次へ  を長押し"
 77,Google Chrome,macOS,マウスのショートカット,ウィンドウの高さを最大化する,タブバーの空白部分をダブルクリック
+342,Google Chrome,macOS,Google Chrome 機能のショートカット,アクティブなタブで分割ビューを開く,⌘+option+n
+343,Google Chrome,macOS,ウェブページのショートカット,現在のページへのリンクを入れた新しいメールを作成する,⌘+shift+i

@@ -322,20 +322,20 @@
     "keyCombinations": [
       {
         "altKey": false,
-        "ctrlKey": false,
-        "key": "ArrowRight",
-        "metaKey": true,
-        "shiftKey": false
+        "ctrlKey": true,
+        "key": "PageUp",
+        "metaKey": false,
+        "shiftKey": true
       },
       {
         "altKey": false,
-        "ctrlKey": false,
-        "key": "ArrowLeft",
-        "metaKey": true,
-        "shiftKey": false
+        "ctrlKey": true,
+        "key": "PageDown",
+        "metaKey": false,
+        "shiftKey": true
       }
     ],
-    "keysDescription": "⌘+右矢印または ⌘+左矢印",
+    "keysDescription": "control+shift+Page Up または control+shift+Page Down",
     "needsFillInBlankMode": false,
     "os": "macOS",
     "unavailableReason": null
@@ -361,7 +361,7 @@
     "unavailableReason": null
   },
   {
-    "action": "ブックマーク マネージャを開く",
+    "action": "ブックマーク マネージャーを開く",
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
     "id": "18",
@@ -548,7 +548,7 @@
     "unavailableReason": null
   },
   {
-    "action": "[閲覧履歴データを消去する] オプションを開く",
+    "action": "[閲覧履歴データの削除] オプションを開く",
     "app": "Google Chrome",
     "category": "Google Chrome 機能のショートカット",
     "id": "27",
@@ -755,7 +755,7 @@
     "unavailableReason": null
   },
   {
-    "action": "サイト名に www. と .com を追加して新しいタブで開く",
+    "action": "サイト名に www. と .com を追加して新しいウィンドウで開く",
     "app": "Google Chrome",
     "category": "アドレスバーのショートカット",
     "id": "37",
@@ -1579,5 +1579,45 @@
     "needsFillInBlankMode": true,
     "os": "macOS",
     "unavailableReason": "hasOnlyNonKeyAction"
+  },
+  {
+    "action": "アクティブなタブで分割ビューを開く",
+    "app": "Google Chrome",
+    "category": "Google Chrome 機能のショートカット",
+    "id": "342",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": true,
+        "ctrlKey": false,
+        "key": "n",
+        "metaKey": true,
+        "shiftKey": false
+      }
+    ],
+    "keysDescription": "⌘+option+n",
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "unavailableReason": null
+  },
+  {
+    "action": "現在のページへのリンクを入れた新しいメールを作成する",
+    "app": "Google Chrome",
+    "category": "ウェブページのショートカット",
+    "id": "343",
+    "isAvailable": true,
+    "keyCombinations": [
+      {
+        "altKey": false,
+        "ctrlKey": false,
+        "key": "i",
+        "metaKey": true,
+        "shiftKey": true
+      }
+    ],
+    "keysDescription": "⌘+shift+i",
+    "needsFillInBlankMode": false,
+    "os": "macOS",
+    "unavailableReason": null
   }
 ]
