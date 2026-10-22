@@ -46,8 +46,8 @@ const KEY_DESCRIPTION_TO_KEY_MAP: ReadonlyMap<string, string> = new Map([
   ['Return', 'Enter'],
   ['カンマ（,）', ','],
   ['ピリオド（.）', '.'],
-  ['↑', 'PageUp'],
-  ['↓', 'PageDown'],
+  ['↑', 'ArrowUp'],
+  ['↓', 'ArrowDown'],
   ['fn', 'Fn'], // KeyboardEvent が発火しない。
   ['Forward Delete', 'Delete'], // Mac の場合は Forward Delete
   ['forward delete', 'Delete'], // Mac の場合は Forward Delete

@@ -1830,7 +1830,7 @@
       {
         "altKey": false,
         "ctrlKey": false,
-        "key": "PageDown",
+        "key": "ArrowDown",
         "metaKey": true,
         "shiftKey": true
       }
@@ -1850,7 +1850,7 @@
       {
         "altKey": false,
         "ctrlKey": false,
-        "key": "PageUp",
+        "key": "ArrowUp",
         "metaKey": true,
         "shiftKey": true
       }

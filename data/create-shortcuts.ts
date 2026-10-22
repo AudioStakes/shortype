@@ -12,7 +12,11 @@ export default function createShortcuts(csvPath: string) {
 
   const json = JSON.stringify(shortcuts)
   fs.writeFileSync(
-    `${__dirname}/../src/constants/shortcuts/${filename}.json`,
+    path.resolve(
+      import.meta.dirname,
+      '../src/constants/shortcuts',
+      `${filename}.json`,
+    ),
     json,
     'utf8',
   )

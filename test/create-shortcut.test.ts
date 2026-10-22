@@ -6,6 +6,7 @@ import { parseCsv } from '@/../data/parse-csv'
 import chrome from '@/constants/shortcuts/chrome.json'
 import mac from '@/constants/shortcuts/mac.json'
 import terminal from '@/constants/shortcuts/terminal.json'
+import KeyCombination from '@/models/key-combination'
 
 test.each([
   ['Right', 'ArrowRight'],
@@ -59,6 +60,24 @@ test('Terminal', () => {
 
     expect(shortcutActual).toEqual(shortcutExpected)
   }
+})
+
+test.each([
+  ['168', 'ArrowDown', 'PageDown'],
+  ['169', 'ArrowUp', 'PageUp'],
+])('Terminal shortcut %s accepts its arrow key', (id, arrowKey, pageKey) => {
+  const shortcut = terminal.find((shortcut) => shortcut.id === id)
+  const answer = new KeyCombination(shortcut?.keyCombinations[0])
+  const input = {
+    altKey: false,
+    ctrlKey: false,
+    metaKey: true,
+    shiftKey: true,
+    key: arrowKey,
+  }
+
+  expect(answer.is(input)).toBe(true)
+  expect(answer.is({ ...input, key: pageKey })).toBe(false)
 })
 
 test('macOS', () => {
