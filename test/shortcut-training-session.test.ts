@@ -1,6 +1,7 @@
 import { beforeEach, expect, test, vi } from 'vitest'
 import { createEmptyShortcut } from '@/models/empty-shortcut'
 import KeyCombination from '@/models/key-combination'
+import shortcutCatalog from '@/models/shortcut-catalog'
 import {
   createShortcutTrainingSession,
   createShortcutTrainingState,
@@ -469,4 +470,152 @@ test('restoring an excluded session resets prior feedback without closing tool s
   session.exitSelectionOfToolAndCategories()
   session.keyDown(press('9', { metaKey: true }))
   expect(state.answeredHistoryMap.get('second')).toEqual([true])
+})
+
+const questionResets = [
+  {
+    name: 'tool/category selection',
+    reset: ({ session }: ReturnType<typeof setup>) => {
+      vi.spyOn(shortcutCatalog, 'searchShortcuts').mockReturnValue([
+        first,
+        second,
+      ])
+      session.selectToolAndCategories('Google Chrome', ['Tabs'])
+    },
+  },
+  {
+    name: 'confirmed restoration',
+    reset: ({ session }: ReturnType<typeof setup>) => {
+      vi.stubGlobal(
+        'confirm',
+        vi.fn(() => true),
+      )
+      session.restoreRemovedShortcuts()
+    },
+  },
+  {
+    name: 'external restoration',
+    reset: ({ state, session }: ReturnType<typeof setup>) => {
+      const answeredHistory = new Map(state.answeredHistoryMap)
+      session.applyProgress({
+        answeredHistory,
+        removedIds: new Set(['first', 'second']),
+      })
+      session.applyProgress({
+        answeredHistory,
+        removedIds: new Set(['second']),
+      })
+    },
+  },
+]
+
+test.each(
+  questionResets,
+)('an old advance cannot finish a new attempt after $name reissues the same shortcut', async ({
+  reset,
+}) => {
+  vi.useFakeTimers()
+  try {
+    const game = setup()
+    const { state, deps, session } = game
+    state.removedIdSet.add('second')
+    deps.scheduleRestartTyping.mockImplementation((callback) => {
+      setTimeout(callback, 1000)
+    })
+    session.keyDown(press('m', { metaKey: true }))
+    await vi.advanceTimersByTimeAsync(250)
+    reset(game)
+    expect(state.shortcut).toBe(first)
+    expect(state.isListeningKeyboardEvent).toBe(true)
+    expect(state.isCorrectKeyPressed).toBe(false)
+
+    await vi.advanceTimersByTimeAsync(250)
+    session.keyDown(press('m', { metaKey: true }))
+    await vi.advanceTimersByTimeAsync(500)
+
+    expect(state.shortcut).toBe(first)
+    expect(state.isCorrectKeyPressed).toBe(true)
+    expect(state.isListeningKeyboardEvent).toBe(false)
+    expect(state.pressedKeyCombination.keys()).toEqual(['Meta', 'm'])
+    expect(state.answeredHistoryMap.get('first')).toEqual([true, true])
+
+    await vi.advanceTimersByTimeAsync(500)
+    expect(state.isCorrectKeyPressed).toBe(false)
+    expect(state.isListeningKeyboardEvent).toBe(true)
+    expect(state.pressedKeyCombination.hasPressedSomeKey()).toBe(false)
+    expect(state.answeredHistoryMap.get('first')).toEqual([true, true])
+  } finally {
+    vi.useRealTimers()
+  }
+})
+
+test.each(
+  questionResets,
+)('an old retry cannot resume a new wrong attempt after $name reissues the same shortcut', async ({
+  reset,
+}) => {
+  vi.useFakeTimers()
+  try {
+    const game = setup()
+    const { state, deps, session } = game
+    state.removedIdSet.add('second')
+    deps.scheduleRestartTyping.mockImplementation((callback) => {
+      setTimeout(callback, 1000)
+    })
+    session.keyDown(press('x'))
+    await vi.advanceTimersByTimeAsync(250)
+    reset(game)
+    expect(state.shortcut).toBe(first)
+    expect(state.isListeningKeyboardEvent).toBe(true)
+    expect(state.isWrongKeyPressed).toBe(false)
+    expect(state.isShakingKeyCombinationView).toBe(false)
+
+    await vi.advanceTimersByTimeAsync(250)
+    session.keyDown(press('z'))
+    await vi.advanceTimersByTimeAsync(500)
+
+    expect(state.isWrongKeyPressed).toBe(true)
+    expect(state.isListeningKeyboardEvent).toBe(false)
+    expect(state.isShakingKeyCombinationView).toBe(true)
+    expect(state.pressedKeyCombination.keys()).toEqual(['z'])
+    expect(state.answeredHistoryMap.get('first')).toEqual([false, false])
+
+    await vi.advanceTimersByTimeAsync(500)
+    expect(state.isWrongKeyPressed).toBe(true)
+    expect(state.isListeningKeyboardEvent).toBe(true)
+    expect(state.isShakingKeyCombinationView).toBe(false)
+    expect(state.pressedKeyCombination.hasPressedSomeKey()).toBe(false)
+    expect(state.answeredHistoryMap.get('first')).toEqual([false, false])
+  } finally {
+    vi.useRealTimers()
+  }
+})
+
+test('cancelling restoration lets the current answer finish its feedback delay', async () => {
+  vi.useFakeTimers()
+  vi.stubGlobal(
+    'confirm',
+    vi.fn(() => false),
+  )
+  try {
+    const { state, deps, session } = setup()
+    state.removedIdSet.add('second')
+    deps.scheduleRestartTyping.mockImplementation((callback) => {
+      setTimeout(callback, 1000)
+    })
+    session.keyDown(press('m', { metaKey: true }))
+    await vi.advanceTimersByTimeAsync(250)
+    session.restoreRemovedShortcuts()
+    expect(state.isCorrectKeyPressed).toBe(true)
+    expect(state.isListeningKeyboardEvent).toBe(false)
+
+    await vi.advanceTimersByTimeAsync(750)
+    expect(state.isCorrectKeyPressed).toBe(false)
+    expect(state.isListeningKeyboardEvent).toBe(true)
+    expect(state.answeredHistoryMap.get('first')).toEqual([true])
+    expect(state.removedIdSet).toEqual(new Set(['second']))
+    expect(deps.restoreAllShortcuts).not.toHaveBeenCalled()
+  } finally {
+    vi.useRealTimers()
+  }
 })
