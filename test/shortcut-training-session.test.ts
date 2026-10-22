@@ -96,6 +96,7 @@ test('initial state copies selected collections and starts listening with no ans
     isMarkedSelfAsWrong: false,
     isShakingKeyCombinationView: false,
     isFullscreenMode: false,
+    isKeyboardLocked: false,
   })
   expect(state.pressedKeyCombination.hasPressedSomeKey()).toBe(false)
 })
@@ -190,6 +191,7 @@ test('fullscreen shortcut reveals outside fullscreen, grades inside it, and rese
   expect(state.answeredHistoryMap.size).toBe(0)
   session.onFullscreenchange()
   expect(state.isFullscreenMode).toBe(true)
+  state.isKeyboardLocked = true
   expect(state.pressedKeyCombination.hasPressedSomeKey()).toBe(false)
   expect(session.needsFullscreenMode()).toBe(false)
   session.keyDown(press('n', { metaKey: true }))
@@ -233,6 +235,7 @@ test.each(
 }) => {
   const { state, session } = setup([shortcut])
   session.onFullscreenchange()
+  state.isKeyboardLocked = true
   session.keyDown(combination)
   expect(state.answeredHistoryMap.get(shortcut.id)).toEqual([true])
 })
@@ -279,6 +282,52 @@ test('mixed alternatives retain shifted punctuation normalization when finding a
   const { state, session } = setup([shortcut])
   session.keyDown(press(':', { shiftKey: true }))
   expect(state.answeredHistoryMap.get('punctuation')).toEqual([true])
+})
+
+test('reserved shortcuts require an acquired keyboard lock inside fullscreen', () => {
+  const shortcut = shortcutFixture('reserved', {
+    keyCombinations: [press('n', { metaKey: true })],
+  })
+  const { state, session } = setup([shortcut])
+  session.onFullscreenchange()
+  expect(session.needsFullscreenMode()).toBe(true)
+  session.keyDown(press('n', { metaKey: true }))
+  expect(state.answeredHistoryMap.size).toBe(0)
+  state.isKeyboardLocked = true
+  expect(session.needsFullscreenMode()).toBe(false)
+  session.keyDown(press('n', { metaKey: true }))
+  expect(state.answeredHistoryMap.get('reserved')).toEqual([true])
+})
+
+test('mixed shortcuts keep their unrestricted alternative usable while fullscreen lock is pending', () => {
+  const shortcut = mixedTerminalShortcuts[0]
+  if (!shortcut) {
+    throw new Error('Missing mixed Terminal shortcut')
+  }
+  const { state, session } = setup([shortcut])
+  session.onFullscreenchange()
+  expect(session.needsFullscreenMode()).toBe(false)
+  session.keyDown(press('n', { metaKey: true }))
+  expect(state.answeredHistoryMap.size).toBe(0)
+  session.keyDown(press('n', { metaKey: true, ctrlKey: true }))
+  expect(state.answeredHistoryMap.get(shortcut.id)).toEqual([true])
+})
+
+test.each([
+  'y',
+  'n',
+])('revealed manual scoring stays latched after keyboard lock succeeds: %s', (answer) => {
+  const shortcut = shortcutFixture('reserved', {
+    keyCombinations: [press('n', { metaKey: true })],
+  })
+  const { state, session } = setup([shortcut])
+  session.onFullscreenchange()
+  session.keyDown(press('c'))
+  state.isKeyboardLocked = true
+  session.keyDown(press(answer))
+  expect(state.isMarkedSelfAsCorrect).toBe(answer === 'y')
+  expect(state.isMarkedSelfAsWrong).toBe(answer === 'n')
+  expect(state.answeredHistoryMap.get('reserved')).toEqual([answer === 'y'])
 })
 
 test('remove, select-tool and fullscreen commands perform their separate effects', () => {

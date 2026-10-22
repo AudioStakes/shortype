@@ -7,13 +7,15 @@ import toggleFullscreen from '@/utils/toggle-fullscreen'
 afterEach(() => vi.unstubAllGlobals())
 
 describe('optional browser capabilities', () => {
-  test('keyboard lock tolerates missing support and a rejected permission request', async () => {
+  test('keyboard lock reports whether the native request actually succeeded', async () => {
     vi.stubGlobal('navigator', {})
-    await expect(lockKeyboard()).resolves.toBeUndefined()
+    await expect(lockKeyboard()).resolves.toBe(false)
     const lock = vi.fn().mockRejectedValue(new Error('Permission denied'))
     vi.stubGlobal('navigator', { keyboard: { lock } })
-    await expect(lockKeyboard()).resolves.toBeUndefined()
+    await expect(lockKeyboard()).resolves.toBe(false)
     expect(lock).toHaveBeenCalledOnce()
+    lock.mockResolvedValueOnce(undefined)
+    await expect(lockKeyboard()).resolves.toBe(true)
   })
 
   test('layout lookup retains the default map when unavailable or rejected', async () => {

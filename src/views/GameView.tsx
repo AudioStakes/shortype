@@ -14,7 +14,6 @@ import GameKey from '@/stores/game-key'
 import ModalKey from '@/stores/modal-key'
 import type { NavigatorExtend, Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
-import lockKeyboard from '@/utils/lock-keyboard'
 import { useStrictContext } from '@/utils/use-strict-context'
 
 type Props = {
@@ -29,6 +28,7 @@ export default function GameView({ shortcuts }: Props) {
   )
 
   useEffect(() => game.startProgressSync(), [game])
+  useEffect(() => game.startKeyboardLock(), [game])
 
   const keyboard = useMemo(() => new Keyboard(), [])
   const { modalState } = useStrictContext(ModalKey, 'ModalKey')
@@ -43,7 +43,6 @@ export default function GameView({ shortcuts }: Props) {
       keyboard
         .setKeyboardLayoutMap((navigator as NavigatorExtend).keyboard)
         .catch(() => undefined)
-      lockKeyboard().catch(() => undefined)
     }
   }, [keyboard])
 

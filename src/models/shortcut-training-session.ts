@@ -32,6 +32,7 @@ export type ShortcutTrainingState = {
   isMarkedSelfAsWrong: boolean
   isShakingKeyCombinationView: boolean
   isFullscreenMode: boolean
+  isKeyboardLocked: boolean
 
   pressedKeyCombination: KeyCombination
   removedIdSet: Set<string>
@@ -83,6 +84,7 @@ export const createShortcutTrainingState = ({
   isMarkedSelfAsWrong: false,
   isShakingKeyCombinationView: false,
   isFullscreenMode,
+  isKeyboardLocked: false,
 
   pressedKeyCombination: new KeyCombination(),
   removedIdSet: new Set<string>(removedIds),
@@ -188,9 +190,12 @@ export const createShortcutTrainingSession = (
       })
   }
 
+  const canUseFullscreenShortcuts = () =>
+    state.isFullscreenMode && state.isKeyboardLocked
+
   const needsFullscreenMode = () =>
     correctKeyCombinations().hasOnlyAvailableInFullscreen() &&
-    !state.isFullscreenMode
+    !canUseFullscreenShortcuts()
 
   const removedShortcutExists = () => state.removedIdSet.size > 0
   const isRemovedAll = () =>
@@ -296,7 +301,7 @@ export const createShortcutTrainingSession = (
     const currentCorrectKeyCombinations = correctKeyCombinations()
     const isFullscreenOnlyShortcut =
       currentCorrectKeyCombinations.hasOnlyAvailableInFullscreen() &&
-      !state.isFullscreenMode
+      !canUseFullscreenShortcuts()
 
     if (
       state.pressedKeyCombination.isModifierKey() &&
@@ -329,13 +334,17 @@ export const createShortcutTrainingSession = (
       return
     }
 
-    if (state.shortcut.isAvailable && !isFullscreenOnlyShortcut) {
+    if (
+      state.shortcut.isAvailable &&
+      !isFullscreenOnlyShortcut &&
+      !state.isShowCorrectKeyPressed
+    ) {
       const matchedCombination = currentCorrectKeyCombinations.find(
         state.pressedKeyCombination,
       )
       if (matchedCombination) {
         if (
-          state.isFullscreenMode ||
+          canUseFullscreenShortcuts() ||
           !matchedCombination.isOnlyAvailableInFullscreen()
         ) {
           effects.respondToCorrectKey()
