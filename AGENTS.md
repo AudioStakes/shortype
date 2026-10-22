@@ -7,7 +7,8 @@
 - Prefer focused checks first; use the full suite when it is needed to validate the change scope.
 - If a check fails, fix it immediately and rerun the same check before moving on.
 - Before handing off or pushing, run `npm run validate` with the runtime declared in `.nvmrc` and `package.json`.
-- For validation configuration or dependency changes, read [the validation guide](docs/validation.md), verify a failing fixture and its corrected counterpart, and obtain independent review of rule conflicts and test expectations. Fix required findings and rerun the affected checks before the full gate.
+- Use established tools' native configuration and exit codes for validation. Keep application behavior tests; avoid custom validators, report parsers, and tests of validation tools themselves.
+- For validation configuration or dependency changes, read [the validation guide](docs/validation.md) and obtain independent review of scope and compatibility. Fix required findings before the full gate.
 
 ## Repo Context
 

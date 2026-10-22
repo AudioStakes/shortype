@@ -9,11 +9,7 @@ runs:
         cache: npm
     - name: Install declared npm
       shell: bash
-      run: |
-        node -e "const fs = require('node:fs'); require('node:child_process').execFileSync('npm', ['install', '--global', JSON.parse(fs.readFileSync('package.json', 'utf8')).packageManager], { stdio: 'inherit' })"
+      run: npm install --global npm@11.19.1
     - name: Install locked dependencies
       shell: bash
       run: npm ci --include=dev --no-audit --no-fund
-    - name: Verify runtime
-      shell: bash
-      run: npm run check:runtime

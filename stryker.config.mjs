@@ -1,7 +1,16 @@
-import policy from './quality-policy.json' with { type: 'json' }
-
 export default {
-  mutate: policy.mutation.targets,
+  mutate: [
+    'src/utils/local-storage-core.ts',
+    'src/utils/weighted-sample.ts',
+    'src/models/key-combination.ts',
+    'src/models/key-combinations.ts',
+    'src/models/shortcut-training-session-status.ts',
+    'data/parse-csv.ts',
+    'src/models/shortcut-training-session.ts',
+    'src/models/shortcut-training-session-effects.ts',
+    'src/stores/game-session-storage.ts',
+    'data/create-shortcut.ts',
+  ],
   testRunner: 'vitest',
   plugins: ['@stryker-mutator/vitest-runner'],
   vitest: { configFile: 'vite.config.ts' },
@@ -13,8 +22,8 @@ export default {
   jsonReporter: { fileName: 'reports/mutation/mutation.json' },
   htmlReporter: { fileName: 'reports/mutation/mutation.html' },
   thresholds: {
-    high: policy.mutation.global,
-    low: policy.mutation.global,
-    break: policy.mutation.global,
+    high: 90,
+    low: 90,
+    break: 90,
   },
 }
