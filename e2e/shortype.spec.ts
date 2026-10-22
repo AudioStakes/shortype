@@ -252,12 +252,12 @@ test('keyboard navigation keeps focus across tool and category steps', async ({
     page.getByRole('heading', { name: action, exact: true }),
   ).toBeVisible()
   await expect(page.getByTestId('pressed-key-combination')).toBeVisible()
-  expect(await page.evaluate(() => localStorage.getItem('selectedTool'))).toBe(
-    JSON.stringify('Google Chrome'),
-  )
-  expect(
-    await page.evaluate(() => localStorage.getItem('selectedCategories')),
-  ).toBe(JSON.stringify([category, secondCategoryName]))
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem('selectedTool')))
+    .toBe(JSON.stringify('Google Chrome'))
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem('selectedCategories')))
+    .toBe(JSON.stringify([category, secondCategoryName]))
   expect(
     await page.evaluate(() => localStorage.getItem('answeredHistory')),
   ).toBe('{}')
