@@ -16,6 +16,13 @@ export const LATEST_SCHEMA_VERSION = 0
 
 type StorageKey = keyof typeof LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE
 
+const PAYLOAD_KEYS = [
+  ANSWERED_HISTORY_KEY,
+  REMOVED_IDS_KEY,
+  SELECTED_CATEGORIES_KEY,
+  SELECTED_TOOL_KEY,
+] as const
+
 const isStringArray = (value: unknown) =>
   Array.isArray(value) && value.every((item) => typeof item === 'string')
 
@@ -113,25 +120,25 @@ export const createLocalStorageCore = (storage?: LocalStorageLike) => {
     return value ?? LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE[key]
   }
 
-  const getPersisted = (key: StorageKey) => {
-    const readPersistedJson = (storedKey: StorageKey) => {
-      if (!storage) {
-        throw new Error('Storage is unavailable')
-      }
-      const json = storage.getItem(storedKey)
-      if (json === null) {
-        return undefined
-      }
-      try {
-        const value: unknown = JSON.parse(json)
-        return isValidStoredValue(storedKey, value)
-          ? normalizeStoredValue(storedKey, value)
-          : undefined
-      } catch {
-        return undefined
-      }
+  const readPersistedJson = (key: StorageKey) => {
+    if (!storage) {
+      throw new Error('Storage is unavailable')
     }
+    const json = storage.getItem(key)
+    if (json === null) {
+      return undefined
+    }
+    try {
+      const value: unknown = JSON.parse(json)
+      return isValidStoredValue(key, value)
+        ? normalizeStoredValue(key, value)
+        : undefined
+    } catch {
+      return undefined
+    }
+  }
 
+  const getPersisted = (key: StorageKey) => {
     if (
       key !== SCHEMA_VERSION_KEY &&
       readPersistedJson(SCHEMA_VERSION_KEY) !== LATEST_SCHEMA_VERSION
@@ -146,23 +153,57 @@ export const createLocalStorageCore = (storage?: LocalStorageLike) => {
       isValidStoredValue(key, value) ? normalizeStoredValue(key, value) : value,
     )
     unsavedValues.set(key, json)
-    let saved = false
+    if (key !== SCHEMA_VERSION_KEY) {
+      unsavedValues.set(
+        SCHEMA_VERSION_KEY,
+        JSON.stringify(LATEST_SCHEMA_VERSION),
+      )
+    }
+    let resetPayloads =
+      key !== SCHEMA_VERSION_KEY || value === LATEST_SCHEMA_VERSION
 
     try {
-      storage?.setItem(key, json)
-      if (storage) {
-        unsavedValues.delete(key)
-        saved = true
+      if (!storage) {
+        return false
       }
+      if (resetPayloads) {
+        resetPayloads =
+          readPersistedJson(SCHEMA_VERSION_KEY) !== LATEST_SCHEMA_VERSION
+        if (resetPayloads) {
+          for (const payloadKey of PAYLOAD_KEYS) {
+            storage.removeItem(payloadKey)
+          }
+        }
+      }
+      storage.setItem(key, json)
+      if (key !== SCHEMA_VERSION_KEY) {
+        storage.setItem(
+          SCHEMA_VERSION_KEY,
+          JSON.stringify(LATEST_SCHEMA_VERSION),
+        )
+        unsavedValues.delete(SCHEMA_VERSION_KEY)
+      }
+      unsavedValues.delete(key)
+      if (resetPayloads) {
+        for (const payloadKey of PAYLOAD_KEYS) {
+          if (unsavedValues.get(payloadKey) === null) {
+            unsavedValues.delete(payloadKey)
+          }
+        }
+      }
+      return true
     } catch {
-      // Training remains usable when storage is disabled or full.
-    }
+      // Hide incompatible payloads even if their durable cleanup failed.
+      if (resetPayloads) {
+        for (const payloadKey of PAYLOAD_KEYS) {
+          if (!unsavedValues.has(payloadKey)) {
+            unsavedValues.set(payloadKey, null)
+          }
+        }
+      }
 
-    if (key !== SCHEMA_VERSION_KEY) {
-      const schemaSaved = set(SCHEMA_VERSION_KEY, LATEST_SCHEMA_VERSION)
-      return saved && schemaSaved
+      return false
     }
-    return saved
   }
 
   return {

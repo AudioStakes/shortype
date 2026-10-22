@@ -39,6 +39,37 @@ type ProgressCoordinatorOptions = {
   storageArea?: Storage | undefined
 }
 
+const withProgressLock = (
+  locks: ProgressLocks | undefined,
+  write: () => void,
+  finish: () => void = () => undefined,
+) => {
+  let callbackStarted = false
+  const commit = () => {
+    callbackStarted = true
+    write()
+  }
+  const failedLock = () => {
+    // A rejected request can still have run its callback; never replay a write.
+    if (!callbackStarted) {
+      commit()
+    }
+    finish()
+  }
+  if (!locks) {
+    commit()
+    finish()
+    return
+  }
+  try {
+    void locks
+      .request('shortype:training-progress', { mode: 'exclusive' }, commit)
+      .then(finish, failedLock)
+  } catch {
+    failedLock()
+  }
+}
+
 const applyProgressOperation = (
   progress: GameSessionProgressSnapshot,
   operation: ProgressOperation,
@@ -149,34 +180,10 @@ export const createGameSessionProgressCoordinator = ({
       return
     }
     processing = true
-    let callbackStarted = false
-    const commit = () => {
-      callbackStarted = true
-      commitNext()
-    }
-    const finish = () => {
+    withProgressLock(locks, commitNext, () => {
       processing = false
       flush()
-    }
-    const failedLock = () => {
-      // A rejected request can still have run its callback; never replay an answer.
-      if (!callbackStarted) {
-        commit()
-      }
-      finish()
-    }
-    if (!locks) {
-      commit()
-      finish()
-      return
-    }
-    try {
-      void locks
-        .request('shortype:training-progress', { mode: 'exclusive' }, commit)
-        .then(finish, failedLock)
-    } catch {
-      failedLock()
-    }
+    })
   }
 
   const enqueue = (operation: ProgressOperation) => {
@@ -256,19 +263,34 @@ const progressCoordinator = createGameSessionProgressCoordinator({
   storageArea: getStorageArea(),
 })
 
+const pendingPreferences = new Map<string, { value: string | string[] }>()
+
+const persistPreference = (
+  key: typeof SELECTED_TOOL_KEY | typeof SELECTED_CATEGORIES_KEY,
+  value: string | string[],
+) => {
+  const pending = { value: Array.isArray(value) ? [...value] : value }
+  pendingPreferences.set(key, pending)
+  withProgressLock(globalThis.navigator.locks, () => {
+    LocalStorage.set(key, pending.value)
+    if (pendingPreferences.get(key) === pending) {
+      pendingPreferences.delete(key)
+    }
+  })
+}
+
 export const loadGameSessionStorage = (): GameSessionStorageSnapshot => {
-  const storedTool = LocalStorage.get(SELECTED_TOOL_KEY, {
-    cleanup: false,
-  }) as string
+  const storedTool = (pendingPreferences.get(SELECTED_TOOL_KEY)?.value ??
+    LocalStorage.get(SELECTED_TOOL_KEY, { cleanup: false })) as string
   const selectedTool = shortcutCatalog.listTools().includes(storedTool)
     ? storedTool
     : LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE[SELECTED_TOOL_KEY]
   const availableCategories = new Set(
     shortcutCatalog.listCategoriesOf(selectedTool),
   )
-  const storedCategories = LocalStorage.get(SELECTED_CATEGORIES_KEY, {
-    cleanup: false,
-  }) as string[]
+  const storedCategories = (pendingPreferences.get(SELECTED_CATEGORIES_KEY)
+    ?.value ??
+    LocalStorage.get(SELECTED_CATEGORIES_KEY, { cleanup: false })) as string[]
 
   return {
     selectedTool,
@@ -285,9 +307,9 @@ export const loadGameSessionStorage = (): GameSessionStorageSnapshot => {
 export const createGameSessionStoragePersistence = () => ({
   ...progressCoordinator,
   persistSelectedTool: (tool: string) => {
-    LocalStorage.set(SELECTED_TOOL_KEY, tool)
+    persistPreference(SELECTED_TOOL_KEY, tool)
   },
   persistSelectedCategories: (categories: string[]) => {
-    LocalStorage.set(SELECTED_CATEGORIES_KEY, categories)
+    persistPreference(SELECTED_CATEGORIES_KEY, categories)
   },
 })
