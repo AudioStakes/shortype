@@ -2,7 +2,7 @@
 
 Use the Node version in `.nvmrc` and npm version in `package.json`. Install dependencies with `npm ci`, install actionlint 1.7.12 using its [official instructions](https://github.com/rhysd/actionlint/blob/v1.7.12/docs/install.md), and install Chromium with `npm exec -- playwright install chromium`.
 
-Run `npm run validate` before handing off or pushing. npm runs each tool directly and stops on its nonzero exit code. Every pull request runs the same checks in separate CI jobs, including both shuffled test orders, browser tests, mutation analysis, and the online audit.
+Run `npm run validate` locally before handing off or pushing. npm runs each tool directly and stops on its nonzero exit code. The suite includes both shuffled test orders, browser tests, mutation analysis, and the online audit. Automatic GitHub Actions runs are disabled at the user's request; opening or updating a pull request does not start CI.
 
 ## Tool ownership
 
@@ -26,7 +26,7 @@ Vitest requires assertions, rejects focused and empty test runs, fails on unhand
 
 Application tests verify behavior and boundaries. Storage and status property tests use fixed seeds and 500 cases each. Data-generation tests capture writes without changing checked-in JSON. Production browser tests cover key events, persistence and reload, modal focus and input suspension, storage failures, exclusion recovery, WCAG A/AA, and 320px layouts.
 
-Stryker performs a fresh full run with a native overall mutation threshold of 90% and rejects runs with no tests. Its process must succeed within the CI job's 30-minute limit. Mutation status details and per-file scores remain available in the native report.
+Stryker performs a fresh full run with a native overall mutation threshold of 90% and rejects runs with no tests. Its process must succeed. The retained manual workflow has a 30-minute mutation job limit. Mutation status details and per-file scores remain available in the native report.
 
 The repository does not reparse reports, inspect tool implementations, compare effective configurations with the base branch, or maintain a custom file inventory. It also does not independently enforce skipped-test totals, nonzero mutant counts, per-file mutation scores, or zero `NoCoverage`/compile-error counts. Those additional custom guarantees were removed; native tool configuration and independent code review define the supported checks.
 
@@ -36,9 +36,11 @@ The repository does not reparse reports, inspect tool implementations, compare e
 
 ## CI and deployment
 
-CI uses the pinned Node/npm versions, action commits, and official actionlint installer. The always-running `lint_and_test` job fails unless every required job succeeds. Main requires this GitHub Actions check and an up-to-date PR, including for administrators. Forced pushes and deletion are prohibited; separate GitHub account approvals are not required.
+The GitHub Actions workflow is disabled in repository settings, and its definition accepts only manual `workflow_dispatch` events. Do not enable it or restore automatic PR/push triggers or required CI checks without explicit user authorization. Local validation and independent Codex subagent review remain required. Do not request Copilot reviews as part of this process.
 
-Reports live in `coverage/`, `reports/`, and `test-results/`; CI retains diagnostics for seven days. Configuration changes receive independent review, and existing native checks verify the result. Add tests for application behavior rather than recreating tests for the tools.
+Main still requires a PR, including for administrators. Forced pushes and deletion are prohibited; separate GitHub account approvals and CI status checks are not required.
+
+The retained manual workflow uses pinned Node/npm versions, action commits, and the official actionlint installer. Its `lint_and_test` job fails unless every validation job succeeds. Reports live in `coverage/`, `reports/`, and `test-results/`; an explicitly enabled manual run retains diagnostics for seven days. Configuration changes receive independent review, and existing native checks verify the result. Add tests for application behavior rather than recreating tests for the tools.
 
 Vercel uses Node `24.x` and the declared npm version through `vercel.json`. After Preview is ready, run `PLAYWRIGHT_BASE_URL=https://your-preview.vercel.app npm run test:e2e` to exercise the same suite against it. See Vercel's [Node versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions) and [package managers](https://vercel.com/docs/package-managers) documentation.
 
