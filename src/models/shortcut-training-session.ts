@@ -140,10 +140,8 @@ export const createShortcutTrainingSession = (
   const availableIds = () =>
     shortcutIds().filter((id) => !state.removedIdSet.has(id))
 
-  const answeredIdSet = () => new Set(state.answeredHistoryMap.keys())
-
   const unansweredAvailableIds = () =>
-    availableIds().filter((id) => !answeredIdSet().has(id))
+    availableIds().filter((id) => !state.answeredHistoryMap.has(id))
 
   const availableIdToWeightMap = () => {
     return getAvailableIdToWeightMap({
