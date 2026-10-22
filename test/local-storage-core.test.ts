@@ -76,6 +76,35 @@ describe('local-storage-core', () => {
     )
   })
 
+  test('loads legacy histories and persists only their latest two results', () => {
+    const legacyHistory = {
+      'legacy-id': [...Array<boolean>(100).fill(false), true, true],
+      'unmastered-id': [true, false, true],
+      'single-id': [false],
+    }
+    const boundedHistory = {
+      'legacy-id': [true, true],
+      'unmastered-id': [false, true],
+      'single-id': [false],
+    }
+    storage.setItem(SCHEMA_VERSION_KEY, '0')
+    storage.setItem(ANSWERED_HISTORY_KEY, JSON.stringify(legacyHistory))
+
+    expect(localStorageCore.get(ANSWERED_HISTORY_KEY)).toEqual(boundedHistory)
+    expect(localStorageCore.getPersisted(ANSWERED_HISTORY_KEY)).toEqual(
+      boundedHistory,
+    )
+    expect(localStorageCore.set(ANSWERED_HISTORY_KEY, legacyHistory)).toBe(true)
+    expect(JSON.parse(storage.getItem(ANSWERED_HISTORY_KEY) ?? '{}')).toEqual(
+      boundedHistory,
+    )
+    expect(createLocalStorageCore(storage).get(ANSWERED_HISTORY_KEY)).toEqual(
+      boundedHistory,
+    )
+    expect(legacyHistory['legacy-id']).toHaveLength(102)
+    expect(storage.getItem(SCHEMA_VERSION_KEY)).toBe('0')
+  })
+
   test.each([
     [REMOVED_IDS_KEY, {}],
     [REMOVED_IDS_KEY, [12]],
@@ -189,6 +218,149 @@ test.each([
 })
 
 describe('persisted storage access', () => {
+  test.each([
+    undefined,
+    '99',
+    '{',
+    'null',
+    '"0"',
+  ])('discards only owned incompatible payloads before saving a preference: %s', (schema) => {
+    const storage = createStorage()
+    if (schema !== undefined) {
+      storage.setItem(SCHEMA_VERSION_KEY, schema)
+    }
+    storage.setItem(ANSWERED_HISTORY_KEY, '{"old":[true]}')
+    storage.setItem(REMOVED_IDS_KEY, '["old"]')
+    storage.setItem(SELECTED_CATEGORIES_KEY, '["old"]')
+    storage.setItem(SELECTED_TOOL_KEY, '"old"')
+    storage.setItem('unrelated-origin-key', 'preserved')
+    const core = createLocalStorageCore(storage)
+
+    expect(core.set(SELECTED_TOOL_KEY, 'Terminal (macOS)')).toBe(true)
+    const reloaded = createLocalStorageCore(storage)
+    expect(reloaded.get(SELECTED_TOOL_KEY)).toBe('Terminal (macOS)')
+    for (const key of [
+      ANSWERED_HISTORY_KEY,
+      REMOVED_IDS_KEY,
+      SELECTED_CATEGORIES_KEY,
+    ] as const) {
+      expect(reloaded.get(key)).toEqual(LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE[key])
+      expect(storage.getItem(key)).toBeNull()
+    }
+    expect(storage.getItem(SCHEMA_VERSION_KEY)).toBe('0')
+    expect(storage.getItem('unrelated-origin-key')).toBe('preserved')
+  })
+
+  test('a first answer after a schema reset never revives old preferences or exclusions', () => {
+    const storage = createStorage()
+    storage.setItem(SCHEMA_VERSION_KEY, '99')
+    storage.setItem(ANSWERED_HISTORY_KEY, '{"old":[true]}')
+    storage.setItem(REMOVED_IDS_KEY, '["old"]')
+    storage.setItem(SELECTED_TOOL_KEY, '"Terminal (macOS)"')
+    storage.setItem(SELECTED_CATEGORIES_KEY, '["old"]')
+    const core = createLocalStorageCore(storage)
+
+    expect(core.set(ANSWERED_HISTORY_KEY, { new: [false] })).toBe(true)
+    const reloaded = createLocalStorageCore(storage)
+    expect(reloaded.get(ANSWERED_HISTORY_KEY)).toEqual({ new: [false] })
+    expect(reloaded.get(REMOVED_IDS_KEY)).toEqual([])
+    expect(reloaded.get(SELECTED_TOOL_KEY)).toBe('Google Chrome')
+    expect(reloaded.get(SELECTED_CATEGORIES_KEY)).toEqual(
+      LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE[SELECTED_CATEGORIES_KEY],
+    )
+  })
+
+  test.each([
+    'read',
+    'remove',
+    'value',
+    'schema',
+  ] as const)('retains memory values without promoting a failed %s reset and retries against durable schema', (failure) => {
+    const storage = createStorage()
+    storage.setItem(SCHEMA_VERSION_KEY, '99')
+    storage.setItem(ANSWERED_HISTORY_KEY, '{"old":[true]}')
+    storage.setItem(REMOVED_IDS_KEY, '["old"]')
+    storage.setItem(SELECTED_CATEGORIES_KEY, '["old"]')
+    storage.setItem(SELECTED_TOOL_KEY, '"old"')
+    let failing = true
+    const core = createLocalStorageCore({
+      getItem: (key) => {
+        if (failing && failure === 'read') {
+          throw new Error('Read failed')
+        }
+        return storage.getItem(key)
+      },
+      removeItem: (key) => {
+        if (failing && failure === 'remove' && key === REMOVED_IDS_KEY) {
+          throw new Error('Removal failed')
+        }
+        storage.removeItem(key)
+      },
+      setItem: (key, value) => {
+        if (
+          failing &&
+          ((failure === 'value' && key === SELECTED_TOOL_KEY) ||
+            (failure === 'schema' && key === SCHEMA_VERSION_KEY))
+        ) {
+          throw new Error('Write failed')
+        }
+        storage.setItem(key, value)
+      },
+    })
+
+    expect(core.set(SELECTED_TOOL_KEY, 'Terminal (macOS)')).toBe(false)
+    expect(storage.getItem(SCHEMA_VERSION_KEY)).toBe('99')
+    expect(core.get(SELECTED_TOOL_KEY)).toBe('Terminal (macOS)')
+    expect(core.get(SCHEMA_VERSION_KEY)).toBe(0)
+    failing = false
+    expect(core.get(ANSWERED_HISTORY_KEY)).toEqual({})
+    expect(core.get(REMOVED_IDS_KEY)).toEqual([])
+    expect(core.get(SELECTED_CATEGORIES_KEY)).toEqual(
+      LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE[SELECTED_CATEGORIES_KEY],
+    )
+    expect(core.set(SELECTED_TOOL_KEY, 'Terminal (macOS)')).toBe(true)
+    const reloaded = createLocalStorageCore(storage)
+    expect(reloaded.get(SELECTED_TOOL_KEY)).toBe('Terminal (macOS)')
+    expect(reloaded.get(ANSWERED_HISTORY_KEY)).toEqual({})
+    expect(reloaded.get(REMOVED_IDS_KEY)).toEqual([])
+    expect(reloaded.get(SELECTED_CATEGORIES_KEY)).toEqual(
+      LOCAL_STORAGE_KEY_TO_DEFAULT_VALUE[SELECTED_CATEGORIES_KEY],
+    )
+    storage.setItem(SELECTED_CATEGORIES_KEY, '["later-tab-selection"]')
+    expect(core.get(SELECTED_CATEGORIES_KEY)).toEqual(['later-tab-selection'])
+  })
+
+  test('current-schema writes preserve the other owned payloads', () => {
+    const storage = createStorage()
+    storage.setItem(SCHEMA_VERSION_KEY, '0')
+    storage.setItem(ANSWERED_HISTORY_KEY, '{"kept":[true]}')
+    storage.setItem(REMOVED_IDS_KEY, '["kept"]')
+    storage.setItem(SELECTED_CATEGORIES_KEY, '["kept"]')
+    const core = createLocalStorageCore(storage)
+
+    expect(core.set(SELECTED_TOOL_KEY, 'Terminal (macOS)')).toBe(true)
+    const reloaded = createLocalStorageCore(storage)
+    expect(reloaded.get(ANSWERED_HISTORY_KEY)).toEqual({ kept: [true] })
+    expect(reloaded.get(REMOVED_IDS_KEY)).toEqual(['kept'])
+    expect(reloaded.get(SELECTED_CATEGORIES_KEY)).toEqual(['kept'])
+  })
+
+  test('explicit schema promotion also discards incompatible payloads', () => {
+    const storage = createStorage()
+    storage.setItem(SCHEMA_VERSION_KEY, '99')
+    storage.setItem(ANSWERED_HISTORY_KEY, '{"old":[true]}')
+    storage.setItem(REMOVED_IDS_KEY, '["old"]')
+    const core = createLocalStorageCore(storage)
+
+    expect(core.set(SCHEMA_VERSION_KEY, LATEST_SCHEMA_VERSION)).toBe(true)
+    expect(createLocalStorageCore(storage).get(ANSWERED_HISTORY_KEY)).toEqual(
+      {},
+    )
+    expect(storage.getItem(REMOVED_IDS_KEY)).toBeNull()
+    expect(core.set(SCHEMA_VERSION_KEY, 99)).toBe(true)
+    expect(core.get(SCHEMA_VERSION_KEY)).toBe(99)
+  })
+
   test('reads durable values without a failed local write shadowing them', () => {
     const storage = createStorage()
     storage.setItem(SCHEMA_VERSION_KEY, '0')
@@ -282,7 +454,7 @@ describe('persisted storage access', () => {
     expect(createLocalStorageCore().set(REMOVED_IDS_KEY, ['id'])).toBe(false)
   })
 
-  test('still writes the schema after the value write fails', () => {
+  test('keeps the schema incompatible after the value write fails', () => {
     const storage = createStorage()
     const core = createLocalStorageCore({
       ...storage,
@@ -294,7 +466,7 @@ describe('persisted storage access', () => {
       },
     })
     expect(core.set(ANSWERED_HISTORY_KEY, { id: [true] })).toBe(false)
-    expect(storage.getItem(SCHEMA_VERSION_KEY)).toBe('0')
+    expect(storage.getItem(SCHEMA_VERSION_KEY)).toBeNull()
     expect(core.get(ANSWERED_HISTORY_KEY)).toEqual({ id: [true] })
   })
 

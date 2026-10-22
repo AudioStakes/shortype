@@ -5,6 +5,7 @@ export interface NavigatorExtend extends Navigator {
 export interface NavigatorKeyboard {
   getLayoutMap(): Promise<Map<string, string>>
   lock(): Promise<void>
+  unlock(): void
 }
 
 export interface KeyCombinable {

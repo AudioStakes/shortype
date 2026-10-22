@@ -808,7 +808,7 @@
         "shiftKey": false
       }
     ],
-    "keysDescription": "Forward Delete",
+    "keysDescription": "Forward Delete または Fn + Delete",
     "needsFillInBlankMode": false,
     "os": "macOS",
     "unavailableReason": null
@@ -1574,7 +1574,7 @@
     "unavailableReason": null
   },
   {
-    "action": "「ターミナル」環境設定を開く",
+    "action": "「ターミナル」設定を開く",
     "app": "Terminal",
     "category": "その他のショートカット",
     "id": "156",

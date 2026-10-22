@@ -8,7 +8,10 @@ import {
   SELECTED_TOOL_KEY,
 } from '@/constants/local-storage-keys'
 import { createEmptyShortcut } from '@/models/empty-shortcut'
-import { getCountsOfEachStatus } from '@/models/shortcut-training-session-status'
+import {
+  getAvailableIdToWeightMap,
+  getCountsOfEachStatus,
+} from '@/models/shortcut-training-session-status'
 import { createLocalStorageCore } from '@/utils/local-storage-core'
 
 const propertyOptions = { numRuns: 500, seed: 20261022 }
@@ -40,7 +43,14 @@ test('valid learning data survives storage serialization and a fresh session', (
         expect(reader.get(SELECTED_TOOL_KEY)).toBe(tool)
         expect(reader.get(SELECTED_CATEGORIES_KEY)).toEqual(categories)
         expect(reader.get(REMOVED_IDS_KEY)).toEqual(removedIds)
-        expect(reader.get(ANSWERED_HISTORY_KEY)).toEqual(answeredHistory)
+        expect(reader.get(ANSWERED_HISTORY_KEY)).toEqual(
+          Object.fromEntries(
+            Object.entries(answeredHistory).map(([id, results]) => [
+              id,
+              results.slice(-2),
+            ]),
+          ),
+        )
       },
     ),
     propertyOptions,
@@ -88,6 +98,25 @@ test('every shortcut belongs to exactly one learning status and inclusion group'
         expect(
           getCountsOfEachStatus({ shortcuts, removedIds, answeredHistory }),
         ).toEqual(expected)
+        const boundedHistory = new Map(
+          [...answeredHistory].map(([id, results]) => [id, results.slice(-2)]),
+        )
+        expect(
+          getCountsOfEachStatus({
+            shortcuts,
+            removedIds,
+            answeredHistory: boundedHistory,
+          }),
+        ).toEqual(expected)
+        expect(
+          getAvailableIdToWeightMap({
+            shortcuts,
+            removedIds,
+            answeredHistory: boundedHistory,
+          }),
+        ).toEqual(
+          getAvailableIdToWeightMap({ shortcuts, removedIds, answeredHistory }),
+        )
       },
     ),
     propertyOptions,

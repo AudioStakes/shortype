@@ -32,6 +32,7 @@ export type ShortcutTrainingState = {
   isMarkedSelfAsWrong: boolean
   isShakingKeyCombinationView: boolean
   isFullscreenMode: boolean
+  isKeyboardLocked: boolean
 
   pressedKeyCombination: KeyCombination
   removedIdSet: Set<string>
@@ -83,6 +84,7 @@ export const createShortcutTrainingState = ({
   isMarkedSelfAsWrong: false,
   isShakingKeyCombinationView: false,
   isFullscreenMode,
+  isKeyboardLocked: false,
 
   pressedKeyCombination: new KeyCombination(),
   removedIdSet: new Set<string>(removedIds),
@@ -138,10 +140,8 @@ export const createShortcutTrainingSession = (
   const availableIds = () =>
     shortcutIds().filter((id) => !state.removedIdSet.has(id))
 
-  const answeredIdSet = () => new Set(state.answeredHistoryMap.keys())
-
   const unansweredAvailableIds = () =>
-    availableIds().filter((id) => !answeredIdSet().has(id))
+    availableIds().filter((id) => !state.answeredHistoryMap.has(id))
 
   const availableIdToWeightMap = () => {
     return getAvailableIdToWeightMap({
@@ -188,9 +188,12 @@ export const createShortcutTrainingSession = (
       })
   }
 
+  const canUseFullscreenShortcuts = () =>
+    state.isFullscreenMode && state.isKeyboardLocked
+
   const needsFullscreenMode = () =>
     correctKeyCombinations().hasOnlyAvailableInFullscreen() &&
-    !state.isFullscreenMode
+    !canUseFullscreenShortcuts()
 
   const removedShortcutExists = () => state.removedIdSet.size > 0
   const isRemovedAll = () =>
@@ -296,7 +299,7 @@ export const createShortcutTrainingSession = (
     const currentCorrectKeyCombinations = correctKeyCombinations()
     const isFullscreenOnlyShortcut =
       currentCorrectKeyCombinations.hasOnlyAvailableInFullscreen() &&
-      !state.isFullscreenMode
+      !canUseFullscreenShortcuts()
 
     if (
       state.pressedKeyCombination.isModifierKey() &&
@@ -329,9 +332,21 @@ export const createShortcutTrainingSession = (
       return
     }
 
-    if (state.shortcut.isAvailable && !isFullscreenOnlyShortcut) {
-      if (currentCorrectKeyCombinations.has(state.pressedKeyCombination)) {
-        effects.respondToCorrectKey()
+    if (
+      state.shortcut.isAvailable &&
+      !isFullscreenOnlyShortcut &&
+      !state.isShowCorrectKeyPressed
+    ) {
+      const matchedCombination = currentCorrectKeyCombinations.find(
+        state.pressedKeyCombination,
+      )
+      if (matchedCombination) {
+        if (
+          canUseFullscreenShortcuts() ||
+          !matchedCombination.isOnlyAvailableInFullscreen()
+        ) {
+          effects.respondToCorrectKey()
+        }
       } else if (
         !state.isWrongKeyPressed &&
         !state.pressedKeyCombination.isModifierKey()

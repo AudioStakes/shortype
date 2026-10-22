@@ -4,6 +4,9 @@ import { expect, type Locator, type Page, test } from '@playwright/test'
 import shortcuts from '../src/constants/shortcuts/chrome.json' with {
   type: 'json',
 }
+import macShortcuts from '../src/constants/shortcuts/mac.json' with {
+  type: 'json',
+}
 
 const origin = new URL(
   process.env['PLAYWRIGHT_BASE_URL'] || 'http://127.0.0.1:4173',
@@ -249,12 +252,12 @@ test('keyboard navigation keeps focus across tool and category steps', async ({
     page.getByRole('heading', { name: action, exact: true }),
   ).toBeVisible()
   await expect(page.getByTestId('pressed-key-combination')).toBeVisible()
-  expect(await page.evaluate(() => localStorage.getItem('selectedTool'))).toBe(
-    JSON.stringify('Google Chrome'),
-  )
-  expect(
-    await page.evaluate(() => localStorage.getItem('selectedCategories')),
-  ).toBe(JSON.stringify([category, secondCategoryName]))
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem('selectedTool')))
+    .toBe(JSON.stringify('Google Chrome'))
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem('selectedCategories')))
+    .toBe(JSON.stringify([category, secondCategoryName]))
   expect(
     await page.evaluate(() => localStorage.getItem('answeredHistory')),
   ).toBe('{}')
@@ -436,6 +439,174 @@ test('storage write refusal keeps training and removal usable in memory', async 
   await expect(page.getByTestId('pressed-key-combination')).toBeVisible()
 })
 
+test.describe('keyboard lock fallback', () => {
+  test.use({
+    storageState: storageState({
+      removedIds: JSON.stringify(
+        shortcuts.filter(({ id }) => id !== '1').map(({ id }) => id),
+      ),
+    }),
+  })
+
+  test('rejected keyboard lock keeps self-scoring usable in real fullscreen', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, 'keyboard', {
+        configurable: true,
+        value: {
+          lock: () =>
+            Promise.reject(new DOMException('Denied', 'NotAllowedError')),
+          unlock: () => undefined,
+        },
+      })
+    })
+    await openGame(page, restoredAction)
+    await page.keyboard.press('f')
+    await expect
+      .poll(() => page.evaluate(() => document.fullscreenElement !== null))
+      .toBe(true)
+    await expect(page.getByText('正解判定に未対応のため、')).toBeVisible()
+    await page.keyboard.press('c')
+    await expect(page.getByText('正解した', { exact: true })).toBeVisible()
+    await expect(page.getByText('不正解だった', { exact: true })).toBeVisible()
+    await page.keyboard.press('n')
+    await expect(page.getByTestId('marked-self-as-wrong')).toBeVisible()
+    await expect
+      .poll(() => page.evaluate(() => localStorage.getItem('answeredHistory')))
+      .toBe('{"1":[false]}')
+  })
+
+  test('a late keyboard lock success preserves an already opened self-scoring flow', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, 'keyboard', {
+        configurable: true,
+        value: {
+          lock: () =>
+            new Promise<void>((resolve) => {
+              window.addEventListener('grant-keyboard-lock', () => resolve(), {
+                once: true,
+              })
+            }),
+          unlock: () => undefined,
+        },
+      })
+    })
+    await openGame(page, restoredAction)
+    await page.keyboard.press('f')
+    await expect
+      .poll(() => page.evaluate(() => document.fullscreenElement !== null))
+      .toBe(true)
+    await expect(page.getByText('正解判定に未対応のため、')).toBeVisible()
+    await page.keyboard.press('c')
+    await expect(page.getByText('正解した', { exact: true })).toBeVisible()
+    await page.evaluate(() => {
+      window.dispatchEvent(new Event('grant-keyboard-lock'))
+    })
+    await page.keyboard.press('y')
+    await expect(page.getByTestId('marked-self-as-correct')).toBeVisible()
+    await expect
+      .poll(() => page.evaluate(() => localStorage.getItem('answeredHistory')))
+      .toBe('{"1":[true]}')
+    await expect(
+      page.getByText('ショートカットキーを入力してください...'),
+    ).toBeVisible()
+  })
+})
+
+test('returning focus refreshes the keyboard layout used for real answer keys', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    let key = '8'
+    window.addEventListener('change-keyboard-layout', () => {
+      key = '9'
+    })
+    Object.defineProperty(navigator, 'keyboard', {
+      configurable: true,
+      value: {
+        getLayoutMap: () => {
+          performance.mark('layout-map-requested')
+          return Promise.resolve(new Map([['Digit9', key]]))
+        },
+      },
+    })
+  })
+  await openGame(page)
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => performance.getEntriesByName('layout-map-requested').length,
+      ),
+    )
+    .toBeGreaterThan(0)
+  await page.keyboard.press('Meta+9')
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem('answeredHistory')))
+    .toBe('{"8":[false]}')
+  await expect(page.getByText('正解を入力してみましょう')).toBeVisible()
+
+  await page.evaluate(() => {
+    window.dispatchEvent(new Event('change-keyboard-layout'))
+    window.dispatchEvent(new FocusEvent('focus'))
+  })
+  await page.keyboard.press('Meta+9')
+  await expect(
+    page.getByText('ショートカットキーを入力してください...'),
+  ).toBeVisible()
+  await page.keyboard.press('Meta+9')
+  await expect(page.getByTestId('correct-key-pressed')).toBeVisible()
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem('answeredHistory')))
+    .toBe('{"8":[false,true]}')
+})
+
+test.describe('legacy macOS category selection', () => {
+  const currentCategory = 'システム設定のショートカット'
+  const currentAction = 'システム設定の「ディスプレイ」を開く'
+
+  test.use({
+    storageState: storageState({
+      selectedTool: JSON.stringify('macOS'),
+      selectedCategories: JSON.stringify(['システム環境設定のショートカット']),
+      removedIds: JSON.stringify(
+        macShortcuts.filter(({ id }) => id !== '266').map(({ id }) => id),
+      ),
+    }),
+  })
+
+  test('preserves an old category selection and saves its current name', async ({
+    page,
+  }) => {
+    await openGame(page, currentAction)
+    await expect(page.getByText(currentCategory, { exact: true })).toBeVisible()
+    const dialog = await openToolSelection(page)
+    await dialog.getByRole('button', { name: /^macOS/ }).click()
+    await expect(
+      dialog.getByRole('button', { name: new RegExp(`^${currentCategory}`) }),
+    ).toHaveAttribute('aria-pressed', 'true')
+    await dialog
+      .getByRole('button', {
+        name: '選んだカテゴリーの練習をはじめる',
+        exact: true,
+      })
+      .click()
+    await expect
+      .poll(() =>
+        page.evaluate(() => localStorage.getItem('selectedCategories')),
+      )
+      .toBe(JSON.stringify([currentCategory]))
+    await page.reload()
+    await proceedIfUnsupported(page)
+    await expect(
+      page.getByRole('heading', { name: currentAction, exact: true }),
+    ).toBeVisible()
+    await expect(page.getByText(currentCategory, { exact: true })).toBeVisible()
+  })
+})
+
 test.describe('all questions excluded', () => {
   test.use({
     storageState: storageState({
@@ -465,9 +636,9 @@ test.describe('all questions excluded', () => {
     await expect(
       page.getByRole('heading', { name: restoredAction, exact: true }),
     ).toBeVisible()
-    expect(await page.evaluate(() => localStorage.getItem('removedIds'))).toBe(
-      '[]',
-    )
+    await expect
+      .poll(() => page.evaluate(() => localStorage.getItem('removedIds')))
+      .toBe('[]')
     await page.reload()
     await proceedIfUnsupported(page)
     await expect(
@@ -482,7 +653,7 @@ test.describe('cross-tab answered history', () => {
     storageState: storageState({ answeredHistory: '{"8":[false]}' }),
   })
 
-  test('simultaneous answers in two tabs persist exactly once and update live progress', async ({
+  test('simultaneous answers in two tabs both survive and update live progress', async ({
     page,
     context,
   }) => {
@@ -511,7 +682,7 @@ test.describe('cross-tab answered history', () => {
       await releaseWrites()
     }
 
-    const history = '{"8":[false,true,true]}'
+    const history = '{"8":[true,true]}'
     await expect
       .poll(() => page.evaluate(() => localStorage.getItem('answeredHistory')))
       .toBe(history)

@@ -4,8 +4,10 @@ import {
   ANSWERED_HISTORY_KEY,
   REMOVED_IDS_KEY,
   SCHEMA_VERSION_KEY,
+  SELECTED_CATEGORIES_KEY,
   SELECTED_TOOL_KEY,
 } from '@/constants/local-storage-keys'
+import shortcutCatalog from '@/models/shortcut-catalog'
 import {
   createGameSessionProgressCoordinator,
   type GameSessionProgressSnapshot,
@@ -77,6 +79,35 @@ const createClient = (
 }
 
 describe('game session progress synchronization', () => {
+  test('trims old history while committing each concurrent answer once', async () => {
+    const storage = createStorage()
+    storage.setItem(ANSWERED_HISTORY_KEY, '{"id":[false,true,false,true]}')
+    const locks = createLockQueue()
+    const a = createClient(storage, locks)
+    const b = createClient(storage, locks)
+    storage.setItem.mockClear()
+
+    expect(a.getProgress().answeredHistory.get('id')).toEqual([false, true])
+    a.appendAnswer('id', false)
+    b.appendAnswer('id', true)
+    expect(a.getProgress().answeredHistory.get('id')).toEqual([true, false])
+    await locks.release()
+    expect(storage.getItem(ANSWERED_HISTORY_KEY)).toBe('{"id":[true,false]}')
+    expect(b.getProgress().answeredHistory.get('id')).toEqual([false, true])
+    await locks.release()
+
+    expect(a.getProgress().answeredHistory.get('id')).toEqual([false, true])
+    expect(b.getProgress()).toEqual(a.getProgress())
+    expect(
+      storage.setItem.mock.calls.filter(
+        ([key]) => key === ANSWERED_HISTORY_KEY,
+      ),
+    ).toEqual([
+      [ANSWERED_HISTORY_KEY, '{"id":[true,false]}'],
+      [ANSWERED_HISTORY_KEY, '{"id":[false,true]}'],
+    ])
+  })
+
   test.each([
     ['same', 'same'],
     ['first', 'second'],
@@ -121,19 +152,14 @@ describe('game session progress synchronization', () => {
     await locks.release()
     storageEvent(target, ANSWERED_HISTORY_KEY)
     expect(snapshots.mock.lastCall?.[0].answeredHistory.get('id')).toEqual([
-      false,
       true,
       true,
     ])
     await locks.release()
-    expect(local.getProgress().answeredHistory.get('id')).toEqual([
-      false,
-      true,
-      true,
-    ])
+    expect(local.getProgress().answeredHistory.get('id')).toEqual([true, true])
     await locks.release()
     expect(JSON.parse(storage.getItem(ANSWERED_HISTORY_KEY) ?? '{}')).toEqual({
-      id: [false, true, true],
+      id: [true, true],
     })
   })
 
@@ -272,7 +298,7 @@ describe('game session progress synchronization', () => {
     expect(secondMount.mock.lastCall?.[0]).toEqual({
       answeredHistory: new Map([
         ['old', [false]],
-        ['id', [true, false, true]],
+        ['id', [false, true]],
       ]),
       removedIds: new Set(['other']),
     })
@@ -421,6 +447,163 @@ test('does not temporarily remove the optimistic operation from subscriber snaps
       snapshot.answeredHistory.get('id'),
     ),
   ).toEqual([[true], [true]])
+})
+
+test('a failed schema reset retains each new answer in memory across subscriptions', () => {
+  const native = createStorage()
+  native.setItem(SCHEMA_VERSION_KEY, '99')
+  native.setItem(ANSWERED_HISTORY_KEY, '{"ignored":[true]}')
+  native.setItem(REMOVED_IDS_KEY, '["ignored"]')
+  native.removeItem.mockImplementation(() => {
+    throw new Error('Cleanup failed')
+  })
+  const client = createClient(native)
+  const unsubscribe = client.subscribeProgress(() => undefined)
+  client.appendAnswer('new', false)
+  const attempts = native.removeItem.mock.calls.length
+  client.appendAnswer('new', true)
+  unsubscribe()
+  const snapshots = vi.fn<(progress: GameSessionProgressSnapshot) => void>()
+  client.subscribeProgress(snapshots)
+
+  expect(snapshots.mock.lastCall?.[0]).toEqual({
+    answeredHistory: new Map([['new', [false, true]]]),
+    removedIds: new Set(),
+  })
+  expect(native.removeItem).toHaveBeenCalledTimes(attempts)
+  expect(native.getItem(SCHEMA_VERSION_KEY)).toBe('99')
+  expect(createClient(native).getProgress().answeredHistory).toEqual(new Map())
+})
+
+test('serializes a preference schema reset and another tab’s answers without losing either write', async () => {
+  const availableStorage = globalThis.localStorage
+  const locksDescriptor = Object.getOwnPropertyDescriptor(navigator, 'locks')
+  const native = createStorage()
+  const locks = createLockQueue()
+  native.setItem(SCHEMA_VERSION_KEY, '99')
+  native.setItem(ANSWERED_HISTORY_KEY, '{"ignored":[true]}')
+  native.setItem(REMOVED_IDS_KEY, '["ignored"]')
+  native.setItem(SELECTED_CATEGORIES_KEY, '["ignored"]')
+  native.setItem('unrelated-origin-key', 'preserved')
+  Object.defineProperty(globalThis, 'localStorage', {
+    configurable: true,
+    value: native,
+    writable: true,
+  })
+  Object.defineProperty(navigator, 'locks', {
+    configurable: true,
+    value: locks,
+  })
+  try {
+    vi.resetModules()
+    const storage = await import('@/stores/game-session-storage')
+    const local = storage.createGameSessionStoragePersistence()
+    const remote = createClient(native, locks)
+    const category =
+      shortcutCatalog.listCategoriesOf('Terminal (macOS)')[0] ?? ''
+    native.setItem.mockClear()
+
+    local.persistSelectedTool('Terminal (macOS)')
+    local.persistSelectedCategories([category])
+    remote.appendAnswer('remote', true)
+    local.appendAnswer('local', false)
+    expect(native.setItem).not.toHaveBeenCalled()
+    expect(storage.loadGameSessionStorage()).toMatchObject({
+      selectedTool: 'Terminal (macOS)',
+      selectedCategories: [category],
+      answeredHistory: new Map([['local', [false]]]),
+    })
+    await locks.release()
+    await locks.release()
+    await locks.release()
+    await locks.release()
+
+    const reloaded = createLocalStorageCore(native)
+    expect(reloaded.get(SELECTED_TOOL_KEY)).toBe('Terminal (macOS)')
+    expect(reloaded.get(SELECTED_CATEGORIES_KEY)).toEqual([category])
+    expect(reloaded.get(ANSWERED_HISTORY_KEY)).toEqual({
+      remote: [true],
+      local: [false],
+    })
+    expect(reloaded.get(REMOVED_IDS_KEY)).toEqual([])
+    expect(native.getItem('unrelated-origin-key')).toBe('preserved')
+    expect(locks.request.mock.calls.map(([name]) => name)).toEqual(
+      Array<string>(4).fill('shortype:training-progress'),
+    )
+  } finally {
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: availableStorage,
+      writable: true,
+    })
+    if (locksDescriptor) {
+      Object.defineProperty(navigator, 'locks', locksDescriptor)
+    } else {
+      Reflect.deleteProperty(navigator, 'locks')
+    }
+  }
+})
+
+test('latest queued preferences survive remounts while older writes drain', async () => {
+  const availableStorage = globalThis.localStorage
+  const locksDescriptor = Object.getOwnPropertyDescriptor(navigator, 'locks')
+  const native = createStorage()
+  const locks = createLockQueue()
+  Object.defineProperty(globalThis, 'localStorage', {
+    configurable: true,
+    value: native,
+    writable: true,
+  })
+  Object.defineProperty(navigator, 'locks', {
+    configurable: true,
+    value: locks,
+  })
+  try {
+    vi.resetModules()
+    const storage = await import('@/stores/game-session-storage')
+    const firstMount = storage.createGameSessionStoragePersistence()
+    const terminalCategory =
+      shortcutCatalog.listCategoriesOf('Terminal (macOS)')[0] ?? ''
+    const macCategory = shortcutCatalog.listCategoriesOf('macOS')[0] ?? ''
+    firstMount.persistSelectedTool('Terminal (macOS)')
+    firstMount.persistSelectedCategories([terminalCategory])
+    const secondMount = storage.createGameSessionStoragePersistence()
+    secondMount.persistSelectedTool('macOS')
+    secondMount.persistSelectedCategories([macCategory])
+    secondMount.persistSelectedTool('Terminal (macOS)')
+    const categories = [terminalCategory]
+    secondMount.persistSelectedCategories(categories)
+    categories.length = 0
+    await locks.release()
+    await locks.release()
+    await locks.release()
+
+    expect(storage.loadGameSessionStorage()).toMatchObject({
+      selectedTool: 'Terminal (macOS)',
+      selectedCategories: [terminalCategory],
+    })
+    await locks.release()
+    await locks.release()
+    await locks.release()
+    expect(storage.loadGameSessionStorage()).toMatchObject({
+      selectedTool: 'Terminal (macOS)',
+      selectedCategories: [terminalCategory],
+    })
+    expect(createLocalStorageCore(native).get(SELECTED_CATEGORIES_KEY)).toEqual(
+      [terminalCategory],
+    )
+  } finally {
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: availableStorage,
+      writable: true,
+    })
+    if (locksDescriptor) {
+      Object.defineProperty(navigator, 'locks', locksDescriptor)
+    } else {
+      Reflect.deleteProperty(navigator, 'locks')
+    }
+  }
 })
 
 test('default storage bootstrap tolerates a throwing native getter and keeps progress across remounts', async () => {

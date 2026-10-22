@@ -13,6 +13,8 @@ import UNDEFINED_CODE_TO_KEY_MAP from '@/constants/undefined-code-to-key-map'
 import type { NavigatorKeyboard } from '@/types/interfaces'
 
 export default class Keyboard {
+  private layoutRequest = 0
+
   static isKey(word: string) {
     return !DENY_LIST_OF_KEY_REGEXP.test(word) && KEY_REGEXP.test(word)
   }
@@ -67,14 +69,18 @@ export default class Keyboard {
     return this.keyboardMap ?? DEFAULT_KEYBOARD_LAYOUT_MAP
   }
 
-  async setKeyboardLayoutMap(keyboard?: Partial<NavigatorKeyboard>) {
+  async setKeyboardLayoutMap(
+    keyboard?: Partial<NavigatorKeyboard>,
+    signal?: AbortSignal,
+  ) {
+    const request = ++this.layoutRequest
     try {
       const keyboardMap = await keyboard?.getLayoutMap?.()
-      if (keyboardMap) {
+      if (keyboardMap && request === this.layoutRequest && !signal?.aborted) {
         this.keyboardMap = keyboardMap
       }
     } catch {
-      // Retain the default layout when the browser denies layout access.
+      // Retain the last good layout when the browser denies layout access.
     }
   }
 }

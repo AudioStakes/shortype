@@ -47,7 +47,9 @@ export default function KeyCombinationForm() {
           </div>
         ) : null}
       </div>
-      {!state.shortcut.isAvailable ? (
+      {!state.shortcut.isAvailable ||
+      state.isShowCorrectKeyPressed ||
+      (needsFullscreenMode && state.isFullscreenMode) ? (
         <RequestSelfScoring />
       ) : needsFullscreenMode ? (
         <RequestFullScreenOrSelfScoring />

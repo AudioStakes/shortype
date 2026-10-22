@@ -11,11 +11,8 @@ export const createShortcutTrainingSessionEffects = (
   resetTypingState: () => void,
 ) => {
   const saveResult = (id: string, result: boolean) => {
-    if (state.answeredHistoryMap.has(id)) {
-      state.answeredHistoryMap.get(id)?.push(result)
-    } else {
-      state.answeredHistoryMap.set(id, [result])
-    }
+    const history = state.answeredHistoryMap.get(id) ?? []
+    state.answeredHistoryMap.set(id, [...history.slice(-1), result])
 
     deps.appendAnswer(id, result)
   }

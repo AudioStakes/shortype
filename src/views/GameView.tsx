@@ -14,7 +14,6 @@ import GameKey from '@/stores/game-key'
 import ModalKey from '@/stores/modal-key'
 import type { NavigatorExtend, Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
-import lockKeyboard from '@/utils/lock-keyboard'
 import { useStrictContext } from '@/utils/use-strict-context'
 
 type Props = {
@@ -29,6 +28,7 @@ export default function GameView({ shortcuts }: Props) {
   )
 
   useEffect(() => game.startProgressSync(), [game])
+  useEffect(() => game.startKeyboardLock(), [game])
 
   const keyboard = useMemo(() => new Keyboard(), [])
   const { modalState } = useStrictContext(ModalKey, 'ModalKey')
@@ -39,11 +39,28 @@ export default function GameView({ shortcuts }: Props) {
     game.state.isSelectToolsKeyPressed
 
   useEffect(() => {
-    if ('keyboard' in navigator) {
+    const controller = new AbortController()
+    const refreshLayout = () => {
       keyboard
-        .setKeyboardLayoutMap((navigator as NavigatorExtend).keyboard)
+        .setKeyboardLayoutMap(
+          (navigator as NavigatorExtend).keyboard,
+          controller.signal,
+        )
         .catch(() => undefined)
-      lockKeyboard().catch(() => undefined)
+    }
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        refreshLayout()
+      }
+    }
+
+    refreshLayout()
+    window.addEventListener('focus', refreshLayout)
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => {
+      controller.abort()
+      window.removeEventListener('focus', refreshLayout)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
     }
   }, [keyboard])
 

@@ -13,7 +13,6 @@ import createModalStore from '@/stores/modal'
 import ModalKey from '@/stores/modal-key'
 import type { Shortcut } from '@/types/interfaces'
 import Keyboard from '@/utils/keyboard'
-import * as keyboardLock from '@/utils/lock-keyboard'
 import GameView from '@/views/GameView'
 
 import {
@@ -32,6 +31,18 @@ import {
 } from './dom-helpers'
 
 const localStorageMock = globalThis.localStorage
+
+const setFullscreenElement = (element: Element | null) => {
+  Object.defineProperty(document, 'fullscreenElement', {
+    configurable: true,
+    value: element,
+  })
+}
+
+afterEach(() => {
+  Reflect.deleteProperty(document, 'fullscreenElement')
+  Reflect.deleteProperty(document, 'visibilityState')
+})
 
 const modifierKeys = new Set(['Meta', 'Shift', 'Control', 'Alt'])
 
@@ -534,7 +545,7 @@ test('uses available keyboard capabilities and clears released modifier keys', a
   vi.stubGlobal('navigator', { keyboard: { getLayoutMap, lock } })
   const { getByTestId } = renderGameView()
   await waitFor(() => expect(getLayoutMap).toHaveBeenCalledOnce())
-  expect(lock).toHaveBeenCalledOnce()
+  expect(lock).not.toHaveBeenCalled()
   await pressKey('Meta')
   const pressed = getByTestId('pressed-key-combination')
   expect(within(pressed).queryByTestId('Meta')).not.toBeNull()
@@ -542,20 +553,127 @@ test('uses available keyboard capabilities and clears released modifier keys', a
   await waitFor(() => expect(within(pressed).queryByTestId('Meta')).toBeNull())
 })
 
+test('refreshes keyboard layout on focus and visibility, then cleans up its listeners', async () => {
+  vi.spyOn(Keyboard.prototype, 'key').mockRestore()
+  const getLayoutMap = vi
+    .fn()
+    .mockResolvedValueOnce(new Map([['KeyQ', 'x']]))
+    .mockResolvedValueOnce(new Map([['KeyQ', 'z']]))
+    .mockResolvedValueOnce(new Map([['KeyQ', '9']]))
+  vi.stubGlobal('navigator', { keyboard: { getLayoutMap } })
+  const view = renderGameView()
+  await waitFor(() => expect(getLayoutMap).toHaveBeenCalledOnce())
+
+  await act(async () => {
+    window.dispatchEvent(new Event('focus'))
+    await Promise.resolve()
+  })
+  expect(getLayoutMap).toHaveBeenCalledTimes(2)
+
+  Object.defineProperty(document, 'visibilityState', {
+    configurable: true,
+    value: 'hidden',
+  })
+  document.dispatchEvent(new Event('visibilitychange'))
+  expect(getLayoutMap).toHaveBeenCalledTimes(2)
+  Object.defineProperty(document, 'visibilityState', {
+    configurable: true,
+    value: 'visible',
+  })
+  await act(async () => {
+    document.dispatchEvent(new Event('visibilitychange'))
+    await Promise.resolve()
+  })
+  expect(getLayoutMap).toHaveBeenCalledTimes(3)
+
+  dispatchKeyboardEvent('keydown', 'q', { code: 'KeyQ', metaKey: true })
+  expect(
+    JSON.parse(localStorage.getItem(ANSWERED_HISTORY_KEY) ?? '{}'),
+  ).toEqual({ '1': [true] })
+  view.unmount()
+  window.dispatchEvent(new Event('focus'))
+  document.dispatchEvent(new Event('visibilitychange'))
+  expect(getLayoutMap).toHaveBeenCalledTimes(3)
+})
+
 test('training survives unexpected keyboard capability adapter rejections', async () => {
-  vi.stubGlobal('navigator', { keyboard: {} })
+  const lock = vi.fn().mockRejectedValue(new Error('Lock unavailable'))
+  vi.stubGlobal('navigator', { keyboard: { lock } })
+  setFullscreenElement(document.documentElement)
   const layout = vi
     .spyOn(Keyboard.prototype, 'setKeyboardLayoutMap')
     .mockRejectedValue(new Error('Layout adapter unavailable'))
-  const lock = vi
-    .spyOn(keyboardLock, 'default')
-    .mockRejectedValue(new Error('Lock adapter unavailable'))
   const { getByText } = renderGameView()
   await waitFor(() => {
     expect(layout).toHaveBeenCalledOnce()
     expect(lock).toHaveBeenCalledOnce()
   })
   expect(getByText('最後のタブに移動する').isConnected).toBe(true)
+})
+
+test.each([
+  'y',
+  'n',
+])('manual scoring remains visible after a pending keyboard lock succeeds: %s', async (answer) => {
+  const lockResult = Promise.withResolvers<void>()
+  const lock = vi.fn(() => lockResult.promise)
+  const unlock = vi.fn()
+  vi.stubGlobal('navigator', { keyboard: { lock, unlock } })
+  setFullscreenElement(document.documentElement)
+  const { getByText, container } = renderGameView(
+    shortcutsOnlyAvailableInFullscreen,
+  )
+  await waitFor(() => expect(lock).toHaveBeenCalledOnce())
+  expect(container.textContent).not.toContain('で全画面モードを ON')
+  expect(getByText('正解判定に未対応のため、').isConnected).toBe(true)
+  await pressKey('c')
+  expect(getByText('正解した').isConnected).toBe(true)
+  await act(async () => {
+    lockResult.resolve()
+    await lockResult.promise
+  })
+  expect(getByText('正解した').isConnected).toBe(true)
+  expect(container.textContent).not.toContain('で全画面モードを ON')
+
+  await pressKey(answer)
+  expect(
+    JSON.parse(localStorage.getItem(ANSWERED_HISTORY_KEY) ?? '{}'),
+  ).toEqual({ '1': [answer === 'y'] })
+})
+
+test('an old mount cannot release a newer mount keyboard lock or enable its stale question', async () => {
+  const oldLock = Promise.withResolvers<void>()
+  const newLock = Promise.withResolvers<void>()
+  const lock = vi
+    .fn()
+    .mockReturnValueOnce(oldLock.promise)
+    .mockReturnValueOnce(newLock.promise)
+  const unlock = vi.fn()
+  vi.stubGlobal('navigator', { keyboard: { lock, unlock } })
+  setFullscreenElement(document.documentElement)
+  const oldView = renderGameView(shortcutsOnlyAvailableInFullscreen)
+  await waitFor(() => expect(lock).toHaveBeenCalledOnce())
+  const newView = renderGameView(shortcutsOnlyAvailableInFullscreen)
+  await waitFor(() => expect(lock).toHaveBeenCalledTimes(2))
+  await act(async () => {
+    newLock.resolve()
+    await newLock.promise
+  })
+  expect(newView.container.textContent).not.toContain('で全画面モードを ON')
+
+  oldView.unmount()
+  await act(async () => {
+    oldLock.resolve()
+    await oldLock.promise
+  })
+  expect(unlock).not.toHaveBeenCalled()
+  expect(newView.container.textContent).not.toContain('で全画面モードを ON')
+  await pressChord(['Meta', 'n'])
+  expect(
+    JSON.parse(localStorage.getItem(ANSWERED_HISTORY_KEY) ?? '{}'),
+  ).toEqual({ '1': [true] })
+  newView.unmount()
+  expect(unlock).toHaveBeenCalledOnce()
 })
 
 test('fullscreen-only questions allow self scoring when fullscreen is unavailable', async () => {

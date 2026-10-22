@@ -198,3 +198,104 @@ test('storage events refresh game summaries, exclusions, and restored questions'
     stopSync()
   }
 })
+
+test('fullscreen entry requests keyboard lock before fullscreen and does not duplicate it', async () => {
+  const fullscreenElement = document.documentElement
+  const lockResult = Promise.withResolvers<void>()
+  const lock = vi.fn(() => lockResult.promise)
+  const unlock = vi.fn()
+  const fullscreenDocument = {
+    fullscreenElement: null as Element | null,
+    documentElement: {
+      requestFullscreen: vi.fn(() => Promise.resolve()),
+    },
+  }
+  vi.stubGlobal('navigator', { keyboard: { lock, unlock } })
+  vi.stubGlobal('document', fullscreenDocument)
+  const store = createGameStore([
+    shortcutFixture('reserved', {
+      keyCombinations: [
+        {
+          altKey: false,
+          ctrlKey: false,
+          metaKey: true,
+          shiftKey: false,
+          key: 'n',
+        },
+      ],
+    }),
+  ])
+  const stopLock = store.startKeyboardLock()
+
+  try {
+    store.keyDown({
+      altKey: false,
+      ctrlKey: false,
+      metaKey: false,
+      shiftKey: false,
+      key: 'f',
+    })
+    expect(lock.mock.invocationCallOrder[0]).toBeLessThan(
+      fullscreenDocument.documentElement.requestFullscreen.mock
+        .invocationCallOrder[0] ?? 0,
+    )
+    fullscreenDocument.fullscreenElement = fullscreenElement
+    store.onFullscreenchange()
+    expect(lock).toHaveBeenCalledOnce()
+    expect(store.state.isKeyboardLocked).toBe(false)
+    expect(store.needsFullscreenMode).toBe(true)
+
+    lockResult.resolve()
+    await Promise.resolve()
+    await Promise.resolve()
+    expect(store.state.isKeyboardLocked).toBe(true)
+    expect(store.needsFullscreenMode).toBe(false)
+
+    fullscreenDocument.fullscreenElement = null
+    store.onFullscreenchange()
+    expect(store.state.isKeyboardLocked).toBe(false)
+    expect(store.needsFullscreenMode).toBe(true)
+    expect(unlock).toHaveBeenCalledOnce()
+  } finally {
+    stopLock()
+    vi.unstubAllGlobals()
+  }
+})
+
+test('leaving fullscreen invalidates a pending keyboard lock and reentry can acquire a new one', async () => {
+  const staleLock = Promise.withResolvers<void>()
+  const currentLock = Promise.withResolvers<void>()
+  const lock = vi
+    .fn()
+    .mockReturnValueOnce(staleLock.promise)
+    .mockReturnValueOnce(currentLock.promise)
+  const unlock = vi.fn()
+  const fullscreenDocument = {
+    fullscreenElement: document.documentElement as Element | null,
+  }
+  const fullscreenElement = document.documentElement
+  vi.stubGlobal('navigator', { keyboard: { lock, unlock } })
+  vi.stubGlobal('document', fullscreenDocument)
+  const store = createGameStore([])
+  const stopLock = store.startKeyboardLock()
+
+  try {
+    fullscreenDocument.fullscreenElement = null
+    store.onFullscreenchange()
+    staleLock.resolve()
+    await Promise.resolve()
+    await Promise.resolve()
+    expect(store.state.isKeyboardLocked).toBe(false)
+
+    fullscreenDocument.fullscreenElement = fullscreenElement
+    store.onFullscreenchange()
+    currentLock.resolve()
+    await Promise.resolve()
+    await Promise.resolve()
+    expect(store.state.isKeyboardLocked).toBe(true)
+    expect(lock).toHaveBeenCalledTimes(2)
+  } finally {
+    stopLock()
+    vi.unstubAllGlobals()
+  }
+})

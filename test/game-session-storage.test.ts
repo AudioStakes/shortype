@@ -124,6 +124,67 @@ describe('game-session-storage', () => {
     ).toBeGreaterThan(0)
   })
 
+  test.each([
+    {
+      tool: 'macOS',
+      categories: ['システム環境設定のショートカット'],
+      expected: ['システム設定のショートカット'],
+    },
+    {
+      tool: 'macOS',
+      categories: [
+        '基本的なショートカット',
+        'システム環境設定のショートカット',
+        'Removed category',
+        'システム設定のショートカット',
+      ],
+      expected: ['基本的なショートカット', 'システム設定のショートカット'],
+    },
+    {
+      tool: 'macOS',
+      categories: ['システム設定のショートカット'],
+      expected: ['システム設定のショートカット'],
+    },
+    {
+      tool: 'macOS',
+      categories: ['Removed category'],
+      expected: [],
+    },
+    {
+      tool: 'Google Chrome',
+      categories: ['システム環境設定のショートカット', chromeCategory],
+      expected: [chromeCategory],
+    },
+  ])('migrates and deduplicates saved macOS category names before filtering: $tool $categories', ({
+    tool,
+    categories,
+    expected,
+  }) => {
+    getMock.mockImplementation((key: string) => {
+      if (key === SELECTED_TOOL_KEY) {
+        return tool
+      }
+      if (key === SELECTED_CATEGORIES_KEY) {
+        return categories
+      }
+      if (key === REMOVED_IDS_KEY) {
+        return ['265']
+      }
+      if (key === ANSWERED_HISTORY_KEY) {
+        return { '266': [true, false] }
+      }
+      return undefined
+    })
+
+    expect(loadGameSessionStorage()).toEqual({
+      selectedTool: tool,
+      selectedCategories: expected,
+      removedIds: new Set(['265']),
+      answeredHistory: new Map([['266', [true, false]]]),
+    })
+    expect(setMock).not.toHaveBeenCalled()
+  })
+
   test('persists the session preferences without changing progress', () => {
     const persistence = createGameSessionStoragePersistence()
 
