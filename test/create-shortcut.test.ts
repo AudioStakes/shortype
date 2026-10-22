@@ -40,26 +40,14 @@ test('Google Chrome', () => {
   )
   const records = createShortcutsFromRecords(parseCsv(csvRawData))
 
-  for (const shortcutActual of records) {
-    const shortcutExpected = chrome.find(
-      (shortcut) => shortcut.id === shortcutActual.id,
-    )
-
-    expect(shortcutActual).toEqual(shortcutExpected)
-  }
+  expect(records).toEqual(chrome)
 })
 
 test('Terminal', () => {
   const csvData = fs.readFileSync(`${__dirname}/../data/shortcuts/terminal.csv`)
   const records = createShortcutsFromRecords(parseCsv(csvData))
 
-  for (const shortcutActual of records) {
-    const shortcutExpected = terminal.find(
-      (shortcut) => shortcut.id === shortcutActual.id,
-    )
-
-    expect(shortcutActual).toEqual(shortcutExpected)
-  }
+  expect(records).toEqual(terminal)
 })
 
 test.each([
@@ -84,11 +72,5 @@ test('macOS', () => {
   const csvData = fs.readFileSync(`${__dirname}/../data/shortcuts/mac.csv`)
   const records = createShortcutsFromRecords(parseCsv(csvData))
 
-  for (const shortcutActual of records) {
-    const shortcutExpected = mac.find(
-      (shortcut) => shortcut.id === shortcutActual.id,
-    )
-
-    expect(shortcutActual).toEqual(shortcutExpected)
-  }
+  expect(records).toEqual(mac)
 })
