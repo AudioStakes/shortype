@@ -43,6 +43,15 @@ const isValidStoredValue = (key: StorageKey, value: unknown) => {
   }
 }
 
+const normalizeStoredValue = (key: StorageKey, value: unknown) =>
+  key === ANSWERED_HISTORY_KEY
+    ? Object.fromEntries(
+        Object.entries(value as Record<string, boolean[]>).map(
+          ([id, results]) => [id, results.slice(-2)],
+        ),
+      )
+    : value
+
 export const createLocalStorageCore = (storage?: LocalStorageLike) => {
   const unsavedValues = new Map<string, string | null>()
 
@@ -80,7 +89,7 @@ export const createLocalStorageCore = (storage?: LocalStorageLike) => {
     try {
       const value: unknown = JSON.parse(json)
       if (isValidStoredValue(key, value)) {
-        return value
+        return normalizeStoredValue(key, value)
       }
     } catch {
       // Invalid JSON uses the same recovery as an invalid stored shape.
@@ -115,7 +124,9 @@ export const createLocalStorageCore = (storage?: LocalStorageLike) => {
       }
       try {
         const value: unknown = JSON.parse(json)
-        return isValidStoredValue(storedKey, value) ? value : undefined
+        return isValidStoredValue(storedKey, value)
+          ? normalizeStoredValue(storedKey, value)
+          : undefined
       } catch {
         return undefined
       }
@@ -131,7 +142,9 @@ export const createLocalStorageCore = (storage?: LocalStorageLike) => {
   }
 
   const set = <T>(key: StorageKey, value: T): boolean => {
-    const json = JSON.stringify(value)
+    const json = JSON.stringify(
+      isValidStoredValue(key, value) ? normalizeStoredValue(key, value) : value,
+    )
     unsavedValues.set(key, json)
     let saved = false
 

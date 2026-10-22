@@ -45,7 +45,10 @@ const applyProgressOperation = (
 ) => {
   if (operation.type === 'answer') {
     const history = progress.answeredHistory.get(operation.id) ?? []
-    progress.answeredHistory.set(operation.id, [...history, operation.result])
+    progress.answeredHistory.set(operation.id, [
+      ...history.slice(-1),
+      operation.result,
+    ])
   } else if (operation.type === 'remove') {
     progress.removedIds.add(operation.id)
   } else {
@@ -72,7 +75,7 @@ export const createGameSessionProgressCoordinator = ({
     answeredHistory: new Map(
       Object.entries(
         storage.getPersisted(ANSWERED_HISTORY_KEY) as Record<string, boolean[]>,
-      ),
+      ).map(([id, results]) => [id, results.slice(-2)]),
     ),
     removedIds: new Set(storage.getPersisted(REMOVED_IDS_KEY) as string[]),
   })

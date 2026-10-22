@@ -77,6 +77,35 @@ const createClient = (
 }
 
 describe('game session progress synchronization', () => {
+  test('trims old history while committing each concurrent answer once', async () => {
+    const storage = createStorage()
+    storage.setItem(ANSWERED_HISTORY_KEY, '{"id":[false,true,false,true]}')
+    const locks = createLockQueue()
+    const a = createClient(storage, locks)
+    const b = createClient(storage, locks)
+    storage.setItem.mockClear()
+
+    expect(a.getProgress().answeredHistory.get('id')).toEqual([false, true])
+    a.appendAnswer('id', false)
+    b.appendAnswer('id', true)
+    expect(a.getProgress().answeredHistory.get('id')).toEqual([true, false])
+    await locks.release()
+    expect(storage.getItem(ANSWERED_HISTORY_KEY)).toBe('{"id":[true,false]}')
+    expect(b.getProgress().answeredHistory.get('id')).toEqual([false, true])
+    await locks.release()
+
+    expect(a.getProgress().answeredHistory.get('id')).toEqual([false, true])
+    expect(b.getProgress()).toEqual(a.getProgress())
+    expect(
+      storage.setItem.mock.calls.filter(
+        ([key]) => key === ANSWERED_HISTORY_KEY,
+      ),
+    ).toEqual([
+      [ANSWERED_HISTORY_KEY, '{"id":[true,false]}'],
+      [ANSWERED_HISTORY_KEY, '{"id":[false,true]}'],
+    ])
+  })
+
   test.each([
     ['same', 'same'],
     ['first', 'second'],
@@ -121,19 +150,14 @@ describe('game session progress synchronization', () => {
     await locks.release()
     storageEvent(target, ANSWERED_HISTORY_KEY)
     expect(snapshots.mock.lastCall?.[0].answeredHistory.get('id')).toEqual([
-      false,
       true,
       true,
     ])
     await locks.release()
-    expect(local.getProgress().answeredHistory.get('id')).toEqual([
-      false,
-      true,
-      true,
-    ])
+    expect(local.getProgress().answeredHistory.get('id')).toEqual([true, true])
     await locks.release()
     expect(JSON.parse(storage.getItem(ANSWERED_HISTORY_KEY) ?? '{}')).toEqual({
-      id: [false, true, true],
+      id: [true, true],
     })
   })
 
@@ -272,7 +296,7 @@ describe('game session progress synchronization', () => {
     expect(secondMount.mock.lastCall?.[0]).toEqual({
       answeredHistory: new Map([
         ['old', [false]],
-        ['id', [true, false, true]],
+        ['id', [false, true]],
       ]),
       removedIds: new Set(['other']),
     })

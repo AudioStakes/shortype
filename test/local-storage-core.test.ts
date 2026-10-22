@@ -76,6 +76,35 @@ describe('local-storage-core', () => {
     )
   })
 
+  test('loads legacy histories and persists only their latest two results', () => {
+    const legacyHistory = {
+      'legacy-id': [...Array<boolean>(100).fill(false), true, true],
+      'unmastered-id': [true, false, true],
+      'single-id': [false],
+    }
+    const boundedHistory = {
+      'legacy-id': [true, true],
+      'unmastered-id': [false, true],
+      'single-id': [false],
+    }
+    storage.setItem(SCHEMA_VERSION_KEY, '0')
+    storage.setItem(ANSWERED_HISTORY_KEY, JSON.stringify(legacyHistory))
+
+    expect(localStorageCore.get(ANSWERED_HISTORY_KEY)).toEqual(boundedHistory)
+    expect(localStorageCore.getPersisted(ANSWERED_HISTORY_KEY)).toEqual(
+      boundedHistory,
+    )
+    expect(localStorageCore.set(ANSWERED_HISTORY_KEY, legacyHistory)).toBe(true)
+    expect(JSON.parse(storage.getItem(ANSWERED_HISTORY_KEY) ?? '{}')).toEqual(
+      boundedHistory,
+    )
+    expect(createLocalStorageCore(storage).get(ANSWERED_HISTORY_KEY)).toEqual(
+      boundedHistory,
+    )
+    expect(legacyHistory['legacy-id']).toHaveLength(102)
+    expect(storage.getItem(SCHEMA_VERSION_KEY)).toBe('0')
+  })
+
   test.each([
     [REMOVED_IDS_KEY, {}],
     [REMOVED_IDS_KEY, [12]],
