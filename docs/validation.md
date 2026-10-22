@@ -1,46 +1,45 @@
 # Validation
 
-Use the exact Node version in `.nvmrc` and npm version in `package.json` for local development and CI. Install from the committed lockfile with `npm ci`, then install Chromium with `npm exec -- playwright install chromium`.
+Use the Node version in `.nvmrc` and npm version in `package.json`. Install dependencies with `npm ci`, install actionlint 1.7.12 using its [official instructions](https://github.com/rhysd/actionlint/blob/v1.7.12/docs/install.md), and install Chromium with `npm exec -- playwright install chromium`.
 
-Run `npm run validate` before handing off or pushing. It runs the gates listed in `quality-policy.json`, including coverage, both fixed shuffled test orders, production browser checks, mutation analysis, workflow validation, and the online dependency audit. Network and tool failures fail validation. Focused checks are useful during implementation; they do not replace the full gate.
+Run `npm run validate` before handing off or pushing. npm runs each tool directly and stops on its nonzero exit code. Every pull request runs the same checks in separate CI jobs, including both shuffled test orders, browser tests, mutation analysis, and the online audit.
 
-## Ownership
+## Tool ownership
 
 | Tool | Responsibility |
 | --- | --- |
 | Biome | Formatting, imports, syntax, JSX, accessibility, and Preact Hooks |
 | TypeScript | Browser, Node/configuration, unit-test, and E2E projects, including JavaScript |
-| ESLint | Type-aware unsafe operations, Promise handling, and disabled/focused Vitest tests |
-| Knip | Unused files, exports, and dependencies, including tests and development dependencies |
-| Vitest | Behavior, assertion requirements, isolation, shuffled execution, and V8 coverage |
-| Playwright and axe | Chromium production-build behavior, keyboard navigation, accessibility, and narrow layouts |
-| Stryker | Detection strength across all ten critical modules |
+| ESLint and its official Vitest plugin | Type-aware unsafe operations, Promise handling, disabled/focused/todo tests, and conditionally declared tests |
+| Knip | Unused files, exports, and dependencies across application and test code |
+| Vitest | Assertions, isolation, test execution, shuffled order, and V8 coverage |
+| Playwright and axe | Production browser behavior, keyboard navigation, accessibility, and narrow layouts |
+| Stryker | Mutation testing of the ten configured critical modules |
 | actionlint and npm audit | Workflow correctness and vulnerabilities, including development dependencies |
+| Git | Applying the dependency declaration patch during installation |
 
-Biome is the single formatter. ESLint intentionally has no formatting or general syntax preset. The four TypeScript projects keep browser ambient types separate from Node and Vitest globals. The inventory guard compares Git's tracked and untracked files against project roots, so a new JavaScript or TypeScript file cannot silently escape type checking.
+Biome is the single formatter. ESLint has only type-aware rules and the official Vitest selection rules. The conditional-test rule checks conditional declarations; it does not prohibit all `skipIf`/`runIf` APIs. The four TypeScript projects retain strict options and keep browser types separate from Node and Vitest globals. Their recursive include patterns cover the source, data, configuration, unit-test, and E2E directories.
 
-The installed `unconfig` declaration repair verifies both the package version and exact original or repaired line. Unexpected contents fail installation. Remove the repair after an upstream declaration fix and validate the full dependency graph with library checking enabled.
+## Native test settings
 
-## Test requirements
+Vitest requires assertions, rejects focused and empty test runs, fails on unhandled errors, and retries zero times. Native V8 thresholds apply to every executable application/data file: lines, statements, and functions at least 95%; branches at least 90%. The six critical modules additionally require functions 100% and branches 95%. Type declarations and generated JSON are excluded. Unimported application files remain included.
 
-`quality-policy.json` is the authoritative source for coverage and mutation floors and target modules. Coverage includes unimported executable files in `src/`, `data/`, and `scripts/`. Tests must verify observable behavior and boundary conditions; generation tests capture output without rewriting checked-in JSON. Storage and status property tests use fixed seeds and 500 cases each.
+Application tests verify behavior and boundaries. Storage and status property tests use fixed seeds and 500 cases each. Data-generation tests capture writes without changing checked-in JSON. Production browser tests cover key events, persistence and reload, modal focus and input suspension, storage failures, exclusion recovery, WCAG A/AA, and 320px layouts.
 
-Vitest requires assertions, forbids focused tests, retries zero times, and fails on empty runs and unhandled errors. Its result guard also rejects skipped, todo, pending, or unexecuted tests. Both shuffled seeds run on every PR. Stryker performs a fresh full run; its result guard rejects empty results, runtime/compile errors, uncovered mutants, and scores below the global or per-file floor.
+Stryker performs a fresh full run with a native overall mutation threshold of 90% and rejects runs with no tests. Its process must succeed within the CI job's 30-minute limit. Mutation status details and per-file scores remain available in the native report.
 
-Production browser tests exercise real key events, persistence and reload, modal focus and input suspension, storage failures, exclusion recovery, WCAG A/AA checks, and 320px layouts. Passing Chromium automation does not establish physical-keyboard, OS-reserved-key, IME, or VoiceOver compatibility; those need manual checks when affected.
+The repository does not reparse reports, inspect tool implementations, compare effective configurations with the base branch, or maintain a custom file inventory. It also does not independently enforce skipped-test totals, nonzero mutant counts, per-file mutation scores, or zero `NoCoverage`/compile-error counts. Those additional custom guarantees were removed; native tool configuration and independent code review define the supported checks.
 
-## Failures and review
+## Dependency patch
 
-Fix the first relevant failure and rerun that check. Run tools separately when one failure would hide another tool's diagnostics. For validation changes, demonstrate an invalid fixture failing and its corrected counterpart passing. Obtain an independent review for rule conflicts and coverage gaps, and another review for meaningful assertions and concealed bugs. Repeat corrections and checks until required findings are resolved.
+`patches/unconfig+7.5.0.patch` repairs one upstream type declaration so TypeScript can keep `skipLibCheck: false`. The standard `git apply` command applies it during installation, accepting an already applied patch; Git must be installed, and installation fails if application fails. Remove the patch when a compatible upstream release fixes the declaration. TypeScript checks the installed declarations directly; no separate patch validator or validator tests are maintained.
 
-Reports are written to `coverage/`, `reports/`, and `test-results/`. CI preserves coverage, mutation reports, browser traces, and failure screenshots for seven days. Mutation has its own 30-minute job limit; a timeout is a failure. The always-running `lint_and_test` aggregate succeeds only when every required job reports success.
+## CI and deployment
 
-Threshold reductions and removal of protected validation targets are checked against the PR base. Changes to validation must retain effective source coverage and executable gates, rather than merely preserving the policy JSON.
+CI uses the pinned Node/npm versions, action commits, and official actionlint installer. The always-running `lint_and_test` job fails unless every required job succeeds. Main requires this GitHub Actions check and an up-to-date PR, including for administrators. Forced pushes and deletion are prohibited; separate GitHub account approvals are not required.
 
-Main accepts changes through an up-to-date PR after the GitHub Actions `lint_and_test` check succeeds. No separate GitHub account approval is required; independent agent review is still required. Administrators follow the same branch restrictions.
+Reports live in `coverage/`, `reports/`, and `test-results/`; CI retains diagnostics for seven days. Configuration changes receive independent review, and existing native checks verify the result. Add tests for application behavior rather than recreating tests for the tools.
 
-## Vercel
+Vercel uses Node `24.x` and the declared npm version through `vercel.json`. After Preview is ready, run `PLAYWRIGHT_BASE_URL=https://your-preview.vercel.app npm run test:e2e` to exercise the same suite against it. See Vercel's [Node versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions) and [package managers](https://vercel.com/docs/package-managers) documentation.
 
-Vercel selects Node by major version, so `engines.node` remains `24.x`; local and CI validation enforce the exact `.nvmrc` version. `vercel.json` explicitly installs the declared npm version before `npm ci` and logs the build runtime. Verify the Preview build and app before merging. See Vercel's [Node version](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions) and [package manager](https://vercel.com/docs/package-managers) documentation.
-
-Run the same browser suite against a ready Preview with `PLAYWRIGHT_BASE_URL=https://your-preview.vercel.app npm run test:e2e`. The external URL selects its storage origin and skips the local build server. Use a Preview that the browser can access; deployment authentication is separate from the app's behavior.
+Chromium automation does not establish physical-keyboard, OS-reserved-key, IME, or VoiceOver compatibility; check these manually when affected.

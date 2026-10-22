@@ -1,0 +1,9 @@
+diff --git a/node_modules/unconfig/dist/index.d.mts b/node_modules/unconfig/dist/index.d.mts
+index e641b0a..bb9b6b3 100644
+--- a/node_modules/unconfig/dist/index.d.mts
++++ b/node_modules/unconfig/dist/index.d.mts
+@@ -7,3 +7,3 @@ export * from "unconfig-core";
+ declare function createConfigLoader<T>(options: LoadConfigOptions): {
+-  load: quansync$1.QuansyncFn<LoadConfigResult<T>, [force?: Args[0] | undefined]>;
++  load: quansync$1.QuansyncFn<LoadConfigResult<T>, [force?: boolean | undefined]>;
+   findConfigs: quansync$1.QuansyncFn<string[], []>;

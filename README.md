@@ -59,6 +59,8 @@ npm test
 
 ### Run all required validation
 
+Install actionlint 1.7.12 using its [official installation instructions](https://github.com/rhysd/actionlint/blob/v1.7.12/docs/install.md), then run:
+
 ```bash
 npm exec -- playwright install chromium
 npm run validate

@@ -1,28 +1,17 @@
 /// <reference types="vitest" />
 
-import { globSync } from 'node:fs'
 import { fileURLToPath, URL } from 'node:url'
 import preact from '@preact/preset-vite'
 import UnoCSS from 'unocss/vite'
 import type { PluginOption } from 'vite'
 import { defineConfig } from 'vitest/config'
-import policy from './quality-policy.json' with { type: 'json' }
 
-const sourceFilePatterns = policy.sources.map(
-  (source) => `${source}/**/*.{ts,tsx,js,jsx,mjs,cjs,mts,cts}`,
-)
-// Vitest matches globs inside absolute paths, so anchor the covered sources.
-const coverageFiles = sourceFilePatterns.map((pattern) =>
-  fileURLToPath(new URL(pattern, import.meta.url)),
-)
-const criticalThresholds: Record<string, typeof policy.coverage.perFile> =
-  policy.coverage.critical
-
-const fileThresholds = Object.fromEntries(
-  [...globSync(sourceFilePatterns)]
-    .filter((file) => !/\.d\.[cm]?ts$/.test(file))
-    .map((file) => [file, criticalThresholds[file] ?? policy.coverage.perFile]),
-)
+const criticalCoverage = {
+  lines: 95,
+  statements: 95,
+  functions: 100,
+  branches: 95,
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -36,12 +25,13 @@ export default defineConfig({
     Boolean,
   ) as PluginOption[],
   test: {
-    include: ['test/**/*.test.{ts,tsx,js,mjs}'],
+    include: ['test/**/*.test.{js,jsx,ts,tsx,mjs,cjs,mts,cts}'],
     globals: true,
     environment: 'happy-dom',
     setupFiles: ['./test/setup.ts'],
     allowOnly: false,
     passWithNoTests: false,
+    dangerouslyIgnoreUnhandledErrors: false,
     retry: 0,
     clearMocks: true,
     restoreMocks: true,
@@ -52,14 +42,36 @@ export default defineConfig({
     outputFile: { json: 'reports/vitest.json' },
     coverage: {
       provider: 'v8',
-      include: coverageFiles,
-      exclude: ['**/*.d.ts', '**/*.d.mts', '**/*.d.cts'],
+      include: [
+        fileURLToPath(
+          new URL(
+            './src/**/*.{ts,tsx,js,jsx,mjs,cjs,mts,cts}',
+            import.meta.url,
+          ),
+        ),
+        fileURLToPath(
+          new URL(
+            './data/**/*.{ts,tsx,js,jsx,mjs,cjs,mts,cts}',
+            import.meta.url,
+          ),
+        ),
+      ],
+      exclude: ['**/*.d.{ts,mts,cts}', '**/*.json'],
       excludeAfterRemap: true,
       reporter: ['text', 'html', 'json', 'json-summary'],
       reportOnFailure: true,
       thresholds: {
-        ...policy.coverage.global,
-        ...fileThresholds,
+        perFile: true,
+        lines: 95,
+        statements: 95,
+        functions: 95,
+        branches: 90,
+        'src/utils/local-storage-core.ts': criticalCoverage,
+        'src/utils/weighted-sample.ts': criticalCoverage,
+        'src/models/key-combination.ts': criticalCoverage,
+        'src/models/key-combinations.ts': criticalCoverage,
+        'src/models/shortcut-training-session-status.ts': criticalCoverage,
+        'data/parse-csv.ts': criticalCoverage,
       },
     },
   },

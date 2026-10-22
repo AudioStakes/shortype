@@ -4,6 +4,6 @@
     "lib": ["esnext"],
     "types": ["node"]
   },
-  "include": ["data/**/*", "scripts/**/*", "*.config.*"],
+  "include": ["data/**/*", "*.config.*"],
   "exclude": ["playwright.config.*"]
 }

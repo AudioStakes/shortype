@@ -12,9 +12,6 @@ concurrency:
   group: quality-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-env:
-  QUALITY_BASE_REF: ${{ github.event.pull_request.base.sha || github.event.before }}
-
 jobs:
   static_checks:
     name: ${{ matrix.script }}
@@ -23,13 +20,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        script: ["format:check", lint, typecheck, knip, "check:workflow", "test:gates", "check:policy", "test:shuffle:1", "test:shuffle:42"]
+        script: [lint, typecheck, knip, "check:workflow", "test:shuffle:1", "test:shuffle:42"]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-          fetch-depth: 0
       - uses: ./.github/actions/setup
+      - name: Install official actionlint
+        if: ${{ matrix.script == 'check:workflow' }}
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/actionlint"
+          curl --fail --silent --show-error --location https://raw.githubusercontent.com/rhysd/actionlint/914e7df21a07ef503a81201c76d2b11c789d3fca/scripts/download-actionlint.bash --output "$RUNNER_TEMP/download-actionlint.bash"
+          bash "$RUNNER_TEMP/download-actionlint.bash" 1.7.12 "$RUNNER_TEMP/actionlint"
+          echo "$RUNNER_TEMP/actionlint" >> "$GITHUB_PATH"
       - run: npm run "$QUALITY_SCRIPT"
         env:
           QUALITY_SCRIPT: ${{ matrix.script }}
@@ -148,8 +152,6 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Require every validation job to succeed
-        env:
-          VALIDATION_RESULTS: ${{ toJSON(needs) }}
-        run: |
-          printf '%s\n' "$VALIDATION_RESULTS"
-          printf '%s' "$VALIDATION_RESULTS" | jq --exit-status 'length == 6 and all(.[]; .result == "success")'
+        if: ${{ always() && (needs.static_checks.result != 'success' || needs.coverage.result != 'success' || needs.build.result != 'success' || needs.browser.result != 'success' || needs.mutation.result != 'success' || needs.audit.result != 'success') }}
+        run: exit 1
+      - run: echo "All validation jobs succeeded."

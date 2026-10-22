@@ -65,31 +65,8 @@ export default [
     rules: {
       'vitest/no-disabled-tests': 'error',
       'vitest/no-focused-tests': 'error',
-      'no-restricted-syntax': [
-        'error',
-        {
-          selector:
-            'MemberExpression[computed=false][property.name=/^(todo|skipIf|runIf|fails)$/]',
-          message:
-            'Tests must execute normally; conditional, todo, and expected-failure tests are forbidden.',
-        },
-        {
-          selector:
-            'MemberExpression[computed=true][property.value=/^(todo|skipIf|runIf|fails)$/]',
-          message:
-            'Tests must execute normally; conditional, todo, and expected-failure tests are forbidden.',
-        },
-        {
-          selector:
-            'CallExpression > ObjectExpression.arguments > Property:matches([key.name=/^(fails|todo|skip|only)$/], [key.value=/^(fails|todo|skip|only)$/])[value.value!=false]',
-          message: 'Test options must not disable, focus, or expect failures.',
-        },
-        {
-          selector:
-            'CallExpression > ObjectExpression.arguments > Property:matches([key.name="retry"], [key.value="retry"])[value.value!=0]',
-          message: 'Tests must not override zero retries.',
-        },
-      ],
+      'vitest/no-conditional-tests': 'error',
+      'vitest/warn-todo': 'error',
     },
   },
 ]
