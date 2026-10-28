@@ -1,13 +1,16 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+// Keep Vercel's injected preview toolbar out of the static HTML checks.
+test.use({ extraHTTPHeaders: { 'x-vercel-skip-toolbar': '1' } })
+
 test('unknown pages, APIs, and assets return 404 before loading the app', async ({
   request,
 }) => {
   for (const path of [
     '/does-not-exist',
     '/nested/does-not-exist',
-    '/wp-login.php',
+    '/does-not-exist.html',
     '/api/does-not-exist',
     '/assets/does-not-exist.js',
   ]) {
@@ -17,7 +20,9 @@ test('unknown pages, APIs, and assets return 404 before loading the app', async 
         headers: { Accept: 'text/html' },
       })
       expect(response.status(), `${method} ${path}`).toBe(404)
-      expect(await response.text()).not.toContain('<script')
+      const body = await response.text()
+      expect(body, `${method} ${path}`).not.toContain('id="app"')
+      expect(body, `${method} ${path}`).not.toContain('type="module"')
     }
   }
 })

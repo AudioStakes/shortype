@@ -102,6 +102,12 @@ missing files using its [static 404 handling](https://vercel.com/kb/guide/custom
 Vite returns its default 404 response for missing files locally; open `/404.html`
 to preview the custom page. After deployment, verify unknown URLs with both GET
 and HEAD, or run the E2E suite with `PLAYWRIGHT_BASE_URL` set to the Preview URL.
+The 404 tests use Vercel's [automation header](https://vercel.com/docs/vercel-toolbar/managing-toolbar)
+to prevent its Preview toolbar from injecting scripts into the response.
+Vercel may reject known scanner paths such as `/wp-login.php` earlier with HTTP
+403 (`x-vercel-mitigated: deny`); the 404 tests use ordinary missing paths.
+Missing `/api/*` paths use Vercel's platform 404 response, which may include
+diagnostic scripts; the application module is not loaded.
 
 ## Privacy and analytics
 
