@@ -39,7 +39,7 @@
     "audit": "npm audit --include=dev --audit-level=low",
     "validate": "npm run check && npm run check:workflow && npm run test:coverage && npm run test:shuffle:1 && npm run test:shuffle:42 && npm run build && npm run test:e2e && npm run test:mutation && npm run audit",
     "test:e2e": "playwright test",
-    "postinstall": "git apply --reverse --check patches/unconfig+7.5.0.patch 2>/dev/null || git apply patches/unconfig+7.5.0.patch",
+    "postinstall": "(git apply --reverse --check patches/unconfig+7.5.0.patch 2>/dev/null || git apply patches/unconfig+7.5.0.patch) && (git apply --reverse --check patches/happy-dom+21.0.4.patch 2>/dev/null || git apply patches/happy-dom+21.0.4.patch)",
     "check:fix": "biome check --write .",
     "format": "biome format --write .",
     "format:check": "biome format . --error-on-warnings"
@@ -64,7 +64,7 @@
     "csv-parse": "7.0.3",
     "eslint": "10.13.0",
     "fast-check": "4.10.2",
-    "happy-dom": "20.9.0",
+    "happy-dom": "21.0.4",
     "knip": "6.42.1",
     "tsx": "4.22.3",
     "typescript": "6.0.3",
