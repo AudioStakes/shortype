@@ -30,9 +30,11 @@ Stryker performs a fresh full run with a native overall mutation threshold of 90
 
 The repository does not reparse reports, inspect tool implementations, compare effective configurations with the base branch, or maintain a custom file inventory. It also does not independently enforce skipped-test totals, nonzero mutant counts, per-file mutation scores, or zero `NoCoverage`/compile-error counts. Those additional custom guarantees were removed; native tool configuration and independent code review define the supported checks.
 
-## Dependency patch
+## Dependency patches
 
 `patches/unconfig+7.5.0.patch` repairs one upstream type declaration so TypeScript can keep `skipLibCheck: false`. The standard `git apply` command applies it during installation, accepting an already applied patch; Git must be installed, and installation fails if application fails. Remove the patch when a compatible upstream release fixes the declaration. TypeScript checks the installed declarations directly; no separate patch validator or validator tests are maintained.
+
+`patches/happy-dom+21.0.4.patch` keeps the security-fixed test dependency compatible with Node 24's types. Its generated `ReadableStream` declaration refers to `UnderlyingDefaultSource`, which Node 24 does not export. The patch uses the imported constructor type directly, matching the upstream source, without changing runtime behavior or weakening TypeScript checks. It uses the same installation mechanism; remove it when an upstream declaration fix supports Node 24.
 
 ## CI and deployment
 

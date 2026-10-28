@@ -16,6 +16,15 @@ const criticalCoverage = {
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/',
+  appType: 'mpa',
+  build: {
+    rolldownOptions: {
+      input: {
+        main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        notFound: fileURLToPath(new URL('./404.html', import.meta.url)),
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
